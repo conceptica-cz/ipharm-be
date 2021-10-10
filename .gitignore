@@ -6,3 +6,5 @@ __pycache__/
 .envs
 
 *.log
+
+_postgres_data
