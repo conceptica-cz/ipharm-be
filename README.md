@@ -2,17 +2,17 @@
 
 ## Installation and run
 
-###Requirements:
+**Requirements:**
 
 You need `docker` and `docker-compose` to run the app.
 
-###Clone repo:
+**Clone repo:**
 
 ```shell
 git clone https://github.com/conceptica-cz/ipharm-be.git
 ```
 
-###Add environment variables files:
+**Add environment variables files:**
 
 The application uses multiple environment files.
 
@@ -35,14 +35,14 @@ POSTGRES_USER=...
 POSTGRES_PASSWORD=...
 ```
 
-###Run app locally:
+**Run app locally:**
 
 ```shell
 cd ipharm-be
 docker-compose -f docker-compose.local.yml up -d
 ```
 
-###Populate database with fake data and create superuser (you need to do it only once):
+**Populate database with fake data and create superuser (you need to do it only once):**
 
 ```shell
  docker-compose exec app python manage.py populate
@@ -53,13 +53,13 @@ Now app is running. Check http://localhost:8000
 Use superuser credentials to add some user.
 
 
-###Stop app and remove containers:
+**Stop app and remove containers:**
 
 ```shell
 docker-compose down
 ```
 
-###Build app image:
+**Build app image:**
 
 ```shell
 docker-compose build app
