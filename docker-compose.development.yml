@@ -1,8 +1,13 @@
 version: "3"
 services:
   app:
-    container_name: ipharm_app
-    image: conceptica/ipharm_app:local
+    build:
+      context: .
+      dockerfile: dockerfiles/development/Dockerfile
+    container_name: ipharm_dev
+    image: ipharm_dev
+    volumes:
+      - .:/app
     depends_on:
       - postgres
     env_file:

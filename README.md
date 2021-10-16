@@ -18,8 +18,8 @@ The application uses multiple environment files.
 
 1) create two files `.postgres` and `.app` in directory `./.envs/.local/`:
 ```shell
-./.envs/.local/.postgres
-./.envs/.local/.app
+./.envs/.development/.postgres
+./.envs/.development/.app
 ```
 2) Add to .app variable(s):
 ```shell
@@ -39,14 +39,14 @@ POSTGRES_PASSWORD=...
 
 ```shell
 cd ipharm-be
-docker-compose -f docker-compose.local.yml up -d
+docker-dockerfiles -f docker-dockerfiles.development.yml up -d
 ```
 
 ###Populate database with fake data and create superuser (you need to do it only once):
 
 ```shell
- docker-compose exec app python manage.py populate
- docker-compose exec app python manage.py createsuperuser
+ docker-dockerfiles exec app python manage.py populate
+ docker-dockerfiles exec app python manage.py createsuperuser
 ```
 
 Now app is running. Check http://localhost:8000
@@ -56,11 +56,11 @@ Use superuser credentials to add some user.
 ###Stop app and remove containers:
 
 ```shell
-docker-compose down
+docker-dockerfiles down
 ```
 
 ###Build app image:
 
 ```shell
-docker-compose build app
+docker-dockerfiles build app
 ```

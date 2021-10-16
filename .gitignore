@@ -8,3 +8,4 @@ __pycache__/
 *.log
 
 _postgres_data
+dump.sql

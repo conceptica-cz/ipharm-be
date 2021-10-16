@@ -4,7 +4,7 @@ from factories.ipharm import patients
 
 
 class Command(BaseCommand):
-    help = 'Populate database with fake data'
+    help = "Populate database with fake data"
 
     def handle(self, *args, **options):
         print("Populating database. Please wait...")
