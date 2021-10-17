@@ -53,11 +53,11 @@ class PatientFactory(factory.django.DjangoModelFactory):
         first_name_female = factory.Faker("first_name_female", locale="cs")
         last_name_female = factory.Faker("last_name_female", locale="cs")
         datetime_out_decider = factory.LazyFunction(lambda: bool(random.randint(0, 8)))
+        gender = factory.Iterator(["MALE", "FEMALE"])
 
     clinic = factory.SubFactory(ClinicFactory)
     record_id = factory.Sequence(lambda n: n)
     patient_id = factory.Sequence(lambda n: n)
-    gender = factory.Iterator(["MALE", "FEMALE"])
 
     @factory.lazy_attribute
     def first_name(self):
