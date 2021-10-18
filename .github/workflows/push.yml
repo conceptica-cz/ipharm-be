@@ -1,6 +1,9 @@
-name: Push workflow
+name: Pull request
 
-on: push
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
