@@ -1,9 +1,13 @@
-name: Pull request
+name: Push workflow
 
 on:
-  pull_request:
-    branches:
-      - main
+  push:
+    branches-ignore:
+      - master
+    tags-ignore:
+      - local
+      - staging
+      - production
 
 jobs:
   build:
