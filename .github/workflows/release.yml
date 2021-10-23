@@ -4,8 +4,8 @@ on:
   push:
     tags:
       - local
-      - staging
-      - release
+      - test
+      - demo
 
 jobs:
   build:
@@ -18,15 +18,12 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/local')
       - name: Sets env vars for staging
         run: |
-          echo "DOCKER_IMAGE_NAME=conceptica/ipharm_app:staging" >> $GITHUB_ENV
-        if: startsWith(github.ref, 'refs/tags/staging')
+          echo "DOCKER_IMAGE_NAME=conceptica/ipharm_app:test" >> $GITHUB_ENV
+        if: startsWith(github.ref, 'refs/tags/test')
       - name: Sets env vars for release
         run: |
-          echo "DOCKER_IMAGE_NAME=conceptica/ipharm_app:release" >> $GITHUB_ENV
-        if: startsWith(github.ref, 'refs/tags/release')
-      - name: Build image
-        run: |
-          export VERSION=$(cat version.txt)
+          echo "DOCKER_IMAGE_NAME=conceptica/ipharm_app:demo" >> $GITHUB_ENV
+        if: startsWith(github.ref, 'refs/tags/demo')
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to DockerHub
