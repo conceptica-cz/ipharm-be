@@ -65,7 +65,7 @@ jobs:
       - name: Build the stack
         run: docker-compose -f docker-compose.development.yml up -d
       - name: Test
-        run: docker-compose -f docker-compose.development.yml run --rm -T app ./scripts/tests.sh
+        run: docker-compose -f docker-compose.development.yml run --rm -T ipharm_app ./scripts/tests.sh
 
   isort:
     needs: build
@@ -85,7 +85,7 @@ jobs:
           set: |
             *.cache-from=type=local,src=/tmp/.buildx-cache
       - name: Isort
-        run: docker-compose -f docker-compose.development.yml run --rm -T app ./scripts/isort.sh
+        run: docker-compose -f docker-compose.development.yml run --rm -T ipharm_app ./scripts/isort.sh
 
   black:
     needs: build
@@ -105,4 +105,4 @@ jobs:
           set: |
             *.cache-from=type=local,src=/tmp/.buildx-cache
       - name: Black
-        run: docker-compose -f docker-compose.development.yml run --rm -T app ./scripts/black.sh
+        run: docker-compose -f docker-compose.development.yml run --rm -T ipharm_app ./scripts/black.sh
