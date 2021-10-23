@@ -18,7 +18,7 @@ The application uses multiple environment files.
 
 1) create two files `.postgres` and `.app` in directory `./.envs/.local/`:
 ```shell
-./.envs/.development/.postgres
+./.envs/.development/.ipharm_postgres
 ./.envs/.development/.app
 ```
 2) Add to .app variable(s):

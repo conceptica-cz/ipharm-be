@@ -1,21 +1,21 @@
 version: "3"
 services:
-  app:
+  ipharm_app:
     container_name: ipharm_app
     image: conceptica/ipharm_app:local
     depends_on:
-      - postgres
+      - ipharm_postgres
     env_file:
-      - .envs/.development/.app
-      - .envs/.development/.postgres
+      - .envs/.development/.ipharm_app
+      - .envs/.development/.ipharm_postgres
     ports:
       - "8000:8000"
     command: scripts/start.sh
 
-  postgres:
+  ipharm_postgres:
     container_name: ipharm_postgres
     image: postgres:13.4-alpine
     env_file:
-      - .envs/.development/.postgres
+      - .envs/.development/.ipharm_postgres
     volumes:
       - ./_postgres_data:/var/lib/postgresql/data
