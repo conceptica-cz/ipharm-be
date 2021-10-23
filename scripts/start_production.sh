@@ -4,4 +4,4 @@
 
 python manage.py migrate
 python manage.py collectstatic --noinput
-python gunicorn ipharm_web.wsgi:application --bind 0.0.0.0:8000
+gunicorn ipharm_web.wsgi:application --bind 0.0.0.0:8000
