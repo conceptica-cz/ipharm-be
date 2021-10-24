@@ -40,7 +40,7 @@ POSTGRES_PASSWORD=...
 
 ```shell
 cd ipharm-be
-docker-compose -f docker-dockerfiles.development.yml up -d
+docker-compose -f docker-compose.development.yml up -d
 ```
 
 **Populate database with fake data and create superuser (you need to do it only once):**
