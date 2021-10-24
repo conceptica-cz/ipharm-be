@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "simple_history",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
     "ipharm",
     "common",
     "users",
@@ -108,6 +110,16 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "SWAGGER_UI_DIST": "SIDECAR",
+    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    "REDOC_DIST": "SIDECAR",
+    "TITLE": "iPharm API",
+    "DESCRIPTION": "iPharm application REST API",
+    "VERSION": "1",
 }
 
 # Password validation
