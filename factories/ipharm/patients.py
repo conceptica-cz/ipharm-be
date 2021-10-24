@@ -8,38 +8,162 @@ from faker import Faker
 from ipharm.models import patients
 
 CLINICS = [
-    {"id": 1, "abbrev": "ARO", "descr": "Anesteziologicko-resuscitační"},
-    {"id": 3, "abbrev": "DER", "descr": "Dermatovenerologická klinika"},
-    {"id": 4, "abbrev": "FBLR", "descr": "Oddělení fyziatrie, balneologie"},
-    {"id": 5, "abbrev": "GYN", "descr": "Gynekologicko-porodnická klinika"},
-    {"id": 6, "abbrev": "CHD", "descr": "Oddělení dětské chirurgie"},
-    {"id": 7, "abbrev": "CHIR", "descr": "Chirurgická klinika"},
-    {"id": 8, "abbrev": "CHP", "descr": "Oddělení plastické chirurgie"},
-    {"id": 10, "abbrev": "INT", "descr": "Interní oddělení"},
-    {"id": 11, "abbrev": "INF", "descr": "Infekční klinika"},
-    {"id": 14, "abbrev": "NEU", "descr": "Neurologické oddělení"},
-    {"id": 16, "abbrev": "OFT", "descr": "Oční oddělení"},
-    {"id": 24, "abbrev": "ORL", "descr": "Ušní-nosní-krční oddělení"},
-    {"id": 25, "abbrev": "ORT", "descr": "Ortopedická klinika"},
-    {"id": 28, "abbrev": "PED", "descr": "Dětské oddělení"},
-    {"id": 29, "abbrev": "PNEU", "descr": "Klinika pneumologie"},
-    {"id": 32, "abbrev": "RAD", "descr": "Ústav radiační onkologie"},
-    {"id": 33, "abbrev": "RTG", "descr": "Radiodiagnostická klinika"},
-    {"id": 34, "abbrev": "NEO", "descr": "Neonatologie"},
-    {"id": 37, "abbrev": "URO", "descr": "Urologické oddělení"},
-    {"id": 41, "abbrev": "N1OLH", "descr": "Oddělení následné péče"},
-    {"id": 43, "abbrev": "DIOP", "descr": "Lůžka DIOP"},
+    {
+        "id": 1,
+        "abbrev": "ARO",
+        "descr": "Anesteziologicko-resuscitační",
+    },
+    {
+        "id": 3,
+        "abbrev": "DER",
+        "descr": "Dermatovenerologická klinika",
+    },
+    {
+        "id": 4,
+        "abbrev": "FBLR",
+        "descr": "Oddělení fyziatrie, balneologie",
+    },
+    {
+        "id": 5,
+        "abbrev": "GYN",
+        "descr": "Gynekologicko-porodnická klinika",
+    },
+    {
+        "id": 6,
+        "abbrev": "CHD",
+        "descr": "Oddělení dětské chirurgie",
+    },
+    {
+        "id": 7,
+        "abbrev": "CHIR",
+        "descr": "Chirurgická klinika",
+    },
+    {
+        "id": 8,
+        "abbrev": "CHP",
+        "descr": "Oddělení plastické chirurgie",
+    },
+    {
+        "id": 10,
+        "abbrev": "INT",
+        "descr": "Interní oddělení",
+    },
+    {
+        "id": 11,
+        "abbrev": "INF",
+        "descr": "Infekční klinika",
+    },
+    {
+        "id": 14,
+        "abbrev": "NEU",
+        "descr": "Neurologické oddělení",
+    },
+    {
+        "id": 16,
+        "abbrev": "OFT",
+        "descr": "Oční oddělení",
+    },
+    {
+        "id": 24,
+        "abbrev": "ORL",
+        "descr": "Ušní-nosní-krční oddělení",
+    },
+    {
+        "id": 25,
+        "abbrev": "ORT",
+        "descr": "Ortopedická klinika",
+    },
+    {
+        "id": 28,
+        "abbrev": "PED",
+        "descr": "Dětské oddělení",
+    },
+    {
+        "id": 29,
+        "abbrev": "PNEU",
+        "descr": "Klinika pneumologie",
+    },
+    {
+        "id": 32,
+        "abbrev": "RAD",
+        "descr": "Ústav radiační onkologie",
+    },
+    {
+        "id": 33,
+        "abbrev": "RTG",
+        "descr": "Radiodiagnostická klinika",
+    },
+    {
+        "id": 34,
+        "abbrev": "NEO",
+        "descr": "Neonatologie",
+    },
+    {
+        "id": 37,
+        "abbrev": "URO",
+        "descr": "Urologické oddělení",
+    },
+    {
+        "id": 41,
+        "abbrev": "N1OLH",
+        "descr": "Oddělení následné péče",
+    },
+    {
+        "id": 43,
+        "abbrev": "DIOP",
+        "descr": "Lůžka DIOP",
+    },
+]
+
+AMBULANCES = [
+    {
+        "id": 1,
+        "abbrev": "AMB1",
+        "descr": "Ambulance N1",
+    },
+    {
+        "id": 2,
+        "abbrev": "AMB2",
+        "descr": "Ambulance N2",
+    },
+    {
+        "id": 3,
+        "abbrev": "AMB3",
+        "descr": "Ambulance N3",
+    },
+    {
+        "id": 4,
+        "abbrev": "AMB4",
+        "descr": "Ambulance N4",
+    },
+    {
+        "id": 5,
+        "abbrev": "AMB5",
+        "descr": "Ambulance N5",
+    },
 ]
 
 
 class ClinicFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = patients.Clinic
-        django_get_or_create = ["clinic_id", "abbreviation", "description"]
+        django_get_or_create = ["clinic_id", "clinic_type"]
 
     clinic_id = factory.Iterator([c["id"] for c in CLINICS])
     abbreviation = factory.Iterator([c["abbrev"] for c in CLINICS])
     description = factory.Iterator([c["descr"] for c in CLINICS])
+    clinic_type = patients.Clinic.CLINIC
+
+
+class AmbulanceFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = patients.Clinic
+        django_get_or_create = ["clinic_id", "clinic_type"]
+
+    clinic_id = factory.Iterator([c["id"] for c in AMBULANCES])
+    abbreviation = factory.Iterator([c["abbrev"] for c in AMBULANCES])
+    description = factory.Iterator([c["descr"] for c in AMBULANCES])
+    clinic_type = patients.Clinic.AMBULANCE
 
 
 class PatientFactory(factory.django.DjangoModelFactory):
@@ -85,15 +209,22 @@ class PatientFactory(factory.django.DjangoModelFactory):
     height = fuzzy.FuzzyInteger(130, 210)
     weight = factory.LazyAttribute(lambda obj: obj.height - 100 + Faker().pyint(0, 40))
     department_in_id = fuzzy.FuzzyInteger(1, 15)
-    datetime_in = fuzzy.FuzzyDate(datetime.date(2021, 9, 1), datetime.date(2021, 10, 1))
+    datetime_in = fuzzy.FuzzyDateTime(
+        datetime.datetime(2021, 9, 1, tzinfo=datetime.timezone.utc),
+        datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc),
+    )
     datetime_out = factory.Maybe(
         "datetime_out_decider",
         yes_declaration=None,
-        no_declaration=factory.fuzzy.FuzzyDate(datetime.date(2021, 10, 1)),
+        no_declaration=factory.fuzzy.FuzzyDateTime(
+            datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc)
+        ),
     )
     diagnosis = factory.LazyFunction(
         lambda: f"{Faker().pystr(1, 1)}{Faker().pyint(100, 999)}"
     )
-    dekurz_datetime = fuzzy.FuzzyDate(datetime.date(2021, 9, 1))
+    dekurz_datetime = fuzzy.FuzzyDateTime(
+        datetime.datetime(2021, 9, 1, tzinfo=datetime.timezone.utc)
+    )
     dekurz_who = fuzzy.FuzzyInteger(10000, 99999)
     dekurz_department = fuzzy.FuzzyInteger(10000, 99999)

@@ -12,13 +12,14 @@ class CustomUserAdmin(UserAdmin):
     model = User
     list_display = ("username", "is_staff", "is_active", "is_system")
     list_filter = (
-        "username",
         "is_staff",
+        "is_system",
         "is_active",
     )
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         ("Permissions", {"fields": ("is_staff", "is_active", "is_system")}),
+        ("Settings", {"fields": ("clinics",)}),
     )
     add_fieldsets = (
         (

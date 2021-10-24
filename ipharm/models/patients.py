@@ -1,13 +1,22 @@
 from django.db import models
-from simple_history.models import HistoricalRecords
 
 from common.models import BaseModel
 
 
 class Clinic(BaseModel):
-    clinic_id = models.IntegerField(unique=True, db_index=True)
+    CLINIC = "clinic"
+    AMBULANCE = "ambulance"
+    TYPE_CHOICES = (
+        (CLINIC, "Clinic"),
+        (AMBULANCE, "Ambulance"),
+    )
+    clinic_id = models.IntegerField()
     abbreviation = models.CharField(max_length=10)
     description = models.CharField(max_length=255)
+    clinic_type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=CLINIC)
+
+    class Meta:
+        unique_together = ["clinic_type", "clinic_id"]
 
     def __str__(self):
         return self.description
