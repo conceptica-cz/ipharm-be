@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from factories.ipharm.patients import ClinicFactory, PatientFactory
+from factories.ipharm.patients import AmbulanceFactory, ClinicFactory, PatientFactory
 from factories.users.models import UserFactory
 from ipharm.models import Clinic, Patient
 from ipharm.serializers.patients import ClinicSerializer, PatientSerializer
@@ -11,14 +11,40 @@ from ipharm.serializers.patients import ClinicSerializer, PatientSerializer
 class GetAllClinicsTest(APITestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
-        clinic_1 = ClinicFactory()
-        clinic_2 = ClinicFactory()
-        clinic_3 = ClinicFactory()
+        self.clinic_1 = ClinicFactory()
+        self.clinic_2 = ClinicFactory()
+        self.clinic_3 = ClinicFactory()
+        self.ambulance_1 = AmbulanceFactory()
+        self.ambulance_2 = AmbulanceFactory()
 
     def test_get_all_clinics(self):
         self.client.force_login(user=self.user)
         response = self.client.get(reverse("clinic_list"))
         clinics = Clinic.objects.all()
+        serializer = ClinicSerializer(clinics, many=True)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["results"], serializer.data)
+
+    def test_get_only_ambulances(self):
+        self.client.force_login(user=self.user)
+        response = self.client.get(
+            reverse("clinic_list"), data={"clinic_type": "ambulance"}
+        )
+        clinics = Clinic.objects.filter(clinic_type=Clinic.AMBULANCE)
+        serializer = ClinicSerializer(clinics, many=True)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["results"], serializer.data)
+
+    def test_get_my_clinics_only(self):
+        self.user.clinics.add(self.clinic_1, self.clinic_3, self.ambulance_2)
+        self.user.save()
+        self.client.force_login(user=self.user)
+        response = self.client.get(
+            reverse("clinic_list"), data={"my_clinics_only": "true"}
+        )
+        clinics = Clinic.objects.filter(user=self.user)
         serializer = ClinicSerializer(clinics, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)

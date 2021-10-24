@@ -8,6 +8,14 @@ from ipharm.serializers.patients import ClinicSerializer, PatientSerializer
 class ClinicListView(generics.ListAPIView):
     queryset = Clinic.objects.all()
     serializer_class = ClinicSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["clinic_type"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if "my_clinics_only" in self.request.query_params:
+            queryset = queryset.filter(user=self.request.user)
+        return queryset
 
 
 class ClinicDetailView(generics.RetrieveAPIView):
