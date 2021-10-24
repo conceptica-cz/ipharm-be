@@ -62,5 +62,6 @@ docker-compose down
 
 ## REST API
 
-OpenAPI scheme: `/api/v1/schema/`
+OpenAPI UI: `/api/v1/schema/`
+
 Swagger scheme: `/api/v1/schema/swagger-ui/`
