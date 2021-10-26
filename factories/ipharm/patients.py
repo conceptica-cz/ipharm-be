@@ -2,9 +2,9 @@ import datetime
 import random
 
 import factory
+import references.models.clinics
 from factory import fuzzy
 from faker import Faker
-
 from ipharm.models import patients
 
 CLINICS = [
@@ -146,24 +146,24 @@ AMBULANCES = [
 
 class ClinicFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = patients.Clinic
+        model = references.models.clinics.Clinic
         django_get_or_create = ["clinic_id", "clinic_type"]
 
     clinic_id = factory.Iterator([c["id"] for c in CLINICS])
     abbreviation = factory.Iterator([c["abbrev"] for c in CLINICS])
     description = factory.Iterator([c["descr"] for c in CLINICS])
-    clinic_type = patients.Clinic.CLINIC
+    clinic_type = references.models.clinics.Clinic.CLINIC
 
 
 class AmbulanceFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = patients.Clinic
+        model = references.models.clinics.Clinic
         django_get_or_create = ["clinic_id", "clinic_type"]
 
     clinic_id = factory.Iterator([c["id"] for c in AMBULANCES])
     abbreviation = factory.Iterator([c["abbrev"] for c in AMBULANCES])
     description = factory.Iterator([c["descr"] for c in AMBULANCES])
-    clinic_type = patients.Clinic.AMBULANCE
+    clinic_type = references.models.clinics.Clinic.AMBULANCE
 
 
 class PatientFactory(factory.django.DjangoModelFactory):

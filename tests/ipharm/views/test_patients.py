@@ -1,11 +1,13 @@
 from django.urls import reverse
+from ipharm.models import Patient
+from ipharm.serializers.patients import PatientSerializer
+from references.models import Clinic
+from references.serializers.clinics import ClinicSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 from factories.ipharm.patients import AmbulanceFactory, ClinicFactory, PatientFactory
 from factories.users.models import UserFactory
-from ipharm.models import Clinic, Patient
-from ipharm.serializers.patients import ClinicSerializer, PatientSerializer
 
 
 class GetAllClinicsTest(APITestCase):

@@ -1,15 +1,9 @@
 from rest_framework import serializers
 
-from ..models import patients
+from ..models.clinics import Clinic
 
 
 class ClinicSerializer(serializers.ModelSerializer):
     class Meta:
-        model = patients.Clinic
+        model = Clinic
         fields = ["id", "clinic_type", "clinic_id", "abbreviation", "description"]
-
-
-class PatientSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = patients.Patient
-        fields = "__all__"

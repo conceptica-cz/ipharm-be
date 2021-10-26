@@ -1,5 +1,4 @@
 import factory
-
 import users.models
 
 
