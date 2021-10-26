@@ -3,7 +3,7 @@ from references.serializers.clinics import ClinicSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from factories.ipharm.patients import AmbulanceFactory, ClinicFactory
+from factories.references.clinics import AmbulanceFactory, ClinicFactory
 from factories.users import UserFactory
 
 
