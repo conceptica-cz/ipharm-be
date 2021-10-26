@@ -1,10 +1,12 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
+from references.models.clinics import Clinic
+from references.serializers.clinics import ClinicSerializer
 from rest_framework import filters, generics
 
-from ipharm.models.patients import Clinic, Patient
-from ipharm.serializers.patients import ClinicSerializer, PatientSerializer
+from ..models.patients import Patient
+from ..serializers.patients import PatientSerializer
 
 
 @extend_schema_view(

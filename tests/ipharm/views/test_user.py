@@ -1,4 +1,5 @@
 from django.urls import reverse
+from references.serializers.clinics import ClinicSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -31,7 +32,11 @@ class UserViewTest(APITestCase):
         self.assertEqual(response.data["username"], self.user.username)
         self.assertEqual(
             response.data["clinics"],
-            [self.clinic_1.pk, self.clinic_3.pk, self.ambulance_2.pk],
+            [
+                ClinicSerializer(self.clinic_1).data,
+                ClinicSerializer(self.clinic_3).data,
+                ClinicSerializer(self.ambulance_2).data,
+            ],
         )
 
     def test_patch_clinics(self):
