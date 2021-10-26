@@ -3,6 +3,7 @@ import random
 from django.core.management.base import BaseCommand
 
 from factories.ipharm import patients
+from factories.references import clinics
 
 
 class Command(BaseCommand):
@@ -12,7 +13,7 @@ class Command(BaseCommand):
         print("Populating database. Please wait...")
         for i in range(800):
             patients.PatientFactory()
-        ambulances = [patients.AmbulanceFactory() for i in range(10)]
+        ambulances = [clinics.AmbulanceFactory() for i in range(10)]
         for i in range(200):
             patients.PatientFactory(clinic=random.choice(ambulances))
 
