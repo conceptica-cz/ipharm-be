@@ -2,7 +2,7 @@ from django.test import TestCase
 from references.serializers.clinics import ClinicSerializer
 from users.serializers import UserSerializer, UserWriteSerializer
 
-from factories.ipharm.patients import AmbulanceFactory, ClinicFactory
+from factories.references.clinics import AmbulanceFactory, ClinicFactory
 from factories.users import UserFactory
 
 
