@@ -25,11 +25,15 @@ jobs:
           touch .envs/.development/.ipharm_app
           echo "SECRET_KEY=${{ secrets.SECRET_KEY_DEV }}" >>  .envs/.development/.ipharm_app
           touch .envs/.development/.ipharm_postgres
-          echo POSTGRES_HOST=ipharm_postgres >>  .envs/.development/.ipharm_postgres
+          echo POSTGRES_HOST=ipharm-postgres >>  .envs/.development/.ipharm_postgres
           echo POSTGRES_PORT=5432 >>  .envs/.development/.ipharm_postgres
           echo POSTGRES_DB=ipharm >>  .envs/.development/.ipharm_postgres
           echo POSTGRES_USER=ipharm >>  .envs/.development/.ipharm_postgres
           echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD_DEV }}" >>  .envs/.development/.ipharm_postgres
+          touch .envs/.development/.ipharm_redis
+          echo REDIS_HOST=ipharm-redis >>  .envs/.development/.ipharm_redis
+          echo REDIS_PORT=6379 >>  .envs/.development/.ipharm_redis
+          echo CELERY_BROKER_URL=redis://ipharm-redis:6379/1 >>  .envs/.development/.ipharm_redis
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Build image
