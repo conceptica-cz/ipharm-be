@@ -1,26 +1,58 @@
 version: "3"
 services:
-  ipharm_app:
+  ipharm-app:
     build:
       context: .
       dockerfile: dockerfiles/development/Dockerfile
     container_name: ipharm_dev
     image: ipharm_dev
-    volumes:
+    volumes: &volumes-ipharm-app
       - .:/app
     depends_on:
-      - ipharm_postgres
-    env_file:
+      - ipharm-postgres
+    env_file: &envs-ipharm-app
       - .envs/.development/.ipharm_app
       - .envs/.development/.ipharm_postgres
+      - .envs/.development/.ipharm_redis
     ports:
       - "8000:8000"
     command: scripts/start.sh
 
-  ipharm_postgres:
+  ipharm-worker:
+    container_name: ipharm_worker_dev
+    image: ipharm_dev
+    volumes: *volumes-ipharm-app
+    depends_on:
+      - ipharm-postgres
+      - ipharm-redis
+    env_file: *envs-ipharm-app
+    command: scripts/start_worker.sh
+
+  ipharm-postgres:
     container_name: ipharm_postgres
     image: postgres:13.4-alpine
     env_file:
       - .envs/.development/.ipharm_postgres
     volumes:
       - ./_postgres_data:/var/lib/postgresql/data
+
+  ipharm-redis:
+    container_name: ipharm_redis
+    image: redis:6.2-alpine
+
+  ipharm-flower:
+    image: mher/flower
+    container_name: ipharm_flower
+    env_file:
+      -  .envs/.development/.ipharm_redis
+    ports:
+      - "5555:5555"
+    depends_on:
+      - ipharm-redis
+
+
+
+networks:
+  default:
+    external:
+      name: ipharm-network

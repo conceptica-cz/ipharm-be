@@ -1,8 +1,8 @@
-from common.models import BaseModel
 from django.db import models
+from updates.models import BaseUpdatableModel
 
 
-class Clinic(BaseModel):
+class Clinic(BaseUpdatableModel):
     CLINIC = "clinic"
     AMBULANCE = "ambulance"
     TYPE_CHOICES = (

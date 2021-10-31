@@ -47,9 +47,10 @@ INSTALLED_APPS = [
     "simple_history",
     "drf_spectacular",
     "drf_spectacular_sidecar",
+    "common",
     "ipharm",
     "references",
-    "common",
+    "updates",
     "users",
 ]
 
@@ -169,3 +170,43 @@ STATIC_ROOT = BASE_DIR / "static"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 APP_VERSION = Path("version.txt").read_text()
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
+}
+
+BASE_REFERENCES_URL = os.environ.get(
+    "BASE_REFERENCES_URL", "http://iciselniky-app:8000/api/v1"
+)
+REFERENCES_TOKEN = os.environ["REFERENCES_TOKEN"]
+REFERENCES = {
+    "Clinic": {
+        "name": "Clinics",
+        "identifiers": ["clinic_type", "clinic_id"],
+        "transformer": "transformers.delete_id",
+        "url": "/clinics/",
+    }
+}
+
+# CELERY
+CELERY_TIMEZONE = TIME_ZONE
+REDIS_HOST = os.environ["REDIS_HOST"]
+REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/1"
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    "visibility_timeout": float("inf"),
+    "result_chord_ordered": True,
+}
+CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/2"
+CELERY_TASK_IGNORE_RESULT = True
+CELERY_TASK_ACKS_LATE = True
