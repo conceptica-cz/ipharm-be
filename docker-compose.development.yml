@@ -49,10 +49,3 @@ services:
       - "5555:5555"
     depends_on:
       - ipharm-redis
-
-
-
-networks:
-  default:
-    external:
-      name: ipharm-network
