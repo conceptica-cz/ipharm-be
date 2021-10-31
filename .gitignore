@@ -8,6 +8,6 @@ __pycache__/
 *.log
 
 ipharm_static
-_postgres_data
+_postgres_data*
 dump.sql
 hosts

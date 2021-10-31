@@ -34,7 +34,7 @@ services:
     env_file:
       - .envs/.development/.ipharm_postgres
     volumes:
-      - ./_postgres_data:/var/lib/postgresql/data
+      - ./_postgres_data_ipharm:/var/lib/postgresql/data
 
   ipharm-redis:
     container_name: ipharm_redis
