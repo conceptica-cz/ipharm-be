@@ -1,8 +1,8 @@
-from common.models import BaseModel
 from django.db import models
+from updates.models import BaseUpdatableModel
 
 
-class Patient(BaseModel):
+class Patient(BaseUpdatableModel):
     clinic = models.ForeignKey("references.Clinic", on_delete=models.CASCADE)
     record_id = models.BigIntegerField(unique=True, db_index=True)
     patient_id = models.BigIntegerField(unique=True, db_index=True)
