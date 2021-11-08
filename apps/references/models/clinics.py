@@ -1,21 +1,37 @@
 from django.db import models
 from updates.models import BaseUpdatableModel
 
+from ..managers.clinics import ClinicManager
+
 
 class Clinic(BaseUpdatableModel):
-    CLINIC = "clinic"
-    AMBULANCE = "ambulance"
-    TYPE_CHOICES = (
-        (CLINIC, "Clinic"),
-        (AMBULANCE, "Ambulance"),
-    )
-    clinic_id = models.IntegerField()
+    clinic_id = models.IntegerField(unique=True)
     abbreviation = models.CharField(max_length=10)
     description = models.CharField(max_length=255)
-    clinic_type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=CLINIC)
+    is_hospital = models.BooleanField(default=True)
+    is_ambulance = models.BooleanField(default=False)
 
-    class Meta:
-        unique_together = ["clinic_type", "clinic_id"]
+    objects = ClinicManager()
 
     def __str__(self):
         return self.description
+
+
+class Department(BaseUpdatableModel):
+    clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE)
+    department_id = models.IntegerField(unique=True)
+    abbreviation = models.CharField(max_length=10)
+    description = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.description
+
+
+class Person(BaseUpdatableModel):
+    person_number = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=255)
+    f_title = models.CharField(max_length=100, default="")
+    l_title = models.CharField(max_length=100, default="")
+
+    def __str__(self):
+        return self.name

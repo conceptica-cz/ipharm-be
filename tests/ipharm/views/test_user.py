@@ -3,19 +3,22 @@ from references.serializers.clinics import ClinicSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from factories.references.clinics import AmbulanceFactory, ClinicFactory
+from factories.references.clinics import ClinicFactory
 from factories.users import UserFactory
 
 
 class UserViewTest(APITestCase):
     def setUp(self) -> None:
+        self.hospital_1 = ClinicFactory(is_hospital=True, is_ambulance=False)
+        self.hospital_2 = ClinicFactory(is_hospital=True, is_ambulance=False)
+        self.ambulance_1 = ClinicFactory(is_hospital=False, is_ambulance=True)
+        self.ambulance_2 = ClinicFactory(is_hospital=False, is_ambulance=True)
+        self.both_1 = ClinicFactory(is_hospital=True, is_ambulance=True)
+        self.both_2 = ClinicFactory(is_hospital=True, is_ambulance=True)
+
         self.user = UserFactory()
-        self.clinic_1 = ClinicFactory()
-        self.clinic_2 = ClinicFactory()
-        self.clinic_3 = ClinicFactory()
-        self.ambulance_1 = AmbulanceFactory()
-        self.ambulance_2 = AmbulanceFactory()
-        self.user.clinics.add(self.clinic_1, self.clinic_3, self.ambulance_2)
+        self.user.hospitals.add(self.hospital_1, self.both_1)
+        self.user.ambulances.add(self.ambulance_1, self.both_1, self.both_2)
         self.user.save()
 
     def test_get_unauthorized(self):
@@ -31,35 +34,53 @@ class UserViewTest(APITestCase):
 
         self.assertEqual(response.data["username"], self.user.username)
         self.assertEqual(
-            response.data["clinics"],
+            response.data["hospitals"],
             [
-                ClinicSerializer(self.clinic_1).data,
-                ClinicSerializer(self.clinic_3).data,
-                ClinicSerializer(self.ambulance_2).data,
+                ClinicSerializer(self.hospital_1).data,
+                ClinicSerializer(self.both_1).data,
+            ],
+        )
+        self.assertEqual(
+            response.data["ambulances"],
+            [
+                ClinicSerializer(self.ambulance_1).data,
+                ClinicSerializer(self.both_1).data,
+                ClinicSerializer(self.both_2).data,
             ],
         )
 
-    def test_patch_clinics(self):
+    def test_patch(self):
         self.client.force_login(user=self.user)
         response = self.client.patch(
-            reverse("user"), data={"clinics": [self.clinic_1.pk, self.clinic_2.pk]}
+            reverse("user"),
+            data={
+                "hospitals": [self.hospital_2.pk, self.both_1.pk],
+            },
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         self.assertEqual(
-            response.data,
-            {
-                "username": self.user.username,
-                "clinics": [self.clinic_1.pk, self.clinic_2.pk],
-            },
+            response.data["hospitals"],
+            [
+                self.hospital_2.pk,
+                self.both_1.pk,
+            ],
+        )
+        self.assertEqual(
+            response.data["ambulances"],
+            [
+                self.ambulance_1.pk,
+                self.both_1.pk,
+                self.both_2.pk,
+            ],
         )
 
         self.user.refresh_from_db()
 
         self.assertQuerysetEqual(
-            self.user.clinics.all(),
-            [self.clinic_1.pk, self.clinic_2.pk],
+            self.user.hospitals.all(),
+            [self.hospital_2.pk, self.both_1.pk],
             transform=lambda c: c.pk,
             ordered=False,
         )
@@ -67,24 +88,42 @@ class UserViewTest(APITestCase):
     def test_put(self):
         self.client.force_login(user=self.user)
         response = self.client.put(
-            reverse("user"), data={"clinics": [self.clinic_1.pk, self.clinic_2.pk]}
+            reverse("user"),
+            data={
+                "hospitals": [self.hospital_2.pk, self.both_1.pk],
+                "ambulances": [self.ambulance_2.pk, self.both_1.pk],
+            },
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         self.assertEqual(
-            response.data,
-            {
-                "username": self.user.username,
-                "clinics": [self.clinic_1.pk, self.clinic_2.pk],
-            },
+            response.data["hospitals"],
+            [
+                self.hospital_2.pk,
+                self.both_1.pk,
+            ],
+        )
+
+        self.assertEqual(
+            response.data["ambulances"],
+            [
+                self.ambulance_2.pk,
+                self.both_1.pk,
+            ],
         )
 
         self.user.refresh_from_db()
 
         self.assertQuerysetEqual(
-            self.user.clinics.all(),
-            [self.clinic_1.pk, self.clinic_2.pk],
+            self.user.hospitals.all(),
+            [self.hospital_2.pk, self.both_1.pk],
+            transform=lambda c: c.pk,
+            ordered=False,
+        )
+        self.assertQuerysetEqual(
+            self.user.ambulances.all(),
+            [self.ambulance_2.pk, self.both_1.pk],
             transform=lambda c: c.pk,
             ordered=False,
         )

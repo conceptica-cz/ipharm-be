@@ -5,16 +5,17 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    clinics = ClinicSerializer(many=True)
+    hospitals = ClinicSerializer(many=True)
+    ambulances = ClinicSerializer(many=True)
 
     class Meta:
         model = User
-        fields = ["username", "clinics"]
+        fields = ["username", "hospitals", "ambulances"]
         extra_kwargs = {"username": {"read_only": True}}
 
 
 class UserWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["username", "clinics"]
+        fields = ["username", "hospitals", "ambulances"]
         extra_kwargs = {"username": {"read_only": True}}

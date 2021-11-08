@@ -6,6 +6,13 @@ from users.managers import UserManager
 
 class User(AbstractUser, BaseHistoricalModel):
     is_system = models.BooleanField(default=False)
-    clinics = models.ManyToManyField("references.Clinic", verbose_name="My clinics")
+    hospitals = models.ManyToManyField(
+        "references.Clinic", related_name="hospital_users", verbose_name="My hospitals"
+    )
+    ambulances = models.ManyToManyField(
+        "references.Clinic",
+        related_name="ambulance_users",
+        verbose_name="My ambulances",
+    )
 
     objects = UserManager()
