@@ -35,6 +35,8 @@ services:
       - .envs/.development/.ipharm_postgres
     volumes:
       - ./_postgres_data_ipharm:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
   ipharm-redis:
     container_name: ipharm_redis

@@ -174,14 +174,54 @@ APP_VERSION = Path("version.txt").read_text()
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        }
+    },
     "handlers": {
         "console": {
+            "level": "DEBUG",
             "class": "logging.StreamHandler",
+            "formatter": "verbose",
         },
     },
-    "root": {
-        "handlers": ["console"],
-        "level": "DEBUG",
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+        "django.request": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "django.db.backends": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "common": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+        "ipharm": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+        "references": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+        "updates": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+        "users": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
     },
 }
 
@@ -192,7 +232,7 @@ REFERENCES_TOKEN = os.environ["REFERENCES_TOKEN"]
 REFERENCES = {
     "Clinic": {
         "name": "Clinics",
-        "identifiers": ["clinic_type", "clinic_id"],
+        "identifiers": ["clinic_id"],
         "transformer": "transformers.delete_id",
         "url": "/clinics/",
     }

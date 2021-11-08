@@ -4,12 +4,14 @@ import random
 import factory
 from factory import fuzzy
 from faker import Faker
-from ipharm.models import patients
+from ipharm.models import Patient, patients
 
-from factories.references.clinics import ClinicFactory
+from factories.references.clinics import ClinicFactory, DepartmentFactory, PersonFactory
+from factories.references.diagnoses import DiagnosisFactory
+from factories.references.insurances import InsuranceCompanyFactory
 
 
-class PatientFactory(factory.django.DjangoModelFactory):
+class PatientWithoutDiagnosisFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = patients.Patient
         django_get_or_create = ["record_id", "patient_id"]
@@ -25,6 +27,7 @@ class PatientFactory(factory.django.DjangoModelFactory):
     clinic = factory.SubFactory(ClinicFactory)
     record_id = factory.Sequence(lambda n: n)
     patient_id = factory.Sequence(lambda n: n)
+    patient_type = factory.Iterator([Patient.HOSPITAL, Patient.AMBULANCE])
 
     @factory.lazy_attribute
     def first_name(self):
@@ -47,11 +50,11 @@ class PatientFactory(factory.django.DjangoModelFactory):
         birth = self.birth_date.strftime("%y%m%d")
         return f"{birth}{Faker().pyint(1000, 9999)}"
 
-    insurance_company = "111"
+    insurance_company = factory.SubFactory(InsuranceCompanyFactory)
     insurance_number = fuzzy.FuzzyInteger(1000000000, 9999999999)
     height = fuzzy.FuzzyInteger(130, 210)
     weight = factory.LazyAttribute(lambda obj: obj.height - 100 + Faker().pyint(0, 40))
-    department_in_id = fuzzy.FuzzyInteger(1, 15)
+    department_in = factory.SubFactory(DepartmentFactory)
     datetime_in = fuzzy.FuzzyDateTime(
         datetime.datetime(2021, 9, 1, tzinfo=datetime.timezone.utc),
         datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc),
@@ -63,11 +66,25 @@ class PatientFactory(factory.django.DjangoModelFactory):
             datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc)
         ),
     )
-    diagnosis = factory.LazyFunction(
-        lambda: f"{Faker().pystr(1, 1)}{Faker().pyint(100, 999)}"
-    )
     dekurz_datetime = fuzzy.FuzzyDateTime(
         datetime.datetime(2021, 9, 1, tzinfo=datetime.timezone.utc)
     )
-    dekurz_who = fuzzy.FuzzyInteger(10000, 99999)
-    dekurz_department = fuzzy.FuzzyInteger(10000, 99999)
+    dekurz_who = factory.SubFactory(PersonFactory)
+    dekurz_department = factory.SubFactory(DepartmentFactory)
+
+
+class PatientDiagnosisFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = patients.PatientDiagnosis
+        django_get_or_create = ["patient", "diagnosis"]
+
+    patient = factory.SubFactory(PatientWithoutDiagnosisFactory)
+    diagnosis = factory.SubFactory(DiagnosisFactory)
+    via_api = True
+
+
+class PatientFactory(PatientWithoutDiagnosisFactory):
+    patient_diagnosis = factory.RelatedFactory(
+        PatientDiagnosisFactory,
+        factory_related_name="patient",
+    )

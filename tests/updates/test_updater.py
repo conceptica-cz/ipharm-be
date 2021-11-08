@@ -6,7 +6,7 @@ from references.models import Clinic
 from updates.transformers import delete_id
 from updates.updater import ReferenceSettings, Updater, get_data
 
-from factories.references.clinics import AmbulanceFactory, ClinicFactory
+from factories.references.clinics import ClinicFactory
 
 
 class ReferenceSettingsTest(TestCase):
@@ -20,7 +20,7 @@ class ReferenceSettingsTest(TestCase):
 
     def test_identifiers(self):
         self.reference = ReferenceSettings("Clinic")
-        self.assertEqual(self.reference.identifiers, ["clinic_type", "clinic_id"])
+        self.assertEqual(self.reference.identifiers, ["clinic_id"])
 
     @override_settings(BASE_REFERENCES_URL="http://localhost")
     def test_url(self):
@@ -106,66 +106,50 @@ class UpdaterTest(TestCase):
     @patch("updates.updater.get_data")
     def test_update__update_reference_model(self, mocked_get_data: Mock):
         """Tests that update create and update models"""
-        ClinicFactory(clinic_id=1, clinic_type=Clinic.CLINIC, abbreviation="C1")
-        AmbulanceFactory(clinic_id=1, clinic_type=Clinic.AMBULANCE, abbreviation="AMB")
+        ClinicFactory(clinic_id=1, abbreviation="C1")
         api_data = [
             {
                 "id": 42,
-                "clinic_type": "clinic",
                 "clinic_id": 1,
                 "abbreviation": "CL1",
                 "description": "Clinica 1",
             },
             {
                 "id": 42,
-                "clinic_type": "clinic",
                 "clinic_id": 2,
                 "abbreviation": "CL2",
                 "description": "Clinica 2",
-            },
-            {
-                "id": 42,
-                "clinic_type": "clinic",
-                "clinic_id": 3,
-                "abbreviation": "CL3",
-                "description": "Clinica 3",
             },
         ]
         mocked_get_data.return_value = api_data
         updater = Updater("Clinic")
         updater.update()
 
-        self.assertEqual(Clinic.objects.count(), 4)
+        self.assertEqual(Clinic.objects.count(), 2)
 
-        ambulance = Clinic.objects.get(clinic_id=1, clinic_type=Clinic.AMBULANCE)
-        clinic_1 = Clinic.objects.get(clinic_id=1, clinic_type=Clinic.CLINIC)
-        clinic_2 = Clinic.objects.get(clinic_id=2, clinic_type=Clinic.CLINIC)
-        clinic_3 = Clinic.objects.get(clinic_id=3, clinic_type=Clinic.CLINIC)
-        self.assertEqual(ambulance.abbreviation, "AMB")
+        clinic_1 = Clinic.objects.get(clinic_id=1)
+        clinic_2 = Clinic.objects.get(clinic_id=2)
         self.assertEqual(clinic_1.abbreviation, "CL1")
         self.assertEqual(clinic_2.abbreviation, "CL2")
-        self.assertEqual(clinic_3.abbreviation, "CL3")
 
         reference_update = updater.reference_update
         reference_update.refresh_from_db()
-        self.assertEqual(reference_update.created, 2)
+        self.assertEqual(reference_update.created, 1)
         self.assertEqual(reference_update.updated, 1)
 
     @patch("updates.updater.get_data")
     def test_update__set_history_attributes(self, mocked_get_data: Mock):
         """Tests that update history attributes - user and update"""
-        ClinicFactory(clinic_id=1, clinic_type=Clinic.CLINIC, abbreviation="C1")
+        ClinicFactory(clinic_id=1, abbreviation="C1")
         api_data = [
             {
                 "id": 42,
-                "clinic_type": "clinic",
                 "clinic_id": 1,
                 "abbreviation": "CL1",
                 "description": "Clinica 1",
             },
             {
                 "id": 42,
-                "clinic_type": "clinic",
                 "clinic_id": 2,
                 "abbreviation": "CL2",
                 "description": "Clinica 2",
@@ -175,8 +159,8 @@ class UpdaterTest(TestCase):
         updater = Updater("Clinic")
         updater.update()
 
-        clinic_1 = Clinic.objects.get(clinic_id=1, clinic_type=Clinic.CLINIC)
-        clinic_2 = Clinic.objects.get(clinic_id=2, clinic_type=Clinic.CLINIC)
+        clinic_1 = Clinic.objects.get(clinic_id=1)
+        clinic_2 = Clinic.objects.get(clinic_id=2)
 
         history_1 = clinic_1.history.first()
         history_user_1 = history_1.history_user

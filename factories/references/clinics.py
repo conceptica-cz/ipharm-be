@@ -1,5 +1,5 @@
 import factory
-from references.models.clinics import Clinic
+from references.models.clinics import Clinic, Department, Person
 
 CLINICS = [
     {
@@ -109,52 +109,35 @@ CLINICS = [
     },
 ]
 
-AMBULANCES = [
-    {
-        "id": 1,
-        "abbrev": "AMB1",
-        "descr": "Ambulance N1",
-    },
-    {
-        "id": 2,
-        "abbrev": "AMB2",
-        "descr": "Ambulance N2",
-    },
-    {
-        "id": 3,
-        "abbrev": "AMB3",
-        "descr": "Ambulance N3",
-    },
-    {
-        "id": 4,
-        "abbrev": "AMB4",
-        "descr": "Ambulance N4",
-    },
-    {
-        "id": 5,
-        "abbrev": "AMB5",
-        "descr": "Ambulance N5",
-    },
-]
-
 
 class ClinicFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Clinic
-        django_get_or_create = ["clinic_id", "clinic_type"]
+        django_get_or_create = ["clinic_id"]
 
     clinic_id = factory.Iterator([c["id"] for c in CLINICS])
     abbreviation = factory.Iterator([c["abbrev"] for c in CLINICS])
     description = factory.Iterator([c["descr"] for c in CLINICS])
-    clinic_type = Clinic.CLINIC
+    is_hospital = True
+    is_ambulance = True
 
 
-class AmbulanceFactory(factory.django.DjangoModelFactory):
+class DepartmentFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Clinic
-        django_get_or_create = ["clinic_id", "clinic_type"]
+        model = Department
+        django_get_or_create = ["department_id"]
 
-    clinic_id = factory.Iterator([c["id"] for c in AMBULANCES])
-    abbreviation = factory.Iterator([c["abbrev"] for c in AMBULANCES])
-    description = factory.Iterator([c["descr"] for c in AMBULANCES])
-    clinic_type = Clinic.AMBULANCE
+    clinic = factory.SubFactory(ClinicFactory)
+    department_id = factory.Iterator(range(1, 60))
+    abbreviation = factory.LazyAttribute(lambda o: f"ODD{o.department_id}")
+    description = factory.LazyAttribute(lambda o: f"Oddělení {o.department_id}")
+
+
+class PersonFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Person
+        django_get_or_create = ["person_number"]
+
+    person_number = factory.Iterator(range(1, 100))
+    name = factory.Faker("name", locale="cs")
+    f_title = factory.Iterator(["Mgr.", "Ing.", "PhD."])

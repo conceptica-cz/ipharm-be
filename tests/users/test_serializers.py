@@ -2,7 +2,7 @@ from django.test import TestCase
 from references.serializers.clinics import ClinicSerializer
 from users.serializers import UserSerializer, UserWriteSerializer
 
-from factories.references.clinics import AmbulanceFactory, ClinicFactory
+from factories.references.clinics import ClinicFactory
 from factories.users import UserFactory
 
 
@@ -14,11 +14,10 @@ class UserSerializerTest(TestCase):
         self.clinic_1 = ClinicFactory()
         self.clinic_2 = ClinicFactory()
         self.clinic_3 = ClinicFactory()
-        self.ambulance_1 = AmbulanceFactory()
-        self.ambulance_2 = AmbulanceFactory()
-        self.user.clinics.add(self.clinic_1)
-        self.user.clinics.add(self.clinic_3)
-        self.user.clinics.add(self.ambulance_2)
+        self.user.hospitals.add(self.clinic_1)
+        self.user.hospitals.add(self.clinic_3)
+        self.user.ambulances.add(self.clinic_1)
+        self.user.ambulances.add(self.clinic_2)
         self.user.save()
 
     def test_clinics_read(self):
@@ -26,11 +25,17 @@ class UserSerializerTest(TestCase):
         user_serializer = UserSerializer(instance=self.user)
 
         self.assertEqual(
-            user_serializer.data["clinics"],
+            user_serializer.data["hospitals"],
             [
                 ClinicSerializer(instance=self.clinic_1).data,
                 ClinicSerializer(instance=self.clinic_3).data,
-                ClinicSerializer(instance=self.ambulance_2).data,
+            ],
+        )
+        self.assertEqual(
+            user_serializer.data["ambulances"],
+            [
+                ClinicSerializer(instance=self.clinic_1).data,
+                ClinicSerializer(instance=self.clinic_2).data,
             ],
         )
 
@@ -38,7 +43,10 @@ class UserSerializerTest(TestCase):
 
         user_serializer = UserWriteSerializer(
             instance=self.user,
-            data={"clinics": [self.clinic_1.pk, self.clinic_2.pk, self.ambulance_1.pk]},
+            data={
+                "hospitals": [self.clinic_1.pk, self.clinic_2.pk],
+                "ambulances": [self.clinic_3.pk],
+            },
             partial=True,
         )
 
@@ -47,8 +55,14 @@ class UserSerializerTest(TestCase):
 
         self.user.refresh_from_db()
         self.assertQuerysetEqual(
-            self.user.clinics.all(),
-            [self.clinic_1, self.clinic_2, self.ambulance_1],
+            self.user.hospitals.all(),
+            [self.clinic_1, self.clinic_2],
+            transform=lambda c: c,
+            ordered=False,
+        )
+        self.assertQuerysetEqual(
+            self.user.ambulances.all(),
+            [self.clinic_3],
             transform=lambda c: c,
             ordered=False,
         )

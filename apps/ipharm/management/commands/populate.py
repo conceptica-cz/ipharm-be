@@ -11,10 +11,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print("Populating database. Please wait...")
-        for i in range(800):
+        for i in range(1800):
             patients.PatientFactory()
-        ambulances = [clinics.AmbulanceFactory() for i in range(10)]
-        for i in range(200):
-            patients.PatientFactory(clinic=random.choice(ambulances))
 
         print("Database was populated.")
