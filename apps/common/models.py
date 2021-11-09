@@ -1,3 +1,4 @@
+from common.managers import BaseSoftDeletableManager
 from django.db import models
 from simple_history.models import HistoricalRecords
 
@@ -8,9 +9,15 @@ class BaseSoftDeletableModel(models.Model):
     class Meta:
         abstract = True
 
-    def delete(self, using=None, keep_parents=False):
+    def delete(self, *args, **kwargs):
         self.is_deleted = True
+        self.save()
+
+    def hard_delete(self, using=None, keep_parents=False):
         return super().delete(using, keep_parents)
+
+    objects = BaseSoftDeletableManager()
+    all_objects = BaseSoftDeletableManager(alive_only=False)
 
 
 class BaseHistoricalModel(BaseSoftDeletableModel):

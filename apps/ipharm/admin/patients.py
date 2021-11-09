@@ -1,5 +1,5 @@
+from common.admin import BaseHistoryAdmin
 from django.contrib import admin
-from simple_history.admin import SimpleHistoryAdmin
 
 from ..models import patients
 
@@ -10,7 +10,7 @@ class PatientDiagnosisInline(admin.TabularInline):
 
 
 @admin.register(patients.Patient)
-class PatientAdmin(SimpleHistoryAdmin):
+class PatientAdmin(BaseHistoryAdmin):
     list_display = [
         "pk",
         "last_name",
@@ -18,6 +18,7 @@ class PatientAdmin(SimpleHistoryAdmin):
         "clinic",
         "patient_type",
         "birth_number",
+        "is_deleted",
     ]
     search_fields = ["birth_number", "last_name"]
     list_filter = ["clinic", "patient_type"]

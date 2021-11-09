@@ -45,7 +45,7 @@ class UpdateHistoricalModel(models.Model):
         abstract = True
 
 
-class BaseUpdatableModel(BaseSoftDeletableModel, UpdateHistoricalModel):
+class BaseUpdatableModel(UpdateHistoricalModel, BaseSoftDeletableModel):
     """Base class for model, updatable via 3rd-party Rest API"""
 
     history = HistoricalRecords(
@@ -56,6 +56,7 @@ class BaseUpdatableModel(BaseSoftDeletableModel, UpdateHistoricalModel):
     )
 
     objects = BaseUpdatableManager()
+    all_objects = BaseUpdatableManager(alive_only=False)
 
     class Meta:
         abstract = True

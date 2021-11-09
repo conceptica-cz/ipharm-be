@@ -1,10 +1,10 @@
+from common.admin import BaseHistoryAdmin
 from django.contrib import admin
 from references import models
-from simple_history.admin import SimpleHistoryAdmin
 
 
 @admin.register(models.Diagnosis)
-class DiagnosisAdmin(SimpleHistoryAdmin):
+class DiagnosisAdmin(BaseHistoryAdmin):
     list_display = [
         "pk",
         "code",
