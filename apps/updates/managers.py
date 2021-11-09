@@ -1,13 +1,14 @@
 import logging
 from typing import Any, Callable, Iterable, Tuple
 
+from common.managers import BaseSoftDeletableManager
 from django.conf import settings
 from django.db.models import Manager
 
 logger = logging.getLogger(__name__)
 
 
-class BaseUpdatableManager(Manager):
+class BaseUpdatableManager(BaseSoftDeletableManager):
     """Base manager for an updatable Model"""
 
     CREATED = "created"
@@ -27,7 +28,7 @@ class BaseUpdatableManager(Manager):
         :param identifiers: list or tuple of unique (together) model's field, used to find existing instance
         :param data: model values dictionary
         :param transformer: function to transform data dict
-        :return: tuple (object, operation), where operaiton is one of 'created', 'updated', 'not_changed'
+        :return: tuple (object, operation), where operation is one of 'created', 'updated', 'not_changed'
         """
         if transformer is not None:
             data = transformer(data)
