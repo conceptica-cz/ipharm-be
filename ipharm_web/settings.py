@@ -232,10 +232,29 @@ REFERENCES_TOKEN = os.environ["REFERENCES_TOKEN"]
 REFERENCES = {
     "Clinic": {
         "name": "Clinics",
-        "identifiers": ["clinic_id"],
+        "identifiers": ["identifier"],
         "transformer": "transformers.delete_id",
         "url": "/clinics/",
-    }
+    },
+    "Department": {
+        "name": "Departments",
+        "identifiers": ["identifier"],
+        "transformer": "transformers.delete_id",
+        "relations": {"clinic_identifier": {"field": "clinic", "key": "identifier"}},
+        "url": "/departments/",
+    },
+    "Diagnosis": {
+        "name": "Diagnoses",
+        "identifiers": ["code"],
+        "transformer": "transformers.delete_id",
+        "url": "/diagnoses/",
+    },
+    "Person": {
+        "name": "persons",
+        "identifiers": ["person_number"],
+        "transformer": "transformers.delete_id",
+        "url": "/persons/",
+    },
 }
 
 # CELERY

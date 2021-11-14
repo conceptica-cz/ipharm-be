@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from updates.models import Reference
 
 from factories.updates.updates import ReferenceFactory
@@ -16,9 +16,9 @@ class ReferenceManagerTest(TestCase):
         """Test that method update existing instance"""
         ReferenceFactory()
 
-        self.assertEqual(Reference.objects.count(), 1)
-        reference = Reference.objects.get_or_create_from_settings(model_name="Clinic")
+        count = Reference.objects.count()
+        model_name = Reference.objects.first().model
+        reference = Reference.objects.get_or_create_from_settings(model_name=model_name)
 
-        self.assertEqual(Reference.objects.count(), 1)
-        self.assertEqual(reference.model, "Clinic")
-        self.assertEqual(reference.name, "Clinics")
+        self.assertEqual(Reference.objects.count(), count)
+        self.assertEqual(reference.model, model_name)

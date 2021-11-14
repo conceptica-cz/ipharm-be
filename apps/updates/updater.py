@@ -20,6 +20,7 @@ class ReferenceSettings:
         )
         self.model_class = model_type.model_class()
         self.transformer = self._get_transformer(model_name)
+        self.relations = settings.REFERENCES[model_name].get("relations")
         self.identifiers = settings.REFERENCES[model_name]["identifiers"]
         self.url = settings.BASE_REFERENCES_URL + settings.REFERENCES[model_name]["url"]
 
@@ -44,6 +45,11 @@ def get_data(url) -> Generator[dict, None, None]:
     headers = {"Authorization": f"Bearer {settings.REFERENCES_TOKEN}"}
     response = requests.get(url, headers=headers)
     data = response.json()
+    if response.status_code != 200:
+        logger.error(
+            f"Error while getting data from {url} status_code={response.status_code} data={data}",
+            extra={"url": url, "status_code": response.status_code, "data": data},
+        )
     results = data["results"]
     for result in results:
         yield result
@@ -66,6 +72,7 @@ class Updater:
         _, operation = model.objects.update_or_create_from_dict(
             identifiers=self.reference_settings.identifiers,
             data=data,
+            relations=self.reference_settings.relations,
             transformer=self.reference_settings.transformer,
             user=self.user,
             update=self.reference_update,

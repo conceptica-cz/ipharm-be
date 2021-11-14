@@ -48,11 +48,12 @@ class UpdateHistoricalModel(models.Model):
 class BaseUpdatableModel(UpdateHistoricalModel, BaseSoftDeletableModel):
     """Base class for model, updatable via 3rd-party Rest API"""
 
-    history = HistoricalRecords(
+    log = HistoricalRecords(
         bases=[
             UpdateHistoricalModel,
         ],
         inherit=True,
+        related_name="history",
     )
 
     objects = BaseUpdatableManager()

@@ -40,7 +40,7 @@ jobs:
       - name: Build image
         uses: docker/bake-action@master
         with:
-          files: docker-compose.development.yml
+          files: docker-compose.ipharm-only.yml
           push: false
           set: |
             *.cache-from=type=local,src=/tmp/.buildx-cache
@@ -63,14 +63,14 @@ jobs:
       - name: Build image
         uses: docker/bake-action@master
         with:
-          files: docker-compose.development.yml
+          files: docker-compose.ipharm-only.yml
           push: false
           set: |
             *.cache-from=type=local,src=/tmp/.buildx-cache
       - name: Build the stack
-        run: docker-compose -f docker-compose.development.yml up -d
+        run: docker-compose -f docker-compose.ipharm-only.yml up -d
       - name: Test
-        run: docker-compose -f docker-compose.development.yml run --rm -T ipharm-app ./scripts/tests.sh
+        run: docker-compose -f docker-compose.ipharm-only.yml run --rm -T ipharm-app ./scripts/tests.sh
 
   isort:
     needs: build
@@ -85,12 +85,12 @@ jobs:
       - name: Build image
         uses: docker/bake-action@master
         with:
-          files: docker-compose.development.yml
+          files: docker-compose.ipharm-only.yml
           push: false
           set: |
             *.cache-from=type=local,src=/tmp/.buildx-cache
       - name: Isort
-        run: docker-compose -f docker-compose.development.yml run --rm -T ipharm-app ./scripts/isort.sh
+        run: docker-compose -f docker-compose.ipharm-only.yml run --rm -T ipharm-app ./scripts/isort.sh
 
   black:
     needs: build
@@ -105,9 +105,9 @@ jobs:
       - name: Build image
         uses: docker/bake-action@master
         with:
-          files: docker-compose.development.yml
+          files: docker-compose.ipharm-only.yml
           push: false
           set: |
             *.cache-from=type=local,src=/tmp/.buildx-cache
       - name: Black
-        run: docker-compose -f docker-compose.development.yml run --rm -T ipharm-app ./scripts/black.sh
+        run: docker-compose -f docker-compose.ipharm-only.yml run --rm -T ipharm-app ./scripts/black.sh

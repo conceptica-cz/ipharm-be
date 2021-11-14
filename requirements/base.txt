@@ -1,5 +1,5 @@
 celery==5.1.2
-Django==3.2.8
+Django==3.2.9
 django-celery-beat==2.2.1
 django-filter==21.1
 django-simple-history==3.0.0

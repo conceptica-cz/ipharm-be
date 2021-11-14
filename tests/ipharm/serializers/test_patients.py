@@ -1,8 +1,9 @@
 from django.test import TestCase
 from ipharm.serializers.patients import PatientNestedSerializer, PatientSerializer
-from references.serializers.clinics import DepartmentSerializer, PersonSerializer
+from references.serializers.clinics import DepartmentSerializer
 from references.serializers.diagnoses import DiagnosisSerializer
 from references.serializers.insurances import InsuranceCompanySerializer
+from references.serializers.persons import PersonSerializer
 
 from factories.ipharm.patients import PatientFactory
 from factories.references.diagnoses import DiagnosisFactory

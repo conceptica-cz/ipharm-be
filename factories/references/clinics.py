@@ -1,5 +1,5 @@
 import factory
-from references.models.clinics import Clinic, Department, Person
+from references.models.clinics import Clinic, Department
 
 CLINICS = [
     {
@@ -113,9 +113,9 @@ CLINICS = [
 class ClinicFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Clinic
-        django_get_or_create = ["clinic_id"]
+        django_get_or_create = ["identifier"]
 
-    clinic_id = factory.Iterator([c["id"] for c in CLINICS])
+    identifier = factory.Iterator([c["id"] for c in CLINICS])
     abbreviation = factory.Iterator([c["abbrev"] for c in CLINICS])
     description = factory.Iterator([c["descr"] for c in CLINICS])
     is_hospital = True
@@ -125,19 +125,10 @@ class ClinicFactory(factory.django.DjangoModelFactory):
 class DepartmentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Department
-        django_get_or_create = ["department_id"]
+        django_get_or_create = ["identifier"]
 
     clinic = factory.SubFactory(ClinicFactory)
-    department_id = factory.Iterator(range(1, 60))
-    abbreviation = factory.LazyAttribute(lambda o: f"ODD{o.department_id}")
-    description = factory.LazyAttribute(lambda o: f"Oddělení {o.department_id}")
-
-
-class PersonFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Person
-        django_get_or_create = ["person_number"]
-
-    person_number = factory.Iterator(range(1, 100))
-    name = factory.Faker("name", locale="cs")
-    f_title = factory.Iterator(["Mgr.", "Ing.", "PhD."])
+    clinic_identifier = factory.SelfAttribute("clinic.identifier")
+    identifier = factory.Iterator(range(1, 60))
+    abbreviation = factory.LazyAttribute(lambda o: f"ODD{o.identifier}")
+    description = factory.LazyAttribute(lambda o: f"Oddělení {o.identifier}")

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from references.models import Clinic
+from references.models import Clinic, Department
 from updates.transformers import delete_id
 
 from factories.references.clinics import ClinicFactory
@@ -47,10 +47,10 @@ class BaseSoftDeletableManagerTest(TestCase):
 class BestUpdatableManagerTest(TestCase):
     def test_update_or_create_from_dict__new(self):
         """Test that new instance is created"""
-        ClinicFactory(clinic_id=42)
-        identifiers = ["clinic_id"]
+        ClinicFactory(identifier=42)
+        identifiers = ["identifier"]
         data = {
-            "clinic_id": 43,
+            "identifier": 43,
             "abbreviation": "AMB",
             "description": "Ambulance",
             "is_hospital": True,
@@ -63,7 +63,7 @@ class BestUpdatableManagerTest(TestCase):
 
         self.assertEqual(Clinic.objects.count(), 2)
 
-        expected = Clinic.objects.get(clinic_id=43)
+        expected = Clinic.objects.get(identifier=43)
         self.assertEqual(clinic, expected)
         self.assertEqual(operation, Clinic.objects.CREATED)
         self.assertEqual(expected.abbreviation, "AMB")
@@ -72,13 +72,13 @@ class BestUpdatableManagerTest(TestCase):
     def test_update_or_create_from_dict__existing(self):
         """Test that existing instance that have differences is updated"""
         ClinicFactory(
-            clinic_id=42,
+            identifier=42,
             abbreviation="CL",
             description="Clinic",
         )
-        identifiers = ["clinic_id"]
+        identifiers = ["identifier"]
         data = {
-            "clinic_id": 42,
+            "identifier": 42,
             "abbreviation": "CLN",
             "description": "Clinic new",
         }
@@ -87,7 +87,7 @@ class BestUpdatableManagerTest(TestCase):
 
         self.assertEqual(Clinic.objects.count(), 1)
 
-        expected = Clinic.objects.get(clinic_id=42)
+        expected = Clinic.objects.get(identifier=42)
         self.assertEqual(clinic, expected)
         self.assertEqual(operation, Clinic.objects.UPDATED)
         self.assertEqual(expected.abbreviation, "CLN")
@@ -96,13 +96,13 @@ class BestUpdatableManagerTest(TestCase):
     def test_update_or_create_from_dict__existing_without_difference(self):
         """Test that existing instance that have differences is updated"""
         ClinicFactory(
-            clinic_id=42,
+            identifier=42,
             abbreviation="CL",
             description="Clinic",
         )
-        identifiers = ["clinic_id"]
+        identifiers = ["identifier"]
         data = {
-            "clinic_id": 42,
+            "identifier": 42,
             "abbreviation": "CL",
             "description": "Clinic",
         }
@@ -111,7 +111,7 @@ class BestUpdatableManagerTest(TestCase):
 
         self.assertEqual(Clinic.objects.count(), 1)
 
-        expected = Clinic.objects.get(clinic_id=42)
+        expected = Clinic.objects.get(identifier=42)
         self.assertEqual(clinic, expected)
         self.assertEqual(operation, Clinic.objects.NOT_CHANGED)
         self.assertEqual(expected.abbreviation, "CL")
@@ -120,9 +120,9 @@ class BestUpdatableManagerTest(TestCase):
     def test_update_or_create_from_dict__set_history_user(self):
         """Test that method (optionally) set history user"""
         user = UserFactory(username="updater")
-        identifiers = ["clinic_id"]
+        identifiers = ["identifier"]
         data = {
-            "clinic_id": 43,
+            "identifier": 43,
             "abbreviation": "CLN",
             "description": "Clinic new",
         }
@@ -137,9 +137,9 @@ class BestUpdatableManagerTest(TestCase):
     def test_update_or_create_from_dict__set_update_attribute(self):
         """Test that method (optionally) set update attribute"""
         user = UserFactory(username="updater")
-        identifiers = ["clinic_id"]
+        identifiers = ["identifier"]
         data = {
-            "clinic_id": 43,
+            "identifier": 43,
             "abbreviation": "CLN",
             "description": "Clinic new",
         }
@@ -206,3 +206,63 @@ class ClinicManagerTest(TestCase):
             transform=lambda c: c,
             ordered=False,
         )
+
+
+class ClinicManagerTemporaryCreationTest(TestCase):
+    # Test BaseTemporaryCreatableManager methods
+    def test_get_or_create_tmp__existing(self):
+        """Test that get_or_create_tmp return existing object"""
+
+        initial_clinic = ClinicFactory()
+
+        clinic, created = Clinic.objects.get_or_create_temporary(
+            identifier=initial_clinic.identifier
+        )
+
+        self.assertEqual(created, False)
+        self.assertEqual(
+            clinic,
+            initial_clinic,
+        )
+
+    def test_get_or_create_tmp__new(self):
+        """Test that get_or_create_tmp create new temporary object"""
+
+        clinic, created = Clinic.objects.get_or_create_temporary(identifier=42)
+
+        self.assertEqual(created, True)
+        self.assertEqual(clinic.identifier, 42)
+        self.assertEqual(clinic.description, "TMP")
+        self.assertEqual(clinic.abbreviation, "TMP")
+
+
+class BestUpdatableManagerTest(TestCase):
+    """Test update_or_create_from_dict"""
+
+    def test_update_or_create_from_dict__new_related_instance(self):
+        """Test that new instance is created"""
+        identifiers = ["identifier"]
+        relations = {"clinic_identifier": {"field": "clinic", "key": "identifier"}}
+        data = {
+            "id": 172,
+            "clinic_identifier": 42,
+            "identifier": 78,
+            "abbreviation": "DPT",
+            "description": "Departament",
+        }
+        department, operation = Department.objects.update_or_create_from_dict(
+            identifiers=identifiers,
+            data=data,
+            relations=relations,
+            transformer=delete_id,
+        )
+
+        self.assertEqual(Department.objects.count(), 1)
+
+        expected = Department.objects.get(identifier=78)
+        self.assertEqual(department, expected)
+        self.assertEqual(operation, Department.objects.CREATED)
+
+        self.assertEqual(Clinic.objects.count(), 1)
+        self.assertEqual(department.clinic.identifier, 42)
+        self.assertEqual(department.clinic.description, "TMP")
