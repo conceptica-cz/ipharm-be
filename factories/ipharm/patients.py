@@ -6,9 +6,10 @@ from factory import fuzzy
 from faker import Faker
 from ipharm.models import Patient, patients
 
-from factories.references.clinics import ClinicFactory, DepartmentFactory, PersonFactory
+from factories.references.clinics import ClinicFactory, DepartmentFactory
 from factories.references.diagnoses import DiagnosisFactory
 from factories.references.insurances import InsuranceCompanyFactory
+from factories.references.persons import PersonFactory
 
 
 class PatientWithoutDiagnosisFactory(factory.django.DjangoModelFactory):

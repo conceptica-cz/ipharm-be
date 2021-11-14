@@ -41,36 +41,3 @@ services:
   ipharm-redis:
     container_name: ipharm_redis
     image: redis:6.2-alpine
-
-  ipharm-flower:
-    image: mher/flower
-    container_name: ipharm_flower
-    env_file:
-      -  .envs/.development/.ipharm_redis
-    ports:
-      - "5555:5555"
-    depends_on:
-      - ipharm-redis
-
-  iciselniky-app:
-    container_name: iciselniky_app
-    image: conceptica/iciselniky_app:local
-    depends_on:
-      - iciselniky-postgres
-    env_file:
-      - .envs/.development/.iciselniky_app
-      - .envs/.development/.iciselniky_postgres
-    ports:
-      - "8001:8000"
-    command: scripts/start.sh
-    volumes:
-      - ./iciselniky_static:/app/static
-
-  iciselniky-postgres:
-    container_name: iciselniky_postgres
-    image: postgres:13.4-alpine
-    env_file:
-      - .envs/.development/.iciselniky_postgres
-    volumes:
-      - ./_postgres_data_iciselniky:/var/lib/postgresql/data
-

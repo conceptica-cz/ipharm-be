@@ -7,35 +7,24 @@ from references import models
 class ClinicAdmin(BaseHistoryAdmin):
     list_display = [
         "pk",
-        "clinic_id",
+        "identifier",
         "description",
         "abbreviation",
         "is_hospital",
         "is_ambulance",
     ]
-    search_fields = ["clinic_id", "description", "abbreviation"]
+    search_fields = ["identifier", "description", "abbreviation"]
 
 
 @admin.register(models.Department)
 class DepartmentAdmin(BaseHistoryAdmin):
     list_display = [
         "pk",
-        "department_id",
+        "identifier",
         "description",
         "abbreviation",
         "clinic",
+        "clinic_identifier",
     ]
-    search_fields = ["department_id", "description", "abbreviation"]
+    search_fields = ["identifier", "description", "abbreviation"]
     list_filter = ["clinic"]
-
-
-@admin.register(models.Person)
-class PersonAdmin(BaseHistoryAdmin):
-    list_display = [
-        "pk",
-        "person_number",
-        "name",
-        "f_title",
-        "l_title",
-    ]
-    search_fields = ["person_number", "name"]

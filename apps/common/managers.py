@@ -11,3 +11,6 @@ class BaseSoftDeletableManager(models.Manager):
             return super().get_queryset().filter(is_deleted=False)
         else:
             return super().get_queryset()
+
+    def hard_delete(self):
+        return super().delete()

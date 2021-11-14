@@ -1,11 +1,10 @@
 from references.models import Diagnosis
-from references.serializers.clinics import DepartmentSerializer, PersonSerializer
+from references.serializers.clinics import DepartmentSerializer
 from references.serializers.diagnoses import DiagnosisSerializer
 from references.serializers.insurances import InsuranceCompanySerializer
+from references.serializers.persons import PersonSerializer
 from rest_framework import serializers
 from rest_framework.relations import PrimaryKeyRelatedField
-from rest_framework.serializers import raise_errors_on_nested_writes
-from rest_framework.utils import model_meta
 
 from ..models.patients import Patient
 

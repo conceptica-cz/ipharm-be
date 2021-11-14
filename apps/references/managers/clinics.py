@@ -1,7 +1,12 @@
-from updates.managers import BaseUpdatableManager
+from updates.managers import BaseTemporaryCreatableManager
 
 
-class ClinicManager(BaseUpdatableManager):
+class ClinicManager(BaseTemporaryCreatableManager):
+    TEMPORARY_DEFAULTS = {
+        "description": "TMP",
+        "abbreviation": "TMP",
+    }
+
     def get_hospitals(self):
         """Return only hospital clinics"""
         return self.get_queryset().filter(is_hospital=True)

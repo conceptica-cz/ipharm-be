@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models.clinics import Clinic, Department, Person
+from ..models.clinics import Clinic, Department
 
 
 class ClinicSerializer(serializers.ModelSerializer):
@@ -8,7 +8,7 @@ class ClinicSerializer(serializers.ModelSerializer):
         model = Clinic
         fields = read_only_fields = (
             "id",
-            "clinic_id",
+            "identifier",
             "abbreviation",
             "description",
             "is_hospital",
@@ -22,19 +22,8 @@ class DepartmentSerializer(serializers.ModelSerializer):
         fields = read_only_fields = (
             "id",
             "clinic",
-            "department_id",
+            "clinic_identifier",
+            "identifier",
             "abbreviation",
             "description",
-        )
-
-
-class PersonSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Person
-        fields = read_only_fields = (
-            "id",
-            "person_number",
-            "name",
-            "f_title",
-            "l_title",
         )

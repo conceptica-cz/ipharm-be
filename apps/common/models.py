@@ -21,7 +21,7 @@ class BaseSoftDeletableModel(models.Model):
 
 
 class BaseHistoricalModel(BaseSoftDeletableModel):
-    history = HistoricalRecords(inherit=True)
+    log = HistoricalRecords(inherit=True, related_name="history")
 
     class Meta:
         abstract = True
