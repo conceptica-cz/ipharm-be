@@ -113,9 +113,9 @@ CLINICS = [
 class ClinicFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Clinic
-        django_get_or_create = ["identifier"]
+        django_get_or_create = ["external_id"]
 
-    identifier = factory.Iterator([c["id"] for c in CLINICS])
+    external_id = factory.Iterator([c["id"] for c in CLINICS])
     abbreviation = factory.Iterator([c["abbrev"] for c in CLINICS])
     description = factory.Iterator([c["descr"] for c in CLINICS])
     is_hospital = True
@@ -125,10 +125,10 @@ class ClinicFactory(factory.django.DjangoModelFactory):
 class DepartmentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Department
-        django_get_or_create = ["identifier"]
+        django_get_or_create = ["external_id"]
 
     clinic = factory.SubFactory(ClinicFactory)
-    clinic_identifier = factory.SelfAttribute("clinic.identifier")
-    identifier = factory.Iterator(range(1, 60))
-    abbreviation = factory.LazyAttribute(lambda o: f"ODD{o.identifier}")
-    description = factory.LazyAttribute(lambda o: f"Oddělení {o.identifier}")
+    clinic_external_id = factory.SelfAttribute("clinic.external_id")
+    external_id = factory.Iterator(range(1, 60))
+    abbreviation = factory.LazyAttribute(lambda o: f"ODD{o.external_id}")
+    description = factory.LazyAttribute(lambda o: f"Oddělení {o.external_id}")

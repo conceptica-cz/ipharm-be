@@ -1,7 +1,7 @@
 from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
-from .views import clinics, patients, user
+from .views import cares, clinics, patients, user
 
 urlpatterns = [
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
@@ -18,5 +18,22 @@ urlpatterns = [
         "patients/<int:pk>/",
         patients.PatientDetailView.as_view(),
         name="patient_detail",
+    ),
+    path(
+        "patients/<int:patient_pk>/current_hospital_care/",
+        cares.PatientCareDetailView.as_view(),
+        {"care_type": "hospital"},
+        name="patient_current_hospital_care",
+    ),
+    path(
+        "patients/<int:patient_pk>/current_ambulance_care/",
+        cares.PatientCareDetailView.as_view(),
+        {"care_type": "ambulance"},
+        name="patient_current_ambulance_care",
+    ),
+    path(
+        "cares/<int:pk>/",
+        cares.CareDetailView.as_view(),
+        name="care_detail",
     ),
 ]

@@ -7,4 +7,4 @@ class DiagnosisManager(BaseTemporaryCreatableManager):
     }
 
     def only_via_api(self):
-        return self.filter(patientdiagnosis__via_api=True)
+        return self.filter(carediagnosis__via_api=True)
