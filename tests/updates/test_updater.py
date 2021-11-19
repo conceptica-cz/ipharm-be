@@ -20,7 +20,7 @@ class ReferenceSettingsTest(TestCase):
 
     def test_identifiers(self):
         self.reference = ReferenceSettings("Clinic")
-        self.assertEqual(self.reference.identifiers, ["identifier"])
+        self.assertEqual(self.reference.identifiers, ["external_id"])
 
     @override_settings(BASE_REFERENCES_URL="http://localhost")
     def test_url(self):
@@ -106,17 +106,17 @@ class UpdaterTest(TestCase):
     @patch("updates.updater.get_data")
     def test_update__update_reference_model(self, mocked_get_data: Mock):
         """Tests that update create and update models"""
-        ClinicFactory(identifier=1, abbreviation="C1")
+        ClinicFactory(external_id=1, abbreviation="C1")
         api_data = [
             {
                 "id": 42,
-                "identifier": 1,
+                "external_id": 1,
                 "abbreviation": "CL1",
                 "description": "Clinica 1",
             },
             {
                 "id": 42,
-                "identifier": 2,
+                "external_id": 2,
                 "abbreviation": "CL2",
                 "description": "Clinica 2",
             },
@@ -127,8 +127,8 @@ class UpdaterTest(TestCase):
 
         self.assertEqual(Clinic.objects.count(), 2)
 
-        clinic_1 = Clinic.objects.get(identifier=1)
-        clinic_2 = Clinic.objects.get(identifier=2)
+        clinic_1 = Clinic.objects.get(external_id=1)
+        clinic_2 = Clinic.objects.get(external_id=2)
         self.assertEqual(clinic_1.abbreviation, "CL1")
         self.assertEqual(clinic_2.abbreviation, "CL2")
 
@@ -140,17 +140,17 @@ class UpdaterTest(TestCase):
     @patch("updates.updater.get_data")
     def test_update__set_history_attributes(self, mocked_get_data: Mock):
         """Tests that update history attributes - user and update"""
-        ClinicFactory(identifier=1, abbreviation="C1")
+        ClinicFactory(external_id=1, abbreviation="C1")
         api_data = [
             {
                 "id": 42,
-                "identifier": 1,
+                "external_id": 1,
                 "abbreviation": "CL1",
                 "description": "Clinica 1",
             },
             {
                 "id": 42,
-                "identifier": 2,
+                "external_id": 2,
                 "abbreviation": "CL2",
                 "description": "Clinica 2",
             },
@@ -159,8 +159,8 @@ class UpdaterTest(TestCase):
         updater = Updater("Clinic")
         updater.update()
 
-        clinic_1 = Clinic.objects.get(identifier=1)
-        clinic_2 = Clinic.objects.get(identifier=2)
+        clinic_1 = Clinic.objects.get(external_id=1)
+        clinic_2 = Clinic.objects.get(external_id=2)
 
         history_1 = clinic_1.history.first()
         history_user_1 = history_1.history_user

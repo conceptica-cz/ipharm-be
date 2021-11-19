@@ -8,7 +8,7 @@ class ClinicSerializer(serializers.ModelSerializer):
         model = Clinic
         fields = read_only_fields = (
             "id",
-            "identifier",
+            "external_id",
             "abbreviation",
             "description",
             "is_hospital",
@@ -22,8 +22,8 @@ class DepartmentSerializer(serializers.ModelSerializer):
         fields = read_only_fields = (
             "id",
             "clinic",
-            "clinic_identifier",
-            "identifier",
+            "clinic_external_id",
+            "external_id",
             "abbreviation",
             "description",
         )

@@ -5,7 +5,7 @@ from ..managers.clinics import ClinicManager
 
 
 class Clinic(BaseUpdatableModel):
-    identifier = models.IntegerField(unique=True)
+    external_id = models.IntegerField(unique=True)
     abbreviation = models.CharField(max_length=10)
     description = models.CharField(max_length=255)
     is_hospital = models.BooleanField(default=True)
@@ -19,8 +19,8 @@ class Clinic(BaseUpdatableModel):
 
 class Department(BaseUpdatableModel):
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE)
-    clinic_identifier = models.IntegerField()
-    identifier = models.IntegerField(unique=True)
+    clinic_external_id = models.IntegerField()
+    external_id = models.IntegerField(unique=True)
     abbreviation = models.CharField(max_length=10)
     description = models.CharField(max_length=255)
 

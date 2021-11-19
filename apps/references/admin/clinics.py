@@ -7,24 +7,24 @@ from references import models
 class ClinicAdmin(BaseHistoryAdmin):
     list_display = [
         "pk",
-        "identifier",
+        "external_id",
         "description",
         "abbreviation",
         "is_hospital",
         "is_ambulance",
     ]
-    search_fields = ["identifier", "description", "abbreviation"]
+    search_fields = ["external_id", "description", "abbreviation"]
 
 
 @admin.register(models.Department)
 class DepartmentAdmin(BaseHistoryAdmin):
     list_display = [
         "pk",
-        "identifier",
+        "external_id",
         "description",
         "abbreviation",
         "clinic",
-        "clinic_identifier",
+        "clinic_external_id",
     ]
-    search_fields = ["identifier", "description", "abbreviation"]
+    search_fields = ["external_id", "description", "abbreviation"]
     list_filter = ["clinic"]

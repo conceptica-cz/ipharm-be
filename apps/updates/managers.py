@@ -29,14 +29,16 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
         :param identifiers: list or tuple of unique (together) model's field, used to find existing instance
         :param data: model values dictionary
         :param transformer: function to transform data dict
+        :param relations: dictionary of relation
         :return: tuple (object, operation), where operation is one of 'created', 'updated', 'not_changed'
         """
         logger.debug(f"Adding record data={data}", extra={"data": data})
         if transformer is not None:
             data = transformer(data)
 
-        if not_changed_obj := self._not_changed_object(data, relations):
-            return not_changed_obj, self.NOT_CHANGED
+        obj, is_changed = self._is_changed(data, relations)
+        if not is_changed:
+            return obj, self.NOT_CHANGED
 
         kwargs = {identifier: data.pop(identifier) for identifier in identifiers}
         data, m2m_fields = self._get_relations(data, relations)
@@ -55,8 +57,15 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
             )
             getattr(obj, field_name).add(related_model)
 
-    def _not_changed_object(self, data: dict, relations) -> Optional[Any]:
+    def _is_changed(self, data: dict, relations: dict) -> Tuple[Optional[Any], bool]:
+        """
+        Check if model instance is changed
+        :param data: dictionary of model values
+        :param relations: dictionary of relation
+        :return:
+        """
         """Return object if one is not changed"""
+        changed = False
         fields = data.copy()
         m2m_fields = []
         if relations is not None:
@@ -70,7 +79,7 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
                             **{key: fields[data_field]}
                         )
                     except field.related_model.DoesNotExist:
-                        return None
+                        return None, True
                     if relations[data_field].get("delete_source_field"):
                         del fields[data_field]
                     fields[field_name] = related_instance
@@ -80,19 +89,19 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
                             **{key: fields[data_field]}
                         )
                     except field.related_model.DoesNotExist:
-                        return None
+                        return None, True
                     else:
                         del fields[data_field]
                         m2m_fields.append((field_name, related_instance))
         try:
             not_changed_obj = self.get(**fields)
         except self.model.DoesNotExist:
-            return None
+            return None, True
         else:
             for m2m_field, related_instance in m2m_fields:
                 if related_instance not in getattr(not_changed_obj, m2m_field).all():
-                    return None
-            return not_changed_obj
+                    return None, True
+            return not_changed_obj, False
 
     @staticmethod
     def _update_history(obj, user, update):

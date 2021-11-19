@@ -232,15 +232,15 @@ REFERENCES_TOKEN = os.environ["REFERENCES_TOKEN"]
 REFERENCES = {
     "Clinic": {
         "name": "Clinics",
-        "identifiers": ["identifier"],
+        "identifiers": ["external_id"],
         "transformer": "transformers.delete_id",
         "url": "/clinics/",
     },
     "Department": {
         "name": "Departments",
-        "identifiers": ["identifier"],
+        "identifiers": ["external_id"],
         "transformer": "transformers.delete_id",
-        "relations": {"clinic_identifier": {"field": "clinic", "key": "identifier"}},
+        "relations": {"clinic_external_id": {"field": "clinic", "key": "external_id"}},
         "url": "/departments/",
     },
     "Diagnosis": {
