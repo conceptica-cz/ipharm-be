@@ -52,6 +52,15 @@ class CareWithoutDiagnosisFactory(factory.django.DjangoModelFactory):
             for _ in range(random.randint(1, 5)):
                 self.add_dekurz(DekurzFactory(care=self))
 
+    @factory.post_generation
+    def children(self, create, extracted, **kwargs):
+        if create:
+            check_in = random.randint(0, 5) > 4
+            if check_in:
+                from factories.ipharm import CheckInFactory
+
+                CheckInFactory(care=self)
+
 
 class CareDiagnosisFactory(factory.django.DjangoModelFactory):
     class Meta:

@@ -39,6 +39,7 @@ class CareNestedSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer(read_only=True)
     diagnoses = DiagnosisSerializer(read_only=True, many=True)
     last_dekurz = DekurzNestedSerializer(read_only=True)
+    checkin = PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         exclude = ["is_deleted", "update"]
