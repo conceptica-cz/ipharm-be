@@ -25,6 +25,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG") == "True"
+ENVIRONMENT = os.environ.get("ENVIRONMENT", "production")
 
 if "ALLOWED_HOSTS" in os.environ:
     ALLOWED_HOSTS = [host.strip() for host in os.environ["ALLOWED_HOSTS"].split(",")]
@@ -285,3 +286,7 @@ if os.environ.get("SENTRY_DSN"):
         environment=os.environ.get("SENTRY_ENVIRONMENT", "production"),
         release=APP_VERSION,
     )
+
+# DJANGO EXTENSIONS
+if ENVIRONMENT == "development":
+    INSTALLED_APPS += ["django_extensions"]
