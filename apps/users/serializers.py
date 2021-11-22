@@ -18,4 +18,8 @@ class UserWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username", "hospitals", "ambulances"]
-        extra_kwargs = {"username": {"read_only": True}}
+        extra_kwargs = {
+            "username": {"read_only": True},
+            "hospitals": {"required": False, "allow_empty": True},
+            "ambulances": {"required": False, "allow_empty": True},
+        }

@@ -146,7 +146,6 @@ class UpdateCareTest(APITestCase):
 
     def test_patch_single_patient(self):
         self.client.force_login(user=self.user)
-        current_diagnosis = self.care.diagnoses.first()
         new_diagnosis_1 = DiagnosisFactory()
         new_diagnosis_2 = DiagnosisFactory()
         response = self.client.patch(
@@ -157,5 +156,5 @@ class UpdateCareTest(APITestCase):
         self.care.refresh_from_db()
         self.assertEqual(
             response.data["diagnoses"],
-            [current_diagnosis.pk, new_diagnosis_1.pk, new_diagnosis_2.pk],
+            [new_diagnosis_1.pk, new_diagnosis_2.pk],
         )

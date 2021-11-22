@@ -14,7 +14,7 @@ class Patient(BaseUpdatableModel):
     )
     insurance_number = models.CharField(max_length=100, null=True, blank=True)
     height = models.FloatField(null=True, blank=True)
-    weight = models.FloatField()
+    weight = models.FloatField(null=True, blank=True)
     current_hospital_care = models.OneToOneField(
         "Care",
         on_delete=models.SET_NULL,
