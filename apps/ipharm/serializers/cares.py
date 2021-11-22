@@ -18,20 +18,11 @@ class DekurzNestedSerializer(serializers.ModelSerializer):
 
 
 class CareSerializer(serializers.ModelSerializer):
-    diagnoses = PrimaryKeyRelatedField(many=True, queryset=Diagnosis.objects.all())
-
     class Meta:
         model = Care
         exclude = ["is_deleted", "update", "dekurzes"]
         read_only_fields = ["id", "last_dekurz"]
-
-    def update(self, instance, validated_data):
-        for attr, value in validated_data.items():
-            if attr != "diagnoses":
-                setattr(instance, attr, value)
-        instance.save()
-        instance.update_diagnoses(validated_data["diagnoses"])
-        return instance
+        extra_kwargs = {"diagnoses": {"required": False, "allow_empty": True}}
 
 
 class CareNestedSerializer(serializers.ModelSerializer):

@@ -27,8 +27,10 @@ class CareNestedSerializerTest(TestCase):
 
     def test_diagnoses_is_nested(self):
         serializer = CareNestedSerializer(instance=self.care)
-        diagnosis_serializer = DiagnosisSerializer(instance=self.care.diagnoses.first())
-        self.assertEqual(serializer.data["diagnoses"], [diagnosis_serializer.data])
+        self.assertEqual(
+            serializer.data["diagnoses"],
+            [DiagnosisSerializer(d).data for d in self.care.diagnoses.all()],
+        )
 
     def test_last_dekurz_is_nested(self):
         serializer = CareNestedSerializer(instance=self.care)
@@ -39,52 +41,3 @@ class CareNestedSerializerTest(TestCase):
 class CareSerializerTest(TestCase):
     def setUp(self) -> None:
         self.care = CareFactory()
-
-    def test__update_diagnoses__always_keep_via_api_diagnosis(self):
-        """Test that update always keep 'via_api' diagnosis"""
-        via_api_diagnosis = self.care.diagnoses.first()
-        new_diagnosis_1 = DiagnosisFactory()
-        new_diagnosis_2 = DiagnosisFactory()
-        new_diagnosis_3 = DiagnosisFactory()
-        serializer = CareSerializer(instance=self.care)
-        data = serializer.data
-        data["diagnoses"] = [
-            new_diagnosis_1.id,
-            new_diagnosis_2.id,
-        ]
-        serializer = CareSerializer(instance=self.care, data=data)
-        serializer.is_valid()
-        serializer.save()
-
-        self.care.refresh_from_db()
-        self.assertQuerysetEqual(
-            self.care.diagnoses.all(),
-            [via_api_diagnosis, new_diagnosis_1, new_diagnosis_2],
-            transform=lambda x: x,
-            ordered=False,
-        )
-
-    def test__update_diagnoses__doesnt_duplicate_diagnoses(self):
-        """Test that update doesn't duplicate diagnosis"""
-        via_api_diagnosis = self.care.diagnoses.first()
-        new_diagnosis_1 = DiagnosisFactory()
-        new_diagnosis_2 = DiagnosisFactory()
-        serializer = CareSerializer(instance=self.care)
-        data = serializer.data
-        data["diagnoses"] = [
-            via_api_diagnosis.id,
-            new_diagnosis_1.id,
-            new_diagnosis_2.id,
-            new_diagnosis_1.id,
-        ]
-        serializer = CareSerializer(instance=self.care, data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        self.care.refresh_from_db()
-        self.assertQuerysetEqual(
-            self.care.diagnoses.all(),
-            [via_api_diagnosis, new_diagnosis_1, new_diagnosis_2],
-            transform=lambda x: x,
-            ordered=False,
-        )

@@ -3,7 +3,7 @@ import random
 
 import factory
 from factory import fuzzy
-from ipharm.models import Care, CareDiagnosis, Dekurz
+from ipharm.models import Care, Dekurz
 
 from factories.ipharm.patients import PatientFactory
 from factories.references.clinics import ClinicFactory, DepartmentFactory
@@ -11,7 +11,7 @@ from factories.references.diagnoses import DiagnosisFactory
 from factories.references.persons import PersonFactory
 
 
-class CareWithoutDiagnosisFactory(factory.django.DjangoModelFactory):
+class CareFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Care
 
@@ -21,6 +21,7 @@ class CareWithoutDiagnosisFactory(factory.django.DjangoModelFactory):
     patient = factory.SubFactory(PatientFactory)
     care_type = factory.Iterator([Care.HOSPITALIZATION, Care.AMBULATION])
     is_active = True
+    main_diagnosis = factory.SubFactory(DiagnosisFactory)
     external_id = factory.Sequence(lambda n: n)
 
     clinic = factory.SubFactory(ClinicFactory)
@@ -53,6 +54,12 @@ class CareWithoutDiagnosisFactory(factory.django.DjangoModelFactory):
                 self.add_dekurz(DekurzFactory(care=self))
 
     @factory.post_generation
+    def diagnozes(self, create, extracted, **kwargs):
+        if create:
+            for _ in range(random.randint(1, 5)):
+                self.diagnoses.add(DiagnosisFactory())
+
+    @factory.post_generation
     def children(self, create, extracted, **kwargs):
         if create:
             check_in = random.randint(0, 5) > 4
@@ -60,23 +67,6 @@ class CareWithoutDiagnosisFactory(factory.django.DjangoModelFactory):
                 from factories.ipharm import CheckInFactory
 
                 CheckInFactory(care=self)
-
-
-class CareDiagnosisFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = CareDiagnosis
-        django_get_or_create = ["care", "diagnosis"]
-
-    care = factory.SubFactory(CareWithoutDiagnosisFactory)
-    diagnosis = factory.SubFactory(DiagnosisFactory)
-    via_api = True
-
-
-class CareFactory(CareWithoutDiagnosisFactory):
-    care_diagnosis = factory.RelatedFactory(
-        CareDiagnosisFactory,
-        factory_related_name="care",
-    )
 
 
 class DekurzFactory(factory.django.DjangoModelFactory):

@@ -41,21 +41,11 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
             return obj, self.NOT_CHANGED
 
         kwargs = {identifier: data.pop(identifier) for identifier in identifiers}
-        data, m2m_fields = self._get_relations(data, relations)
+        data = self._get_relations(data, relations)
         obj, created = self.update_or_create(**kwargs, defaults=data)
-        if m2m_fields:
-            self._update_m2m_fields(obj, data, m2m_fields)
         operation = self.CREATED if created else self.UPDATED
         self._update_history(obj, user, update)
         return obj, operation
-
-    def _update_m2m_fields(self, obj, data, m2m_fields):
-        """Update m2m fields"""
-        for field_name, related_model in m2m_fields:
-            getattr(obj, field_name).remove(
-                *list(getattr(obj, field_name).only_via_api())
-            )
-            getattr(obj, field_name).add(related_model)
 
     def _is_changed(self, data: dict, relations: dict) -> Tuple[Optional[Any], bool]:
         """
@@ -67,7 +57,6 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
         """Return object if one is not changed"""
         changed = False
         fields = data.copy()
-        m2m_fields = []
         if relations is not None:
             for data_field in relations:
                 field_name = relations[data_field]["field"]
@@ -83,46 +72,31 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
                     if relations[data_field].get("delete_source_field"):
                         del fields[data_field]
                     fields[field_name] = related_instance
-                elif field.many_to_many:
-                    try:
-                        related_instance = field.related_model.objects.get(
-                            **{key: fields[data_field]}
-                        )
-                    except field.related_model.DoesNotExist:
-                        return None, True
-                    else:
-                        del fields[data_field]
-                        m2m_fields.append((field_name, related_instance))
         try:
             not_changed_obj = self.get(**fields)
         except self.model.DoesNotExist:
             return None, True
         else:
-            for m2m_field, related_instance in m2m_fields:
-                if related_instance not in getattr(not_changed_obj, m2m_field).all():
-                    return None, True
             return not_changed_obj, False
 
     @staticmethod
     def _update_history(obj, user, update):
         """Update object history"""
+        # TODO: move to base history class
         if user is not None or update is not None:
             history = obj.history.first()
             history.history_user = user
             history.update = update
             history.save()
 
-    def _get_relations(
-        self, data: dict, relations: dict = None
-    ) -> Tuple[dict, List[Tuple[str, Any]]]:
+    def _get_relations(self, data: dict, relations: dict = None) -> dict:
         """
         Create temporary relations for model instance
 
         """
         if relations is None:
-            return data, []
+            return data
 
-        m2m_fields = []
         for data_field in relations:
             field_name = relations[data_field]["field"]
             key = relations[data_field].get("key", data_field)
@@ -134,12 +108,7 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
                 if relations[data_field].get("delete_source_field"):
                     del data[data_field]
                 data[field_name] = related_model
-            elif field.many_to_many:
-                related_model, _ = field.related_model.objects.get_or_create_temporary(
-                    **{key: data.pop(data_field)}
-                )
-                m2m_fields.append((field_name, related_model))
-        return data, m2m_fields
+        return data
 
 
 class BaseTemporaryCreatableManager(BaseUpdatableManager):

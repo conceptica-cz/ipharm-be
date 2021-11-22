@@ -11,11 +11,18 @@ class Care(BaseUpdatableModel):
         (AMBULATION, "Ambulation"),
     )
     patient = models.ForeignKey("Patient", on_delete=models.CASCADE)
-    diagnoses = models.ManyToManyField("references.Diagnosis", through="CareDiagnosis")
     care_type = models.CharField(
         max_length=20, choices=CARE_TYPE_CHOICES, default=HOSPITALIZATION
     )
     is_active = models.BooleanField(default=True)
+    main_diagnosis = models.ForeignKey(
+        "references.Diagnosis",
+        on_delete=models.SET_NULL,
+        related_name="main_diagnosis",
+        blank=True,
+        null=True,
+    )
+    diagnoses = models.ManyToManyField("references.Diagnosis")
     external_id = models.CharField("UNIS ID", max_length=50, null=True, blank=True)
     started_at = models.DateTimeField(null=True, blank=True)
     finished_at = models.DateTimeField(null=True, blank=True)
@@ -37,19 +44,6 @@ class Care(BaseUpdatableModel):
         blank=True,
         related_name="last_dekurz_care",
     )
-
-    def update_diagnoses(self, diagnosis) -> None:
-        """
-        Update diagnoses, but keep diagnosis received via api
-
-        :param diagnosis: list of `Diagnosis` objects
-        """
-        current_ids = self.diagnoses.values_list("id", flat=True)
-        via_api_ids = [d.id for d in self.diagnoses.filter(carediagnosis__via_api=True)]
-        ids_to_keep = [d.id for d in diagnosis] + via_api_ids
-        self.diagnoses.exclude(id__in=ids_to_keep).delete()
-        for diagnosis in set(filter(lambda d: d.id not in current_ids, diagnosis)):
-            self.carediagnosis_set.create(care=self, diagnosis=diagnosis)
 
     def add_dekurz(self, dekurz):
         self.dekurzes.add(dekurz)
@@ -73,12 +67,3 @@ class Dekurz(BaseUpdatableModel):
         blank=True,
         related_name="patients_dekurz",
     )
-
-
-class CareDiagnosis(BaseUpdatableModel):
-    care = models.ForeignKey("Care", on_delete=models.CASCADE)
-    diagnosis = models.ForeignKey("references.Diagnosis", on_delete=models.CASCADE)
-    via_api = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"{self.care} {self.diagnosis}"
