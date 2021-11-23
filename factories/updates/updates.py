@@ -21,6 +21,7 @@ class ReferenceUpdateFactory(factory.django.DjangoModelFactory):
 
     reference = factory.SubFactory(ReferenceFactory)
     started_at = fuzzy.FuzzyDateTime(
-        datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc)
+        datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc),
+        datetime.datetime(2021, 11, 1, tzinfo=datetime.timezone.utc),
     )
     finished_at = None

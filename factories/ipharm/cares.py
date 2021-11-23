@@ -34,7 +34,8 @@ class CareFactory(factory.django.DjangoModelFactory):
         "datetime_out_decider",
         yes_declaration=None,
         no_declaration=factory.fuzzy.FuzzyDateTime(
-            datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc)
+            datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc),
+            datetime.datetime(2021, 11, 1, tzinfo=datetime.timezone.utc),
         ),
     )
 
@@ -75,7 +76,8 @@ class DekurzFactory(factory.django.DjangoModelFactory):
 
     care = factory.SubFactory(CareFactory)
     made_at = fuzzy.FuzzyDateTime(
-        datetime.datetime(2021, 9, 1, tzinfo=datetime.timezone.utc)
+        datetime.datetime(2021, 9, 1, tzinfo=datetime.timezone.utc),
+        datetime.datetime(2021, 11, 1, tzinfo=datetime.timezone.utc),
     )
     doctor = factory.SubFactory(PersonFactory)
     department = factory.SubFactory(DepartmentFactory)

@@ -29,7 +29,9 @@ class CreateCheckInTest(APITestCase):
 
         response = self.client.post(reverse("checkin_list"), data=data)
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(
+            response.status_code, status.HTTP_201_CREATED, msg=response.data
+        )
         check_in = CheckIn.objects.get(pk=response.data["id"])
         self.assertEqual(check_in.care, self.care)
         self.assertEqual(check_in.polypharmacy, True)
