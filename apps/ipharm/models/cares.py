@@ -12,7 +12,7 @@ class Care(BaseUpdatableModel):
     )
     patient = models.ForeignKey("Patient", on_delete=models.CASCADE)
     care_type = models.CharField(
-        max_length=20, choices=CARE_TYPE_CHOICES, default=HOSPITALIZATION
+        max_length=20, choices=CARE_TYPE_CHOICES, default=AMBULATION
     )
     is_active = models.BooleanField(default=True)
     main_diagnosis = models.ForeignKey(
@@ -49,9 +49,6 @@ class Care(BaseUpdatableModel):
         self.dekurzes.add(dekurz)
         self.last_dekurz = dekurz
         self.save()
-
-    def __str__(self):
-        return f"Care {self.id} - {self.patient} - {self.care_type}"
 
 
 class Dekurz(BaseUpdatableModel):
