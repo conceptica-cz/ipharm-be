@@ -4,7 +4,9 @@ from updates.models import BaseUpdatableModel
 
 
 class Patient(BaseUpdatableModel):
-    external_id = models.CharField("UNIS ID", max_length=50, null=True, blank=True)
+    external_id = models.CharField(
+        "UNIS ID", max_length=50, null=True, blank=True, unique=True
+    )
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     birth_date = models.DateField()
@@ -31,6 +33,12 @@ class Patient(BaseUpdatableModel):
     )
 
     objects = PatientManager()
+
+    class Meta:
+        ordering = ["last_name", "first_name"]
+        indexes = [
+            models.Index(fields=["last_name", "first_name"]),
+        ]
 
     def __str__(self):
         return f"{self.last_name} {self.first_name}"

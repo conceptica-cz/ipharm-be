@@ -11,9 +11,9 @@ class UserSerializerTest(TestCase):
 
     def setUp(self) -> None:
         self.user = UserFactory()
-        self.clinic_1 = ClinicFactory()
-        self.clinic_2 = ClinicFactory()
-        self.clinic_3 = ClinicFactory()
+        self.clinic_1 = ClinicFactory(description="clinic_1")
+        self.clinic_2 = ClinicFactory(description="clinic_2")
+        self.clinic_3 = ClinicFactory(description="clinic_3")
         self.user.hospitals.add(self.clinic_1)
         self.user.hospitals.add(self.clinic_3)
         self.user.ambulances.add(self.clinic_1)
