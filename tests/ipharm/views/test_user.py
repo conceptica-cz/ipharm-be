@@ -9,12 +9,24 @@ from factories.users import UserFactory
 
 class UserViewTest(APITestCase):
     def setUp(self) -> None:
-        self.hospital_1 = ClinicFactory(is_hospital=True, is_ambulance=False)
-        self.hospital_2 = ClinicFactory(is_hospital=True, is_ambulance=False)
-        self.ambulance_1 = ClinicFactory(is_hospital=False, is_ambulance=True)
-        self.ambulance_2 = ClinicFactory(is_hospital=False, is_ambulance=True)
-        self.both_1 = ClinicFactory(is_hospital=True, is_ambulance=True)
-        self.both_2 = ClinicFactory(is_hospital=True, is_ambulance=True)
+        self.hospital_1 = ClinicFactory(
+            description="hospital_1", is_hospital=True, is_ambulance=False
+        )
+        self.hospital_2 = ClinicFactory(
+            description="hospital_2", is_hospital=True, is_ambulance=False
+        )
+        self.ambulance_1 = ClinicFactory(
+            description="ambulance_1", is_hospital=False, is_ambulance=True
+        )
+        self.ambulance_2 = ClinicFactory(
+            description="ambulance_2", is_hospital=False, is_ambulance=True
+        )
+        self.both_1 = ClinicFactory(
+            description="both_2", is_hospital=True, is_ambulance=True
+        )
+        self.both_2 = ClinicFactory(
+            description="both_2", is_hospital=True, is_ambulance=True
+        )
 
         self.user = UserFactory()
         self.user.hospitals.add(self.hospital_1, self.both_1)
@@ -36,8 +48,8 @@ class UserViewTest(APITestCase):
         self.assertEqual(
             response.data["hospitals"],
             [
-                ClinicSerializer(self.hospital_1).data,
                 ClinicSerializer(self.both_1).data,
+                ClinicSerializer(self.hospital_1).data,
             ],
         )
         self.assertEqual(
@@ -63,8 +75,8 @@ class UserViewTest(APITestCase):
         self.assertEqual(
             response.data["hospitals"],
             [
-                self.hospital_2.pk,
                 self.both_1.pk,
+                self.hospital_2.pk,
             ],
         )
         self.assertEqual(
@@ -100,8 +112,8 @@ class UserViewTest(APITestCase):
         self.assertEqual(
             response.data["hospitals"],
             [
-                self.hospital_2.pk,
                 self.both_1.pk,
+                self.hospital_2.pk,
             ],
         )
 

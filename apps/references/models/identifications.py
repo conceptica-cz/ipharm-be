@@ -1,13 +1,16 @@
 from django.db import models
+from references.managers.identifications import IdentificationManager
 from updates.models import BaseUpdatableModel
 
 
-class InsuranceCompany(BaseUpdatableModel):
-    code = models.CharField(max_length=20, unique=True, help_text="Kód")
-    name = models.CharField(max_length=255, unique=True, help_text="Název")
+class Identification(BaseUpdatableModel):
+    name = models.CharField(
+        max_length=100, unique=True, help_text="Název zdravotnického zařízení"
+    )
     shortcut = models.CharField(
         max_length=20, null=True, blank=True, unique=True, help_text="Zkratka"
     )
+    identifier = models.IntegerField(help_text="Identifikační číslo zařízení")
     address = models.CharField(
         max_length=100,
         blank=True,
@@ -17,12 +20,8 @@ class InsuranceCompany(BaseUpdatableModel):
     city = models.CharField(max_length=50, help_text="Město")
     ico = models.CharField(max_length=20, blank=True, help_text="IČO")
     dic = models.CharField(max_length=20, blank=True, help_text="DIČ")
-    databox = models.CharField(max_length=10, blank=True, help_text="Databox")
 
-    class Meta:
-        ordering = ["name"]
-        verbose_name = "Insurance Company"
-        verbose_name_plural = "Insurance Companies"
+    objects = IdentificationManager()
 
     def __str__(self):
         return self.name
