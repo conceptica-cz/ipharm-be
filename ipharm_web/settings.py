@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "simple_history",
     "drf_spectacular",
     "drf_spectacular_sidecar",
+    "django_celery_beat",
     "common",
     "ipharm",
     "references",
@@ -226,35 +227,52 @@ LOGGING = {
     },
 }
 
+# REFERENCES AND UPDATES
+
 BASE_REFERENCES_URL = os.environ.get(
     "BASE_REFERENCES_URL", "http://iciselniky-app:8000/api/v1"
 )
 REFERENCES_TOKEN = os.environ["REFERENCES_TOKEN"]
-REFERENCES = {
+DEFAULT_DATA_LOADER = "updates.common.loaders.references_loader"
+DEFAULT_TRANSFORMERS = ["updates.common.transformers.delete_id"]
+DEFAULT_MODEL_UPDATER = "updates.common.updaters.simple_model_updater"
+DEFAULT_INCREMENTAL_UPDATE_INTERVAL = os.environ.get(
+    "DEFAULT_INCREMENTAL_UPDATE_INTERVAL", 15
+)
+DEFAULT_FULL_UPDATE_INTERVAL = os.environ.get(
+    "DEFAULT_INCREMENTAL_UPDATE_INTERVAL", 120
+)
+UPDATE_SOURCES = {
     "Clinic": {
-        "name": "Clinics",
-        "identifiers": ["external_id"],
-        "transformer": "transformers.delete_id",
-        "url": "/clinics/",
+        "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/clinics/"},
+        "model_updater_kwargs": {
+            "model": "references.Clinic",
+            "identifiers": ["external_id"],
+        },
     },
     "Department": {
-        "name": "Departments",
-        "identifiers": ["external_id"],
-        "transformer": "transformers.delete_id",
-        "relations": {"clinic_external_id": {"field": "clinic", "key": "external_id"}},
-        "url": "/departments/",
+        "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/departments/"},
+        "model_updater_kwargs": {
+            "model": "references.Department",
+            "identifiers": ["external_id"],
+            "relations": {
+                "clinic_external_id": {"field": "clinic", "key": "external_id"}
+            },
+        },
     },
     "Diagnosis": {
-        "name": "Diagnoses",
-        "identifiers": ["code"],
-        "transformer": "transformers.delete_id",
-        "url": "/diagnoses/",
+        "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/diagnoses/"},
+        "model_updater_kwargs": {
+            "model": "references.Diagnosis",
+            "identifiers": ["code"],
+        },
     },
     "Person": {
-        "name": "persons",
-        "identifiers": ["person_number"],
-        "transformer": "transformers.delete_id",
-        "url": "/persons/",
+        "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/persons/"},
+        "model_updater_kwargs": {
+            "model": "references.Person",
+            "identifiers": ["person_number"],
+        },
     },
 }
 

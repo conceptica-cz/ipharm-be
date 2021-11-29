@@ -18,7 +18,7 @@ class CheckInline(admin.StackedInline):
     )
 
     def get_exclude(self, request, obj=None):
-        default_exclude = ["is_deleted", "update"]
+        default_exclude = ["is_deleted"]
         if self.exclude:
             return list(self.exclude) + default_exclude
         else:

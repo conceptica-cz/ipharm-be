@@ -61,7 +61,7 @@ class CareFactory(factory.django.DjangoModelFactory):
                 self.diagnoses.add(DiagnosisFactory())
 
     @factory.post_generation
-    def children(self, create, extracted, **kwargs):
+    def checkin(self, create, extracted, **kwargs):
         if create:
             check_in = random.randint(0, 5) > 4
             if check_in:

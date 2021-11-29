@@ -14,7 +14,7 @@ class PatientNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Patient
-        exclude = ["is_deleted", "update"]
+        exclude = ["is_deleted"]
         read_only_fields = ["id"]
 
 
@@ -28,7 +28,7 @@ class PatientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Patient
-        exclude = ["is_deleted", "update"]
+        exclude = ["is_deleted"]
         read_only_fields = ["id"]
 
     def create(self, validated_data):

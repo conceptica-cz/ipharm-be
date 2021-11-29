@@ -1,13 +1,9 @@
-from datetime import datetime
-
 from django.test import TestCase
-from ipharm.models import Care, Patient
-from references.models import Clinic, Diagnosis
-from updates.transformers import delete_id
+from ipharm.models import Care
+from references.models import Clinic
 
 from factories.ipharm.cares import CareFactory, PatientFactory
 from factories.references.clinics import ClinicFactory
-from factories.references.diagnoses import DiagnosisFactory
 
 
 class BestUpdatableManagerTest(TestCase):
@@ -42,7 +38,6 @@ class BestUpdatableManagerTest(TestCase):
             identifiers=identifiers,
             data=data,
             relations=relations,
-            transformer=delete_id,
         )
 
         self.assertEqual(Care.objects.count(), 1)
@@ -83,7 +78,6 @@ class BestUpdatableManagerTest(TestCase):
             identifiers=identifiers,
             data=data,
             relations=relations,
-            transformer=delete_id,
         )
 
         self.assertEqual(Care.objects.count(), 1)
