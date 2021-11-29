@@ -1,96 +1,79 @@
 import importlib
 import logging
-from typing import Generator, List
+from typing import Callable, Iterable, Optional
 
-import requests
 from django.conf import settings
-from django.contrib.contenttypes.models import ContentType
-from updates.models import Reference, ReferenceUpdate
-from users.models import User
 
 logger = logging.getLogger(__name__)
 
 
-class ReferenceSettings:
-    """Class encapsulated reference settings"""
-
-    def __init__(self, model_name: str):
-        model_type = ContentType.objects.get(
-            app_label="references", model=model_name.lower()
-        )
-        self.model_class = model_type.model_class()
-        self.transformer = self._get_transformer(model_name)
-        self.relations = settings.REFERENCES[model_name].get("relations")
-        self.identifiers = settings.REFERENCES[model_name]["identifiers"]
-        self.url = settings.BASE_REFERENCES_URL + settings.REFERENCES[model_name]["url"]
-
-    @staticmethod
-    def _get_transformer(model_name):
-        module_name, func_name = settings.REFERENCES[model_name]["transformer"].split(
-            "."
-        )
-        module = importlib.import_module(f"updates.{module_name}")
-        return getattr(module, func_name)
-
-
-def get_data(url) -> Generator[dict, None, None]:
-    """Get data from 3rd-party API
-
-    Note: it yield list of results, not results
-
-    :param url: start url
-    :return: generator yielding lists of results
-    """
-    # TODO extract API class
-    headers = {"Authorization": f"Bearer {settings.REFERENCES_TOKEN}"}
-    response = requests.get(url, headers=headers)
-    data = response.json()
-    if response.status_code != 200:
-        logger.error(
-            f"Error while getting data from {url} status_code={response.status_code} data={data}",
-            extra={"url": url, "status_code": response.status_code, "data": data},
-        )
-    results = data["results"]
-    for result in results:
-        yield result
-    if (next_url := data.get("next")) is not None:
-        yield from get_data(url=next_url)
-
-
 class Updater:
-    def __init__(self, model_name):
-        self.reference_settings = ReferenceSettings(model_name)
-        self.reference = Reference.objects.get_or_create_from_settings(model_name)
-        self.created = 0
-        self.updated = 0
-        self.not_changed = 0
-        self.reference_update: ReferenceUpdate = None
-        self.user = User.objects.get_updater_user()
-
-    def _update_object(self, data: dict):
-        model = self.reference_settings.model_class
-        _, operation = model.objects.update_or_create_from_dict(
-            identifiers=self.reference_settings.identifiers,
-            data=data,
-            relations=self.reference_settings.relations,
-            transformer=self.reference_settings.transformer,
-            user=self.user,
-            update=self.reference_update,
-        )
-        if operation == model.objects.CREATED:
-            self.created += 1
-        elif operation == model.objects.UPDATED:
-            self.updated += 1
-        else:
-            self.not_changed += 1
+    def __init__(
+        self,
+        data_loader: Callable,
+        data_loader_kwargs: dict,
+        model_updater: Callable,
+        model_updater_kwargs: dict,
+        transformers: Optional[Iterable[Callable]] = None,
+        **kwargs,
+    ):
+        self.data_loader = data_loader
+        self.data_loader_kwargs = data_loader_kwargs | kwargs
+        if transformers is None:
+            transformers = []
+        self.transformers = transformers
+        self.model_updater = model_updater
+        self.model_updater_kwargs = model_updater_kwargs | kwargs
 
     def update(self):
-        self.created = 0
-        self.updated = 0
-        self.not_changed = 0
-        self.reference_update = self.reference.create_update()
-        for obj_data in get_data(self.reference_settings.url):
-            self._update_object(obj_data)
-        self.reference_update.finish_update(
-            created=self.created, updated=self.updated, not_changed=self.not_changed
+        update_result = {}
+        data = self.data_loader(**self.data_loader_kwargs)
+        for entity in data:
+            for transformer in self.transformers:
+                entity = transformer(entity)
+            result = self.model_updater(data=entity, **self.model_updater_kwargs)
+            for model, operation in result.items():
+                model_result = update_result.setdefault(model, {})
+                model_result[operation] = model_result.get(operation, 0) + 1
+        return update_result
+
+
+class UpdaterFactory:
+    @staticmethod
+    def _get_func(dotted_path: str) -> Callable:
+        module_name, func_name = dotted_path.rsplit(".", 1)
+        module = importlib.import_module(module_name)
+        return getattr(module, func_name)
+
+    @staticmethod
+    def create(source: str, **kwargs) -> Updater:
+        data_loader = UpdaterFactory._get_func(
+            settings.UPDATE_SOURCES[source].get(
+                "data_loader", settings.DEFAULT_DATA_LOADER
+            )
+        )
+        data_loader_kwargs = settings.UPDATE_SOURCES[source].get(
+            "data_loader_kwargs", {}
+        )
+        model_updater = UpdaterFactory._get_func(
+            settings.UPDATE_SOURCES[source].get(
+                "model_updater", settings.DEFAULT_MODEL_UPDATER
+            )
+        )
+        model_updater_kwargs = settings.UPDATE_SOURCES[source].get(
+            "model_updater_kwargs", {}
+        )
+        transformers = [
+            UpdaterFactory._get_func(transformer)
+            for transformer in settings.UPDATE_SOURCES[source].get(
+                "transformers", settings.DEFAULT_TRANSFORMERS
+            )
+        ]
+        return Updater(
+            data_loader=data_loader,
+            data_loader_kwargs=data_loader_kwargs,
+            model_updater=model_updater,
+            model_updater_kwargs=model_updater_kwargs,
+            transformers=transformers,
+            **kwargs,
         )

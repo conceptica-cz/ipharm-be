@@ -12,7 +12,8 @@ from factories.users.models import UserFactory
 class CreateCheckInTest(APITestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
-        self.care = CareFactory()
+        self.care = CareFactory(checkin=None)
+        CheckIn.objects.all().delete()
 
     def test_create_checkin(self):
         self.client.force_login(user=self.user)

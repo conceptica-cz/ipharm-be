@@ -4,10 +4,12 @@ from updates.models import BaseUpdatableModel
 
 
 class Person(BaseUpdatableModel):
-    person_number = models.CharField(max_length=100, unique=True)
-    name = models.CharField(max_length=255)
-    f_title = models.CharField(max_length=100, default="")
-    l_title = models.CharField(max_length=100, default="")
+    person_number = models.CharField(
+        max_length=100, unique=True, help_text="Osobní číslo"
+    )
+    name = models.CharField(max_length=255, help_text="Jméno")
+    f_title = models.CharField(max_length=100, default="", help_text="Titul před")
+    l_title = models.CharField(max_length=100, default="", help_text="Titul za")
 
     objects = PersonManager()
 

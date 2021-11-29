@@ -3,23 +3,22 @@ import datetime
 import factory
 from django.conf import settings
 from factory import fuzzy
-from updates.models import Reference, ReferenceUpdate
+from updates.models import Source, Update
 
 
-class ReferenceFactory(factory.django.DjangoModelFactory):
+class SourceFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Reference
-        django_get_or_create = ["model"]
+        model = Source
+        django_get_or_create = ["name"]
 
-    model = factory.Iterator(settings.REFERENCES.keys())
-    name = factory.Iterator(settings.REFERENCES.values(), getter=lambda r: r["name"])
+    name = factory.Iterator(settings.UPDATE_SOURCES.keys())
 
 
-class ReferenceUpdateFactory(factory.django.DjangoModelFactory):
+class UpdateFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = ReferenceUpdate
+        model = Update
 
-    reference = factory.SubFactory(ReferenceFactory)
+    source = factory.SubFactory(SourceFactory)
     started_at = fuzzy.FuzzyDateTime(
         datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc),
         datetime.datetime(2021, 11, 1, tzinfo=datetime.timezone.utc),

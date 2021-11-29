@@ -1,110 +1,81 @@
-from unittest.mock import Mock, call, patch
+from unittest import TestCase
+from unittest.mock import Mock, call
 
-from django.test import TestCase, override_settings
-from django.utils import timezone
+from django.conf import settings
+from django.test import TestCase as DjangoTestCase
+from django.test import override_settings
 from references.models import Clinic
-from updates.transformers import delete_id
-from updates.updater import ReferenceSettings, Updater, get_data
+from updates.common.loaders import references_loader
+from updates.common.transformers import delete_id
+from updates.common.updaters import simple_model_updater
+from updates.updater import Updater, UpdaterFactory
 
 from factories.references.clinics import ClinicFactory
 
 
-class ReferenceSettingsTest(TestCase):
-    def test_model_class(self):
-        self.reference = ReferenceSettings("Clinic")
-        self.assertEqual(self.reference.model_class, Clinic)
+class UpdaterTest(DjangoTestCase):
+    def test_update_calculates_results__single_model(self):
+        data_loader = Mock(return_value=[1, 2, 3, 4])
+        data_loader_kwargs = {"a": 1}
+        model_updater = Mock(
+            side_effect=[
+                {"Model": "created"},
+                {"Model": "updated"},
+                {"Model": "not_changed"},
+                {"Model": "updated"},
+            ]
+        )
+        model_updater_kwargs = {"b": 2}
 
-    def test_transformer(self):
-        self.reference = ReferenceSettings("Clinic")
-        self.assertEqual(self.reference.transformer, delete_id)
-
-    def test_identifiers(self):
-        self.reference = ReferenceSettings("Clinic")
-        self.assertEqual(self.reference.identifiers, ["external_id"])
-
-    @override_settings(BASE_REFERENCES_URL="http://localhost")
-    def test_url(self):
-        self.reference = ReferenceSettings("Clinic")
-        self.assertEqual(self.reference.url, "http://localhost/clinics/")
-
-
-class GetDataTest(TestCase):
-    @patch("updates.updater.requests.get")
-    def test__result__for_single_page(self, mocked_get: Mock):
-        mocked_get.side_effect = [
-            Mock(json=Mock(return_value={"results": ["result1", "result2", "result3"]}))
-        ]
-
-        results = list(get_data("url"))
-
-        self.assertEqual(results, ["result1", "result2", "result3"])
-
-    @patch("updates.updater.requests.get")
-    def test_read_all_pages(self, mocked_get: Mock):
-        """Test if read all page for paginated result"""
-        mocked_get.side_effect = [
-            Mock(
-                json=Mock(
-                    return_value={
-                        "count": 5,
-                        "next": "http://example.com/api/items/?limit=2&offset=2",
-                        "previous": None,
-                        "results": ["result1", "result2"],
-                    }
-                )
-            ),
-            Mock(
-                json=Mock(
-                    return_value={
-                        "count": 5,
-                        "next": "http://example.com/api/items/?limit=2&offset=4",
-                        "previous": "http://example.com/api/items/?limit=2",
-                        "results": ["result3", "result4"],
-                    }
-                )
-            ),
-            Mock(
-                json=Mock(
-                    return_value={
-                        "count": 5,
-                        "next": None,
-                        "previous": "http://example.com/api/items/?limit=2&offset=2",
-                        "results": ["result5"],
-                    }
-                )
-            ),
-        ]
-
-        results = list(get_data(url="http://example.com/api/items/"))
-
+        updater = Updater(
+            data_loader=data_loader,
+            model_updater=model_updater,
+            data_loader_kwargs=data_loader_kwargs,
+            model_updater_kwargs=model_updater_kwargs,
+        )
+        results = updater.update()
         self.assertEqual(
-            results, ["result1", "result2", "result3", "result4", "result5"]
+            model_updater.mock_calls,
+            [
+                call(data=1, b=2),
+                call(data=2, b=2),
+                call(data=3, b=2),
+                call(data=4, b=2),
+            ],
+        )
+        self.assertEqual(
+            results, {"Model": {"created": 1, "updated": 2, "not_changed": 1}}
         )
 
+    def test_update_calculates_results__multiple_models(self):
+        data_loader = Mock(return_value=[1, 2, 3, 4])
+        data_loader_kwargs = {"a": 1}
+        model_updater = Mock(
+            side_effect=[
+                {"Model1": "created", "Model2": "created"},
+                {"Model1": "updated", "Model2": "updated"},
+                {"Model1": "not_changed", "Model2": "created"},
+                {"Model1": "updated", "Model2": "updated"},
+            ]
+        )
+        model_updater_kwargs = {"b": 2}
 
-class UpdaterTest(TestCase):
-    def test_init__set_attributes(self):
-        updater = Updater("Clinic")
-        self.assertEqual(updater.reference_settings.model_class, Clinic)
-        self.assertEqual(updater.reference.model, "Clinic")
+        updater = Updater(
+            data_loader=data_loader,
+            model_updater=model_updater,
+            data_loader_kwargs=data_loader_kwargs,
+            model_updater_kwargs=model_updater_kwargs,
+        )
+        results = updater.update()
+        self.assertEqual(
+            results,
+            {
+                "Model1": {"created": 1, "updated": 2, "not_changed": 1},
+                "Model2": {"created": 2, "updated": 2},
+            },
+        )
 
-    @patch("updates.models.timezone.now")
-    @patch("updates.updater.get_data")
-    def test_update__create_new_reference_update_instance(
-        self, mocked_get_data: Mock, mocked_now: Mock
-    ):
-        mocked_get_data.return_value = []
-        now = timezone.datetime(2021, 10, 1, tzinfo=timezone.utc)
-        mocked_now.return_value = now
-
-        updater = Updater("Clinic")
-        updater.update()
-
-        reference_update = updater.reference.referenceupdate_set.first()
-        self.assertEqual(reference_update.started_at, now)
-
-    @patch("updates.updater.get_data")
-    def test_update__update_reference_model(self, mocked_get_data: Mock):
+    def test_update__update_reference_model(self):
         """Tests that update create and update models"""
         ClinicFactory(external_id=1, abbreviation="C1")
         api_data = [
@@ -112,17 +83,26 @@ class UpdaterTest(TestCase):
                 "id": 42,
                 "external_id": 1,
                 "abbreviation": "CL1",
-                "description": "Clinica 1",
+                "description": "Clinic 1",
             },
             {
                 "id": 42,
                 "external_id": 2,
                 "abbreviation": "CL2",
-                "description": "Clinica 2",
+                "description": "Clinic 2",
             },
         ]
-        mocked_get_data.return_value = api_data
-        updater = Updater("Clinic")
+        data_loader = Mock(return_value=api_data)
+        updater = Updater(
+            data_loader=data_loader,
+            model_updater=simple_model_updater,
+            data_loader_kwargs={},
+            model_updater_kwargs={
+                "model": "references.Clinic",
+                "identifiers": ["external_id"],
+            },
+            transformers=[delete_id],
+        )
         updater.update()
 
         self.assertEqual(Clinic.objects.count(), 2)
@@ -132,40 +112,40 @@ class UpdaterTest(TestCase):
         self.assertEqual(clinic_1.abbreviation, "CL1")
         self.assertEqual(clinic_2.abbreviation, "CL2")
 
-        reference_update = updater.reference_update
-        reference_update.refresh_from_db()
-        self.assertEqual(reference_update.created, 1)
-        self.assertEqual(reference_update.updated, 1)
 
-    @patch("updates.updater.get_data")
-    def test_update__set_history_attributes(self, mocked_get_data: Mock):
-        """Tests that update history attributes - user and update"""
-        ClinicFactory(external_id=1, abbreviation="C1")
-        api_data = [
-            {
-                "id": 42,
-                "external_id": 1,
-                "abbreviation": "CL1",
-                "description": "Clinica 1",
+class UpdaterFactoryTest(TestCase):
+    @override_settings(
+        UPDATE_SOURCES={
+            "Clinic": {
+                "data_loader": "updates.common.loaders.references_loader",
+                "data_loader_kwargs": {"url": "/clinics/"},
+                "transformers": [
+                    "updates.common.transformers.delete_id",
+                ],
+                "model_updater": "updates.common.updaters.simple_model_updater",
+                "model_updater_kwargs": {
+                    "model": "references.Clinic",
+                    "identifiers": ["external_id"],
+                },
             },
+        }
+    )
+    def test_create_updater(self):
+        current_update = Mock()
+        latest_update = Mock()
+        updater = UpdaterFactory.create("Clinic", k1=1, k2=2)
+        self.assertEqual(updater.data_loader, references_loader)
+        self.assertEqual(
+            updater.data_loader_kwargs, {"url": "/clinics/", "k1": 1, "k2": 2}
+        )
+        self.assertEqual(updater.model_updater, simple_model_updater)
+        self.assertEqual(
+            updater.model_updater_kwargs,
             {
-                "id": 42,
-                "external_id": 2,
-                "abbreviation": "CL2",
-                "description": "Clinica 2",
+                "model": "references.Clinic",
+                "identifiers": ["external_id"],
+                "k1": 1,
+                "k2": 2,
             },
-        ]
-        mocked_get_data.return_value = api_data
-        updater = Updater("Clinic")
-        updater.update()
-
-        clinic_1 = Clinic.objects.get(external_id=1)
-        clinic_2 = Clinic.objects.get(external_id=2)
-
-        history_1 = clinic_1.history.first()
-        history_user_1 = history_1.history_user
-        history_2 = clinic_2.history.first()
-        history_user_2 = history_2.history_user
-
-        self.assertEqual(history_user_1.username, "updater")
-        self.assertEqual(history_1.update, updater.reference_update)
+        )
+        self.assertEqual(updater.transformers, [delete_id])

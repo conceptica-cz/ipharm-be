@@ -12,7 +12,7 @@ class DekurzNestedSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer(read_only=True)
 
     class Meta:
-        exclude = ["is_deleted", "update"]
+        exclude = ["is_deleted"]
         read_only_fields = ["id", "care"]
         model = Dekurz
 
@@ -26,7 +26,7 @@ class CareSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Care
-        exclude = ["is_deleted", "update", "dekurzes"]
+        exclude = ["is_deleted", "dekurzes"]
         read_only_fields = ["id", "last_dekurz"]
         extra_kwargs = {"diagnoses": {"required": False, "allow_empty": True}}
 
@@ -39,6 +39,6 @@ class CareNestedSerializer(serializers.ModelSerializer):
     checkin = PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
-        exclude = ["is_deleted", "update"]
+        exclude = ["is_deleted"]
         read_only_fields = ["id"]
         model = Care

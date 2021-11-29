@@ -6,7 +6,7 @@ from rest_framework import serializers
 class CheckInSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckIn
-        exclude = ["is_deleted", "update"]
+        exclude = ["is_deleted"]
         read_only_fields = ["id"]
 
 
@@ -17,5 +17,5 @@ class CheckInNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CheckIn
-        exclude = ["is_deleted", "update"]
+        exclude = ["is_deleted"]
         read_only_fields = ["id"]

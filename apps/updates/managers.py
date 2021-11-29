@@ -19,7 +19,6 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
         self,
         identifiers: Iterable[str],
         data: dict,
-        transformer: Callable[[dict], dict] = None,
         relations: dict = None,
         user: "User" = None,
         update: "ReferenceUpdate" = None,
@@ -28,13 +27,10 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
 
         :param identifiers: list or tuple of unique (together) model's field, used to find existing instance
         :param data: model values dictionary
-        :param transformer: function to transform data dict
         :param relations: dictionary of relation
         :return: tuple (object, operation), where operation is one of 'created', 'updated', 'not_changed'
         """
         logger.debug(f"Adding record data={data}", extra={"data": data})
-        if transformer is not None:
-            data = transformer(data)
 
         obj, is_changed = self._is_changed(data, relations)
         if not is_changed:
@@ -44,7 +40,8 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
         data = self._get_relations(data, relations)
         obj, created = self.update_or_create(**kwargs, defaults=data)
         operation = self.CREATED if created else self.UPDATED
-        self._update_history(obj, user, update)
+        if update:
+            obj.set_update(update)
         return obj, operation
 
     def _is_changed(self, data: dict, relations: dict) -> Tuple[Optional[Any], bool]:
@@ -78,16 +75,6 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
             return None, True
         else:
             return not_changed_obj, False
-
-    @staticmethod
-    def _update_history(obj, user, update):
-        """Update object history"""
-        # TODO: move to base history class
-        if user is not None or update is not None:
-            history = obj.history.first()
-            history.history_user = user
-            history.update = update
-            history.save()
 
     def _get_relations(self, data: dict, relations: dict = None) -> dict:
         """
@@ -127,8 +114,7 @@ class BaseTemporaryCreatableManager(BaseUpdatableManager):
         return self.get_or_create(**kwargs, defaults=defaults)
 
 
-class ReferenceManager(Manager):
-    def get_or_create_from_settings(self, model_name):
-        name = settings.REFERENCES[model_name]["name"]
-        reference, _ = self.get_or_create(model=model_name, defaults={"name": name})
-        return reference
+class SourceManager(Manager):
+    def get_or_create_from_settings(self, name):
+        source, _ = self.get_or_create(name=name)
+        return source

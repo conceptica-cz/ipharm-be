@@ -3,25 +3,46 @@ from django.contrib import admin
 from . import models, tasks
 
 
-@admin.register(models.Reference)
-class ReferenceAdmin(admin.ModelAdmin):
-    list_display = ["model", "name"]
+@admin.register(models.Source)
+class SourceAdmin(admin.ModelAdmin):
+    list_display = ["name"]
     actions = ["update"]
 
     @admin.action(description="Update from external API")
     def update(self, request, queryset):
-        for reference in queryset:
-            tasks.update.delay(reference.model)
+        for source in queryset:
+            tasks.update.delay(source.name, full_update=True)
 
 
-@admin.register(models.ReferenceUpdate)
-class ReferenceUpdateAdmin(admin.ModelAdmin):
+class ModelUpdateInline(admin.TabularInline):
+    model = models.ModelUpdate
+    exclude = ["is_deleted"]
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(models.Update)
+class UpdateAdmin(admin.ModelAdmin):
     list_display = [
-        "reference",
+        "source",
+        "update_type",
         "started_at",
         "finished_at",
+    ]
+    list_filter = ["source"]
+    inlines = [ModelUpdateInline]
+
+
+@admin.register(models.ModelUpdate)
+class ModelUpdateAdmin(admin.ModelAdmin):
+    list_display = [
+        "name",
         "created",
         "updated",
         "not_changed",
     ]
-    list_filter = ["reference"]
+    list_filter = ["name"]

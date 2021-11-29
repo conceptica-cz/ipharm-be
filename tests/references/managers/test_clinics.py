@@ -1,9 +1,8 @@
 from django.test import TestCase
 from references.models import Clinic, Department
-from updates.transformers import delete_id
 
 from factories.references.clinics import ClinicFactory
-from factories.updates.updates import ReferenceUpdateFactory
+from factories.updates.updates import UpdateFactory
 from factories.users import UserFactory
 
 
@@ -58,7 +57,8 @@ class BestUpdatableManagerTest(TestCase):
         }
 
         clinic, operation = Clinic.objects.update_or_create_from_dict(
-            identifiers=identifiers, data=data, transformer=delete_id
+            identifiers=identifiers,
+            data=data,
         )
 
         self.assertEqual(Clinic.objects.count(), 2)
@@ -143,7 +143,7 @@ class BestUpdatableManagerTest(TestCase):
             "abbreviation": "CLN",
             "description": "Clinic new",
         }
-        update = ReferenceUpdateFactory()
+        update = UpdateFactory()
 
         clinic, _ = Clinic.objects.update_or_create_from_dict(
             identifiers, data, user=user, update=update
@@ -254,7 +254,6 @@ class BestUpdatableManagerTest(TestCase):
             identifiers=identifiers,
             data=data,
             relations=relations,
-            transformer=delete_id,
         )
 
         self.assertEqual(Department.objects.count(), 1)
