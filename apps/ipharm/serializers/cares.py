@@ -37,6 +37,7 @@ class CareNestedSerializer(serializers.ModelSerializer):
     diagnoses = DiagnosisSerializer(read_only=True, many=True)
     last_dekurz = DekurzNestedSerializer(read_only=True)
     checkin = PrimaryKeyRelatedField(read_only=True)
+    risk_drug_history = PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         exclude = ["is_deleted"]

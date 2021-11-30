@@ -8,3 +8,4 @@ class TagAdmin(BaseHistoryAdmin):
     list_display = [
         "name",
     ]
+    search_fields = ["name"]

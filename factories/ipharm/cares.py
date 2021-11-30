@@ -14,6 +14,7 @@ from factories.references.persons import PersonFactory
 class CareFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Care
+        django_get_or_create = ("external_id",)
 
     class Params:
         finished_at_decider = factory.LazyFunction(lambda: bool(random.randint(0, 8)))
@@ -59,15 +60,6 @@ class CareFactory(factory.django.DjangoModelFactory):
         if create:
             for _ in range(random.randint(1, 5)):
                 self.diagnoses.add(DiagnosisFactory())
-
-    @factory.post_generation
-    def checkin(self, create, extracted, **kwargs):
-        if create:
-            check_in = random.randint(0, 5) > 4
-            if check_in:
-                from factories.ipharm import CheckInFactory
-
-                CheckInFactory(care=self)
 
 
 class DekurzFactory(factory.django.DjangoModelFactory):
