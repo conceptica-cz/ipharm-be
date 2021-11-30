@@ -25,6 +25,7 @@ services:
     depends_on:
       - ipharm-postgres
       - ipharm-redis
+      - ipharm-app
     env_file: *envs-ipharm-app
     command: scripts/start_worker.sh
 
@@ -35,6 +36,7 @@ services:
     depends_on:
       - ipharm-postgres
       - ipharm-redis
+      - ipharm-app
     env_file: *envs-ipharm-app
     command: scripts/start_beat.sh
 

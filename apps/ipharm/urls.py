@@ -1,7 +1,17 @@
 from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
-from .views import cares, checkins, clinics, patients, user
+from .views import (
+    cares,
+    checkins,
+    clinics,
+    patient_informations,
+    patients,
+    pharmacological_evaluations,
+    pharmacological_plans,
+    risk_drug_histories,
+    user,
+)
 
 urlpatterns = [
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
@@ -20,18 +30,6 @@ urlpatterns = [
         name="patient_detail",
     ),
     path(
-        "patients/<int:patient_pk>/current_hospital_care/",
-        cares.PatientCareDetailView.as_view(),
-        {"care_type": "hospital"},
-        name="patient_current_hospital_care",
-    ),
-    path(
-        "patients/<int:patient_pk>/current_ambulance_care/",
-        cares.PatientCareDetailView.as_view(),
-        {"care_type": "ambulance"},
-        name="patient_current_ambulance_care",
-    ),
-    path(
         "cares/<int:pk>/",
         cares.CareDetailView.as_view(),
         name="care_detail",
@@ -41,5 +39,55 @@ urlpatterns = [
         "checkins/<int:pk>/",
         checkins.CheckInDetailView.as_view(),
         name="checkin_detail",
+    ),
+    path(
+        "risk-drug-histories/",
+        risk_drug_histories.RiskDrugHistoryListView.as_view(),
+        name="risk_drug_history_list",
+    ),
+    path(
+        "risk-drug-histories/<int:pk>/",
+        risk_drug_histories.RiskDrugHistoryDetailView.as_view(),
+        name="risk_drug_history_detail",
+    ),
+    path(
+        "patient-informations/",
+        patient_informations.PatientInformationListView.as_view(),
+        name="patient_information_list",
+    ),
+    path(
+        "patient-informations/<int:pk>/",
+        patient_informations.PatientInformationDetailView.as_view(),
+        name="patient_information_detail",
+    ),
+    path(
+        "patient-informations/",
+        patient_informations.PatientInformationListView.as_view(),
+        name="patient_information_list",
+    ),
+    path(
+        "patient-informations/<int:pk>/",
+        patient_informations.PatientInformationDetailView.as_view(),
+        name="patient_information_detail",
+    ),
+    path(
+        "pharmacological-evaluations/",
+        pharmacological_evaluations.PharmacologicalEvaluationListView.as_view(),
+        name="pharmacological_evaluation_list",
+    ),
+    path(
+        "pharmacological-evaluations/<int:pk>/",
+        pharmacological_evaluations.PharmacologicalEvaluationDetailView.as_view(),
+        name="pharmacological_evaluation_detail",
+    ),
+    path(
+        "pharmacological-plans/",
+        pharmacological_plans.PharmacologicalPlanListView.as_view(),
+        name="pharmacological_plan_list",
+    ),
+    path(
+        "pharmacological-plans/<int:pk>/",
+        pharmacological_plans.PharmacologicalPlanDetailView.as_view(),
+        name="pharmacological_plan_detail",
     ),
 ]
