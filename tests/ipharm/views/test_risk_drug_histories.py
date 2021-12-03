@@ -1,10 +1,15 @@
 from django.urls import reverse
-from ipharm.models import RiskDrugHistory
+from ipharm.models import RiskDrugHistory, RiskDrugHistoryComment
+from ipharm.serializers import RiskDrugHistoryCommentSerializer
 from references.serializers.drugs import DrugSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from factories.ipharm import CareFactory, RiskDrugHistoryFactory
+from factories.ipharm import (
+    CareFactory,
+    RiskDrugHistoryCommentFactory,
+    RiskDrugHistoryFactory,
+)
 from factories.references import DrugFactory, TagFactory
 from factories.users.models import UserFactory
 
@@ -69,6 +74,13 @@ class GetRiskDrugHistoryTest(APITestCase):
                 DrugSerializer(instance=drug).data
                 for drug in self.risk_drug_history.risk_drugs.all()
             ],
+        ),
+        self.assertEqual(
+            response.data["comments"],
+            [
+                RiskDrugHistoryCommentSerializer(instance=comment).data
+                for comment in self.risk_drug_history.comments.all()
+            ],
         )
 
 
@@ -93,3 +105,116 @@ class UpdateRiskDrugHistoryTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         risk_drug_history = RiskDrugHistory.objects.get(pk=response.data["id"])
         self.assertEqual(risk_drug_history.has_risk_drug, True)
+
+
+class CreateRiskDrugHistoryCommentTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+        self.risk_drug_history = RiskDrugHistoryFactory()
+        RiskDrugHistoryComment.objects.all().delete()
+
+    def test_create_comment(self):
+        self.client.force_login(user=self.user)
+        data = {
+            "risk_drug_history": self.risk_drug_history.pk,
+            "text": "Test comment",
+        }
+        response = self.client.post(
+            reverse("risk_drug_history_comment_list"), data=data
+        )
+
+        self.assertEqual(
+            response.status_code, status.HTTP_201_CREATED, msg=response.data
+        )
+
+
+class GetRiskDrugHistoryCommentListTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+
+        self.risk_drug_history_2 = RiskDrugHistoryFactory()
+        RiskDrugHistoryComment.objects.all().delete()
+        self.comment_1_1 = RiskDrugHistoryCommentFactory(
+            risk_drug_history=self.risk_drug_history_2
+        )
+        self.comment_1_2 = RiskDrugHistoryCommentFactory(
+            risk_drug_history=self.risk_drug_history_2
+        )
+
+        self.risk_drug_history_2 = RiskDrugHistoryFactory()
+        RiskDrugHistoryComment.objects.all().delete()
+        self.comment_2_1 = RiskDrugHistoryCommentFactory(
+            risk_drug_history=self.risk_drug_history_2
+        )
+        self.comment_2_2 = RiskDrugHistoryCommentFactory(
+            risk_drug_history=self.risk_drug_history_2
+        )
+
+    def test_get_comment_list(self):
+        self.client.force_login(user=self.user)
+        response = self.client.get(
+            reverse("risk_drug_history_comment_list")
+            + f"?risk_drug_history={self.risk_drug_history_2.pk}"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data["results"],
+            [
+                RiskDrugHistoryCommentSerializer(instance=comment).data
+                for comment in RiskDrugHistoryComment.objects.filter(
+                    risk_drug_history=self.risk_drug_history_2
+                )
+            ],
+        )
+
+
+class GetRiskDrugHistoryCommenTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+
+        self.risk_drug_history_comment = RiskDrugHistoryCommentFactory()
+
+    def test_get_comment(self):
+        self.client.force_login(user=self.user)
+
+        response = self.client.get(
+            reverse(
+                "risk_drug_history_comment_detail",
+                kwargs={"pk": self.risk_drug_history_comment.pk},
+            )
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data,
+            RiskDrugHistoryCommentSerializer(
+                instance=self.risk_drug_history_comment
+            ).data,
+        )
+
+
+class UpdateRiskDrugHistoryCommenTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+
+        self.risk_drug_history_comment = RiskDrugHistoryCommentFactory(text="old_text")
+
+    def test_get_comment(self):
+        self.client.force_login(user=self.user)
+
+        data = {
+            "text": "new_text",
+        }
+
+        response = self.client.patch(
+            reverse(
+                "risk_drug_history_comment_detail",
+                kwargs={"pk": self.risk_drug_history_comment.pk},
+            ),
+            data=data,
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.risk_drug_history_comment.refresh_from_db()
+        self.assertEqual(self.risk_drug_history_comment.text, "new_text")

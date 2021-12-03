@@ -25,7 +25,7 @@ class PharmacologicalPlanComment(BaseUpdatableModel):
         (VERIFICATION, "Verification"),
     )
     pharmacological_plan = models.ForeignKey(
-        PharmacologicalPlan, on_delete=models.CASCADE
+        PharmacologicalPlan, on_delete=models.CASCADE, related_name="comments"
     )
     comment_type = models.CharField(
         max_length=20, choices=COMMENT_TYPE_CHOICES, default=COMMENT

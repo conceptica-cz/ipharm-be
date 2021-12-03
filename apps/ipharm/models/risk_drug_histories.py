@@ -21,5 +21,7 @@ class RiskDrugHistory(BaseUpdatableModel):
 
 
 class RiskDrugHistoryComment(BaseUpdatableModel):
-    risk_drug_history = models.ForeignKey(RiskDrugHistory, on_delete=models.CASCADE)
+    risk_drug_history = models.ForeignKey(
+        RiskDrugHistory, on_delete=models.CASCADE, related_name="comments"
+    )
     text = models.TextField(help_text="Komentář")

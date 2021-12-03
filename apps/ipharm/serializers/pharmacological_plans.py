@@ -1,6 +1,13 @@
-from ipharm.models import PharmacologicalPlan
-from references.serializers import DiagnosisSerializer, DrugSerializer, TagSerializer
+from ipharm.models import PharmacologicalPlan, PharmacologicalPlanComment
+from references.serializers import TagSerializer
 from rest_framework import serializers
+
+
+class PharmacologicalPlanCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PharmacologicalPlanComment
+        exclude = ["is_deleted"]
+        read_only_fields = ["id"]
 
 
 class PharmacologicalPlanSerializer(serializers.ModelSerializer):
@@ -12,8 +19,18 @@ class PharmacologicalPlanSerializer(serializers.ModelSerializer):
 
 class PharmacologicalPlanNestedSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
+    comments = PharmacologicalPlanCommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = PharmacologicalPlan
-        exclude = ["is_deleted"]
+        fields = [
+            "id",
+            "care",
+            "text",
+            "his_text",
+            "note",
+            "notification_datetime",
+            "tags",
+            "comments",
+        ]
         read_only_fields = ["id"]
