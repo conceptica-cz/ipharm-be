@@ -51,6 +51,16 @@ urlpatterns = [
         name="risk_drug_history_detail",
     ),
     path(
+        "risk-drug-history-comments/",
+        risk_drug_histories.RiskDrugHistoryCommentListView.as_view(),
+        name="risk_drug_history_comment_list",
+    ),
+    path(
+        "risk-drug-history-comments/<int:pk>/",
+        risk_drug_histories.RiskDrugHistoryCommentDetailView.as_view(),
+        name="risk_drug_history_comment_detail",
+    ),
+    path(
         "patient-informations/",
         patient_informations.PatientInformationListView.as_view(),
         name="patient_information_list",
@@ -89,5 +99,15 @@ urlpatterns = [
         "pharmacological-plans/<int:pk>/",
         pharmacological_plans.PharmacologicalPlanDetailView.as_view(),
         name="pharmacological_plan_detail",
+    ),
+    path(
+        "pharmacological-plan-comments/",
+        pharmacological_plans.PharmacologicalPlanCommentListView.as_view(),
+        name="pharmacological_plan_comment_list",
+    ),
+    path(
+        "pharmacological-plan-comments/<int:pk>/",
+        pharmacological_plans.PharmacologicalPlanCommentDetailView.as_view(),
+        name="pharmacological_plan_comment_detail",
     ),
 ]

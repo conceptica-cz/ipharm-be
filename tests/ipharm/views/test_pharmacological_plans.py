@@ -1,11 +1,16 @@
 from django.urls import reverse
-from ipharm.models import PharmacologicalPlan
+from ipharm.models import PharmacologicalPlan, PharmacologicalPlanComment
+from ipharm.serializers import PharmacologicalPlanCommentSerializer
 from references.serializers import TagSerializer
 from references.serializers.drugs import DrugSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from factories.ipharm import CareFactory, PharmacologicalPlanFactory
+from factories.ipharm import (
+    CareFactory,
+    PharmacologicalPlanCommentFactory,
+    PharmacologicalPlanFactory,
+)
 from factories.references import DrugFactory, TagFactory
 from factories.users.models import UserFactory
 
@@ -68,6 +73,13 @@ class GetPharmacologicalPlanTest(APITestCase):
                 for drug in self.pharmacological_plan.tags.all()
             ],
         )
+        self.assertEqual(
+            response.data["comments"],
+            [
+                PharmacologicalPlanCommentSerializer(instance=comment).data
+                for comment in self.pharmacological_plan.comments.all()
+            ],
+        )
 
 
 class UpdatePharmacologicalPlanTest(APITestCase):
@@ -92,3 +104,118 @@ class UpdatePharmacologicalPlanTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pharmacological_plan = PharmacologicalPlan.objects.get(pk=response.data["id"])
         self.assertEqual(pharmacological_plan.text, "new text")
+
+
+class CreatePharmacologicalPlanCommentTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+        self.pharmacological_plan = PharmacologicalPlanFactory()
+        PharmacologicalPlanComment.objects.all().delete()
+
+    def test_create_comment(self):
+        self.client.force_login(user=self.user)
+        data = {
+            "pharmacological_plan": self.pharmacological_plan.pk,
+            "text": "Test comment",
+        }
+        response = self.client.post(
+            reverse("pharmacological_plan_comment_list"), data=data
+        )
+
+        self.assertEqual(
+            response.status_code, status.HTTP_201_CREATED, msg=response.data
+        )
+
+
+class GetPharmacologicalPlanCommentListTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+
+        self.pharmacological_plan_2 = PharmacologicalPlanFactory()
+        PharmacologicalPlanComment.objects.all().delete()
+        self.comment_1_1 = PharmacologicalPlanCommentFactory(
+            pharmacological_plan=self.pharmacological_plan_2
+        )
+        self.comment_1_2 = PharmacologicalPlanCommentFactory(
+            pharmacological_plan=self.pharmacological_plan_2
+        )
+
+        self.pharmacological_plan_2 = PharmacologicalPlanFactory()
+        PharmacologicalPlanComment.objects.all().delete()
+        self.comment_2_1 = PharmacologicalPlanCommentFactory(
+            pharmacological_plan=self.pharmacological_plan_2
+        )
+        self.comment_2_2 = PharmacologicalPlanCommentFactory(
+            pharmacological_plan=self.pharmacological_plan_2
+        )
+
+    def test_get_comment_list(self):
+        self.client.force_login(user=self.user)
+        response = self.client.get(
+            reverse("pharmacological_plan_comment_list")
+            + f"?pharmacological_plan={self.pharmacological_plan_2.pk}"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data["results"],
+            [
+                PharmacologicalPlanCommentSerializer(instance=comment).data
+                for comment in PharmacologicalPlanComment.objects.filter(
+                    pharmacological_plan=self.pharmacological_plan_2
+                )
+            ],
+        )
+
+
+class GetPharmacologicalPlanCommentTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+
+        self.pharmacological_plan_comment = PharmacologicalPlanCommentFactory()
+
+    def test_get_comment(self):
+        self.client.force_login(user=self.user)
+
+        response = self.client.get(
+            reverse(
+                "pharmacological_plan_comment_detail",
+                kwargs={"pk": self.pharmacological_plan_comment.pk},
+            )
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data,
+            PharmacologicalPlanCommentSerializer(
+                instance=self.pharmacological_plan_comment
+            ).data,
+        )
+
+
+class UpdatePharmacologicalPlanCommentTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+
+        self.pharmacological_plan_comment = PharmacologicalPlanCommentFactory(
+            text="old_text"
+        )
+
+    def test_get_comment(self):
+        self.client.force_login(user=self.user)
+
+        data = {
+            "text": "new_text",
+        }
+
+        response = self.client.patch(
+            reverse(
+                "pharmacological_plan_comment_detail",
+                kwargs={"pk": self.pharmacological_plan_comment.pk},
+            ),
+            data=data,
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.pharmacological_plan_comment.refresh_from_db()
+        self.assertEqual(self.pharmacological_plan_comment.text, "new_text")
