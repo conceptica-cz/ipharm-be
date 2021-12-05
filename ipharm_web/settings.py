@@ -267,6 +267,27 @@ UPDATE_SOURCES = {
             "identifiers": ["code"],
         },
     },
+    "Drug": {
+        "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/drugs/"},
+        "model_updater_kwargs": {
+            "model": "references.Drug",
+            "identifiers": ["code_sukl"],
+        },
+    },
+    "Identification": {
+        "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/identifications/"},
+        "model_updater_kwargs": {
+            "model": "references.Identification",
+            "identifiers": ["identifier"],
+        },
+    },
+    "InsuranceCompany": {
+        "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/insurances/"},
+        "model_updater_kwargs": {
+            "model": "references.InsuranceCompany",
+            "identifiers": ["code"],
+        },
+    },
     "Person": {
         "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/persons/"},
         "model_updater_kwargs": {
