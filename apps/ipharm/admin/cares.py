@@ -4,11 +4,6 @@ from django.contrib import admin
 from .. import models
 
 
-@admin.register(models.Drug)
-class DrugAdmin(admin.ModelAdmin):
-    search_fields = ("name",)
-
-
 @admin.register(models.Care)
 class CareAdmin(BaseHistoryAdmin):
     list_display = ["pk", "external_id", "care_type", "patient", "is_active"]
