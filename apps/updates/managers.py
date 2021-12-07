@@ -17,19 +17,19 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
 
     def update_or_create_from_dict(
         self,
-        identifiers: Iterable[str],
         data: dict,
+        identifiers: Iterable[str],
         relations: dict = None,
-        user: "User" = None,
         update: "ReferenceUpdate" = None,
     ) -> [Tuple[Any, str]]:
         """Create or update model instance from data dictionary
 
-        :param identifiers: list or tuple of unique (together) model's field, used to find existing instance
         :param data: model values dictionary
+        :param identifiers: list or tuple of unique (together) model's field, used to find existing instance
         :param relations: dictionary of relation
         :return: tuple (object, operation), where operation is one of 'created', 'updated', 'not_changed'
         """
+        data = data.copy()
         logger.debug(f"Adding record data={data}", extra={"data": data})
 
         obj, is_changed = self._is_changed(data, relations)
@@ -101,13 +101,16 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
 class BaseTemporaryCreatableManager(BaseUpdatableManager):
     TEMPORARY_DEFAULTS = {}
 
+    def get_temporary_defaults(self, **kwargs) -> dict:
+        return self.TEMPORARY_DEFAULTS
+
     def get_or_create_temporary(self, **kwargs) -> Tuple[Any, bool]:
         """
         Get or create temporary instance.
 
         Defaults for temporary model are defined in TEMPORARY_DEFAULTS.
         """
-        defaults = self.TEMPORARY_DEFAULTS
+        defaults = self.get_temporary_defaults(**kwargs)
         logger.debug(
             f"Getting or creating temporary instance {self.model} kwargs={kwargs} defaults={defaults}"
         )

@@ -38,8 +38,7 @@ class Care(BaseUpdatableModel):
         blank=True,
         related_name="patients",
     )
-    dekurzes = models.ManyToManyField("Dekurz", related_name="dekurz_cares")
-    last_dekurz = models.ForeignKey(
+    last_dekurz = models.OneToOneField(
         "Dekurz",
         on_delete=models.SET_NULL,
         null=True,
@@ -47,8 +46,7 @@ class Care(BaseUpdatableModel):
         related_name="last_dekurz_care",
     )
 
-    def add_dekurz(self, dekurz):
-        self.dekurzes.add(dekurz)
+    def set_last_dekurz(self, dekurz):
         self.last_dekurz = dekurz
         self.save()
 

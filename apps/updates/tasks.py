@@ -4,6 +4,6 @@ from updates.updater import Updater
 
 
 @shared_task()
-def update(source_name: str, full_update=False):
+def update(source_name: str, full_update=False, **kwargs):
     source = Source.objects.get_or_create_from_settings(name=source_name)
-    source.update(full_update=full_update)
+    source.update(full_update=full_update, **kwargs)

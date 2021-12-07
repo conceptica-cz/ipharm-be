@@ -232,6 +232,7 @@ LOGGING = {
 BASE_REFERENCES_URL = os.environ.get(
     "BASE_REFERENCES_URL", "http://iciselniky-app:8000/api/v1"
 )
+BASE_PATIENT_URL = os.environ["BASE_PATIENT_URL"]
 REFERENCES_TOKEN = os.environ["REFERENCES_TOKEN"]
 DEFAULT_DATA_LOADER = "updates.common.loaders.references_loader"
 DEFAULT_TRANSFORMERS = ["updates.common.transformers.delete_id"]
@@ -294,6 +295,14 @@ UPDATE_SOURCES = {
             "model": "references.Person",
             "identifiers": ["person_number"],
         },
+    },
+    "Patient": {
+        "data_loader": "updates.bulovka.loaders.patient_loader",
+        "data_loader_kwargs": {"url": BASE_PATIENT_URL + "/patient/"},
+        "transformers": ["updates.bulovka.transformers.patient_transformer"],
+        "model_updater": "updates.bulovka.updaters.patient_updater",
+        "external": True,
+        "by_clinic": True,
     },
 }
 

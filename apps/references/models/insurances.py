@@ -1,4 +1,5 @@
 from django.db import models
+from references.managers.insurances import InsuranceCompanyManager
 from updates.models import BaseUpdatableModel
 
 
@@ -18,6 +19,8 @@ class InsuranceCompany(BaseUpdatableModel):
     ico = models.CharField(max_length=20, blank=True, help_text="IČO")
     dic = models.CharField(max_length=20, blank=True, help_text="DIČ")
     databox = models.CharField(max_length=10, blank=True, help_text="Databox")
+
+    objects = InsuranceCompanyManager()
 
     class Meta:
         ordering = ["name"]

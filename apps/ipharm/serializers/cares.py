@@ -26,7 +26,7 @@ class CareSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Care
-        exclude = ["is_deleted", "dekurzes"]
+        exclude = ["is_deleted"]
         read_only_fields = ["id", "last_dekurz"]
         extra_kwargs = {"diagnoses": {"required": False, "allow_empty": True}}
 

@@ -2,6 +2,7 @@ from django.db import models
 from updates.models import BaseUpdatableModel
 
 from ..managers.clinics import ClinicManager
+from ..managers.departments import DepartmentManager
 
 
 class Clinic(BaseUpdatableModel):
@@ -37,6 +38,8 @@ class Department(BaseUpdatableModel):
         indexes = [
             models.Index(fields=["description"]),
         ]
+
+    objects = DepartmentManager()
 
     def __str__(self):
         return self.description
