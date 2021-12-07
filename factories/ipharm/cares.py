@@ -50,10 +50,10 @@ class CareFactory(factory.django.DjangoModelFactory):
             self.patient.save()
 
     @factory.post_generation
-    def dekurzes(self, create, extracted, **kwargs):
+    def last_dekurz(self, create, extracted, **kwargs):
         if create:
             for _ in range(random.randint(1, 5)):
-                self.add_dekurz(DekurzFactory(care=self))
+                self.set_last_dekurz(DekurzFactory(care=self))
 
     @factory.post_generation
     def diagnozes(self, create, extracted, **kwargs):

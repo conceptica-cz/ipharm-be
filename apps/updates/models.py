@@ -16,7 +16,7 @@ class Source(BaseHistoricalModel):
     def __str__(self):
         return self.name
 
-    def update(self, full_update=False):
+    def update(self, full_update=False, **kwargs):
         if full_update:
             update_type = Update.FULL
             latest_update = None
@@ -33,7 +33,7 @@ class Source(BaseHistoricalModel):
             source=self, update_type=update_type, started_at=timezone.now()
         )
         updater = UpdaterFactory.create(
-            self.name, update=update, latest_update=latest_update
+            self.name, update=update, latest_update=latest_update, **kwargs
         )
         update_result = updater.update()
         update.finish_update(update_result)
