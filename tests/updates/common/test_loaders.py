@@ -8,7 +8,10 @@ class GetDataTest(TestCase):
     @patch("updates.common.loaders.requests.get")
     def test__result__for_single_page(self, mocked_get: Mock):
         mocked_get.side_effect = [
-            Mock(json=Mock(return_value={"results": ["result1", "result2", "result3"]}))
+            Mock(
+                json=Mock(return_value={"results": ["result1", "result2", "result3"]}),
+                status_code=200,
+            )
         ]
 
         results = list(references_loader("url"))
@@ -27,7 +30,8 @@ class GetDataTest(TestCase):
                         "previous": None,
                         "results": ["result1", "result2"],
                     }
-                )
+                ),
+                status_code=200,
             ),
             Mock(
                 json=Mock(
@@ -37,7 +41,8 @@ class GetDataTest(TestCase):
                         "previous": "http://example.com/api/items/?limit=2",
                         "results": ["result3", "result4"],
                     }
-                )
+                ),
+                status_code=200,
             ),
             Mock(
                 json=Mock(
@@ -47,7 +52,8 @@ class GetDataTest(TestCase):
                         "previous": "http://example.com/api/items/?limit=2&offset=2",
                         "results": ["result5"],
                     }
-                )
+                ),
+                status_code=200,
             ),
         ]
 

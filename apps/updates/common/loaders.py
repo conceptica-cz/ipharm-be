@@ -8,6 +8,10 @@ from django.utils import timezone
 logger = logging.getLogger(__name__)
 
 
+class ExternalReferenceError(Exception):
+    pass
+
+
 def references_loader(url, **kwargs) -> Generator[dict, None, None]:
     """Get data from 3rd-party API
 
@@ -24,14 +28,21 @@ def references_loader(url, **kwargs) -> Generator[dict, None, None]:
             .isoformat()
         )
     headers = {"Authorization": f"Bearer {settings.REFERENCES_TOKEN}"}
-    logger.debug(f"Get {url}")
+    logger.debug(f"Getting url {url}")
     response = requests.get(url, headers=headers)
-    data = response.json()
     if response.status_code != 200:
         logger.error(
-            f"Error while getting data from {url} status_code={response.status_code} data={data}",
-            extra={"url": url, "status_code": response.status_code, "data": data},
+            f"Error while getting data from {url} status_code={response.status_code} content={response.content}",
+            extra={
+                "url": url,
+                "status_code": response.status_code,
+                "content": response.content,
+            },
         )
+        raise ExternalReferenceError(
+            f"Error while getting data from {url} status_code={response.status_code} content={response.content}"
+        )
+    data = response.json()
     results = data["results"]
     for result in results:
         yield result
