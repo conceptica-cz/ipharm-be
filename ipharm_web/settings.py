@@ -173,60 +173,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 APP_VERSION = Path("version.txt").read_text()
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
-            "style": "{",
-        }
-    },
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["console"],
-            "level": "INFO",
-        },
-        "django.request": {
-            "handlers": ["console"],
-            "level": "INFO",
-            "propagate": False,
-        },
-        "django.db.backends": {
-            "handlers": ["console"],
-            "level": "INFO",
-            "propagate": False,
-        },
-        "common": {
-            "handlers": ["console"],
-            "level": "DEBUG",
-        },
-        "ipharm": {
-            "handlers": ["console"],
-            "level": "DEBUG",
-        },
-        "references": {
-            "handlers": ["console"],
-            "level": "DEBUG",
-        },
-        "updates": {
-            "handlers": ["console"],
-            "level": "DEBUG",
-        },
-        "users": {
-            "handlers": ["console"],
-            "level": "DEBUG",
-        },
-    },
-}
-
 # REFERENCES AND UPDATES
 
 BASE_REFERENCES_URL = os.environ.get(
@@ -267,6 +213,7 @@ UPDATE_SOURCES = {
             "model": "references.Diagnosis",
             "identifiers": ["code"],
         },
+        "interval": os.environ.get("DIAGNOSIS_UPDATE_INTERVAL", 60),
     },
     "Drug": {
         "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/drugs/"},
@@ -274,6 +221,7 @@ UPDATE_SOURCES = {
             "model": "references.Drug",
             "identifiers": ["code_sukl"],
         },
+        "interval": os.environ.get("DRUG_UPDATE_INTERVAL", 60),
     },
     "Identification": {
         "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/identifications/"},
@@ -321,6 +269,60 @@ CELERY_TASK_ACKS_LATE = True
 
 # REFERENCES
 OUR_HEALTH_CARE_IDENTIFIER = os.environ.get("OUR_HEALTH_CARE_IDENTIFIER", 1)
+
+# LOGGING
+
+LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+        "django.request": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "django.db.backends": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "common": {
+            "handlers": ["console"],
+            "level": LOG_LEVEL,
+        },
+        "references": {
+            "handlers": ["console"],
+            "level": LOG_LEVEL,
+        },
+        "updates": {
+            "handlers": ["console"],
+            "level": LOG_LEVEL,
+        },
+        "users": {
+            "handlers": ["console"],
+            "level": LOG_LEVEL,
+        },
+    },
+}
 
 # SENTRY
 

@@ -69,13 +69,14 @@ services:
     image: conceptica/iciselniky_app:local
     depends_on:
       - iciselniky-postgres
-    env_file:
+    env_file: &envs-iciselniky-app
       - .envs/.development/.iciselniky_app
       - .envs/.development/.iciselniky_postgres
+      - .envs/.development/.iciselniky_redis
     ports:
       - "8001:8000"
     command: scripts/start.sh
-    volumes:
+    volumes: &volumes-iciselniky-app
       - ./iciselniky_static:/app/static
 
   iciselniky-postgres:
@@ -86,3 +87,38 @@ services:
     volumes:
       - ./_postgres_data_iciselniky:/var/lib/postgresql/data
 
+  iciselniky-worker:
+    container_name: iciselniky_worker
+    image: conceptica/iciselniky_app:local
+    volumes: *volumes-iciselniky-app
+    depends_on:
+      - iciselniky-postgres
+      - iciselniky-redis
+      - iciselniky-app
+    env_file: *envs-iciselniky-app
+    command: scripts/start_worker.sh
+
+  iciselniky-beat:
+    container_name: iciselniky_beat
+    image: conceptica/iciselniky_app:local
+    volumes: *volumes-iciselniky-app
+    depends_on:
+      - iciselniky-postgres
+      - iciselniky-redis
+      - iciselniky-app
+    env_file: *envs-iciselniky-app
+    command: scripts/start_beat.sh
+
+  iciselniky-redis:
+    container_name: iciselniky_redis
+    image: redis:6.2-alpine
+
+  iciselniky-flower:
+    image: mher/flower
+    container_name: iciselniky_flower
+    env_file:
+      -  .envs/.development/.iciselniky_redis
+    ports:
+      - "5556:5555"
+    depends_on:
+      - iciselniky-redis
