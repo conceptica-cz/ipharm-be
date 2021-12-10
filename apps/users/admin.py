@@ -18,7 +18,18 @@ class CustomUserAdmin(UserAdmin):
     )
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        ("Permissions", {"fields": ("is_staff", "is_active", "is_system")}),
+        (
+            "Permissions",
+            {
+                "fields": (
+                    "is_staff",
+                    "is_active",
+                    "is_system",
+                    "groups",
+                    "user_permissions",
+                )
+            },
+        ),
         ("Settings", {"fields": ("hospitals", "ambulances")}),
     )
     add_fieldsets = (
