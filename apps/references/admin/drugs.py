@@ -8,5 +8,7 @@ class DrugAdmin(BaseHistoryAdmin):
     list_display = [
         "code_sukl",
         "name",
+        "name_supplement",
+        "atc_group",
     ]
     search_fields = ["code_sukl", "name"]
