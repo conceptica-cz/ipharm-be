@@ -8,6 +8,8 @@ class DiagnosisListView(generics.ListAPIView):
 
     queryset = Diagnosis.objects.all()
     serializer_class = DiagnosisSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["code", "name"]
 
 
 class DiagnosisDetailView(generics.RetrieveAPIView):

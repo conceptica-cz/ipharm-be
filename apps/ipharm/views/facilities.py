@@ -8,6 +8,8 @@ class MedicalFacilityListView(generics.ListAPIView):
 
     queryset = MedicalFacility.objects.all()
     serializer_class = MedicalFacilitySerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["facility_id", "code", "name"]
 
 
 class MedicalFacilityDetailView(generics.RetrieveAPIView):

@@ -6,6 +6,7 @@ from references import models
 @admin.register(models.Drug)
 class DrugAdmin(BaseHistoryAdmin):
     list_display = [
+        "pk",
         "code_sukl",
         "name",
         "name_supplement",
