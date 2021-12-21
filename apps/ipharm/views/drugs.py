@@ -1,6 +1,6 @@
 from references.models import Drug
 from references.serializers import DrugSerializer
-from rest_framework import generics
+from rest_framework import filters, generics
 
 
 class DrugListView(generics.ListAPIView):
@@ -8,6 +8,8 @@ class DrugListView(generics.ListAPIView):
 
     queryset = Drug.objects.all()
     serializer_class = DrugSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["code_sukl", "name"]
 
 
 class DrugDetailView(generics.RetrieveAPIView):

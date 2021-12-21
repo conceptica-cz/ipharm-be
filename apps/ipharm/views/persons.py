@@ -8,6 +8,8 @@ class PersonListView(generics.ListAPIView):
 
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["person_number", "name"]
 
 
 class PersonDetailView(generics.RetrieveAPIView):

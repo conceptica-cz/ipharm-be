@@ -1,7 +1,8 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from references.models import Clinic, Department
 from references.serializers import ClinicSerializer, DepartmentSerializer
-from rest_framework import generics
+from rest_framework import filters, generics
 
 
 @extend_schema_view(
@@ -51,6 +52,9 @@ class DepartmentListView(generics.ListAPIView):
 
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filterset_fields = ["clinic"]
+    search_fields = ["abbreviation", "description"]
 
 
 class DepartmentDetailView(generics.RetrieveAPIView):

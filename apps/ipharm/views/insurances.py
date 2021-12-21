@@ -8,6 +8,8 @@ class InsuranceCompanyListView(generics.ListAPIView):
 
     queryset = InsuranceCompany.objects.all()
     serializer_class = InsuranceCompanySerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["code", "name", "shortcut"]
 
 
 class InsuranceCompanyDetailView(generics.RetrieveAPIView):
