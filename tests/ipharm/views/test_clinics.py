@@ -1,10 +1,10 @@
 from django.urls import reverse
-from references.models import Clinic
-from references.serializers.clinics import ClinicSerializer
+from references.models import Clinic, Department
+from references.serializers import ClinicSerializer, DepartmentSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from factories.references.clinics import ClinicFactory
+from factories.references import ClinicFactory, DepartmentFactory
 from factories.users.models import UserFactory
 
 
@@ -96,4 +96,41 @@ class GetSingleClinicsTest(APITestCase):
     def test_get_invalid_single_clinic(self):
         self.client.force_login(user=self.user)
         response = self.client.get(reverse("clinic_detail", kwargs={"pk": 42}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class GetAllDepartmentsTest(APITestCase):
+    def test_get_all_departments(self):
+        DepartmentFactory()
+        DepartmentFactory()
+        user = UserFactory()
+        self.client.force_login(user=user)
+        response = self.client.get(reverse("department_list"))
+        departments = Department.objects.all()
+        serializer = DepartmentSerializer(departments, many=True)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["results"], serializer.data)
+
+
+class GetSingleDepartmentTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+        self.department_1 = DepartmentFactory()
+        self.department_2 = DepartmentFactory()
+        self.department_3 = DepartmentFactory()
+
+    def test_get_valid_single_department(self):
+        self.client.force_login(user=self.user)
+        response = self.client.get(
+            reverse("department_detail", kwargs={"pk": self.department_2.id})
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        serializer = DepartmentSerializer(self.department_2)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_get_invalid_single_department(self):
+        self.client.force_login(user=self.user)
+        response = self.client.get(reverse("department_detail", kwargs={"pk": 42}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

@@ -1,6 +1,6 @@
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
-from references.models.clinics import Clinic
-from references.serializers.clinics import ClinicSerializer
+from references.models import Clinic, Department
+from references.serializers import ClinicSerializer, DepartmentSerializer
 from rest_framework import generics
 
 
@@ -44,3 +44,17 @@ class ClinicListView(generics.ListAPIView):
 class ClinicDetailView(generics.RetrieveAPIView):
     queryset = Clinic.objects.all()
     serializer_class = ClinicSerializer
+
+
+class DepartmentListView(generics.ListAPIView):
+    """Department list"""
+
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+
+
+class DepartmentDetailView(generics.RetrieveAPIView):
+    """Department detail"""
+
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
