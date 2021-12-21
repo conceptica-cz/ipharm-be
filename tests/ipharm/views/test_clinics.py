@@ -132,5 +132,7 @@ class GetSingleDepartmentTest(APITestCase):
 
     def test_get_invalid_single_department(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("department_detail", kwargs={"pk": 42}))
+        response = self.client.get(
+            reverse("department_detail", kwargs={"pk": self.department_3.pk + 1})
+        )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

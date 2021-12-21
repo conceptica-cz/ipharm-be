@@ -15,6 +15,7 @@ from .views import (
     pharmacological_evaluations,
     pharmacological_plans,
     risk_drug_histories,
+    tags,
     user,
 )
 
@@ -154,5 +155,15 @@ urlpatterns = [
         "facilities/<int:pk>/",
         facilities.MedicalFacilityDetailView.as_view(),
         name="medical_facility_detail",
+    ),
+    path(
+        "tags/",
+        tags.TagListView.as_view(),
+        name="tag_list",
+    ),
+    path(
+        "tags/<int:pk>/",
+        tags.TagDetailView.as_view(),
+        name="tag_detail",
     ),
 ]
