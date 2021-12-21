@@ -237,6 +237,14 @@ UPDATE_SOURCES = {
             "identifiers": ["code"],
         },
     },
+    "MedicalFacility": {
+        "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/facilities/"},
+        "model_updater_kwargs": {
+            "model": "references.MedicalFacility",
+            "identifiers": ["facility_id"],
+        },
+        "interval": os.environ.get("FACILITIES_UPDATE_INTERVAL", 60),
+    },
     "Person": {
         "data_loader_kwargs": {"url": BASE_REFERENCES_URL + "/persons/"},
         "model_updater_kwargs": {
@@ -249,7 +257,6 @@ UPDATE_SOURCES = {
         "data_loader_kwargs": {"url": BASE_PATIENT_URL + "/patient/"},
         "transformers": ["updates.bulovka.transformers.patient_transformer"],
         "model_updater": "updates.bulovka.updaters.patient_updater",
-        "external": True,
         "by_clinic": True,
     },
 }
