@@ -5,6 +5,8 @@ from django.core.management.base import BaseCommand
 from django_celery_beat.models import CrontabSchedule, IntervalSchedule, PeriodicTask
 from references.models import Clinic
 
+EXTERNAL_SOURCES = ["Patient"]
+
 
 class Command(BaseCommand):
     help = "Create django celery beat periodic tasks"
@@ -12,7 +14,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         print("Creating django celery beat periodic tasks...")
         for name in settings.UPDATE_SOURCES:
-            if settings.UPDATE_SOURCES[name].get("external", False):
+            if name in EXTERNAL_SOURCES:
                 self._create_external_beat(name)
             else:
                 self._create_reference_beat(name)
