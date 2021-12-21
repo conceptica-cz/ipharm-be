@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import admin
+from django.http import HttpResponse
 from django.urls import include, path
 
 app_name = "ipharm"
@@ -12,4 +13,5 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     path("api/v1/", include("ipharm.urls")),
     path("admin/", admin.site.urls),
+    path("", lambda request: HttpResponse("Nothing to see here."), name="index"),
 ]
