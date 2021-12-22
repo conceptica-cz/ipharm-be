@@ -11,3 +11,4 @@ ipharm_static
 _postgres_data*
 dump.sql
 hosts
+/media/

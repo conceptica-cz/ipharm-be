@@ -11,6 +11,9 @@ class Clinic(BaseUpdatableModel):
     description = models.CharField(max_length=255, db_index=True, help_text="Název")
     is_hospital = models.BooleanField(default=True, help_text="Ambulance")
     is_ambulance = models.BooleanField(default=False, help_text="Lůžkové oddělení")
+    image = models.ImageField(
+        upload_to="clinics", blank=True, null=True, help_text="Obrázek"
+    )
 
     objects = ClinicManager()
 
