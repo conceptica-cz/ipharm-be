@@ -7,6 +7,7 @@ from ..serializers import (
     RiskDrugHistoryNestedSerializer,
     RiskDrugHistorySerializer,
 )
+from .common import HistoryView
 
 
 class RiskDrugHistoryListView(generics.ListCreateAPIView):
@@ -28,6 +29,10 @@ class RiskDrugHistoryDetailView(
         return RiskDrugHistorySerializer
 
 
+class RiskDrugHistoryHistoryView(HistoryView):
+    queryset = RiskDrugHistory.objects.all()
+
+
 class RiskDrugHistoryCommentListView(generics.ListCreateAPIView):
     queryset = RiskDrugHistoryComment.objects.all()
     serializer_class = RiskDrugHistoryCommentSerializer
@@ -38,3 +43,7 @@ class RiskDrugHistoryCommentListView(generics.ListCreateAPIView):
 class RiskDrugHistoryCommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = RiskDrugHistoryComment.objects.all()
     serializer_class = RiskDrugHistoryCommentSerializer
+
+
+class RiskDrugHistoryCommentHistoryView(HistoryView):
+    queryset = RiskDrugHistoryComment.objects.all()

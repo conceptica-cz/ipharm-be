@@ -42,15 +42,30 @@ urlpatterns = [
         name="patient_detail",
     ),
     path(
+        "patients/<int:pk>/history/",
+        patients.PatientHistoryView.as_view(),
+        name="patient_history",
+    ),
+    path(
         "cares/<int:pk>/",
         cares.CareDetailView.as_view(),
         name="care_detail",
+    ),
+    path(
+        "cares/<int:pk>/history/",
+        cares.CareHistoryView.as_view(),
+        name="care_history",
     ),
     path("checkins/", checkins.CheckInListView.as_view(), name="checkin_list"),
     path(
         "checkins/<int:pk>/",
         checkins.CheckInDetailView.as_view(),
         name="checkin_detail",
+    ),
+    path(
+        "checkins/<int:pk>/history/",
+        checkins.CheckInHistoryView.as_view(),
+        name="checkin_history",
     ),
     path(
         "risk-drug-histories/",
@@ -63,6 +78,11 @@ urlpatterns = [
         name="risk_drug_history_detail",
     ),
     path(
+        "risk-drug-histories/<int:pk>/history/",
+        risk_drug_histories.RiskDrugHistoryHistoryView.as_view(),
+        name="risk_drug_history_history",
+    ),
+    path(
         "risk-drug-history-comments/",
         risk_drug_histories.RiskDrugHistoryCommentListView.as_view(),
         name="risk_drug_history_comment_list",
@@ -73,14 +93,9 @@ urlpatterns = [
         name="risk_drug_history_comment_detail",
     ),
     path(
-        "patient-informations/",
-        patient_informations.PatientInformationListView.as_view(),
-        name="patient_information_list",
-    ),
-    path(
-        "patient-informations/<int:pk>/",
-        patient_informations.PatientInformationDetailView.as_view(),
-        name="patient_information_detail",
+        "risk-drug-history-comments/<int:pk>/history/",
+        risk_drug_histories.RiskDrugHistoryCommentHistoryView.as_view(),
+        name="risk_drug_history_comment_history",
     ),
     path(
         "patient-informations/",
@@ -91,6 +106,11 @@ urlpatterns = [
         "patient-informations/<int:pk>/",
         patient_informations.PatientInformationDetailView.as_view(),
         name="patient_information_detail",
+    ),
+    path(
+        "patient-informations/<int:pk>/history/",
+        patient_informations.PatientInformationHistoryView.as_view(),
+        name="patient_information_history",
     ),
     path(
         "pharmacological-evaluations/",
@@ -103,6 +123,11 @@ urlpatterns = [
         name="pharmacological_evaluation_detail",
     ),
     path(
+        "pharmacological-evaluations/<int:pk>/history/",
+        pharmacological_evaluations.PharmacologicalEvaluationHistoryView.as_view(),
+        name="pharmacological_evaluation_history",
+    ),
+    path(
         "pharmacological-plans/",
         pharmacological_plans.PharmacologicalPlanListView.as_view(),
         name="pharmacological_plan_list",
@@ -113,6 +138,11 @@ urlpatterns = [
         name="pharmacological_plan_detail",
     ),
     path(
+        "pharmacological-plans/<int:pk>/history/",
+        pharmacological_plans.PharmacologicalPlanHistoryView.as_view(),
+        name="pharmacological_plan_history",
+    ),
+    path(
         "pharmacological-plan-comments/",
         pharmacological_plans.PharmacologicalPlanCommentListView.as_view(),
         name="pharmacological_plan_comment_list",
@@ -121,6 +151,11 @@ urlpatterns = [
         "pharmacological-plan-comments/<int:pk>/",
         pharmacological_plans.PharmacologicalPlanCommentDetailView.as_view(),
         name="pharmacological_plan_comment_detail",
+    ),
+    path(
+        "pharmacological-plan-comments/<int:pk>/history/",
+        pharmacological_plans.PharmacologicalPlanCommentHistoryView.as_view(),
+        name="pharmacological_plan_comment_history",
     ),
     path("persons/", persons.PersonListView.as_view(), name="person_list"),
     path("persons/<int:pk>/", persons.PersonDetailView.as_view(), name="person_detail"),

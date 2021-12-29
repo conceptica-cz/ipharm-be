@@ -1,3 +1,5 @@
+from typing import List
+
 from common.models import BaseHistoricalModel, BaseSoftDeletableModel
 from django.db import models
 from django.utils import timezone
@@ -83,6 +85,13 @@ class UpdateHistoricalModel(models.Model):
         abstract = True
 
 
+class ModelChange:
+    def __init__(self, date, user, field_changes):
+        self.date = date
+        self.user = user
+        self.field_changes = field_changes
+
+
 class BaseUpdatableModel(BaseSoftDeletableModel):
     """Base class for model, updatable via 3rd-party Rest API"""
 
@@ -106,3 +115,14 @@ class BaseUpdatableModel(BaseSoftDeletableModel):
         history.history_user = user
         history.update = update
         history.save()
+
+    def get_changes(self):
+        current = self.history.first()
+        while current.prev_record:
+            if changes := current.diff_against(current.prev_record).changes:
+                yield ModelChange(
+                    date=current.history_date,
+                    user=current.history_user,
+                    field_changes=changes,
+                )
+            current = current.prev_record

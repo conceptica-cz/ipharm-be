@@ -1,9 +1,9 @@
 from django.urls import reverse
 from ipharm.models import PharmacologicalEvaluation
 from references.serializers import TagSerializer
-from references.serializers.drugs import DrugSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
+from updates.serializers import ModelChangeSerializer
 
 from factories.ipharm import CareFactory, PharmacologicalEvaluationFactory
 from factories.references import DrugFactory, TagFactory
@@ -133,3 +133,49 @@ class UpdatePharmacologicalEvaluationTest(APITestCase):
             pk=response.data["id"]
         )
         self.assertEqual(pharmacological_evaluation.deployment_initial_diagnosis, True)
+
+
+class GetPharmacologicalEvaluationHistoryTest(APITestCase):
+    def setUp(self) -> None:
+        self.user_1 = UserFactory(username="user_1")
+        self.user_2 = UserFactory(username="user_2")
+        self.user_3 = UserFactory(username="user_3")
+
+        self.pharmacological_evaluation = PharmacologicalEvaluationFactory(
+            deployment_initial_diagnosis=False,
+            discontinuation_contradiction=True,
+        )
+
+        self.pharmacological_evaluation.deployment_initial_diagnosis = True
+        self.pharmacological_evaluation.discontinuation_contradiction = False
+        self.pharmacological_evaluation.save()
+
+        history_record = self.pharmacological_evaluation.history.first()
+        history_record.history_user = self.user_1
+        history_record.save()
+
+        self.pharmacological_evaluation.deployment_initial_diagnosis = False
+        self.pharmacological_evaluation.save()
+
+        history_record = self.pharmacological_evaluation.history.first()
+        history_record.history_user = self.user_2
+        history_record.save()
+
+    def test_history(self):
+        self.client.force_login(user=self.user_3)
+        response = self.client.get(
+            reverse(
+                "pharmacological_evaluation_history",
+                kwargs={"pk": self.pharmacological_evaluation.pk},
+            ),
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(
+            response.data,
+            [
+                ModelChangeSerializer(change).data
+                for change in self.pharmacological_evaluation.get_changes()
+            ],
+        )

@@ -7,6 +7,7 @@ from ..serializers import (
     PharmacologicalPlanNestedSerializer,
     PharmacologicalPlanSerializer,
 )
+from .common import HistoryView
 
 
 class PharmacologicalPlanListView(generics.ListCreateAPIView):
@@ -28,6 +29,10 @@ class PharmacologicalPlanDetailView(
         return PharmacologicalPlanSerializer
 
 
+class PharmacologicalPlanHistoryView(HistoryView):
+    queryset = PharmacologicalPlan.objects.all()
+
+
 class PharmacologicalPlanCommentListView(generics.ListCreateAPIView):
     queryset = PharmacologicalPlanComment.objects.all()
     serializer_class = PharmacologicalPlanCommentSerializer
@@ -38,3 +43,7 @@ class PharmacologicalPlanCommentListView(generics.ListCreateAPIView):
 class PharmacologicalPlanCommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PharmacologicalPlanComment.objects.all()
     serializer_class = PharmacologicalPlanCommentSerializer
+
+
+class PharmacologicalPlanCommentHistoryView(HistoryView):
+    queryset = PharmacologicalPlanComment.objects.all()

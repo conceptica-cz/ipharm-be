@@ -6,6 +6,7 @@ from ..serializers import (
     PharmacologicalEvaluationNestedSerializer,
     PharmacologicalEvaluationSerializer,
 )
+from .common import HistoryView
 
 
 class PharmacologicalEvaluationListView(generics.ListCreateAPIView):
@@ -25,3 +26,7 @@ class PharmacologicalEvaluationDetailView(
         if self.request.method == "GET":
             return PharmacologicalEvaluationNestedSerializer
         return PharmacologicalEvaluationSerializer
+
+
+class PharmacologicalEvaluationHistoryView(HistoryView):
+    queryset = PharmacologicalEvaluation.objects.all()
