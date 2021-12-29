@@ -6,6 +6,7 @@ from ..serializers import (
     PatientInformationNestedSerializer,
     PatientInformationSerializer,
 )
+from .common import HistoryView
 
 
 class PatientInformationListView(generics.ListCreateAPIView):
@@ -25,3 +26,7 @@ class PatientInformationDetailView(
         if self.request.method == "GET":
             return PatientInformationNestedSerializer
         return PatientInformationSerializer
+
+
+class PatientInformationHistoryView(HistoryView):
+    queryset = PatientInformation.objects.all()

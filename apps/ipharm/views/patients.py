@@ -5,6 +5,7 @@ from rest_framework.permissions import SAFE_METHODS
 from ..filters import PatientFilter
 from ..models.patients import Patient
 from ..serializers.patients import PatientNestedSerializer, PatientSerializer
+from .common import HistoryView
 
 
 class PatientListView(generics.ListCreateAPIView):
@@ -23,3 +24,7 @@ class PatientDetailView(generics.RetrieveUpdateDestroyAPIView):
             return PatientNestedSerializer
         else:
             return PatientSerializer
+
+
+class PatientHistoryView(HistoryView):
+    queryset = Patient.objects.all()

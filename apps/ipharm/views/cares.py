@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from ..models import Care
 from ..models.patients import Patient
 from ..serializers.cares import CareNestedSerializer, CareSerializer
+from .common import HistoryView
 
 
 class CareDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -19,3 +20,7 @@ class CareDetailView(generics.RetrieveUpdateDestroyAPIView):
             return CareNestedSerializer
         else:
             return CareSerializer
+
+
+class CareHistoryView(HistoryView):
+    queryset = Care.objects.all()
