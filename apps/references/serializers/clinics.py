@@ -13,5 +13,5 @@ class ClinicSerializer(serializers.ModelSerializer):
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        exclude = ("is_deleted",)
+        exclude = ("is_deleted", "for_insurance")
         read_only_fields = ("id",)

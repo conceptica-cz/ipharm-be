@@ -8,3 +8,7 @@ class DepartmentManager(BaseTemporaryCreatableManager):
         "specialization_code": "TMP",
         "icp": "TMP",
     }
+
+    def get_department_for_insurance_report(self):
+        """Returns the department using the insurance report."""
+        return self.get(for_insurance=True)

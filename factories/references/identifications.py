@@ -14,3 +14,4 @@ class IdentificationFactory(factory.django.DjangoModelFactory):
     city = factory.Faker("city", locale="cs")
     ico = factory.Faker("ean13", locale="cs")
     dic = factory.Faker("ean13", locale="cs")
+    for_insurance = None

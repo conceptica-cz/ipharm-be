@@ -12,5 +12,7 @@ class PatientAdmin(BaseHistoryAdmin):
         "first_name",
         "birth_number",
         "external_id",
+        "created_at",
+        "updated_at",
     ]
     search_fields = ["birth_number", "last_name", "external_id"]

@@ -5,5 +5,6 @@ from .drugs import *
 from .facilities import *
 from .identifications import *
 from .insurances import *
+from .medical_procedure import *
 from .persons import *
 from .tags import *

@@ -132,3 +132,5 @@ class DepartmentFactory(factory.django.DjangoModelFactory):
     external_id = factory.Iterator(range(1, 60))
     abbreviation = factory.LazyAttribute(lambda o: f"ODD{o.external_id}")
     description = factory.LazyAttribute(lambda o: f"Oddělení {o.external_id}")
+    specialization_code = factory.LazyAttribute(lambda o: f"{o.external_id}")
+    icp = factory.LazyAttribute(lambda o: f"{o.external_id}")

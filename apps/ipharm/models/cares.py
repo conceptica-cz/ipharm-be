@@ -42,6 +42,8 @@ class Care(BaseUpdatableModel):
         blank=True,
         related_name="last_dekurz_care",
     )
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     class Meta:
         unique_together = ("external_id", "clinic")
