@@ -6,7 +6,9 @@ from ..managers.departments import DepartmentManager
 
 
 class Clinic(BaseUpdatableModel):
-    external_id = models.IntegerField(unique=True, help_text="UNIS Kód")
+    external_id = models.IntegerField(
+        unique=True, blank=True, null=True, help_text="UNIS Kód"
+    )
     abbreviation = models.CharField(max_length=10, help_text="Zkratka")
     description = models.CharField(max_length=255, db_index=True, help_text="Název")
     is_hospital = models.BooleanField(default=True, help_text="Ambulance")
@@ -30,13 +32,22 @@ class Clinic(BaseUpdatableModel):
 class Department(BaseUpdatableModel):
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, help_text="Klinika")
     clinic_external_id = models.IntegerField(help_text="UNIS Kód kliniky")
-    external_id = models.IntegerField(unique=True, help_text="UNIS Kód")
+    external_id = models.IntegerField(
+        unique=True, blank=True, null=True, help_text="UNIS Kód"
+    )
     abbreviation = models.CharField(max_length=10, help_text="Zkratka")
     description = models.CharField(max_length=255, help_text="Název")
     specialization_code = models.CharField(
         max_length=255, blank=True, help_text="Odbornost (kód)"
     )
     icp = models.CharField(max_length=255, help_text="IČP")
+    ns = models.CharField(max_length=255, blank=True, help_text="Nákladove středisko")
+    for_insurance = models.BooleanField(
+        blank=True,
+        null=True,
+        unique=True,
+        help_text="Používat pro vykazování pojištění",
+    )
 
     class Meta:
         ordering = ["description"]
@@ -45,6 +56,13 @@ class Department(BaseUpdatableModel):
         ]
 
     objects = DepartmentManager()
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        if self.for_insurance == False:  # prevent unique constraint violation
+            self.for_insurance = None
+        super().save(force_insert, force_update, using, update_fields)
 
     def __str__(self):
         return self.description

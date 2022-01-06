@@ -7,8 +7,6 @@ class IdentificationManager(BaseUpdatableManager):
     Manager for the IdentificationMna model.
     """
 
-    def get_our_identification(self):
-        """
-        Returns the identification of the current user.
-        """
-        return self.get_queryset().get(identifier=settings.OUR_HEALTH_CARE_IDENTIFIER)
+    def get_identification_for_insurance_report(self):
+        """Returns the identification using the insurance report."""
+        return self.get(for_insurance=True)

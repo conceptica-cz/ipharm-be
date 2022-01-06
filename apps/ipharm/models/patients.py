@@ -31,6 +31,8 @@ class Patient(BaseUpdatableModel):
         blank=True,
         related_name="amubulance_patient",
     )
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     objects = PatientManager()
 

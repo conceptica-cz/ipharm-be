@@ -122,3 +122,9 @@ class CheckIn(BaseUpdatableModel):
     patient_condition_change = models.BooleanField(
         default=False, help_text="Změna stavu pacienta"
     )
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    for_insurance = models.BooleanField(
+        default=False,
+        help_text="Používat pro vykazování pojištění",
+    )
