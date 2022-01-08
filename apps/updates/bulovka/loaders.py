@@ -17,13 +17,21 @@ def patient_loader(url, **kwargs) -> Generator[dict, None, None]:
     :param url: url
     :return: generator yielding lists of results
     """
-    logger.debug(f"Getting url {url}")
-    use_token = kwargs.get("use_token", False)
-    if use_token:
+
+    if parameters := kwargs.get("url_params"):
+        if "?" in url:
+            url += "&"
+        else:
+            url += "?"
+        url += "&".join(f"{k}={v}" for k, v in parameters.items())
+
+    if use_token := kwargs.get("url_params"):
         if "?" in url:
             url += f"&token={settings.REFERENCES_TOKEN}"
         else:
             url += f"?token={settings.REFERENCES_TOKEN}"
+
+    logger.debug(f"Getting url {url}")
     response = requests.get(url)
     if response.status_code != 200:
         logger.error(
