@@ -1,3 +1,4 @@
+
 # iPharm backend app
 
 ## Installation and run
@@ -59,11 +60,14 @@ Django application variables. Used by `ipharm-app`, `ipharm-worker`, `ipharm-bea
 
 `ALLOWED_HOSTS` - (must be set) django `ALLOWED_HOSTS` - list of hosts separated by comma (or just `*`).
 
-`REFERENCES_TOKEN` - (must be set) references API (iciselniky app) token.
+`BASE_IPHARM_REFERENCES_URL` - (default is `http://iciselniky-app:8000/api/v1`) base references API (iciselniky app) url.
 
-`BASE_REFERENCES_URL` - (default is `http://iciselniky-app:8000/api/v1`) base references API (iciselniky app) url.
+`IPHARM_REFERENCES_TOKEN` - (must be set) references API (iciselniky app) token.
 
-`BASE_PATIENT_URL` - (must be set) patient API url.
+`BASE_REFERENCES_URL` - (must be set) external API (patient) url.
+
+`REFERENCES_TOKEN` - (must be set) external API (patient) token.
+
 
 `DEBUG` - (default is `False`) django `DEBUG` variable.
 

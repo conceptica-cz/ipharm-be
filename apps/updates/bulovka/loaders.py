@@ -17,9 +17,14 @@ def patient_loader(url, **kwargs) -> Generator[dict, None, None]:
     :param url: url
     :return: generator yielding lists of results
     """
-    headers = {"Authorization": f"Bearer {settings.REFERENCES_TOKEN}"}
     logger.debug(f"Getting url {url}")
-    response = requests.get(url, headers=headers)
+    use_token = kwargs.get("use_token", False)
+    if use_token:
+        if "?" in url:
+            url += f"&token={settings.REFERENCES_TOKEN}"
+        else:
+            url += f"?token={settings.REFERENCES_TOKEN}"
+    response = requests.get(url)
     if response.status_code != 200:
         logger.error(
             f"Error while getting data from {url} status_code={response.status_code} content={response.content}",
