@@ -260,7 +260,7 @@ UPDATE_SOURCES = {
         "data_loader": "updates.bulovka.loaders.patient_loader",
         "data_loader_kwargs": {
             "url": BASE_REFERENCES_URL
-            + os.environ.get("PATIENT_URL_PATH", "/patient/"),
+            + os.environ.get("PATIENT_URL_PATH", "/patient/hospitalized/"),
             "use_token": True,
         },
         "transformers": ["updates.bulovka.transformers.patient_transformer"],

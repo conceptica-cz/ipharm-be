@@ -59,7 +59,7 @@ class Command(BaseCommand):
             minute="0", hour="0", day_of_week="*", day_of_month="1", month_of_year="12"
         )
         if settings.UPDATE_SOURCES[name].get("by_clinic", False):
-            for clinic in Clinic.objects.filter(is_ambulance=True):
+            for clinic in Clinic.objects.filter(is_hospital=True):
                 task_name = f"{name} /Clinic {clinic.id}"
                 PeriodicTask.objects.update_or_create(
                     name=task_name,
@@ -70,7 +70,7 @@ class Command(BaseCommand):
                             {
                                 "source_name": name,
                                 "full_update": True,
-                                "clinic_id": clinic.id,
+                                "url_params": {"clinicId": clinic.id},
                             }
                         ),
                     },
