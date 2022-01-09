@@ -1,5 +1,5 @@
 def patient_transformer(data: dict) -> dict:
-    return {
+    transformed = {
         "patient": {
             "external_id": data["patientId"],
             "first_name": data["name"].split(" ", 1)[1],
@@ -12,15 +12,18 @@ def patient_transformer(data: dict) -> dict:
             "weight": data["weight"],
         },
         "care": {
-            "external_id": data["recordId"],
+            "external_id": data.get("hospitalizationId"),
             "department": data["departmentIn"],
             "started_at": data["dateIn"],
-            "finished_at": data["dateOut"],
+            "finished_at": data.get("dateOut"),
             "main_diagnosis": data["diagnosis"],
         },
-        "dekurz": {
+        "dekurz": None,
+    }
+    if data.get("dekurzTime"):
+        transformed["dekurz"] = {
             "made_at": data["dekurzTime"],
             "doctor": data["dekurzWho"],
             "department": data["dekurzDepartment"],
-        },
-    }
+        }
+    return transformed

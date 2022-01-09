@@ -14,7 +14,7 @@ def patient_updater(data: dict, **kwargs) -> dict:
 
     patient, patient_operation = Patient.objects.update_or_create_from_dict(
         data=data["patient"],
-        identifiers=["external_id"],
+        identifiers=["birth_number"],
         relations={
             "insurance_company": {
                 "field": "insurance_company",
@@ -54,24 +54,25 @@ def patient_updater(data: dict, **kwargs) -> dict:
     )
     operations["ipharm.Care"] = care_operation
 
-    dekurz_docktor, _ = Person.objects.get_or_create_temporary(
-        person_number=data["dekurz"]["doctor"]
-    )
-    dekurz_department, _ = Department.objects.get_or_create_temporary(
-        clinic=clinic,
-        clinic_external_id=clinic_id,
-        external_id=data["dekurz"]["department"],
-    )
-    dekurz, _ = Dekurz.objects.get_or_create(
-        care=care,
-        made_at=data["dekurz"]["made_at"],
-        doctor=dekurz_docktor,
-        department=dekurz_department,
-    )
-    if care.last_dekurz != dekurz:
-        care.set_last_dekurz(dekurz)
-        if care_operation == Care.objects.NOT_CHANGED:
-            operations["ipharm.Care"] = Care.objects.UPDATED
+    if data["dekurz"]:
+        dekurz_docktor, _ = Person.objects.get_or_create_temporary(
+            person_number=data["dekurz"]["doctor"]
+        )
+        dekurz_department, _ = Department.objects.get_or_create_temporary(
+            clinic=clinic,
+            clinic_external_id=clinic_id,
+            external_id=data["dekurz"]["department"],
+        )
+        dekurz, _ = Dekurz.objects.get_or_create(
+            care=care,
+            made_at=data["dekurz"]["made_at"],
+            doctor=dekurz_docktor,
+            department=dekurz_department,
+        )
+        if care.last_dekurz != dekurz:
+            care.set_last_dekurz(dekurz)
+            if care_operation == Care.objects.NOT_CHANGED:
+                operations["ipharm.Care"] = Care.objects.UPDATED
 
     if patient.current_hospital_care != care:
         patient.set_current_care(care)
