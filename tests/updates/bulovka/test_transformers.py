@@ -8,8 +8,7 @@ class PatientTransformerTest(TestCase):
         input_data = {
             "recordId": 828116,
             "patientId": 1364419,
-            "firstName": "Ivana",
-            "lastName": "Testovací",
+            "name": "Testovaci Ivana",
             "birthNumber": "1234567890",
             "birthDate": "1987-04-02",
             "insuranceCompany": "111",
@@ -29,7 +28,7 @@ class PatientTransformerTest(TestCase):
             "patient": {
                 "external_id": 1364419,
                 "first_name": "Ivana",
-                "last_name": "Testovací",
+                "last_name": "Testovaci",
                 "birth_number": "1234567890",
                 "birth_date": "1987-04-02",
                 "insurance_company": "111",

@@ -55,17 +55,25 @@ class Command(BaseCommand):
 
     @staticmethod
     def _create_external_beat(name):
-        december_first, _ = CrontabSchedule.objects.get_or_create(
-            minute="0", hour="0", day_of_week="*", day_of_month="1", month_of_year="12"
-        )
         if settings.UPDATE_SOURCES[name].get("by_clinic", False):
+            minute = 0
+            hour = 0
+            interval = 10
+
             for clinic in Clinic.objects.filter(is_hospital=True):
                 task_name = f"{name} /Clinic {clinic.id}"
+                minute = minute + interval
+                if minute >= 60:
+                    minute = interval
+                    hour = hour + 1
+                crontab, _ = CrontabSchedule.objects.get_or_create(
+                    minute=minute, hour=hour
+                )
                 PeriodicTask.objects.update_or_create(
                     name=task_name,
                     defaults={
                         "task": "updates.tasks.update",
-                        "crontab": december_first,
+                        "crontab": crontab,
                         "kwargs": json.dumps(
                             {
                                 "source_name": name,
@@ -73,20 +81,26 @@ class Command(BaseCommand):
                                 "url_params": {"clinicId": clinic.id},
                             }
                         ),
+                        "enabled": False,
                     },
                 )
         else:
             task_name = f"{name}"
+            crontab, _ = CrontabSchedule.objects.get_or_create(
+                minute="0",
+                hour="0",
+            )
             PeriodicTask.objects.update_or_create(
                 name=task_name,
                 defaults={
                     "task": "updates.tasks.update",
-                    "crontab": december_first,
+                    "crontab": crontab,
                     "kwargs": json.dumps(
                         {
                             "source_name": name,
                             "full_update": True,
                         }
                     ),
+                    "enabled": False,
                 },
             )
