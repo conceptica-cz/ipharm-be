@@ -8,7 +8,7 @@ def patient_updater(data: dict, **kwargs) -> dict:
     data = copy.deepcopy(data)
     operations = {}
     update = kwargs["update"]
-    clinic_id = kwargs["clinic_id"]
+    clinic_id = kwargs["url_params"]["clinicId"]
 
     # patient handling
 

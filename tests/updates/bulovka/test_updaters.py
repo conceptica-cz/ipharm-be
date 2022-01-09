@@ -32,7 +32,7 @@ class PatientUpdaterTest(TestCase):
                 "department": 20,
             },
         }
-        self.kwargs = {"clinic_id": 1, "update": None}
+        self.kwargs = {"url_params": {"clinicId": 1}, "update": None}
 
     def test_new_patient(self):
         operations = patient_updater(data=self.data, **self.kwargs)
