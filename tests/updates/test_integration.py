@@ -14,8 +14,7 @@ class TestPatientUpdate(TestCase):
                 {
                     "recordId": 828116,
                     "patientId": 1364419,
-                    "firstName": "Ivana",
-                    "lastName": "Testovací",
+                    "name": "Testovací Ivana",
                     "birthNumber": "1234567890",
                     "birthDate": "1987-04-02",
                     "insuranceCompany": "111",
@@ -33,8 +32,7 @@ class TestPatientUpdate(TestCase):
                 {
                     "recordId": 1413734,
                     "patientId": 1231676,
-                    "firstName": "Karel",
-                    "lastName": "Testovací",
+                    "name": "Testovací Karel Junior",
                     "birthNumber": "1234567891",
                     "birthDate": "1959-05-25",
                     "insuranceCompany": "111",
