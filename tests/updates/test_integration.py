@@ -1,7 +1,7 @@
 from unittest.mock import Mock, patch
 
 from django.test import TestCase
-from ipharm.models import Patient
+from ipharm.models import Care, Dekurz, Patient
 from updates.models import Source
 from updates.tasks import update
 
@@ -12,40 +12,37 @@ class TestPatientUpdate(TestCase):
         response_data = {
             "result": [
                 {
-                    "recordId": 828116,
-                    "patientId": 1364419,
-                    "name": "Testovací Ivana",
+                    "patientId": 42,
+                    "name": "Doe John",
                     "birthNumber": "1234567890",
                     "birthDate": "1987-04-02",
                     "insuranceCompany": "111",
-                    "insuranceNumber": "1234567890",
-                    "height": 160.0,
-                    "weight": 57.0,
-                    "departmentIn": 16,
-                    "dateIn": "2021-05-18 20:23",
-                    "dateOut": None,
-                    "diagnosis": "K519",
-                    "dekurzTime": "2021-09-23T20:29:00",
-                    "dekurzWho": 92328,
-                    "dekurzDepartment": 20,
+                    "insuranceNumber": "123456789",
+                    "height": 173.0,
+                    "weight": 61.0,
+                    "diagnosis": "U071",
+                    "hospitalizationId": 143,
+                    "departmentIn": 600,
+                    "dateIn": "2021-12-26 14:27",
+                    "dekurzTime": "2022-01-06 09:30",
+                    "dekurzWho": 70331,
+                    "dekurzDepartment": 600,
                 },
                 {
-                    "recordId": 1413734,
-                    "patientId": 1231676,
-                    "name": "Testovací Karel Junior",
+                    "patientId": 43,
+                    "name": "Smith John",
                     "birthNumber": "1234567891",
-                    "birthDate": "1959-05-25",
+                    "birthDate": "1987-04-02",
                     "insuranceCompany": "111",
-                    "insuranceNumber": "1234567890 ",
-                    "height": 178.0,
-                    "weight": 136.0,
-                    "departmentIn": 33,
-                    "dateIn": "2021-07-04 15:59",
-                    "dateOut": None,
-                    "diagnosis": "I500",
-                    "dekurzTime": "2021-09-25T10:39:00",
-                    "dekurzWho": 92328,
-                    "dekurzDepartment": 18,
+                    "insuranceNumber": "123456789",
+                    "hospitalizationId": 144,
+                    "height": 173.0,
+                    "weight": 61.0,
+                    "diagnosis": "U071",
+                    "departmentIn": 600,
+                    "dateIn": "2021-12-26 14:27",
+                    "dekurzWho": 0,
+                    "dekurzDepartment": 0,
                 },
             ],
         }
@@ -55,3 +52,5 @@ class TestPatientUpdate(TestCase):
         update("Patient", clinic_id=1)
 
         self.assertEqual(Patient.objects.count(), 2)
+        self.assertEqual(Care.objects.count(), 2)
+        self.assertEqual(Dekurz.objects.count(), 1)
