@@ -57,15 +57,17 @@ class Command(BaseCommand):
     def _create_external_beat(name):
         if settings.UPDATE_SOURCES[name].get("by_clinic", False):
             minute = 0
-            hour = 0
-            interval = 10
+            hour = 22
+            interval = 5
 
             for clinic in Clinic.objects.filter(is_hospital=True):
                 task_name = f"{name} /Clinic {clinic.id}"
                 minute = minute + interval
                 if minute >= 60:
-                    minute = interval
+                    minute = minute - 60
                     hour = hour + 1
+                if hour >= 24:
+                    hour = 0
                 crontab, _ = CrontabSchedule.objects.get_or_create(
                     minute=minute, hour=hour
                 )
