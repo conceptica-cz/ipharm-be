@@ -1,14 +1,18 @@
 import copy
+import logging
 
 from ipharm.models import Care, Dekurz, Patient
 from references.models import Clinic, Department, Person
 
+logger = logging.getLogger(__name__)
+
 
 def patient_updater(data: dict, **kwargs) -> dict:
+    logger.debug(f"Updating patient {data}")
     data = copy.deepcopy(data)
     operations = {}
     update = kwargs["update"]
-    clinic_id = kwargs["url_params"]["clinicId"]
+    clinic_id = kwargs["url_parameters"]["clinicId"]
 
     # patient handling
 

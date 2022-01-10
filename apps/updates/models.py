@@ -32,7 +32,10 @@ class Source(BaseHistoricalModel):
                 update_type = Update.INCREMENTAL
 
         update = Update.objects.create(
-            source=self, update_type=update_type, started_at=timezone.now()
+            source=self,
+            update_type=update_type,
+            started_at=timezone.now(),
+            url_parameters=kwargs.get("url_parameters"),
         )
         updater = UpdaterFactory.create(
             self.name, update=update, latest_update=latest_update, **kwargs
@@ -52,6 +55,7 @@ class Update(BaseHistoricalModel):
     update_type = models.CharField(max_length=11, choices=UPDATE_TYPES, default=FULL)
     started_at = models.DateTimeField()
     finished_at = models.DateTimeField(null=True, blank=True)
+    url_parameters = models.JSONField(null=True, blank=True)
 
     def finish_update(self, update_result):
         self.finished_at = timezone.now()

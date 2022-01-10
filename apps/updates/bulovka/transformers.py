@@ -1,4 +1,10 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 def patient_transformer(data: dict) -> dict:
+    logger.debug(f"Transforming patient data {data}")
     transformed = {
         "patient": {
             "external_id": data["patientId"],
@@ -8,15 +14,15 @@ def patient_transformer(data: dict) -> dict:
             "birth_date": data["birthDate"],
             "insurance_company": data["insuranceCompany"],
             "insurance_number": data["insuranceNumber"],
-            "height": data["height"],
-            "weight": data["weight"],
+            "height": data.get("height"),
+            "weight": data.get("weight"),
         },
         "care": {
             "external_id": data.get("hospitalizationId"),
             "department": data["departmentIn"],
             "started_at": data["dateIn"],
             "finished_at": data.get("dateOut"),
-            "main_diagnosis": data["diagnosis"],
+            "main_diagnosis": data.get("diagnosis"),
         },
         "dekurz": None,
     }

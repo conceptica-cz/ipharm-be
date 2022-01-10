@@ -49,7 +49,7 @@ class TestPatientUpdate(TestCase):
         mocked_get.return_value = Mock(
             status_code=200, json=Mock(return_value=response_data)
         )
-        update("Patient", url_params={"clinicId": 24})
+        update("Patient", url_parameters={"clinicId": 1})
 
         self.assertEqual(Patient.objects.count(), 2)
         self.assertEqual(Care.objects.count(), 2)

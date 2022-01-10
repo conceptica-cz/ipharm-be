@@ -18,14 +18,14 @@ def patient_loader(url, **kwargs) -> Generator[dict, None, None]:
     :return: generator yielding lists of results
     """
 
-    if parameters := kwargs.get("url_params"):
+    if parameters := kwargs.get("url_parameters"):
         if "?" in url:
             url += "&"
         else:
             url += "?"
         url += "&".join(f"{k}={v}" for k, v in parameters.items())
 
-    if use_token := kwargs.get("url_params"):
+    if use_token := kwargs.get("url_parameters"):
         if "?" in url:
             url += f"&token={settings.REFERENCES_TOKEN}"
         else:

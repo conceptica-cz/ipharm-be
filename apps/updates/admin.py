@@ -32,6 +32,7 @@ class UpdateAdmin(admin.ModelAdmin):
         "update_type",
         "started_at",
         "finished_at",
+        "url_parameters",
     ]
     list_filter = ["source"]
     inlines = [ModelUpdateInline]
