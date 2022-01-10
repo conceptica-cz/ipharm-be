@@ -17,7 +17,7 @@ class PatientLoaderTest(TestCase):
         ]
         list(
             patient_loader(
-                url="http://api-url", use_token=True, url_params={"clinicId": 2}
+                url="http://api-url", use_token=True, url_parameters={"clinicId": 2}
             )
         )
 

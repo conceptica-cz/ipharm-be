@@ -80,7 +80,7 @@ class Command(BaseCommand):
                             {
                                 "source_name": name,
                                 "full_update": True,
-                                "url_params": {"clinicId": clinic.id},
+                                "url_parameters": {"clinicId": clinic.id},
                             }
                         ),
                         "enabled": False,

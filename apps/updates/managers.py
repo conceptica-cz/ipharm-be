@@ -89,9 +89,15 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
             key = relations[data_field].get("key", data_field)
             field = self.model._meta.get_field(field_name)
             if field.many_to_one:
-                related_model, _ = field.related_model.objects.get_or_create_temporary(
-                    **{key: data[data_field]}
-                )
+                if data[data_field] is None:
+                    related_model = None
+                else:
+                    (
+                        related_model,
+                        _,
+                    ) = field.related_model.objects.get_or_create_temporary(
+                        **{key: data[data_field]}
+                    )
                 if relations[data_field].get("delete_source_field"):
                     del data[data_field]
                 data[field_name] = related_model
