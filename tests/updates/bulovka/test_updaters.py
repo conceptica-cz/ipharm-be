@@ -51,6 +51,7 @@ class PatientUpdaterTest(TestCase):
 
         self.assertEqual(care.main_diagnosis.code, "K519")
         self.assertEqual(care.department.external_id, 16)
+        self.assertEqual(care.clinic.external_id, 1)
 
         self.assertEqual(dekurz.department.external_id, 20)
 
