@@ -40,10 +40,12 @@ def patient_updater(data: dict, **kwargs) -> dict:
             "clinic_external_id": clinic_id,
         },
     )
+
     data["care"]["patient_id"] = patient.id
     data["care"]["department_id"] = department.id
     del data["care"]["department"]
     data["care"]["care_type"] = Care.HOSPITALIZATION
+    data["care"]["clinic"] = clinic
     care, care_operation = Care.objects.update_or_create_from_dict(
         data=data["care"],
         identifiers=["external_id"],
