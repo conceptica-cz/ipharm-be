@@ -78,7 +78,7 @@ class Command(BaseCommand):
                 if hour >= 24:
                     hour = 0
                 crontab, _ = CrontabSchedule.objects.get_or_create(
-                    minute=minute, hour=hour, timezone_field="Europe/Prague"
+                    minute=minute, hour=hour, timezone="Europe/Prague"
                 )
                 PeriodicTask.objects.update_or_create(
                     name=task_name,
