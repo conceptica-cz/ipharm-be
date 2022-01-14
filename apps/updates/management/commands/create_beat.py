@@ -11,13 +11,22 @@ EXTERNAL_SOURCES = ["Patient"]
 class Command(BaseCommand):
     help = "Create django celery beat periodic tasks"
 
+    def add_arguments(self, parser):
+        # Optional only external argument
+        parser.add_argument(
+            "--only-patient",
+            action="store_true",
+            help="Create only patient tasks",
+        )
+
     def handle(self, *args, **options):
         print("Creating django celery beat periodic tasks...")
         for name in settings.UPDATE_SOURCES:
             if name in EXTERNAL_SOURCES:
                 self._create_external_beat(name)
             else:
-                self._create_reference_beat(name)
+                if not options["only_patient"]:
+                    self._create_reference_beat(name)
         print("Done.")
 
     @staticmethod
@@ -56,12 +65,12 @@ class Command(BaseCommand):
     @staticmethod
     def _create_external_beat(name):
         if settings.UPDATE_SOURCES[name].get("by_clinic", False):
-            minute = 0
-            hour = 22
-            interval = 5
+            minute = 10
+            hour = 6
+            interval = 1
 
             for clinic in Clinic.objects.filter(is_hospital=True):
-                task_name = f"{name} /Clinic {clinic.id}"
+                task_name = f"{name} /Clinic {clinic.external_id}"
                 minute = minute + interval
                 if minute >= 60:
                     minute = minute - 60
@@ -69,7 +78,7 @@ class Command(BaseCommand):
                 if hour >= 24:
                     hour = 0
                 crontab, _ = CrontabSchedule.objects.get_or_create(
-                    minute=minute, hour=hour
+                    minute=minute, hour=hour, timezone_field="Europe/Prague"
                 )
                 PeriodicTask.objects.update_or_create(
                     name=task_name,
@@ -80,7 +89,7 @@ class Command(BaseCommand):
                             {
                                 "source_name": name,
                                 "full_update": True,
-                                "url_parameters": {"clinicId": clinic.id},
+                                "url_parameters": {"clinicId": clinic.external_id},
                             }
                         ),
                         "enabled": False,
