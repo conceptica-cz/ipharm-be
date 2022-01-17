@@ -13,7 +13,9 @@ def patient_transformer(data: dict) -> dict:
             "birth_number": data["birthNumber"],
             "birth_date": data["birthDate"],
             "insurance_company": data["insuranceCompany"],
-            "insurance_number": data["insuranceNumber"],
+            "insurance_number": data["insuranceNumber"]
+            if data["insuranceNumber"]
+            else data["birthNumber"],
             "height": data.get("height"),
             "weight": data.get("weight"),
         },
