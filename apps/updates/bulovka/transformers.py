@@ -31,7 +31,7 @@ def patient_transformer(data: dict) -> dict:
     if data.get("dekurzTime"):
         transformed["dekurz"] = {
             "made_at": data["dekurzTime"],
-            "doctor": data["dekurzWho"],
+            "doctor": data["dekurzWho"] if data["dekurzWho"] else None,
             "department": data["dekurzDepartment"],
         }
     return transformed

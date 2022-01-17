@@ -44,6 +44,23 @@ class TestPatientUpdate(TestCase):
                     "dekurzWho": 0,
                     "dekurzDepartment": 0,
                 },
+                {
+                    "patientId": 44,
+                    "name": "Doe John",
+                    "birthNumber": "1234567892",
+                    "birthDate": "1987-04-02",
+                    "insuranceCompany": "111",
+                    "insuranceNumber": "123456790",
+                    "height": 173.0,
+                    "weight": 61.0,
+                    "diagnosis": "U071",
+                    "hospitalizationId": 145,
+                    "departmentIn": 600,
+                    "dateIn": "2021-12-26 14:27",
+                    "dekurzTime": "2022-01-06 09:30",
+                    "dekurzWho": 0,
+                    "dekurzDepartment": 601,
+                },
             ],
         }
         mocked_get.return_value = Mock(
@@ -51,6 +68,8 @@ class TestPatientUpdate(TestCase):
         )
         update("Patient", url_parameters={"clinicId": 1})
 
-        self.assertEqual(Patient.objects.count(), 2)
-        self.assertEqual(Care.objects.count(), 2)
-        self.assertEqual(Dekurz.objects.count(), 1)
+        self.assertEqual(Patient.objects.count(), 3)
+        self.assertEqual(Care.objects.count(), 3)
+        self.assertEqual(Dekurz.objects.count(), 2)
+
+        self.assertEqual(Dekurz.objects.filter(doctor__isnull=True).count(), 1)

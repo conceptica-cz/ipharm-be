@@ -61,9 +61,12 @@ def patient_updater(data: dict, **kwargs) -> dict:
     operations["ipharm.Care"] = care_operation
 
     if data["dekurz"]:
-        dekurz_docktor, _ = Person.objects.get_or_create_temporary(
-            person_number=data["dekurz"]["doctor"]
-        )
+        if data["dekurz"]["doctor"]:
+            dekurz_docktor, _ = Person.objects.get_or_create_temporary(
+                person_number=data["dekurz"]["doctor"]
+            )
+        else:
+            dekurz_docktor = None
         dekurz_department, _ = Department.objects.get_or_create_temporary(
             clinic=clinic,
             clinic_external_id=clinic_id,
