@@ -3,12 +3,9 @@ from typing import Generator
 
 import requests
 from django.conf import settings
+from updates.common.loaders import ExternalReferenceError
 
 logger = logging.getLogger(__name__)
-
-
-class ExternalReferenceError(Exception):
-    pass
 
 
 def patient_loader(url, **kwargs) -> Generator[dict, None, None]:
@@ -46,6 +43,12 @@ def patient_loader(url, **kwargs) -> Generator[dict, None, None]:
             f"Error while getting data from {url} status_code={response.status_code} content={response.content}"
         )
     data = response.json()
-    results = data["result"]
+    try:
+        results = data["result"]
+    except KeyError:
+        logger.exception("Error while getting data from %s", url, extra={"data": data})
+        raise ExternalReferenceError(
+            f"Response doesn't contain `result` key. data={data}",
+        )
     for result in results:
         yield result

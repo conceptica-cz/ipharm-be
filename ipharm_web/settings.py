@@ -207,6 +207,7 @@ DEFAULT_INCREMENTAL_UPDATE_INTERVAL = os.environ.get(
 DEFAULT_FULL_UPDATE_INTERVAL = os.environ.get(
     "DEFAULT_INCREMENTAL_UPDATE_INTERVAL", 120
 )
+DEFAULT_RETRY_DELAY = os.environ.get("DEFAULT_RETRY_DELAY", 3600)
 UPDATE_SOURCES = {
     "Clinic": {
         "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/clinics/"},
