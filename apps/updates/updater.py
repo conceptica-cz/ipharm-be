@@ -7,6 +7,10 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
+class UpdateError(Exception):
+    pass
+
+
 class Updater:
     def __init__(
         self,
@@ -29,9 +33,13 @@ class Updater:
         update_result = {}
         data = self.data_loader(**self.data_loader_kwargs)
         for entity in data:
-            for transformer in self.transformers:
-                entity = transformer(entity)
-            result = self.model_updater(data=entity, **self.model_updater_kwargs)
+            try:
+                for transformer in self.transformers:
+                    entity = transformer(entity)
+                result = self.model_updater(data=entity, **self.model_updater_kwargs)
+            except Exception:
+                logger.exception(f"Error updating {entity}")
+                raise UpdateError(f"Error updating {entity}")
             for model, operation in result.items():
                 model_result = update_result.setdefault(model, {})
                 model_result[operation] = model_result.get(operation, 0) + 1
