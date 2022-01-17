@@ -39,7 +39,7 @@ class Updater:
                 result = self.model_updater(data=entity, **self.model_updater_kwargs)
             except Exception:
                 logger.exception(f"Error updating {entity}")
-                raise UpdateError(f"Error updating {entity}")
+                continue
             for model, operation in result.items():
                 model_result = update_result.setdefault(model, {})
                 model_result[operation] = model_result.get(operation, 0) + 1
