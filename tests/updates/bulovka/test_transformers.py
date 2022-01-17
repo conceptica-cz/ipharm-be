@@ -40,12 +40,12 @@ class PatientTransformerTest(TestCase):
             "care": {
                 "external_id": 43,
                 "department": 600,
-                "started_at": "2021-12-26 14:27",
+                "started_at": "2021-12-26T14:27:00+01:00",
                 "finished_at": None,
                 "main_diagnosis": "U071",
             },
             "dekurz": {
-                "made_at": "2022-01-06 09:30",
+                "made_at": "2022-01-06T09:30:00+01:00",
                 "doctor": 70331,
                 "department": 600,
             },
@@ -88,7 +88,7 @@ class PatientTransformerTest(TestCase):
             "care": {
                 "external_id": 43,
                 "department": 600,
-                "started_at": "2021-12-26 14:27",
+                "started_at": "2021-12-26T14:27:00+01:00",
                 "finished_at": None,
                 "main_diagnosis": "U071",
             },
@@ -137,12 +137,12 @@ class PatientTransformerTest(TestCase):
             "care": {
                 "external_id": 43,
                 "department": 600,
-                "started_at": "2021-12-26 14:27",
+                "started_at": "2021-12-26T14:27:00+01:00",
                 "finished_at": None,
                 "main_diagnosis": "U071",
             },
             "dekurz": {
-                "made_at": "2022-01-06 09:30",
+                "made_at": "2022-01-06T09:30:00+01:00",
                 "doctor": 70331,
                 "department": 600,
             },
@@ -189,12 +189,12 @@ class PatientTransformerTest(TestCase):
             "care": {
                 "external_id": 43,
                 "department": 600,
-                "started_at": "2021-12-26 14:27",
+                "started_at": "2021-12-26T14:27:00+01:00",
                 "finished_at": None,
                 "main_diagnosis": "U071",
             },
             "dekurz": {
-                "made_at": "2022-01-06 09:30",
+                "made_at": "2022-01-06T09:30:00+01:00",
                 "doctor": None,
                 "department": 600,
             },
