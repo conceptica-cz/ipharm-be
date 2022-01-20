@@ -48,7 +48,7 @@ def patient_updater(data: dict, **kwargs) -> dict:
     data["care"]["clinic"] = clinic
     care, care_operation = Care.objects.update_or_create_from_dict(
         data=data["care"],
-        identifiers=["external_id"],
+        identifiers=["external_id", "clinic"],
         relations={
             "main_diagnosis": {
                 "field": "main_diagnosis",

@@ -54,6 +54,7 @@ class PatientSerializerTest(TestCase):
             "birth_number": "0000000001",
             "current_ambulance_care": {
                 "clinic": clinic.id,
+                "external_id": None,
             },
             "insurance_company": insurance_company.id,
             "insurance_number": "42",
@@ -80,6 +81,7 @@ class PatientSerializerTest(TestCase):
             "birth_number": "0000000001",
             "current_hospital_care": {
                 "clinic": clinic.id,
+                "external_id": None,
             },
             "insurance_company": insurance_company.id,
             "insurance_number": "42",
@@ -109,6 +111,7 @@ class PatientSerializerTest(TestCase):
             "birth_number": "2",
             "current_ambulance_care": {
                 "clinic": new_clinic.id,
+                "external_id": None,
             },
         }
         serializer = PatientSerializer(instance=patient, data=data)
@@ -131,6 +134,7 @@ class PatientSerializerTest(TestCase):
             "birth_number": "2",
             "current_ambulance_care": {
                 "clinic": clinic.id,
+                "external_id": None,
             },
         }
         serializer = PatientSerializer(instance=patient, data=data)
@@ -157,6 +161,7 @@ class PatientSerializerTest(TestCase):
             "birth_number": "2",
             "current_hospital_care": {
                 "clinic": new_clinic.id,
+                "external_id": None,
             },
         }
         serializer = PatientSerializer(instance=patient, data=data)
@@ -179,6 +184,7 @@ class PatientSerializerTest(TestCase):
             "birth_number": "2",
             "current_hospital_care": {
                 "clinic": clinic.id,
+                "external_id": None,
             },
         }
         serializer = PatientSerializer(instance=patient, data=data)
