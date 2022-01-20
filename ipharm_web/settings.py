@@ -308,16 +308,16 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "verbose": {
-            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
-            "style": "{",
-        }
+        "json": {
+            "class": "pythonjsonlogger.jsonlogger.JsonFormatter",
+            "format": "%(levelname)s %(asctime)s %(name)s %(filename)s %(lineno)s %(funcName)s %(message)s",
+        },
     },
     "handlers": {
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
-            "formatter": "verbose",
+            "formatter": "json",
         },
     },
     "loggers": {
@@ -336,6 +336,10 @@ LOGGING = {
             "propagate": False,
         },
         "common": {
+            "handlers": ["console"],
+            "level": LOG_LEVEL,
+        },
+        "ipharm": {
             "handlers": ["console"],
             "level": LOG_LEVEL,
         },
