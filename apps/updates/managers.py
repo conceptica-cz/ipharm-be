@@ -30,7 +30,7 @@ class BaseUpdatableManager(BaseSoftDeletableManager):
         :return: tuple (object, operation), where operation is one of 'created', 'updated', 'not_changed'
         """
         data = data.copy()
-        logger.debug(f"Adding record data={data}", extra={"data": data})
+        logger.debug(f"Adding record", extra={"data": data})
 
         obj, is_changed = self._is_changed(data, relations)
         if not is_changed:
