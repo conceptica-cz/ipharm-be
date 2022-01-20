@@ -6,7 +6,7 @@ from factories.ipharm.cares import CareFactory, PatientFactory
 from factories.references.clinics import ClinicFactory
 
 
-class BestUpdatableManagerTest(TestCase):
+class BaseUpdatableManagerTest(TestCase):
     """Test creating/getting related instances"""
 
     def setUp(self) -> None:

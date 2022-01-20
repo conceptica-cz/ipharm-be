@@ -23,9 +23,7 @@ class Care(BaseUpdatableModel):
         null=True,
     )
     diagnoses = models.ManyToManyField("references.Diagnosis")
-    external_id = models.CharField(
-        "UNIS ID", max_length=50, null=True, blank=True, unique=True
-    )
+    external_id = models.CharField("UNIS ID", max_length=50, null=True, blank=True)
     started_at = models.DateTimeField(null=True, blank=True)
     finished_at = models.DateTimeField(null=True, blank=True)
     clinic = models.ForeignKey(
@@ -45,6 +43,9 @@ class Care(BaseUpdatableModel):
         blank=True,
         related_name="last_dekurz_care",
     )
+
+    class Meta:
+        unique_together = ("external_id", "clinic")
 
     def set_last_dekurz(self, dekurz):
         self.last_dekurz = dekurz

@@ -4,6 +4,9 @@ from ipharm.models import Care, Dekurz, Patient
 from references.models import InsuranceCompany
 from updates.bulovka.updaters import patient_updater
 
+from factories.ipharm import CareFactory, PatientFactory
+from factories.references import ClinicFactory, InsuranceCompanyFactory
+
 
 class PatientUpdaterTest(TestCase):
     def setUp(self) -> None:
@@ -44,6 +47,44 @@ class PatientUpdaterTest(TestCase):
         self.assertEqual(Care.objects.count(), 1)
         care = Care.objects.get(external_id=828116)
         self.assertEqual(Dekurz.objects.count(), 1)
+        dekurz = Dekurz.objects.get(doctor__person_number="92328")
+
+        self.assertEqual(patient.first_name, "Ivana")
+        self.assertEqual(patient.insurance_company.code, "111")
+
+        self.assertEqual(care.main_diagnosis.code, "K519")
+        self.assertEqual(care.department.external_id, 16)
+        self.assertEqual(care.clinic.external_id, 1)
+
+        self.assertEqual(dekurz.department.external_id, 20)
+
+        self.assertEqual(
+            operations,
+            {
+                "ipharm.Patient": Patient.objects.CREATED,
+                "ipharm.Care": Care.objects.CREATED,
+            },
+        )
+        self.assertEqual(patient.current_hospital_care, care)
+
+    def test_new_patient__care_with_same_id_but_another_clinic_exists(self):
+        existing_clinic = ClinicFactory(external_id=2)
+        patient = PatientFactory(external_id=1)
+        existing_care = CareFactory(
+            external_id=828116,
+            clinic=existing_clinic,
+            patient=patient,
+        )
+
+        operations = patient_updater(data=self.data, **self.kwargs)
+
+        self.assertEqual(Patient.objects.count(), 2)
+        patient = Patient.objects.get(external_id=1364419)
+
+        self.assertEqual(InsuranceCompany.objects.count(), 2)
+        self.assertEqual(Care.objects.count(), 2)
+        self.assertEqual(Care.objects.filter(external_id=828116).count(), 2)
+        care = Care.objects.get(external_id=828116, clinic__external_id=1)
         dekurz = Dekurz.objects.get(doctor__person_number="92328")
 
         self.assertEqual(patient.first_name, "Ivana")
