@@ -14,8 +14,8 @@ class InsuranceCompany(BaseUpdatableModel):
         blank=True,
         help_text="Ulice",
     )
-    zip = models.CharField(max_length=20, help_text="PSČ")
-    city = models.CharField(max_length=50, help_text="Město")
+    zip = models.CharField(max_length=20, blank=True, help_text="PSČ")
+    city = models.CharField(max_length=50, blank=True, help_text="Město")
     ico = models.CharField(max_length=20, blank=True, help_text="IČO")
     dic = models.CharField(max_length=20, blank=True, help_text="DIČ")
     databox = models.CharField(max_length=10, blank=True, help_text="Databox")
