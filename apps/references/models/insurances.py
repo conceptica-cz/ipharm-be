@@ -7,7 +7,7 @@ class InsuranceCompany(BaseUpdatableModel):
     code = models.CharField(max_length=20, unique=True, help_text="Kód")
     name = models.CharField(max_length=255, unique=True, help_text="Název")
     shortcut = models.CharField(
-        max_length=20, null=True, blank=True, unique=True, help_text="Zkratka"
+        max_length=20, null=True, blank=True, help_text="Zkratka"
     )
     address = models.CharField(
         max_length=100,

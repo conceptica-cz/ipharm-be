@@ -21,10 +21,6 @@ services:
     ports:
       - "8000:8000"
     command: scripts/start.sh
-    logging: &logging
-      driver: "json-file"
-      options:
-        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   ipharm-worker:
     container_name: ipharm_worker_dev
@@ -37,7 +33,6 @@ services:
       - ipharm-app
     env_file: *envs-ipharm-app
     command: scripts/start_worker.sh
-    logging: *logging
 
   ipharm-beat:
     container_name: ipharm_beat_dev
@@ -90,7 +85,6 @@ services:
     command: scripts/start.sh
     volumes: &volumes-iciselniky-app
       - ./iciselniky_static:/app/static
-    logging: *logging
 
   iciselniky-postgres:
     container_name: iciselniky_postgres
@@ -111,7 +105,6 @@ services:
       - iciselniky-app
     env_file: *envs-iciselniky-app
     command: scripts/start_worker.sh
-    logging: *logging
 
   iciselniky-beat:
     container_name: iciselniky_beat
