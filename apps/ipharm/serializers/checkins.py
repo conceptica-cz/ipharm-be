@@ -1,4 +1,5 @@
 from ipharm.models import CheckIn
+from references.serializers import DiagnosisSerializer
 from references.serializers.drugs import DrugSerializer
 from rest_framework import serializers
 
@@ -13,6 +14,8 @@ class CheckInSerializer(serializers.ModelSerializer):
 class CheckInNestedSerializer(serializers.ModelSerializer):
     drugs = DrugSerializer(many=True, read_only=True)
     high_interaction_potential_drugs = DrugSerializer(many=True, read_only=True)
+    diagnoses = DiagnosisSerializer(many=True, read_only=True)
+    diagnoses_drugs = DrugSerializer(many=True, read_only=True)
     narrow_therapeutic_window_drugs = DrugSerializer(many=True, read_only=True)
 
     class Meta:

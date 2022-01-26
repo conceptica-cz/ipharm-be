@@ -12,6 +12,8 @@ class CheckInAdmin(BaseHistoryAdmin):
     autocomplete_fields = (
         "drugs",
         "high_interaction_potential_drugs",
+        "diagnoses",
+        "diagnoses_drugs",
         "narrow_therapeutic_window_drugs",
     )
 

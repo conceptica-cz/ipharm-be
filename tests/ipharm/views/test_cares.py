@@ -68,7 +68,3 @@ class UpdateCareTest(APITestCase):
         )
 
         self.care.refresh_from_db()
-        self.assertEqual(
-            sorted(response.data["diagnoses"]),
-            sorted([new_diagnosis_1.pk, new_diagnosis_2.pk]),
-        )
