@@ -9,9 +9,6 @@ class CareAdmin(BaseHistoryAdmin):
     list_display = ["pk", "external_id", "care_type", "patient", "is_active"]
     list_select_related = ["patient"]
     list_filter = ["care_type", "is_active", "patient"]
-    autocomplete_fields = (
-        "main_diagnosis",
-        "diagnoses",
-    )
+    autocomplete_fields = ("main_diagnosis",)
 
     exclude = ["dekurzes"]

@@ -55,12 +55,6 @@ class CareFactory(factory.django.DjangoModelFactory):
             for _ in range(random.randint(1, 5)):
                 self.set_last_dekurz(DekurzFactory(care=self))
 
-    @factory.post_generation
-    def diagnozes(self, create, extracted, **kwargs):
-        if create:
-            for _ in range(random.randint(1, 5)):
-                self.diagnoses.add(DiagnosisFactory())
-
 
 class DekurzFactory(factory.django.DjangoModelFactory):
     class Meta:

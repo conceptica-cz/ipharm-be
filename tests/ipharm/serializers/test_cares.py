@@ -25,13 +25,6 @@ class CareNestedSerializerTest(TestCase):
         department_serializer = DepartmentSerializer(instance=self.care.department)
         self.assertEqual(serializer.data["department"], department_serializer.data)
 
-    def test_diagnoses_is_nested(self):
-        serializer = CareNestedSerializer(instance=self.care)
-        self.assertEqual(
-            serializer.data["diagnoses"],
-            [DiagnosisSerializer(d).data for d in self.care.diagnoses.all()],
-        )
-
     def test_last_dekurz_is_nested(self):
         serializer = CareNestedSerializer(instance=self.care)
         dekurz_serializer = DekurzNestedSerializer(instance=self.care.last_dekurz)

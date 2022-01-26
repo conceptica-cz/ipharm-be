@@ -47,6 +47,6 @@ class GetSingleInsuranceCompanyTest(APITestCase):
     def test_get_invalid_single_insurance_company(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("insurance_company_detail", kwargs={"pk": 42})
+            reverse("insurance_company_detail", kwargs={"pk": 2042})
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

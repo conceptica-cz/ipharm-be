@@ -22,7 +22,6 @@ class Care(BaseUpdatableModel):
         blank=True,
         null=True,
     )
-    diagnoses = models.ManyToManyField("references.Diagnosis")
     external_id = models.CharField("UNIS ID", max_length=50, null=True, blank=True)
     started_at = models.DateTimeField(null=True, blank=True)
     finished_at = models.DateTimeField(null=True, blank=True)

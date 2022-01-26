@@ -37,6 +37,21 @@ class CheckIn(BaseUpdatableModel):
         blank=True,
         help_text="Poznámka k léčivám s vysokým interakčním potenciálem",
     )
+    diagnoses = models.ManyToManyField(
+        "references.Diagnosis",
+        blank=True,
+        help_text="Diagnóza",
+    )
+    diagnoses_drugs = models.ManyToManyField(
+        Drug,
+        blank=True,
+        related_name="drugs_checkins",
+        help_text="Seznam léčiv",
+    )
+    diagnoses_note = models.TextField(
+        blank=True,
+        help_text="Poznámka",
+    )
     renal_insufficiency = models.BooleanField(
         default=False, help_text="Renální insuficience"
     )
