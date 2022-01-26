@@ -33,7 +33,9 @@ class Department(BaseUpdatableModel):
     external_id = models.IntegerField(unique=True, help_text="UNIS Kód")
     abbreviation = models.CharField(max_length=10, help_text="Zkratka")
     description = models.CharField(max_length=255, help_text="Název")
-    specialty = models.CharField(max_length=255, help_text="Odbornost")
+    specialization_code = models.CharField(
+        max_length=255, blank=True, help_text="Odbornost (kód)"
+    )
     icp = models.CharField(max_length=255, help_text="IČP")
 
     class Meta:
