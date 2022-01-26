@@ -5,6 +5,6 @@ class DepartmentManager(BaseTemporaryCreatableManager):
     TEMPORARY_DEFAULTS = {
         "abbreviation": "TMP",
         "description": "TMP",
-        "specialty": "TMP",
+        "specialization_code": "TMP",
         "icp": "TMP",
     }
