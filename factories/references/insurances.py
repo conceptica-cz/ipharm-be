@@ -15,3 +15,4 @@ class InsuranceCompanyFactory(factory.django.DjangoModelFactory):
     ico = factory.Faker("ean13", locale="cs")
     dic = factory.Faker("ean13", locale="cs")
     databox = factory.Faker("ean8", locale="cs")
+    type = factory.Iterator(["1", "2", "3", "4"])

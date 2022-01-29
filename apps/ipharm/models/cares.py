@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from updates.models import BaseUpdatableModel
 
 
@@ -42,7 +43,7 @@ class Care(BaseUpdatableModel):
         blank=True,
         related_name="last_dekurz_care",
     )
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     class Meta:

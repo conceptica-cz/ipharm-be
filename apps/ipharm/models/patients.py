@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from ipharm.managers.patients import PatientManager
 from updates.models import BaseUpdatableModel
 
@@ -31,7 +32,7 @@ class Patient(BaseUpdatableModel):
         blank=True,
         related_name="amubulance_patient",
     )
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     objects = PatientManager()

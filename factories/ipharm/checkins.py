@@ -68,6 +68,8 @@ class CheckInFactory(factory.django.DjangoModelFactory):
     consultation_requested = factory.Faker("boolean", chance_of_getting_true=20)
     patient_condition_change = factory.Faker("boolean", chance_of_getting_true=20)
     risk_level = factory.Iterator(["1", "2", "3"])
+    created_at = factory.Faker("date_time_this_year", before_now=True, tzinfo=None)
+    for_insurance = True
 
     @factory.post_generation
     def drugs(self, create, extracted, **kwargs):

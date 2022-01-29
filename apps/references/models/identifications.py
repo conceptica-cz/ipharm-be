@@ -10,7 +10,9 @@ class Identification(BaseUpdatableModel):
     shortcut = models.CharField(
         max_length=20, null=True, blank=True, unique=True, help_text="Zkratka"
     )
-    identifier = models.IntegerField(help_text="Identifikační číslo zařízení")
+    identifier = models.CharField(
+        max_length=20, null=True, blank=True, help_text="Identifikační číslo zařízení"
+    )
     address = models.CharField(
         max_length=100,
         blank=True,
