@@ -1,6 +1,21 @@
+import logging
+import os
+import shutil
+
 from django.conf import settings
+from django.template.loader import render_to_string
 from ipharm.models import CheckIn
-from references.models import Department, Identification, MedicalProcedure
+from references.models import (
+    Department,
+    Identification,
+    InsuranceCompany,
+    MedicalProcedure,
+)
+from reports.models import InsuranceReport
+
+
+class InsuranceReportError(Exception):
+    pass
 
 
 class PaddingError(Exception):
@@ -14,14 +29,16 @@ def add_padding(padding_table: dict, key: str, value: str) -> None:
     return padded_value
 
 
-def check_in_dosage(
-    check_in: CheckIn,
+def get_document_data(
+    obj: CheckIn,
     department_for_insurance: Department,
     medical_procedure: MedicalProcedure,
+    document_total_number: int,
+    document_number: int,
 ) -> dict:
     """
 
-    :param check_in: CheckIn to calculate dosage from
+    :param obj: CheckIn to calculate dosage from
     :param department_for_insurance: Department, which data is used for dosage report
     :return:
     """
@@ -60,24 +77,24 @@ def check_in_dosage(
     result = {}
 
     heading["TYP"] = "E"
-    heading["ECID"] = "*******"
+    heading["ECID"] = str(document_total_number)
     heading["ESTR"] = "0"
     heading["EPOC"] = "0"
-    heading["EPOR"] = "***"
-    heading["ECPO"] = str(check_in.care.patient.insurance_company.code)
+    heading["EPOR"] = str(document_number)
+    heading["ECPO"] = str(obj.care.patient.insurance_company.code)
     heading["ETPP"] = "1"
     heading["EICO"] = department_for_insurance.icp
     heading["EVAR"] = department_for_insurance.ns
     heading["EODB"] = department_for_insurance.specialization_code
-    heading["EROD"] = str(check_in.care.patient.insurance_number)
-    heading["EZDG"] = str(check_in.care.main_diagnosis.code)
+    heading["EROD"] = str(obj.care.patient.insurance_number)
+    heading["EZDG"] = str(obj.care.main_diagnosis.code)
     heading["EKO"] = ""
-    heading["EICZ"] = check_in.care.department.icp
+    heading["EICZ"] = obj.care.department.icp
     heading["ECDZ"] = ""
-    heading["EDAT"] = check_in.care.started_at.strftime("%d%m%Y")
+    heading["EDAT"] = obj.care.started_at.strftime("%d%m%Y")
     heading["ECCEL"] = ""
     heading["ECBOD"] = str(medical_procedure.scores)
-    heading["EODZ"] = check_in.care.department.specialization_code
+    heading["EODZ"] = obj.care.department.specialization_code
     heading["EVARZ"] = ""
     heading["DTYP"] = ""
 
@@ -85,10 +102,10 @@ def check_in_dosage(
         heading[k] = add_padding(heading_padding, k, v)
 
     result["TYP"] = "V"
-    result["VDAT"] = ""
-    result["VKOD"] = ""
-    result["VPOC"] = ""
-    result["DTYP"] = ""
+    result["VDAT"] = obj.created_at.strftime("%d%m%Y")
+    result["VKOD"] = medical_procedure.code
+    result["VPOC"] = " "
+    result["DTYP"] = " "
 
     for k, v in result.items():
         result[k] = add_padding(result_padding, k, v)
@@ -97,3 +114,195 @@ def check_in_dosage(
         "heading": heading,
         "result": result,
     }
+
+
+def get_dosage_data(
+    insurance_company: InsuranceCompany,
+    identification: Identification,
+    year: int,
+    month: int,
+    documents: list,
+) -> dict:
+    """
+    Create dosage data for insurance report.
+
+    :param insurance_company: InsuranceCompany for which data is created.
+    :param identification: Identification, which data is used for dosage report.
+    :return: dictionary with dosage data
+    """
+    year = str(year)
+    month = str(month)
+    if len(month) == 1:
+        month = "0" + month
+
+    documents_count = str(len(documents))
+    documents_scoring = str(sum([float(d["heading"]["ECBOD"]) for d in documents]))
+
+    padding = {
+        "TYP": 1,
+        "CHAR": 1,
+        "DTYP": 2,
+        "DICO": 8,
+        "DPOB": 4,
+        "DROK": 4,
+        "DMES": 2,
+        "DCID": 6,
+        "DPOC": 3,
+        "DBODY": 11,
+        "DFIN": 18,
+        "DDPP": 1,
+        "DVDR1": 13,
+        "DVDR2": 13,
+    }
+
+    dosage = {}
+
+    dosage["TYP"] = "D"
+    dosage["CHAR"] = "P"
+    dosage["DTYP"] = "90"
+    dosage["DICO"] = identification.identifier
+    dosage["DPOB"] = identification.identifier[:4]
+    dosage["DROK"] = year
+    dosage["DMES"] = month
+    dosage["DCID"] = month
+    dosage["DPOC"] = documents_count
+    dosage["DBODY"] = documents_scoring
+    dosage["DFIN"] = ""
+    dosage["DDPP"] = insurance_company.type
+    dosage["DVDR1"] = "06:6.2.42"
+    dosage["DVDR2"] = ""
+
+    for k, v in dosage.items():
+        dosage[k] = add_padding(padding, k, v)
+
+    return dosage
+
+
+def get_insurance_report_data(
+    insurance_company: InsuranceCompany,
+    year: int,
+    month: int,
+    start_number: int,
+    identification: Identification,
+    department_for_insurance: Department,
+):
+    documents = []
+    check_ins = CheckIn.objects.filter(
+        care__patient__insurance_company=insurance_company,
+        for_insurance=True,
+        created_at__year=year,
+        created_at__month=month,
+    )
+    try:
+        medical_procedure = MedicalProcedure.objects.get(code="05751")
+    except MedicalProcedure.DoesNotExist as ex:
+        raise InsuranceReportError("Medical procedure 05751 does not exist") from ex
+
+    for document_number, obj in enumerate(check_ins):
+        document_total_number = start_number + document_number
+        documents.append(
+            get_document_data(
+                obj=obj,
+                medical_procedure=medical_procedure,
+                department_for_insurance=department_for_insurance,
+                document_number=document_number + 1,
+                document_total_number=document_total_number,
+            )
+        )
+
+    dosage = get_dosage_data(
+        insurance_company=insurance_company,
+        identification=identification,
+        year=year,
+        month=month,
+        documents=documents,
+    )
+    return {"documents": documents, "dosage": dosage}
+
+
+def generate_insurance_report(
+    insurance_company: InsuranceCompany,
+    year: int,
+    month: int,
+    start_number: int,
+    identification: Identification,
+    department_for_insurance: Department,
+):
+    data = get_insurance_report_data(
+        insurance_company=insurance_company,
+        year=year,
+        month=month,
+        start_number=start_number,
+        identification=identification,
+        department_for_insurance=department_for_insurance,
+    )
+    content = render_to_string("reports/insurance_report.txt", data)
+    documents_number = len(data["documents"])
+    if documents_number:
+        insurance_report, created = InsuranceReport.objects.update_or_create(
+            insurance_company=insurance_company,
+            year=year,
+            month=month,
+            defaults={
+                "documents_number": documents_number,
+                "data": data,
+                "content": content,
+            },
+        )
+        if not created:
+            try:
+                os.remove(insurance_report.file.path)
+            except FileNotFoundError:
+                pass
+        insurance_report.save_file()
+
+
+def generate_all_reports(year: int, month: int):
+    if month > 1:
+        previous_month = month - 1
+        previous_year = year
+    else:
+        previous_month = 12
+        previous_year = year - 1
+
+    try:
+        identification = (
+            Identification.objects.get_identification_for_insurance_report()
+        )
+    except Identification.DoesNotExist as ex:
+        raise InsuranceReportError(
+            "Identification 'for_insurance' does not exist"
+        ) from ex
+
+    try:
+        department_for_insurance = (
+            Department.objects.get_department_for_insurance_report()
+        )
+    except Department.DoesNotExist as ex:
+        raise InsuranceReportError("Department 'for_insurance' does not exist") from ex
+
+    pass
+
+    shutil.rmtree(
+        settings.MEDIA_ROOT / f"dosages/{previous_year}/{previous_month}",
+        ignore_errors=True,
+    )
+    for insurance_company in InsuranceCompany.objects.all():
+        generate_insurance_report(
+            insurance_company=insurance_company,
+            year=previous_year,
+            month=previous_month,
+            start_number=1,
+            identification=identification,
+            department_for_insurance=department_for_insurance,
+        )
+    shutil.rmtree(settings.MEDIA_ROOT / f"dosages/{year}/{month}", ignore_errors=True)
+    for insurance_company in InsuranceCompany.objects.all():
+        generate_insurance_report(
+            insurance_company=insurance_company,
+            year=year,
+            month=month,
+            start_number=1,
+            identification=identification,
+            department_for_insurance=department_for_insurance,
+        )

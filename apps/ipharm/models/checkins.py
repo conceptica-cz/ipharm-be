@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from ipharm.models.cares import Care
 from references.models.drugs import Drug
 from updates.models import BaseUpdatableModel
@@ -122,7 +123,7 @@ class CheckIn(BaseUpdatableModel):
     patient_condition_change = models.BooleanField(
         default=False, help_text="Změna stavu pacienta"
     )
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     for_insurance = models.BooleanField(
         default=False,

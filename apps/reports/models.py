@@ -4,7 +4,7 @@ from django.db import models
 from references.models import InsuranceCompany
 from updates.models import BaseUpdatableModel
 
-DOSAGE_PREFIX = "KDAVKA."
+DOSAGE_PREFIX = "KDAVKA"
 
 # def upload_to(instance, filename):
 #     """
@@ -53,8 +53,8 @@ class InsuranceReport(BaseUpdatableModel):
     documents_number = models.IntegerField()
     year = models.IntegerField()
     month = models.IntegerField()
-    data = models.JSONField()
-    content = models.TextField()
+    data = models.JSONField(default=dict)
+    content = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     file = models.FileField(upload_to=insurance_upload_to)

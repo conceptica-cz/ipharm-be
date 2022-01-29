@@ -19,6 +19,9 @@ class InsuranceCompany(BaseUpdatableModel):
     ico = models.CharField(max_length=20, blank=True, help_text="IČO")
     dic = models.CharField(max_length=20, blank=True, help_text="DIČ")
     databox = models.CharField(max_length=10, blank=True, help_text="Databox")
+    type = models.CharField(
+        max_length=20, blank=True, help_text="Druh pojistného vztahu"
+    )
 
     objects = InsuranceCompanyManager()
 

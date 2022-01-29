@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from ipharm.models import Care
 from references.models import Drug, Tag
 from updates.models import BaseUpdatableModel
@@ -137,5 +138,5 @@ class PharmacologicalEvaluation(BaseUpdatableModel):
         blank=True, null=True, help_text="Optimalizace způsobu poddání"
     )
     tags = models.ManyToManyField(Tag, blank=True, help_text="Štítky")
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)

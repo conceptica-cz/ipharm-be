@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from ipharm.models import Care
 from references.models import Tag
 from updates.models import BaseUpdatableModel
@@ -15,7 +16,7 @@ class PharmacologicalPlan(BaseUpdatableModel):
         blank=True, null=True, help_text="Datum pro upozornění"
     )
     tags = models.ManyToManyField(Tag, blank=True, help_text="Štítky")
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
 
@@ -34,5 +35,5 @@ class PharmacologicalPlanComment(BaseUpdatableModel):
     )
     text = models.TextField(blank=True, null=True, help_text="Text")
     verify = models.BooleanField(default=False, help_text="Vykázat ověření")
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)

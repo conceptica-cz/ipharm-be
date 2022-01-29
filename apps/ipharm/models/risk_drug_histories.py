@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from ipharm.models import Care
 from references.models import Diagnosis, Drug, Tag
 from updates.models import BaseUpdatableModel
@@ -19,7 +20,7 @@ class RiskDrugHistory(BaseUpdatableModel):
     class Meta:
         verbose_name_plural = "Risk drug histories"
 
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
 
@@ -28,5 +29,5 @@ class RiskDrugHistoryComment(BaseUpdatableModel):
         RiskDrugHistory, on_delete=models.CASCADE, related_name="comments"
     )
     text = models.TextField(help_text="Komentář")
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)

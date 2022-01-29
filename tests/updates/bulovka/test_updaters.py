@@ -74,6 +74,7 @@ class PatientUpdaterTest(TestCase):
             external_id=828116,
             clinic=existing_clinic,
             patient=patient,
+            department__external_id=16,
         )
 
         operations = patient_updater(data=self.data, **self.kwargs)
