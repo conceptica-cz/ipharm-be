@@ -285,6 +285,10 @@ UPDATE_SOURCES = {
     },
 }
 
+# REPORTS
+
+INSURANCE_REPORT_FOLDER = "dosages"
+
 # CELERY
 CELERY_TIMEZONE = TIME_ZONE
 REDIS_HOST = os.environ["REDIS_HOST"]
@@ -304,7 +308,7 @@ LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": True,
+    "disable_existing_loggers": False,
     "formatters": {
         "json": {
             "class": "pythonjsonlogger.jsonlogger.JsonFormatter",
@@ -342,6 +346,10 @@ LOGGING = {
             "level": LOG_LEVEL,
         },
         "references": {
+            "handlers": ["console"],
+            "level": LOG_LEVEL,
+        },
+        "reports": {
             "handlers": ["console"],
             "level": LOG_LEVEL,
         },

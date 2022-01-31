@@ -11,7 +11,7 @@ class Identification(BaseUpdatableModel):
         max_length=20, null=True, blank=True, unique=True, help_text="Zkratka"
     )
     identifier = models.CharField(
-        max_length=20, null=True, blank=True, help_text="Identifikační číslo zařízení"
+        max_length=8, null=True, blank=True, help_text="Identifikační číslo zařízení"
     )
     address = models.CharField(
         max_length=100,

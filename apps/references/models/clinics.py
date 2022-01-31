@@ -30,18 +30,22 @@ class Clinic(BaseUpdatableModel):
 
 
 class Department(BaseUpdatableModel):
-    clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, help_text="Klinika")
-    clinic_external_id = models.IntegerField(help_text="UNIS Kód kliniky")
+    clinic = models.ForeignKey(
+        Clinic, on_delete=models.CASCADE, blank=True, null=True, help_text="Klinika"
+    )
+    clinic_external_id = models.IntegerField(
+        blank=True, null=True, help_text="UNIS Kód kliniky"
+    )
     external_id = models.IntegerField(
         unique=True, blank=True, null=True, help_text="UNIS Kód"
     )
     abbreviation = models.CharField(max_length=10, help_text="Zkratka")
     description = models.CharField(max_length=255, help_text="Název")
     specialization_code = models.CharField(
-        max_length=255, blank=True, help_text="Odbornost (kód)"
+        max_length=3, blank=True, help_text="Odbornost (kód)"
     )
-    icp = models.CharField(max_length=255, help_text="IČP")
-    ns = models.CharField(max_length=255, blank=True, help_text="Nákladove středisko")
+    icp = models.CharField(max_length=8, help_text="IČP")
+    ns = models.CharField(max_length=6, blank=True, help_text="Nákladove středisko")
     for_insurance = models.BooleanField(
         blank=True,
         null=True,

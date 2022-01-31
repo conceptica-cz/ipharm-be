@@ -125,7 +125,15 @@ class CheckIn(BaseUpdatableModel):
     )
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-    for_insurance = models.BooleanField(
+    in_insurance_report = models.BooleanField(
         default=False,
-        help_text="Používat pro vykazování pojištění",
+        help_text="Je ve vykazování",
     )
+
+    def save(self, *args, **kwargs):
+        if not self.in_insurance_report and (
+            self.patient_condition_change
+            or self.risk_level in [self.RISK_LEVEL_2, self.RISK_LEVEL_3]
+        ):
+            self.in_insurance_report = True
+        super(CheckIn, self).save()
