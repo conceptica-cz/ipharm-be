@@ -69,7 +69,8 @@ class CheckInFactory(factory.django.DjangoModelFactory):
     patient_condition_change = factory.Faker("boolean", chance_of_getting_true=20)
     risk_level = factory.Iterator(["1", "2", "3"])
     created_at = factory.Faker("date_time_this_year", before_now=True, tzinfo=None)
-    for_insurance = True
+    updated_at = factory.LazyAttribute(lambda o: o.created_at)
+    in_insurance_report = False
 
     @factory.post_generation
     def drugs(self, create, extracted, **kwargs):

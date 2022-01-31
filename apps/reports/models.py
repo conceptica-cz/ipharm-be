@@ -1,5 +1,6 @@
 from io import BytesIO, StringIO
 
+from django.conf import settings
 from django.db import models
 from references.models import InsuranceCompany
 from updates.models import BaseUpdatableModel
@@ -41,7 +42,7 @@ def insurance_upload_to(instance, filename):
     """
     Upload file to the right path
     """
-    return f"dosages/{instance.year}/{instance.month}/{filename}"
+    return f"{settings.INSURANCE_REPORT_FOLDER}/{instance.year}/{instance.month}/{filename}"
 
 
 class InsuranceReport(BaseUpdatableModel):

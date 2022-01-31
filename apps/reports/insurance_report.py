@@ -1,8 +1,8 @@
 import logging
-import os
 import shutil
 
 from django.conf import settings
+from django.db.models import Sum
 from django.template.loader import render_to_string
 from ipharm.models import CheckIn
 from references.models import (
@@ -12,6 +12,8 @@ from references.models import (
     MedicalProcedure,
 )
 from reports.models import InsuranceReport
+
+logger = logging.getLogger(__name__)
 
 
 class InsuranceReportError(Exception):
@@ -102,7 +104,7 @@ def get_document_data(
         heading[k] = add_padding(heading_padding, k, v)
 
     result["TYP"] = "V"
-    result["VDAT"] = obj.created_at.strftime("%d%m%Y")
+    result["VDAT"] = obj.updated_at.strftime("%d%m%Y")
     result["VKOD"] = medical_procedure.code
     result["VPOC"] = " "
     result["DTYP"] = " "
@@ -189,9 +191,9 @@ def get_insurance_report_data(
     documents = []
     check_ins = CheckIn.objects.filter(
         care__patient__insurance_company=insurance_company,
-        for_insurance=True,
-        created_at__year=year,
-        created_at__month=month,
+        in_insurance_report=True,
+        updated_at__year=year,
+        updated_at__month=month,
     )
     try:
         medical_procedure = MedicalProcedure.objects.get(code="05751")
@@ -249,12 +251,14 @@ def generate_insurance_report(
                 "content": content,
             },
         )
-        if not created:
-            try:
-                os.remove(insurance_report.file.path)
-            except FileNotFoundError:
-                pass
         insurance_report.save_file()
+
+
+def get_start_number(year: int):
+    document_count = InsuranceReport.objects.filter(year=year).aggregate(
+        document_count=Sum("documents_number")
+    )["document_count"]
+    return document_count + 1 if document_count else 1
 
 
 def generate_all_reports(year: int, month: int):
@@ -281,28 +285,50 @@ def generate_all_reports(year: int, month: int):
     except Department.DoesNotExist as ex:
         raise InsuranceReportError("Department 'for_insurance' does not exist") from ex
 
-    pass
-
     shutil.rmtree(
-        settings.MEDIA_ROOT / f"dosages/{previous_year}/{previous_month}",
+        settings.MEDIA_ROOT
+        / settings.INSURANCE_REPORT_FOLDER
+        / f"{previous_year}/{previous_month}",
         ignore_errors=True,
     )
     for insurance_company in InsuranceCompany.objects.all():
+        start_number = get_start_number(previous_year)
+        logger.info(
+            "Generating company insurance reports for previous month",
+            extra={
+                "insurance_company": insurance_company.code,
+                "year": previous_year,
+                "month": previous_month,
+                "start_number": start_number,
+            },
+        )
         generate_insurance_report(
             insurance_company=insurance_company,
             year=previous_year,
             month=previous_month,
-            start_number=1,
+            start_number=start_number,
             identification=identification,
             department_for_insurance=department_for_insurance,
         )
+
     shutil.rmtree(settings.MEDIA_ROOT / f"dosages/{year}/{month}", ignore_errors=True)
+
     for insurance_company in InsuranceCompany.objects.all():
+        start_number = get_start_number(year)
+        logger.info(
+            "Generating company insurance reports for current month",
+            extra={
+                "insurance_company": insurance_company.code,
+                "year": year,
+                "month": month,
+                "start_number": start_number,
+            },
+        )
         generate_insurance_report(
             insurance_company=insurance_company,
             year=year,
             month=month,
-            start_number=1,
+            start_number=start_number,
             identification=identification,
             department_for_insurance=department_for_insurance,
         )

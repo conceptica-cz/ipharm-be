@@ -1,4 +1,5 @@
 import functools
+from unittest.mock import patch
 
 from django.test import TestCase
 from django.utils import timezone
@@ -17,42 +18,42 @@ from factories.reports import InsuranceReportFactory
 
 
 class InsuranceReportTestCase(TestCase):
-    def setUp(self) -> None:
-        check_in = CheckInFactory(
+    @patch("django.utils.timezone.now")
+    def setUp(self, mocked_now) -> None:
+        now_2019_03 = timezone.datetime(2019, 3, 1, tzinfo=timezone.utc)
+        now_2019_02 = timezone.datetime(2019, 2, 1, tzinfo=timezone.utc)
+
+        mocked_now.return_value = now_2019_03
+
+        self.insurance_company = InsuranceCompanyFactory(code="111", name="a")
+        self.another_insurance_company = InsuranceCompanyFactory(code="222", name="b")
+        CheckInFactory(
             care__patient__insurance_number=1111111111,
-            care__patient__insurance_company__code=111,
-            created_at=timezone.datetime(2019, 2, 12, 0, 0, 0, tzinfo=timezone.utc),
-            for_insurance=True,
+            care__patient__insurance_company=self.insurance_company,
+            risk_level="2",
         )
         CheckInFactory(
             care__patient__insurance_number=2222222222,
-            care__patient__insurance_company__code=111,
-            created_at=timezone.datetime(2019, 2, 12, 0, 0, 0, tzinfo=timezone.utc),
-            for_insurance=True,
+            care__patient__insurance_company=self.insurance_company,
+            risk_level="2",
         )
+        # that checkin has in_insurance_report=False
         CheckInFactory(
             care__patient__insurance_number=3333333333,
-            care__patient__insurance_company__code=111,
-            created_at=timezone.datetime(2019, 2, 12, 0, 0, 0, tzinfo=timezone.utc),
-            for_insurance=False,
+            care__patient__insurance_company=self.insurance_company,
+            risk_level="1",
+            patient_condition_change=False,
         )
-        another_check_in = CheckInFactory(
+        CheckInFactory(
             care__patient__insurance_number=4444444444,
-            care__patient__insurance_company__code=222,
-            created_at=timezone.datetime(2019, 2, 12, 0, 0, 0, tzinfo=timezone.utc),
-            for_insurance=True,
+            care__patient__insurance_company=self.another_insurance_company,
+            risk_level="2",
         )
+        mocked_now.return_value = now_2019_02
         CheckInFactory(
             care__patient__insurance_number=5555555555,
-            care__patient__insurance_company__code=111,
-            created_at=timezone.datetime(2019, 1, 12, 0, 0, 0, tzinfo=timezone.utc),
-            for_insurance=True,
-        )
-        CheckInFactory(
-            care__patient__insurance_number=6666666666,
-            care__patient__insurance_company__code=111,
-            created_at=timezone.datetime(2018, 2, 12, 0, 0, 0, tzinfo=timezone.utc),
-            for_insurance=True,
+            care__patient__insurance_company=self.insurance_company,
+            risk_level="2",
         )
 
         MedicalProcedureFactory(code="05751", scores=185)
@@ -62,14 +63,12 @@ class InsuranceReportTestCase(TestCase):
         self.department_for_insurance = DepartmentFactory(
             icp="542", ns="642", specialization_code="742", for_insurance=True
         )
-        self.insurance_company = check_in.care.patient.insurance_company
-        self.another_insurance_company = another_check_in.care.patient.insurance_company
 
     def test_get_insurance_report_data(self):
         data = insurance_report.get_insurance_report_data(
             insurance_company=self.insurance_company,
             year=2019,
-            month=2,
+            month=3,
             start_number=142,
             identification=self.identification,
             department_for_insurance=self.department_for_insurance,
@@ -82,7 +81,7 @@ class InsuranceReportTestCase(TestCase):
         content = insurance_report.generate_insurance_report(
             insurance_company=self.insurance_company,
             year=2019,
-            month=2,
+            month=3,
             start_number=142,
             identification=self.identification,
             department_for_insurance=self.department_for_insurance,
@@ -93,42 +92,112 @@ class InsuranceReportTestCase(TestCase):
         self.assertIn("1111111111", report.content)
         self.assertEqual(report.documents_number, 2)
         self.assertEqual(report.year, 2019)
-        self.assertEqual(report.month, 2)
+        self.assertEqual(report.month, 3)
         self.assertEqual(report.insurance_company, self.insurance_company)
+
+    def test_get_start_number(self):
+        InsuranceReportFactory(
+            insurance_company=self.insurance_company,
+            year=2017,
+            month=12,
+            documents_number=2,
+        )
+        InsuranceReportFactory(
+            insurance_company=self.insurance_company,
+            year=2018,
+            month=12,
+            documents_number=2,
+        )
+        InsuranceReportFactory(
+            insurance_company=self.another_insurance_company,
+            year=2018,
+            month=12,
+            documents_number=7,
+        )
+        start_number = insurance_report.get_start_number(year=2018)
+        self.assertEqual(start_number, 10)
+        start_number = insurance_report.get_start_number(year=2017)
+        self.assertEqual(start_number, 3)
+        start_number = insurance_report.get_start_number(year=2016)
+        self.assertEqual(start_number, 1)
 
     def test_generate_all_reports__creates_reports_for_current_and_previous_month(self):
         InsuranceReportFactory(
             insurance_company=self.insurance_company,
-            year=2018,
-            month=12,
+            year=2019,
+            month=1,
             documents_number=2,
         )
         InsuranceReportFactory(
             insurance_company=self.another_insurance_company,
-            year=2018,
-            month=12,
+            year=2019,
+            month=1,
             documents_number=7,
         )
-        insurance_report.generate_all_reports(year=2019, month=2)
+        insurance_report.generate_all_reports(year=2019, month=3)
 
         self.assertEqual(InsuranceReport.objects.count(), 5)
+
+        report_2019_2_111 = InsuranceReport.objects.get(
+            year=2019, month=2, insurance_company=self.insurance_company
+        )
+
+        report_2019_3_111 = InsuranceReport.objects.get(
+            year=2019, month=3, insurance_company=self.insurance_company
+        )
+
+        report_2019_3_222 = InsuranceReport.objects.get(
+            year=2019, month=3, insurance_company=self.another_insurance_company
+        )
+
+        self.assertEqual(report_2019_2_111.documents_number, 1)
+        self.assertEqual(report_2019_3_111.documents_number, 2)
+        self.assertEqual(report_2019_3_222.documents_number, 1)
+
+        self.assertEqual(
+            report_2019_2_111.data["documents"][0]["heading"]["ECID"], "     10"
+        )
+        self.assertEqual(
+            report_2019_2_111.data["documents"][0]["heading"]["EPOR"], "  1"
+        )
+
+        self.assertEqual(
+            report_2019_3_111.data["documents"][0]["heading"]["ECID"], "     11"
+        )
+        self.assertEqual(
+            report_2019_3_111.data["documents"][0]["heading"]["EPOR"], "  1"
+        )
+
+        self.assertEqual(
+            report_2019_3_111.data["documents"][1]["heading"]["ECID"], "     12"
+        )
+        self.assertEqual(
+            report_2019_3_111.data["documents"][1]["heading"]["EPOR"], "  2"
+        )
+
+        self.assertEqual(
+            report_2019_3_222.data["documents"][0]["heading"]["ECID"], "     13"
+        )
+        self.assertEqual(
+            report_2019_3_222.data["documents"][0]["heading"]["EPOR"], "  1"
+        )
 
     def test_generate_all_reports__updates_already_existing_reports(self):
         InsuranceReportFactory(
             insurance_company=self.insurance_company,
-            year=2018,
-            month=12,
+            year=2019,
+            month=1,
             documents_number=2,
         )
         InsuranceReportFactory(
             insurance_company=self.another_insurance_company,
-            year=2018,
-            month=12,
+            year=2019,
+            month=1,
             documents_number=7,
         )
-        insurance_report.generate_all_reports(year=2019, month=2)
-        insurance_report.generate_all_reports(year=2019, month=2)
-        insurance_report.generate_all_reports(year=2019, month=2)
+        insurance_report.generate_all_reports(year=2019, month=3)
+        insurance_report.generate_all_reports(year=2019, month=3)
+        insurance_report.generate_all_reports(year=2019, month=3)
 
         self.assertEqual(InsuranceReport.objects.count(), 5)
 
@@ -167,12 +236,19 @@ class DosageDataTest(TestCase):
 
 
 class CheckInDocumentTest(TestCase):
-    def test_check_in_document_data(self):
+    @patch("django.utils.timezone.now")
+    def test_check_in_document_data(self, mocked_now):
+        care_started_at = timezone.datetime(2019, 1, 10, tzinfo=timezone.utc)
+        check_in_updated_at = timezone.datetime(2019, 1, 12, tzinfo=timezone.utc)
+
+        mocked_now.return_value = check_in_updated_at
+
         insurance_company = InsuranceCompanyFactory(code="123")
         patient = PatientFactory(
             insurance_company=insurance_company, insurance_number="1234567890"
         )
         diagnosis = DiagnosisFactory(code="K00")
+
         care = CareFactory(
             patient=patient,
             main_diagnosis=diagnosis,
@@ -180,9 +256,12 @@ class CheckInDocumentTest(TestCase):
             department__specialization_code="242",
             started_at=timezone.datetime(2019, 1, 10, 0, 0, 0, tzinfo=timezone.utc),
         )
+
+        now_2019_03 = timezone.datetime(2019, 3, 1, tzinfo=timezone.utc)
+
         check_in = CheckInFactory(
             care=care,
-            created_at=timezone.datetime(2019, 1, 12, 0, 0, 0, tzinfo=timezone.utc),
+            updated_at=timezone.datetime(2019, 1, 12, 0, 0, 0, tzinfo=timezone.utc),
         )
 
         department_for_insurance = DepartmentFactory(
