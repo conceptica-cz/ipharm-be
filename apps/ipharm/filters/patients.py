@@ -3,12 +3,9 @@ from ipharm.models import Patient
 
 
 class PatientFilter(django_filters.FilterSet):
-    hospital = django_filters.NumberFilter(
-        field_name="current_hospital_care__clinic__pk"
-    )
-    ambulance = django_filters.NumberFilter(
-        field_name="current_ambulance_care__clinic__pk"
-    )
+    clinic = django_filters.NumberFilter(field_name="current_care__clinic__pk")
+
+    care_type = django_filters.CharFilter(field_name="current_care__care_type")
 
     class Meta:
         model = Patient

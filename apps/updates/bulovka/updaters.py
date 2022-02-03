@@ -83,7 +83,7 @@ def patient_updater(data: dict, **kwargs) -> dict:
             if care_operation == Care.objects.NOT_CHANGED:
                 operations["ipharm.Care"] = Care.objects.UPDATED
 
-    if patient.current_hospital_care != care:
+    if patient.current_care != care:
         patient.set_current_care(care)
         if patient_operation == Patient.objects.NOT_CHANGED:
             operations["ipharm.Patient"] = Patient.objects.UPDATED

@@ -44,5 +44,7 @@ class GetSingleDiagnosisTest(APITestCase):
 
     def test_get_invalid_single_diagnosis(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("diagnosis_detail", kwargs={"pk": 42}))
+        response = self.client.get(
+            reverse("diagnosis_detail", kwargs={"pk": self.diagnosis_3.id + 1})
+        )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

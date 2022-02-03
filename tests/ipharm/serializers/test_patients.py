@@ -14,12 +14,7 @@ from factories.references import ClinicFactory, InsuranceCompanyFactory
 class PatientNestedSerializerTest(TestCase):
     def setUp(self) -> None:
         self.patient = PatientFactory()
-        self.hospital_care = CareFactory(
-            patient=self.patient, care_type=Care.HOSPITALIZATION
-        )
-        self.ambulance_care = CareFactory(
-            patient=self.patient, care_type=Care.AMBULATION
-        )
+        self.care = CareFactory(patient=self.patient, care_type=Care.HOSPITALIZATION)
 
     def test_insurance_company_is_nested(self):
         serializer = PatientNestedSerializer(instance=self.patient)
@@ -32,14 +27,8 @@ class PatientNestedSerializerTest(TestCase):
 
     def test_current_care_is_nested(self):
         serializer = PatientNestedSerializer(instance=self.patient)
-        serializer_ambulance_care = CareNestedSerializer(instance=self.ambulance_care)
-        self.assertEqual(
-            serializer.data["current_ambulance_care"], serializer_ambulance_care.data
-        )
-        serializer_hospital_care = CareNestedSerializer(instance=self.hospital_care)
-        self.assertEqual(
-            serializer.data["current_hospital_care"], serializer_hospital_care.data
-        )
+        serializer_care = CareNestedSerializer(instance=self.care)
+        self.assertEqual(serializer.data["current_care"], serializer_care.data)
 
 
 class PatientSerializerTest(TestCase):
@@ -52,7 +41,8 @@ class PatientSerializerTest(TestCase):
             "last_name": "Doe",
             "birth_date": datetime.date(year=1990, month=1, day=1),
             "birth_number": "0000000001",
-            "current_ambulance_care": {
+            "current_care": {
+                "care_type": Care.AMBULATION,
                 "clinic": clinic.id,
                 "external_id": None,
             },
@@ -68,7 +58,7 @@ class PatientSerializerTest(TestCase):
         self.assertEqual(patient.insurance_number, "42")
         ambulance_care = Care.objects.get(patient=patient, care_type=Care.AMBULATION)
         self.assertEqual(ambulance_care.clinic, clinic)
-        self.assertEqual(patient.current_ambulance_care, ambulance_care)
+        self.assertEqual(patient.current_care, ambulance_care)
 
     def test_create_with_hospital(self):
         """Test that serializer create both patient and hospital care"""
@@ -79,7 +69,8 @@ class PatientSerializerTest(TestCase):
             "last_name": "Doe",
             "birth_date": datetime.date(year=1990, month=1, day=1),
             "birth_number": "0000000001",
-            "current_hospital_care": {
+            "current_care": {
+                "care_type": Care.HOSPITALIZATION,
                 "clinic": clinic.id,
                 "external_id": None,
             },
@@ -96,7 +87,7 @@ class PatientSerializerTest(TestCase):
             patient=patient, care_type=Care.HOSPITALIZATION
         )
         self.assertEqual(hospital_care.clinic, clinic)
-        self.assertEqual(patient.current_hospital_care, hospital_care)
+        self.assertEqual(patient.current_care, hospital_care)
 
     def test_update_existing_ambulance(self):
         """Test that serializer updates both patient and ambulance care"""
@@ -109,7 +100,7 @@ class PatientSerializerTest(TestCase):
             "last_name": "Doe",
             "birth_date": datetime.date(year=1990, month=1, day=1),
             "birth_number": "2",
-            "current_ambulance_care": {
+            "current_care": {
                 "clinic": new_clinic.id,
                 "external_id": None,
             },
@@ -132,7 +123,8 @@ class PatientSerializerTest(TestCase):
             "last_name": "Doe",
             "birth_date": datetime.date(year=1990, month=1, day=1),
             "birth_number": "2",
-            "current_ambulance_care": {
+            "current_care": {
+                "care_type": Care.AMBULATION,
                 "clinic": clinic.id,
                 "external_id": None,
             },
@@ -159,7 +151,8 @@ class PatientSerializerTest(TestCase):
             "last_name": "Doe",
             "birth_date": datetime.date(year=1990, month=1, day=1),
             "birth_number": "2",
-            "current_hospital_care": {
+            "current_care": {
+                "care_type": Care.HOSPITALIZATION,
                 "clinic": new_clinic.id,
                 "external_id": None,
             },
@@ -182,7 +175,8 @@ class PatientSerializerTest(TestCase):
             "last_name": "Doe",
             "birth_date": datetime.date(year=1990, month=1, day=1),
             "birth_number": "2",
-            "current_hospital_care": {
+            "current_care": {
+                "care_type": Care.HOSPITALIZATION,
                 "clinic": clinic.id,
                 "external_id": None,
             },
