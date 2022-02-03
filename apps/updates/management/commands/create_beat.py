@@ -27,6 +27,7 @@ class Command(BaseCommand):
             else:
                 if not options["only_patient"]:
                     self._create_reference_beat(name)
+        self._create_insurance_report_beat()
         print("Done.")
 
     @staticmethod
@@ -115,3 +116,18 @@ class Command(BaseCommand):
                     "enabled": False,
                 },
             )
+
+    @staticmethod
+    def _create_insurance_report_beat():
+        interval_schedule, _ = IntervalSchedule.objects.get_or_create(
+            every=60,
+            period=IntervalSchedule.MINUTES,
+        )
+        task_name = f"Generate insurance report"
+        PeriodicTask.objects.update_or_create(
+            name=task_name,
+            defaults={
+                "task": "reports.tasks.generate_insurance_report",
+                "interval": interval_schedule,
+            },
+        )
