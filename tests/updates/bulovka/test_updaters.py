@@ -65,7 +65,7 @@ class PatientUpdaterTest(TestCase):
                 "ipharm.Care": Care.objects.CREATED,
             },
         )
-        self.assertEqual(patient.current_hospital_care, care)
+        self.assertEqual(patient.current_care, care)
 
     def test_new_patient__care_with_same_id_but_another_clinic_exists(self):
         existing_clinic = ClinicFactory(external_id=2)
@@ -104,7 +104,7 @@ class PatientUpdaterTest(TestCase):
                 "ipharm.Care": Care.objects.CREATED,
             },
         )
-        self.assertEqual(patient.current_hospital_care, care)
+        self.assertEqual(patient.current_care, care)
 
     def test_existing_not_changed_patient_and_care(self):
         patient_updater(data=self.data, **self.kwargs)
@@ -221,4 +221,4 @@ class PatientUpdaterTest(TestCase):
             },
         )
 
-        self.assertEqual(patient.current_hospital_care, care)
+        self.assertEqual(patient.current_care, care)

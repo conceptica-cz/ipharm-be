@@ -43,11 +43,7 @@ class CareFactory(factory.django.DjangoModelFactory):
     @factory.post_generation
     def patient_care(self, create, extracted, **kwargs):
         if create:
-            if self.care_type == Care.HOSPITALIZATION:
-                self.patient.current_hospital_care = self
-            elif self.care_type == Care.AMBULATION:
-                self.patient.current_ambulance_care = self
-            self.patient.save()
+            self.patient.set_current_care(self)
 
     @factory.post_generation
     def last_dekurz(self, create, extracted, **kwargs):

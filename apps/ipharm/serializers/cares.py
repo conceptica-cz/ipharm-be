@@ -22,7 +22,6 @@ class CareSerializer(serializers.ModelSerializer):
         super().__init__(instance, *args, **kwargs)
         if self.context.get("drop_patient", False):
             self.fields.pop("patient")
-            self.fields.pop("care_type")
 
     class Meta:
         model = Care
