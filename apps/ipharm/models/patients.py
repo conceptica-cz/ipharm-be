@@ -27,6 +27,7 @@ class Patient(BaseUpdatableModel):
     )
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    note = models.TextField(blank=True)
 
     objects = PatientManager()
 
