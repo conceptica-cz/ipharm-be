@@ -6,5 +6,5 @@ class TagFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Tag
 
-    name = factory.Faker("word", locale="la")
+    name = factory.Sequence(lambda n: "Tag %d" % n)
     description = factory.Faker("sentence", locale="la")

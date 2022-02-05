@@ -25,9 +25,12 @@ class PaddingError(Exception):
 
 
 def add_padding(padding_table: dict, key: str, value: str) -> None:
-    if len(value) > padding_table[key]:
+    if len(value) > padding_table[key]["length"]:
         raise PaddingError(f"{key} is too long: {value}")
-    padded_value = (padding_table[key] - len(value)) * " " + value
+    if padding_table[key]["padding"] == "left":
+        padded_value = (padding_table[key]["length"] - len(value)) * " " + value
+    else:
+        padded_value = value + (padding_table[key]["length"] - len(value)) * " "
     return padded_value
 
 
@@ -45,34 +48,34 @@ def get_document_data(
     :return:
     """
     heading_padding = {
-        "TYP": 1,
-        "ECID": 7,
-        "ESTR": 1,
-        "EPOC": 1,
-        "EPOR": 3,
-        "ECPO": 3,
-        "ETPP": 1,
-        "EICO": 8,
-        "EVAR": 6,
-        "EODB": 3,
-        "EROD": 10,
-        "EZDG": 5,
-        "EKO": 1,
-        "EICZ": 8,
-        "ECDZ": 7,
-        "EDAT": 8,
-        "ECCEL": 10,
-        "ECBOD": 7,
-        "EODZ": 3,
-        "EVARZ": 6,
-        "DTYP": 1,
+        "TYP": {"padding": "right", "length": 1},
+        "ECID": {"padding": "left", "length": 7},
+        "ESTR": {"padding": "left", "length": 1},
+        "EPOC": {"padding": "left", "length": 1},
+        "EPOR": {"padding": "left", "length": 3},
+        "ECPO": {"padding": "right", "length": 3},
+        "ETPP": {"padding": "right", "length": 1},
+        "EICO": {"padding": "right", "length": 8},
+        "EVAR": {"padding": "right", "length": 6},
+        "EODB": {"padding": "right", "length": 3},
+        "EROD": {"padding": "right", "length": 10},
+        "EZDG": {"padding": "right", "length": 5},
+        "EKO": {"padding": "right", "length": 1},
+        "EICZ": {"padding": "right", "length": 8},
+        "ECDZ": {"padding": "left", "length": 7},
+        "EDAT": {"padding": "right", "length": 8},
+        "ECCEL": {"padding": "right", "length": 10},
+        "ECBOD": {"padding": "left", "length": 7},
+        "EODZ": {"padding": "right", "length": 3},
+        "EVARZ": {"padding": "right", "length": 6},
+        "DTYP": {"padding": "right", "length": 1},
     }
     result_padding = {
-        "TYP": 1,
-        "VDAT": 8,
-        "VKOD": 5,
-        "VPOC": 1,
-        "DTYP": 1,
+        "TYP": {"padding": "right", "length": 1},
+        "VDAT": {"padding": "right", "length": 8},
+        "VKOD": {"padding": "right", "length": 5},
+        "VPOC": {"padding": "left", "length": 1},
+        "DTYP": {"padding": "right", "length": 1},
     }
 
     heading = {}
@@ -95,7 +98,7 @@ def get_document_data(
     heading["ECDZ"] = ""
     heading["EDAT"] = obj.care.started_at.strftime("%d%m%Y")
     heading["ECCEL"] = ""
-    heading["ECBOD"] = str(medical_procedure.scores)
+    heading["ECBOD"] = str(round(medical_procedure.scores))
     heading["EODZ"] = obj.care.department.specialization_code
     heading["EVARZ"] = ""
     heading["DTYP"] = ""
@@ -106,7 +109,7 @@ def get_document_data(
     result["TYP"] = "V"
     result["VDAT"] = obj.updated_at.strftime("%d%m%Y")
     result["VKOD"] = medical_procedure.code
-    result["VPOC"] = " "
+    result["VPOC"] = "1"
     result["DTYP"] = " "
 
     for k, v in result.items():
@@ -135,26 +138,30 @@ def get_dosage_data(
     year = str(year)
     month = str(month)
     if len(month) == 1:
-        month = "0" + month
+        month_with_prefix = "0" + month
+    else:
+        month_with_prefix = month
 
     documents_count = str(len(documents))
-    documents_scoring = str(sum([float(d["heading"]["ECBOD"]) for d in documents]))
+    documents_scoring = str(
+        round(sum([float(d["heading"]["ECBOD"]) for d in documents]))
+    )
 
     padding = {
-        "TYP": 1,
-        "CHAR": 1,
-        "DTYP": 2,
-        "DICO": 8,
-        "DPOB": 4,
-        "DROK": 4,
-        "DMES": 2,
-        "DCID": 6,
-        "DPOC": 3,
-        "DBODY": 11,
-        "DFIN": 18,
-        "DDPP": 1,
-        "DVDR1": 13,
-        "DVDR2": 13,
+        "TYP": {"padding": "right", "length": 1},
+        "CHAR": {"padding": "right", "length": 1},
+        "DTYP": {"padding": "right", "length": 2},
+        "DICO": {"padding": "right", "length": 8},
+        "DPOB": {"padding": "right", "length": 4},
+        "DROK": {"padding": "left", "length": 4},
+        "DMES": {"padding": "left", "length": 2},
+        "DCID": {"padding": "left", "length": 6},
+        "DPOC": {"padding": "left", "length": 3},
+        "DBODY": {"padding": "left", "length": 11},
+        "DFIN": {"padding": "left", "length": 18},
+        "DDPP": {"padding": "right", "length": 1},
+        "DVDR1": {"padding": "right", "length": 13},
+        "DVDR2": {"padding": "right", "length": 13},
     }
 
     dosage = {}
@@ -165,11 +172,11 @@ def get_dosage_data(
     dosage["DICO"] = identification.identifier
     dosage["DPOB"] = identification.identifier[:4]
     dosage["DROK"] = year
-    dosage["DMES"] = month
+    dosage["DMES"] = month_with_prefix
     dosage["DCID"] = month
     dosage["DPOC"] = documents_count
     dosage["DBODY"] = documents_scoring
-    dosage["DFIN"] = ""
+    dosage["DFIN"] = "0.00"
     dosage["DDPP"] = insurance_company.type
     dosage["DVDR1"] = "06:6.2.42"
     dosage["DVDR2"] = ""

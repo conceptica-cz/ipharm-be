@@ -75,7 +75,7 @@ class InsuranceReportTestCase(TestCase):
         )
 
         self.assertEqual(len(data["documents"]), 2)
-        self.assertEqual(data["dosage"]["DBODY"], "      370.0")
+        self.assertEqual(data["dosage"]["DBODY"], "        370")
 
     def test_generate_insurance_report(self):
         content = insurance_report.generate_insurance_report(
@@ -219,6 +219,9 @@ class DosageDataTest(TestCase):
             documents=documents,
         )
 
+        dosage_len = len(functools.reduce(lambda s1, s2: s1 + s2, dosage_data.values()))
+        self.assertEqual(dosage_len, 87)
+
         self.assertEqual(dosage_data["TYP"], "D")
         self.assertEqual(dosage_data["CHAR"], "P")
         self.assertEqual(dosage_data["DTYP"], "90")
@@ -226,12 +229,12 @@ class DosageDataTest(TestCase):
         self.assertEqual(dosage_data["DPOB"], "1234")
         self.assertEqual(dosage_data["DROK"], "2020")
         self.assertEqual(dosage_data["DMES"], "02")
-        self.assertEqual(dosage_data["DCID"], "    02")
+        self.assertEqual(dosage_data["DCID"], "     2")
         self.assertEqual(dosage_data["DPOC"], "  3")
-        self.assertEqual(dosage_data["DBODY"], "      126.0")
-        self.assertEqual(dosage_data["DFIN"], "                  ")
+        self.assertEqual(dosage_data["DBODY"], "        126")
+        self.assertEqual(dosage_data["DFIN"], "              0.00")
         self.assertEqual(dosage_data["DDPP"], "2")
-        self.assertEqual(dosage_data["DVDR1"], "    06:6.2.42")
+        self.assertEqual(dosage_data["DVDR1"], "06:6.2.42    ")
         self.assertEqual(dosage_data["DVDR2"], "             ")
 
 
@@ -294,13 +297,13 @@ class CheckInDocumentTest(TestCase):
         self.assertEqual(heading["EPOR"], "  2")
         self.assertEqual(heading["ECPO"], "123")
         self.assertEqual(heading["ETPP"], "1")
-        self.assertEqual(heading["EICO"], "     542")
-        self.assertEqual(heading["EVAR"], "   642")
+        self.assertEqual(heading["EICO"], "542     ")
+        self.assertEqual(heading["EVAR"], "642   ")
         self.assertEqual(heading["EODB"], "742")
         self.assertEqual(heading["EROD"], "1234567890")
-        self.assertEqual(heading["EZDG"], "  K00")
+        self.assertEqual(heading["EZDG"], "K00  ")
         self.assertEqual(heading["EKO"], " ")
-        self.assertEqual(heading["EICZ"], "     142")
+        self.assertEqual(heading["EICZ"], "142     ")
         self.assertEqual(heading["ECDZ"], "       ")
         self.assertEqual(heading["EDAT"], "10012019")
         self.assertEqual(heading["ECCEL"], "          ")
@@ -312,5 +315,5 @@ class CheckInDocumentTest(TestCase):
         self.assertEqual(result["TYP"], "V")
         self.assertEqual(result["VDAT"], "12012019")
         self.assertEqual(result["VKOD"], "42424")
-        self.assertEqual(result["VPOC"], " ")
+        self.assertEqual(result["VPOC"], "1")
         self.assertEqual(result["DTYP"], " ")
