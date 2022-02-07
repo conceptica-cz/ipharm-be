@@ -32,7 +32,7 @@ class PatientUpdaterTest(TestCase):
             "dekurz": {
                 "made_at": "2021-09-23T20:29:00+00:00",
                 "doctor": 92328,
-                "department": 20,
+                "department": 120,
             },
         }
         self.kwargs = {"url_parameters": {"clinicId": 1}, "update": None}
@@ -56,7 +56,7 @@ class PatientUpdaterTest(TestCase):
         self.assertEqual(care.department.external_id, 16)
         self.assertEqual(care.clinic.external_id, 1)
 
-        self.assertEqual(dekurz.department.external_id, 20)
+        self.assertEqual(dekurz.department.external_id, 120)
 
         self.assertEqual(
             operations,
@@ -95,7 +95,7 @@ class PatientUpdaterTest(TestCase):
         self.assertEqual(care.department.external_id, 16)
         self.assertEqual(care.clinic.external_id, 1)
 
-        self.assertEqual(dekurz.department.external_id, 20)
+        self.assertEqual(dekurz.department.external_id, 120)
 
         self.assertEqual(
             operations,

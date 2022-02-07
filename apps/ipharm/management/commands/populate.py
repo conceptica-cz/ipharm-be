@@ -10,7 +10,12 @@ from factories.ipharm import (
     PharmacologicalPlanFactory,
     RiskDrugHistoryFactory,
 )
-from factories.references import AdverseEffectFactory, IdentificationFactory, TagFactory
+from factories.references import (
+    AdverseEffectFactory,
+    ExternalDepartmentFactory,
+    IdentificationFactory,
+    TagFactory,
+)
 
 
 class Command(BaseCommand):
@@ -35,6 +40,7 @@ class Command(BaseCommand):
                     PharmacologicalEvaluationFactory(care=care)
                     for _ in range(random.randint(1, 5))
                 ]
-
+        for i in range(30):
+            ExternalDepartmentFactory()
         IdentificationFactory()
         print("Database was populated.")

@@ -243,6 +243,16 @@ UPDATE_SOURCES = {
         },
         "interval": os.environ.get("DRUG_UPDATE_INTERVAL", 60),
     },
+    "ExternalDepartment": {
+        "data_loader_kwargs": {
+            "url": BASE_IPHARM_REFERENCES_URL + "/external-departments/"
+        },
+        "model_updater_kwargs": {
+            "model": "references.ExternalDepartment",
+            "identifiers": ["icp"],
+        },
+        "interval": os.environ.get("EXTERNAL_DEPARTMENT_UPDATE_INTERVAL", 60),
+    },
     "Identification": {
         "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/identifications/"},
         "model_updater_kwargs": {
