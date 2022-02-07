@@ -7,6 +7,7 @@ from .views import (
     clinics,
     diagnoses,
     drugs,
+    external_departments,
     facilities,
     insurances,
     patient_informations,
@@ -170,6 +171,16 @@ urlpatterns = [
         "drugs/<int:pk>/",
         drugs.DrugDetailView.as_view(),
         name="drug_detail",
+    ),
+    path(
+        "external_departments/",
+        external_departments.ExternalDepartmentListView.as_view(),
+        name="external_department_list",
+    ),
+    path(
+        "external_departments/<int:pk>/",
+        external_departments.ExternalDepartmentDetailView.as_view(),
+        name="external_department_detail",
     ),
     path(
         "insurances/",
