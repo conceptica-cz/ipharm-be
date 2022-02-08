@@ -26,7 +26,9 @@ class CareFactory(factory.django.DjangoModelFactory):
     external_id = factory.Sequence(lambda n: n)
 
     clinic = factory.SubFactory(ClinicFactory)
-    department = factory.SubFactory(DepartmentFactory)
+    department = factory.SubFactory(
+        DepartmentFactory, clinic=factory.SelfAttribute("..clinic")
+    )
     started_at = fuzzy.FuzzyDateTime(
         datetime.datetime(2021, 9, 1, tzinfo=datetime.timezone.utc),
         datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc),
@@ -49,7 +51,9 @@ class CareFactory(factory.django.DjangoModelFactory):
     def last_dekurz(self, create, extracted, **kwargs):
         if create:
             for _ in range(random.randint(1, 5)):
-                self.set_last_dekurz(DekurzFactory(care=self))
+                self.set_last_dekurz(
+                    DekurzFactory(care=self, department=self.department)
+                )
 
 
 class DekurzFactory(factory.django.DjangoModelFactory):
