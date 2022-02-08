@@ -1,7 +1,8 @@
 from django.test import TestCase
 from references.models import Clinic, Department
 
-from factories.references.clinics import ClinicFactory
+from factories.ipharm import CareFactory, CheckInFactory, PatientFactory
+from factories.references.clinics import ClinicFactory, DepartmentFactory
 from factories.updates.updates import UpdateFactory
 from factories.users import UserFactory
 
@@ -265,3 +266,50 @@ class BestUpdatableManagerTest(TestCase):
         self.assertEqual(Clinic.objects.count(), 1)
         self.assertEqual(department.clinic.external_id, 42)
         self.assertEqual(department.clinic.description, "TMP")
+
+
+class ClinicManagerCountersTest(TestCase):
+    def setUp(self) -> None:
+        self.clinic_1 = ClinicFactory()
+        self.clinic_2 = ClinicFactory()
+        self.clinic_3 = ClinicFactory()
+
+        PatientFactory()
+        patient_1 = PatientFactory()
+        patient_2 = PatientFactory()
+        patient_3 = PatientFactory()
+        patient_4 = PatientFactory()
+
+        care_1 = CareFactory(patient=patient_1, clinic=self.clinic_1)
+        CareFactory(patient=patient_2, clinic=self.clinic_1)
+        CareFactory(patient=patient_3, clinic=self.clinic_1)
+        care_2 = CareFactory(patient=patient_4, clinic=self.clinic_2)
+
+        CheckInFactory(care=care_1)
+        CheckInFactory(care=care_2)
+
+    def test_patient_count(self):
+        clinics = Clinic.objects.get_with_counters()
+        self.assertEqual(clinics.count(), 3)
+
+        clinic_1 = clinics.get(external_id=self.clinic_1.external_id)
+        self.assertEqual(clinic_1.patient_count, 3)
+
+        clinic_2 = clinics.get(external_id=self.clinic_2.external_id)
+        self.assertEqual(clinic_2.patient_count, 1)
+
+        clinic_3 = clinics.get(external_id=self.clinic_3.external_id)
+        self.assertEqual(clinic_3.patient_count, 0)
+
+    def test_patient_without_checkin_count(self):
+        clinics = Clinic.objects.get_with_counters()
+        self.assertEqual(clinics.count(), 3)
+
+        clinic_1 = clinics.get(external_id=self.clinic_1.external_id)
+        self.assertEqual(clinic_1.patient_without_checkin_count, 2)
+
+        clinic_2 = clinics.get(external_id=self.clinic_2.external_id)
+        self.assertEqual(clinic_2.patient_without_checkin_count, 0)
+
+        clinic_3 = clinics.get(external_id=self.clinic_3.external_id)
+        self.assertEqual(clinic_3.patient_without_checkin_count, 0)

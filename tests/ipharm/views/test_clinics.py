@@ -25,7 +25,7 @@ class GetAllClinicsTest(APITestCase):
     def test_get_all_clinics(self):
         self.client.force_login(user=self.user)
         response = self.client.get(reverse("clinic_list"))
-        clinics = Clinic.objects.all()
+        clinics = Clinic.objects.get_with_counters()
         serializer = ClinicSerializer(clinics, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -90,7 +90,9 @@ class GetSingleClinicsTest(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        serializer = ClinicSerializer(self.clinic_2)
+        serializer = ClinicSerializer(
+            Clinic.objects.get_with_counters().get(pk=self.clinic_2.pk)
+        )  # serializer use fields from annotated queryset
         self.assertEqual(response.data, serializer.data)
 
     def test_get_invalid_single_clinic(self):

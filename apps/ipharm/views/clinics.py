@@ -38,12 +38,12 @@ class ClinicListView(generics.ListAPIView):
         elif clinic_filter == "my_ambulances":
             queryset = Clinic.objects.get_my_ambulances(self.request.user)
         else:
-            queryset = Clinic.objects.all()
+            queryset = Clinic.objects.get_with_counters()
         return queryset
 
 
 class ClinicDetailView(generics.RetrieveAPIView):
-    queryset = Clinic.objects.all()
+    queryset = Clinic.objects.get_with_counters()
     serializer_class = ClinicSerializer
 
 
