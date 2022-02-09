@@ -19,6 +19,7 @@ class Updater:
         model_updater: Callable,
         model_updater_kwargs: dict,
         transformers: Optional[Iterable[Callable]] = None,
+        post_operations: Optional[Iterable[Callable]] = None,
         **kwargs,
     ):
         self.data_loader = data_loader
@@ -26,6 +27,9 @@ class Updater:
         if transformers is None:
             transformers = []
         self.transformers = transformers
+        if post_operations is None:
+            post_operations = []
+        self.post_operations = post_operations
         self.model_updater = model_updater
         self.model_updater_kwargs = model_updater_kwargs | kwargs
 
@@ -43,6 +47,8 @@ class Updater:
             for model, operation in result.items():
                 model_result = update_result.setdefault(model, {})
                 model_result[operation] = model_result.get(operation, 0) + 1
+        for post_operation in self.post_operations:
+            post_operation()
         return update_result
 
 
@@ -77,11 +83,18 @@ class UpdaterFactory:
                 "transformers", settings.DEFAULT_TRANSFORMERS
             )
         ]
+        post_operations = [
+            UpdaterFactory._get_func(post_operation)
+            for post_operation in settings.UPDATE_SOURCES[source].get(
+                "post_operations", []
+            )
+        ]
         return Updater(
             data_loader=data_loader,
             data_loader_kwargs=data_loader_kwargs,
             model_updater=model_updater,
             model_updater_kwargs=model_updater_kwargs,
             transformers=transformers,
+            post_operations=post_operations,
             **kwargs,
         )

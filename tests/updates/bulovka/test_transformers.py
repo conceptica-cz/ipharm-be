@@ -28,8 +28,7 @@ class PatientTransformerTest(TestCase):
         expected = {
             "patient": {
                 "external_id": 42,
-                "first_name": "John",
-                "last_name": "Doe",
+                "name": "Doe John",
                 "birth_number": "1234567890",
                 "birth_date": "1987-04-02",
                 "insurance_company": "111",
@@ -76,8 +75,7 @@ class PatientTransformerTest(TestCase):
         expected = {
             "patient": {
                 "external_id": 42,
-                "first_name": "John",
-                "last_name": "Smith",
+                "name": "Smith John",
                 "birth_number": "1234567891",
                 "birth_date": "1987-04-02",
                 "insurance_company": "111",
@@ -125,8 +123,7 @@ class PatientTransformerTest(TestCase):
         expected = {
             "patient": {
                 "external_id": 42,
-                "first_name": "John",
-                "last_name": "Doe",
+                "name": "Doe John",
                 "birth_number": "1234567890",
                 "birth_date": "1987-04-02",
                 "insurance_company": "111",
@@ -177,8 +174,7 @@ class PatientTransformerTest(TestCase):
         expected = {
             "patient": {
                 "external_id": 42,
-                "first_name": "John",
-                "last_name": "Doe",
+                "name": "Doe John",
                 "birth_number": "1234567890",
                 "birth_date": "1987-04-02",
                 "insurance_company": "111",
