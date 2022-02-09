@@ -37,7 +37,6 @@ def patient_updater(data: dict, **kwargs) -> dict:
         external_id=data["care"]["department"],
         defaults={
             "clinic": clinic,
-            "clinic_external_id": clinic_id,
         },
     )
 
@@ -69,7 +68,6 @@ def patient_updater(data: dict, **kwargs) -> dict:
             dekurz_docktor = None
         dekurz_department, _ = Department.objects.get_or_create_temporary(
             clinic=clinic,
-            clinic_external_id=clinic_id,
             external_id=data["dekurz"]["department"],
         )
         dekurz, _ = Dekurz.objects.get_or_create(

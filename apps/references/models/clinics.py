@@ -33,9 +33,6 @@ class Department(BaseUpdatableModel):
     clinic = models.ForeignKey(
         Clinic, on_delete=models.CASCADE, blank=True, null=True, help_text="Klinika"
     )
-    clinic_external_id = models.IntegerField(
-        blank=True, null=True, help_text="UNIS Kód kliniky"
-    )
     external_id = models.IntegerField(
         unique=True, blank=True, null=True, help_text="UNIS Kód"
     )

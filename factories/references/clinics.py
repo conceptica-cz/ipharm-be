@@ -128,7 +128,6 @@ class DepartmentFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ["external_id"]
 
     clinic = factory.SubFactory(ClinicFactory)
-    clinic_external_id = factory.SelfAttribute("clinic.external_id")
     external_id = factory.Iterator(range(1, 60))
     abbreviation = factory.LazyAttribute(lambda o: f"ODD{o.external_id}")
     description = factory.LazyAttribute(lambda o: f"Oddělení {o.external_id}")
