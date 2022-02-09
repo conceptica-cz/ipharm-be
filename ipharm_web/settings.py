@@ -290,6 +290,7 @@ UPDATE_SOURCES = {
             "use_token": True,
         },
         "transformers": ["updates.bulovka.transformers.patient_transformer"],
+        "post_operations": ["updates.bulovka.post_operations.update_names"],
         "model_updater": "updates.bulovka.updaters.patient_updater",
         "by_clinic": True,
     },

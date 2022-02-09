@@ -11,6 +11,7 @@ class PatientFilter(django_filters.FilterSet):
         model = Patient
         fields = {
             "birth_number": ["exact", "icontains"],
+            "name": ["exact", "icontains"],
             "first_name": ["exact", "icontains"],
             "last_name": ["exact", "icontains"],
         }

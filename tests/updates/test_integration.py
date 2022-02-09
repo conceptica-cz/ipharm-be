@@ -1,6 +1,7 @@
 from unittest.mock import Mock, patch
 
 from django.test import TestCase
+from django.utils.datetime_safe import datetime
 from ipharm.models import Care, Dekurz, Patient
 from updates.models import Source
 from updates.tasks import update
@@ -73,3 +74,13 @@ class TestPatientUpdate(TestCase):
         self.assertEqual(Dekurz.objects.count(), 2)
 
         self.assertEqual(Dekurz.objects.filter(doctor__isnull=True).count(), 1)
+
+        patient_1 = Patient.objects.get(external_id="42")
+        self.assertEqual(patient_1.name, "Doe John")
+        self.assertEqual(patient_1.first_name, "John")
+        self.assertEqual(patient_1.last_name, "Doe")
+        self.assertEqual(patient_1.birth_number, "1234567890")
+        self.assertEqual(patient_1.insurance_company.code, "111")
+        self.assertEqual(patient_1.insurance_number, "123456789")
+        self.assertEqual(patient_1.height, 173.0)
+        self.assertEqual(patient_1.weight, 61.0)

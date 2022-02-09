@@ -37,6 +37,13 @@ class PatientFactory(factory.django.DjangoModelFactory):
     birth_date = factory.Faker("date_of_birth", minimum_age=18, maximum_age=95)
 
     @factory.lazy_attribute
+    def name(self):
+        if self.gender == "MALE":
+            return self.last_name_male + " " + self.first_name_male
+        else:
+            return self.last_name_female + " " + self.first_name_female
+
+    @factory.lazy_attribute
     def birth_number(self):
         birth = self.birth_date.strftime("%y%m%d")
         return f"{birth}{Faker().pyint(1000, 9999)}"

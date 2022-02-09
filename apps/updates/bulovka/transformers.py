@@ -19,8 +19,9 @@ def patient_transformer(data: dict) -> dict:
     transformed = {
         "patient": {
             "external_id": data["patientId"],
-            "first_name": data["name"].split(" ", 1)[1],
-            "last_name": data["name"].split(" ", 1)[0],
+            "name": data["name"],
+            # "first_name": data["name"].split(" ", 1)[1],
+            # "last_name": data["name"].split(" ", 1)[0],
             "birth_number": data["birthNumber"],
             "birth_date": data["birthDate"],
             "insurance_company": data["insuranceCompany"],

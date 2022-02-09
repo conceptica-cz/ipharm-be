@@ -8,8 +8,9 @@ class Patient(BaseUpdatableModel):
     external_id = models.CharField(
         "UNIS ID", max_length=50, null=True, blank=True, unique=True
     )
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    first_name = models.CharField(max_length=100, blank=True, null=True)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
     birth_date = models.DateField()
     birth_number = models.CharField(unique=True, max_length=10)
     insurance_company = models.ForeignKey(

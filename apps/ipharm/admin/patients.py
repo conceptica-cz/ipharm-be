@@ -8,8 +8,7 @@ from ..models import patients
 class PatientAdmin(BaseHistoryAdmin):
     list_display = [
         "pk",
-        "last_name",
-        "first_name",
+        "name",
         "birth_number",
         "external_id",
         "created_at",
