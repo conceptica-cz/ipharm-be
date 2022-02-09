@@ -68,7 +68,13 @@ class SimpleModelUpdaterTestCase(TestCase):
             data=data,
             model="references.Department",
             identifiers=identifiers,
-            relations={"clinic_external_id": {"field": "clinic", "key": "external_id"}},
+            relations={
+                "clinic_external_id": {
+                    "field": "clinic",
+                    "key": "external_id",
+                    "delete_source_field": True,
+                }
+            },
         )
 
         self.assertEqual(result, {"references.Department": "created"})
@@ -76,5 +82,4 @@ class SimpleModelUpdaterTestCase(TestCase):
 
         expected = Department.objects.get(external_id=2)
         self.assertEqual(expected.abbreviation, "D1")
-        self.assertEqual(expected.clinic_external_id, 42)
         self.assertEqual(expected.clinic, clinic)

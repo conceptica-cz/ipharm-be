@@ -24,7 +24,6 @@ class DepartmentAdmin(BaseHistoryAdmin):
         "description",
         "abbreviation",
         "clinic",
-        "clinic_external_id",
         "for_insurance",
     ]
     search_fields = ["external_id", "description", "abbreviation"]

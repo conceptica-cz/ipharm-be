@@ -223,7 +223,11 @@ UPDATE_SOURCES = {
             "model": "references.Department",
             "identifiers": ["external_id"],
             "relations": {
-                "clinic_external_id": {"field": "clinic", "key": "external_id"}
+                "clinic_external_id": {
+                    "field": "clinic",
+                    "key": "external_id",
+                    "delete_source_field": True,
+                }
             },
         },
     },

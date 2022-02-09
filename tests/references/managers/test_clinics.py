@@ -243,7 +243,13 @@ class BestUpdatableManagerTest(TestCase):
     def test_update_or_create_from_dict__new_related_instance(self):
         """Test that new instance is created"""
         identifiers = ["external_id"]
-        relations = {"clinic_external_id": {"field": "clinic", "key": "external_id"}}
+        relations = {
+            "clinic_external_id": {
+                "field": "clinic",
+                "key": "external_id",
+                "delete_source_field": True,
+            }
+        }
         data = {
             "id": 172,
             "clinic_external_id": 42,
