@@ -1,10 +1,8 @@
-from ipharm.models import Care, Dekurz
-from references.models import Diagnosis
+from ipharm.models import Care, CheckIn, Dekurz
 from references.serializers.clinics import ClinicSerializer, DepartmentSerializer
 from references.serializers.diagnoses import DiagnosisSerializer
 from references.serializers.persons import PersonSerializer
 from rest_framework import serializers
-from rest_framework.relations import PrimaryKeyRelatedField
 
 
 class DekurzNestedSerializer(serializers.ModelSerializer):
@@ -30,12 +28,18 @@ class CareSerializer(serializers.ModelSerializer):
         extra_kwargs = {"diagnoses": {"required": False, "allow_empty": True}}
 
 
+class CheckInLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CheckIn
+        fields = read_only_fields = ["id", "risk_level"]
+
+
 class CareNestedSerializer(serializers.ModelSerializer):
     clinic = ClinicSerializer(read_only=True)
     department = DepartmentSerializer(read_only=True)
     main_diagnosis = DiagnosisSerializer(read_only=True)
     last_dekurz = DekurzNestedSerializer(read_only=True)
-    checkin = PrimaryKeyRelatedField(read_only=True)
+    checkin = CheckInLiteSerializer(read_only=True)
 
     class Meta:
         exclude = ["is_deleted"]
