@@ -73,7 +73,7 @@ class GetAllPatientsTest(APITestCase):
         self.client.force_login(user=self.user)
         response = self.client.get(reverse("patient_list"))
         patients = Patient.objects.all()
-        serializer = PatientSerializer(patients, many=True)
+        serializer = PatientNestedSerializer(patients, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["results"], serializer.data)
@@ -84,7 +84,7 @@ class GetAllPatientsTest(APITestCase):
             reverse("patient_list"), data={"hospital": self.clinic_1.pk}
         )
         patients = PatientFilter({"hospital": self.clinic_1.pk}).qs
-        serializer = PatientSerializer(patients, many=True)
+        serializer = PatientNestedSerializer(patients, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["results"], serializer.data)
