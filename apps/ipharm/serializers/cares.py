@@ -1,4 +1,4 @@
-from ipharm.models import Care, CheckIn, Dekurz
+from ipharm.models import Care, CheckIn, Dekurz, PharmacologicalPlan
 from references.serializers.clinics import ClinicSerializer, DepartmentSerializer
 from references.serializers.diagnoses import DiagnosisSerializer
 from references.serializers.persons import PersonSerializer
@@ -31,7 +31,21 @@ class CareSerializer(serializers.ModelSerializer):
 class CheckInLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckIn
-        fields = read_only_fields = ["id", "risk_level"]
+        fields = read_only_fields = [
+            "id",
+            "risk_level",
+            "consultation_requested",
+            "pharmacist_intervention_required",
+        ]
+
+
+class PharmacologicalPlanLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PharmacologicalPlan
+        fields = read_only_fields = [
+            "id",
+            "notification_datetime",
+        ]
 
 
 class CareNestedSerializer(serializers.ModelSerializer):
@@ -40,6 +54,7 @@ class CareNestedSerializer(serializers.ModelSerializer):
     main_diagnosis = DiagnosisSerializer(read_only=True)
     last_dekurz = DekurzNestedSerializer(read_only=True)
     checkin = CheckInLiteSerializer(read_only=True)
+    pharmacologicalplan = PharmacologicalPlanLiteSerializer(read_only=True)
 
     class Meta:
         exclude = ["is_deleted"]

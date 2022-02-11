@@ -16,6 +16,7 @@ class PatientListView(generics.ListCreateAPIView):
         .select_related("current_care__department")
         .select_related("current_care__main_diagnosis")
         .select_related("current_care__checkin")
+        .select_related("current_care__pharmacologicalplan")
         .select_related("current_care__last_dekurz")
         .select_related("current_care__last_dekurz__doctor")
         .select_related("current_care__last_dekurz__department")
