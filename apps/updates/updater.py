@@ -79,9 +79,7 @@ class UpdaterFactory:
         )
         transformers = [
             UpdaterFactory._get_func(transformer)
-            for transformer in settings.UPDATE_SOURCES[source].get(
-                "transformers", settings.DEFAULT_TRANSFORMERS
-            )
+            for transformer in settings.UPDATE_SOURCES[source].get("transformers", [])
         ]
         post_operations = [
             UpdaterFactory._get_func(post_operation)

@@ -9,6 +9,9 @@ class Clinic(BaseUpdatableModel):
     external_id = models.IntegerField(
         unique=True, blank=True, null=True, help_text="UNIS Kód"
     )
+    reference_id = models.IntegerField(
+        unique=True, blank=True, null=True, help_text="iČíselník Kód"
+    )
     abbreviation = models.CharField(max_length=10, help_text="Zkratka")
     description = models.CharField(max_length=255, db_index=True, help_text="Název")
     is_hospital = models.BooleanField(default=True, help_text="Ambulance")
