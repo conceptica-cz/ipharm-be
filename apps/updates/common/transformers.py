@@ -4,6 +4,6 @@ def delete_id(data: dict):
     return data
 
 
-def temporary(data: dict):
-    data["external_id"] = data.pop("identifier")
+def id_to_reference_id(data: dict):
+    data["reference_id"] = data.pop("id")
     return data

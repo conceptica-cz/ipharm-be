@@ -113,9 +113,10 @@ CLINICS = [
 class ClinicFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Clinic
-        django_get_or_create = ["external_id"]
+        django_get_or_create = ["reference_id"]
 
     external_id = factory.Iterator([c["id"] for c in CLINICS])
+    reference_id = factory.Iterator([c["id"] for c in CLINICS])
     abbreviation = factory.Iterator([c["abbrev"] for c in CLINICS])
     description = factory.Iterator([c["descr"] for c in CLINICS])
     is_hospital = True

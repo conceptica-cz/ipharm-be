@@ -200,7 +200,6 @@ IPHARM_REFERENCES_TOKEN = os.environ["IPHARM_REFERENCES_TOKEN"]
 BASE_REFERENCES_URL = os.environ["BASE_REFERENCES_URL"]
 REFERENCES_TOKEN = os.environ["REFERENCES_TOKEN"]
 DEFAULT_DATA_LOADER = "updates.common.loaders.references_loader"
-DEFAULT_TRANSFORMERS = ["updates.common.transformers.delete_id"]
 DEFAULT_MODEL_UPDATER = "updates.common.updaters.simple_model_updater"
 DEFAULT_INCREMENTAL_UPDATE_INTERVAL = os.environ.get(
     "DEFAULT_INCREMENTAL_UPDATE_INTERVAL", 15
@@ -214,8 +213,9 @@ UPDATE_SOURCES = {
         "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/clinics/"},
         "model_updater_kwargs": {
             "model": "references.Clinic",
-            "identifiers": ["external_id"],
+            "identifiers": ["reference_id"],
         },
+        "transformers": ["updates.common.transformers.id_to_reference_id"],
     },
     "Department": {
         "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/departments/"},
@@ -223,13 +223,14 @@ UPDATE_SOURCES = {
             "model": "references.Department",
             "identifiers": ["external_id"],
             "relations": {
-                "clinic_external_id": {
+                "clinic": {
                     "field": "clinic",
-                    "key": "external_id",
-                    "delete_source_field": True,
+                    "key": "reference_id",
+                    "delete_source_field": False,
                 }
             },
         },
+        "transformers": ["updates.common.transformers.delete_id"],
     },
     "Diagnosis": {
         "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/diagnoses/"},
@@ -238,6 +239,7 @@ UPDATE_SOURCES = {
             "identifiers": ["code"],
         },
         "interval": os.environ.get("DIAGNOSIS_UPDATE_INTERVAL", 60),
+        "transformers": ["updates.common.transformers.delete_id"],
     },
     "Drug": {
         "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/drugs/"},
@@ -246,6 +248,7 @@ UPDATE_SOURCES = {
             "identifiers": ["code_sukl"],
         },
         "interval": os.environ.get("DRUG_UPDATE_INTERVAL", 60),
+        "transformers": ["updates.common.transformers.delete_id"],
     },
     "ExternalDepartment": {
         "data_loader_kwargs": {
@@ -256,6 +259,7 @@ UPDATE_SOURCES = {
             "identifiers": ["icp"],
         },
         "interval": os.environ.get("EXTERNAL_DEPARTMENT_UPDATE_INTERVAL", 60),
+        "transformers": ["updates.common.transformers.delete_id"],
     },
     "Identification": {
         "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/identifications/"},
@@ -263,6 +267,7 @@ UPDATE_SOURCES = {
             "model": "references.Identification",
             "identifiers": ["identifier"],
         },
+        "transformers": ["updates.common.transformers.delete_id"],
     },
     "InsuranceCompany": {
         "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/insurances/"},
@@ -270,6 +275,7 @@ UPDATE_SOURCES = {
             "model": "references.InsuranceCompany",
             "identifiers": ["code"],
         },
+        "transformers": ["updates.common.transformers.delete_id"],
     },
     "MedicalFacility": {
         "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/facilities/"},
@@ -278,6 +284,7 @@ UPDATE_SOURCES = {
             "identifiers": ["facility_id"],
         },
         "interval": os.environ.get("FACILITIES_UPDATE_INTERVAL", 60),
+        "transformers": ["updates.common.transformers.delete_id"],
     },
     "Person": {
         "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/persons/"},
@@ -285,6 +292,7 @@ UPDATE_SOURCES = {
             "model": "references.Person",
             "identifiers": ["person_number"],
         },
+        "transformers": ["updates.common.transformers.delete_id"],
     },
     "Patient": {
         "data_loader": "updates.bulovka.loaders.patient_loader",
