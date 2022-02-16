@@ -311,6 +311,20 @@ UPDATE_SOURCES = {
 # REPORTS
 
 INSURANCE_REPORT_FOLDER = "dosages"
+GENERIC_REPORT_FOLDER = "reports"
+
+GENERIC_REPORTS = {
+    "uzis": {
+        "description": "UZIS výkaz",
+        "file_name": "uzis_report",
+        "frequency": "monthly",
+        "data_loader": "reports.uzis.uzis_loader",
+        "templates": {
+            "pdf": "generic_reports/uzis/pdf.html",
+        },
+        "order": 1,
+    }
+}
 
 # CELERY
 CELERY_TIMEZONE = TIME_ZONE
