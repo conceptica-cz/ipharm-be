@@ -1,5 +1,5 @@
 celery==5.2.2
-Django==3.2.11
+Django==3.2.12
 django-celery-beat==2.2.1
 django-cors-headers==3.11.0
 django-filter==21.1
@@ -13,3 +13,4 @@ python-json-logger==2.0.2
 pytz==2021.1
 redis==3.5.3
 requests==2.26.0
+weasyprint==54.1
