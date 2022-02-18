@@ -26,7 +26,7 @@ class Command(BaseCommand):
         for i in range(50):
             TagFactory()
             AdverseEffectFactory()
-        for i in range(100):
+        for i in range(800):
             care = CareFactory()
             if random.randint(0, 1):
                 CheckInFactory(care=care)
