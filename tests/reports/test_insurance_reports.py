@@ -27,6 +27,8 @@ class InsuranceReportTestCase(TestCase):
 
         self.insurance_company = InsuranceCompanyFactory(code="111", name="a")
         self.another_insurance_company = InsuranceCompanyFactory(code="222", name="b")
+        MedicalProcedureFactory(code="05751", scores=185)
+
         CheckInFactory(
             care__patient__insurance_number=1111111111,
             care__patient__insurance_company=self.insurance_company,
@@ -37,7 +39,7 @@ class InsuranceReportTestCase(TestCase):
             care__patient__insurance_company=self.insurance_company,
             risk_level="2",
         )
-        # that checkin has in_insurance_report=False
+        # that checkin has medical_procedure=None
         CheckInFactory(
             care__patient__insurance_number=3333333333,
             care__patient__insurance_company=self.insurance_company,
@@ -56,7 +58,6 @@ class InsuranceReportTestCase(TestCase):
             risk_level="2",
         )
 
-        MedicalProcedureFactory(code="05751", scores=185)
         self.identification = IdentificationFactory(
             identifier="12345678", for_insurance=True
         )

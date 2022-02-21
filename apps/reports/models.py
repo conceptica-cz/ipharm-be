@@ -3,10 +3,12 @@ from io import BytesIO, StringIO
 
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from references.models import InsuranceCompany
 from reports.generic_report import GenericReportFactory
+from reports.managers import ReportVariableManager
 from updates.models import BaseUpdatableModel
 
 DOSAGE_PREFIX = "KDAVKA"
@@ -143,3 +145,79 @@ class GenericReportFile(BaseUpdatableModel):
             file = StringIO(content)
         filename = f"{self.report_type.file_name}"
         self.file.save(filename, file)
+
+
+def bool_caster(value: str) -> bool:
+    """
+    Cast string to boolean
+    """
+    if value in ["True", "true"]:
+        return True
+    if value in ["False", "false"]:
+        return False
+    raise ValueError(f"{value} is not a valid boolean")
+
+
+class ReportVariable(BaseUpdatableModel):
+    """
+    Report variable model
+    """
+
+    VARIABLE_TYPE_INT = "int"
+    VARIABLE_TYPE_STR = "str"
+    VARIABLE_TYPE_BOOL = "bool"
+
+    VARIABLE_TYPE_CHOICES = (
+        (VARIABLE_TYPE_INT, "Integer"),
+        (VARIABLE_TYPE_STR, "String"),
+        (VARIABLE_TYPE_BOOL, "Boolean"),
+    )
+
+    CASTERS = {
+        VARIABLE_TYPE_INT: int,
+        VARIABLE_TYPE_STR: str,
+        VARIABLE_TYPE_BOOL: bool_caster,
+    }
+    VALIDATION_ERROR_MESSAGE = {
+        VARIABLE_TYPE_INT: "Value must be an integer",
+        VARIABLE_TYPE_STR: "Value must be an string",
+        VARIABLE_TYPE_BOOL: "Value must be an boolean",
+    }
+
+    report_type = models.ForeignKey(GenericReportType, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, unique=True)
+    description = models.CharField(max_length=255, unique=True)
+    variable_type = models.CharField(
+        max_length=255, choices=VARIABLE_TYPE_CHOICES, default=VARIABLE_TYPE_INT
+    )
+    value = models.CharField(max_length=255, blank=True)
+    order = models.IntegerField(default=0, db_index=True)
+
+    objects = ReportVariableManager()
+
+    class Meta:
+        ordering = ["order"]
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def casted_value(self):
+        return self.CASTERS[self.variable_type](self.value)
+
+    def clean(self):
+        try:
+            self.casted_value
+        except ValueError:
+            raise ValidationError(
+                {
+                    "value": ValidationError(
+                        self.VALIDATION_ERROR_MESSAGE[self.variable_type],
+                        code="invalid",
+                    )
+                }
+            )
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)

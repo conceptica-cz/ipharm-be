@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from ipharm.models.cares import Care
+from references.models import MedicalProcedure
 from references.models.drugs import Drug
 from updates.models import BaseUpdatableModel
 
@@ -125,15 +126,18 @@ class CheckIn(BaseUpdatableModel):
     )
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-    in_insurance_report = models.BooleanField(
-        default=False,
-        help_text="Je ve vykazování",
+    medical_procedure = models.ForeignKey(
+        "references.MedicalProcedure",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
 
     def save(self, *args, **kwargs):
-        if not self.in_insurance_report and (
+        if not self.medical_procedure and (
             self.patient_condition_change
             or self.risk_level in [self.RISK_LEVEL_2, self.RISK_LEVEL_3]
         ):
-            self.in_insurance_report = True
+            medical_procedure, _ = MedicalProcedure.objects.get_or_create(code="05751")
+            self.medical_procedure = medical_procedure
         super(CheckIn, self).save()

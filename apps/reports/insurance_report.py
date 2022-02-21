@@ -198,7 +198,7 @@ def get_insurance_report_data(
     documents = []
     check_ins = CheckIn.objects.filter(
         care__patient__insurance_company=insurance_company,
-        in_insurance_report=True,
+        medical_procedure__isnull=False,
         updated_at__year=year,
         updated_at__month=month,
     )
