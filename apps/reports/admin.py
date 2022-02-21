@@ -44,3 +44,16 @@ class GenericReportFileAdmin(admin.ModelAdmin):
     )
 
     list_filter = ("report_type",)
+
+
+@admin.register(models.ReportVariable)
+class ReportVariableAdmin(admin.ModelAdmin):
+    list_display = (
+        "report_type",
+        "name",
+        "description",
+        "variable_type",
+        "value",
+        "order",
+    )
+    list_filter = ("report_type",)

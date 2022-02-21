@@ -70,7 +70,7 @@ class CheckInFactory(factory.django.DjangoModelFactory):
     risk_level = factory.Iterator(["1", "2", "3"])
     created_at = factory.Faker("date_time_this_year", before_now=True, tzinfo=None)
     updated_at = factory.LazyAttribute(lambda o: o.created_at)
-    in_insurance_report = False
+    medical_procedure = None
 
     @factory.post_generation
     def drugs(self, create, extracted, **kwargs):
