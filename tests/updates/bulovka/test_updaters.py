@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.test import TestCase
 from django.utils import timezone
 from ipharm.models import Care, Dekurz, Patient
@@ -199,8 +201,11 @@ class PatientUpdaterTest(TestCase):
             },
         )
 
-    def test_care_external_id_changed(self):
-        """Tests that new Care is created when care_exiter_id is changed."""
+    @patch("updates.bulovka.updaters.timezone.now")
+    def test_care_external_id_changed(self, mocked_now):
+        """Tests that new Care is created when care_external_id is changed."""
+        now = timezone.datetime(2022, 1, 1, tzinfo=timezone.utc)
+        mocked_now.return_value = now
         patient_updater(data=self.data, **self.kwargs)
         self.data["care"]["external_id"] = 828117
         operations = patient_updater(data=self.data, **self.kwargs)
@@ -210,6 +215,7 @@ class PatientUpdaterTest(TestCase):
 
         self.assertEqual(InsuranceCompany.objects.count(), 1)
         self.assertEqual(Care.objects.count(), 2)
+        old_care = Care.objects.get(external_id=828116)
         care = Care.objects.get(external_id=828117)
         self.assertEqual(Dekurz.objects.count(), 2)
 
@@ -222,3 +228,96 @@ class PatientUpdaterTest(TestCase):
         )
 
         self.assertEqual(patient.current_care, care)
+
+        self.assertEqual(old_care.finished_at, now)
+        self.assertEqual(old_care.is_active, False)
+        self.assertEqual(care.is_active, True)
+
+    @patch("updates.bulovka.updaters.timezone.now")
+    def test_that_latest_care_is_always_current(self, mocked_now):
+        """
+        Test that regardless of processing order the latest care
+        is always set as current and active.
+        """
+        now = timezone.datetime(2022, 1, 1, tzinfo=timezone.utc)
+        mocked_now.return_value = now
+
+        old_care_data = {
+            "patient": {
+                "external_id": 42,
+                "first_name": "John",
+                "last_name": "Doe",
+                "birth_number": "1234567890",
+                "birth_date": "1987-04-02",
+                "insurance_company": "111",
+                "insurance_number": "1234567890",
+                "height": 160.0,
+                "weight": 57.0,
+            },
+            "care": {
+                "external_id": 142,
+                "department": 16,
+                "started_at": "2021-05-18T20:23+00:00",
+                "finished_at": None,
+                "main_diagnosis": "K519",
+            },
+            "dekurz": {
+                "made_at": "2021-09-23T20:29:00+00:00",
+                "doctor": 92328,
+                "department": 120,
+            },
+        }
+        new_care_data = {
+            "patient": {
+                "external_id": 42,
+                "first_name": "John",
+                "last_name": "Doe",
+                "birth_number": "1234567890",
+                "birth_date": "1987-04-02",
+                "insurance_company": "111",
+                "insurance_number": "1234567890",
+                "height": 160.0,
+                "weight": 57.0,
+            },
+            "care": {
+                "external_id": 143,
+                "department": 16,
+                "started_at": "2021-05-19T20:23+00:00",
+                "finished_at": None,
+                "main_diagnosis": "K519",
+            },
+            "dekurz": {
+                "made_at": "2021-05-20T20:29:00+00:00",
+                "doctor": 92328,
+                "department": 121,
+            },
+        }
+
+        old_care_kwargs = {"url_parameters": {"clinicId": 1}, "update": None}
+        new_care_kwargs = {"url_parameters": {"clinicId": 2}, "update": None}
+
+        # Old care first
+        patient_updater(data=old_care_data, **old_care_kwargs)
+        patient_updater(data=new_care_data, **new_care_kwargs)
+
+        old_care = Care.objects.get(external_id=142)
+        new_care = Care.objects.get(external_id=143)
+
+        self.assertEqual(old_care.is_active, False)
+        self.assertEqual(new_care.is_active, True)
+        self.assertEqual(old_care.finished_at, now)
+        self.assertEqual(new_care.finished_at, None)
+        self.assertEqual(Patient.objects.get(external_id=42).current_care, new_care)
+
+        # New care first
+        patient_updater(data=new_care_data, **new_care_kwargs)
+        patient_updater(data=old_care_data, **old_care_kwargs)
+
+        old_care = Care.objects.get(external_id=142)
+        new_care = Care.objects.get(external_id=143)
+
+        self.assertEqual(old_care.is_active, False)
+        self.assertEqual(new_care.is_active, True)
+        self.assertEqual(old_care.finished_at, now)
+        self.assertEqual(new_care.finished_at, None)
+        self.assertEqual(Patient.objects.get(external_id=42).current_care, new_care)

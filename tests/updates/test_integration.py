@@ -5,6 +5,7 @@ from ipharm.models import Care, Dekurz, Patient
 from references.models import Clinic, Department
 from updates.tasks import update
 
+from factories.ipharm import CareFactory
 from factories.references import ClinicFactory, DepartmentFactory
 
 
@@ -85,6 +86,129 @@ class TestPatientUpdate(TestCase):
         self.assertEqual(patient_1.insurance_number, "123456789")
         self.assertEqual(patient_1.height, 173.0)
         self.assertEqual(patient_1.weight, 61.0)
+
+
+@patch("updates.bulovka.loaders.requests.get")
+class TestPatientCareUpdate(TestCase):
+    def test_that_patient_without_unis_entity_finish_care(self, mocked_get):
+        CareFactory(
+            external_id=141,
+            patient__birth_number="1234567880",
+            is_active=True,
+            finished_at=None,
+            clinic__external_id=1,
+            clinic__reference_id=1,
+        )
+        CareFactory(
+            external_id=142,
+            patient__birth_number="1234567890",
+            is_active=True,
+            finished_at=None,
+            clinic__external_id=1,
+            clinic__reference_id=1,
+        )
+
+        response_data = {
+            "result": [
+                {
+                    "patientId": 42,
+                    "name": "Doe John",
+                    "birthNumber": "1234567890",
+                    "birthDate": "1987-04-02",
+                    "insuranceCompany": "111",
+                    "insuranceNumber": "123456789",
+                    "height": 173.0,
+                    "weight": 61.0,
+                    "diagnosis": "U071",
+                    "hospitalizationId": 142,
+                    "departmentIn": 600,
+                    "dateIn": "2021-12-26 14:27",
+                    "dekurzTime": "2022-01-06 09:30",
+                    "dekurzWho": 70331,
+                    "dekurzDepartment": 600,
+                },
+                {
+                    "patientId": 43,
+                    "name": "Smith John",
+                    "birthNumber": "1234567891",
+                    "birthDate": "1987-04-02",
+                    "insuranceCompany": "111",
+                    "insuranceNumber": "123456789",
+                    "hospitalizationId": 143,
+                    "height": 173.0,
+                    "weight": 61.0,
+                    "diagnosis": "U071",
+                    "departmentIn": 600,
+                    "dateIn": "2021-12-26 14:27",
+                    "dekurzWho": 0,
+                    "dekurzDepartment": 0,
+                },
+            ],
+        }
+        mocked_get.return_value = Mock(
+            status_code=200, json=Mock(return_value=response_data)
+        )
+        update("Patient", url_parameters={"clinicId": 1})
+
+        finished_care = Care.objects.get(external_id="141")
+        updated_care = Care.objects.get(external_id="142")
+        new_care = Care.objects.get(external_id="143")
+
+        self.assertEqual(finished_care.is_active, False)
+        self.assertNotEqual(finished_care.finished_at, None)
+        self.assertEqual(updated_care.is_active, True)
+        self.assertEqual(updated_care.finished_at, None)
+        self.assertEqual(new_care.is_active, True)
+        self.assertEqual(new_care.finished_at, None)
+
+    def test_that_new_care_created_on_external_id_change(self, mocked_get):
+        """
+        Test that new care is created when external id changes
+        and old care is finished
+        """
+        CareFactory(
+            external_id=141,
+            patient__birth_number="1234567890",
+            is_active=True,
+            finished_at=None,
+            clinic__external_id=1,
+            clinic__reference_id=1,
+        )
+
+        response_data = {
+            "result": [
+                {
+                    "patientId": 42,
+                    "name": "Doe John",
+                    "birthNumber": "1234567890",
+                    "birthDate": "1987-04-02",
+                    "insuranceCompany": "111",
+                    "insuranceNumber": "123456789",
+                    "height": 173.0,
+                    "weight": 61.0,
+                    "diagnosis": "U071",
+                    "hospitalizationId": 142,
+                    "departmentIn": 600,
+                    "dateIn": "2021-12-26 14:27",
+                    "dekurzTime": "2022-01-06 09:30",
+                    "dekurzWho": 70331,
+                    "dekurzDepartment": 600,
+                },
+            ],
+        }
+        mocked_get.return_value = Mock(
+            status_code=200, json=Mock(return_value=response_data)
+        )
+        update("Patient", url_parameters={"clinicId": 1})
+
+        finished_care = Care.objects.get(external_id="141")
+        new_care = Care.objects.get(external_id="142")
+
+        self.assertEqual(finished_care.patient, new_care.patient)
+        self.assertEqual(finished_care.is_active, False)
+        self.assertNotEqual(finished_care.finished_at, None)
+        self.assertEqual(new_care.is_active, True)
+        self.assertEqual(new_care.finished_at, None)
 
 
 @patch("updates.common.loaders.requests.get")

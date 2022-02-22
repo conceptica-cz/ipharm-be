@@ -32,10 +32,12 @@ class Updater:
         self.post_operations = post_operations
         self.model_updater = model_updater
         self.model_updater_kwargs = model_updater_kwargs | kwargs
+        self.kwargs = kwargs
 
     def update(self):
         update_result = {}
         data = self.data_loader(**self.data_loader_kwargs)
+        transformed_data = []
         for entity in data:
             try:
                 for transformer in self.transformers:
@@ -44,11 +46,13 @@ class Updater:
             except Exception:
                 logger.exception(f"Error updating {entity}")
                 continue
+            else:
+                transformed_data.append(entity)
             for model, operation in result.items():
                 model_result = update_result.setdefault(model, {})
                 model_result[operation] = model_result.get(operation, 0) + 1
         for post_operation in self.post_operations:
-            post_operation()
+            post_operation(transformed_data, **self.kwargs)
         return update_result
 
 
