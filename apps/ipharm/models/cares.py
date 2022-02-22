@@ -53,6 +53,11 @@ class Care(BaseUpdatableModel):
         self.last_dekurz = dekurz
         self.save()
 
+    def finish(self):
+        self.is_active = False
+        self.finished_at = timezone.now()
+        self.save()
+
 
 class Dekurz(BaseUpdatableModel):
     care = models.ForeignKey("Care", on_delete=models.CASCADE)

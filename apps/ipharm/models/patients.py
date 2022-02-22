@@ -1,7 +1,11 @@
+import logging
+
 from django.db import models
 from django.utils import timezone
 from ipharm.managers.patients import PatientManager
 from updates.models import BaseUpdatableModel
+
+logger = logging.getLogger(__name__)
 
 
 class Patient(BaseUpdatableModel):
@@ -42,5 +46,13 @@ class Patient(BaseUpdatableModel):
         return f"{self.last_name} {self.first_name}"
 
     def set_current_care(self, care):
-        self.current_care = care
-        self.save()
+        if self.current_care:
+            if self.current_care.started_at <= care.started_at:
+                self.current_care.finish()
+                self.current_care = care
+                self.save()
+            else:
+                care.finish()
+        else:
+            self.current_care = care
+            self.save()

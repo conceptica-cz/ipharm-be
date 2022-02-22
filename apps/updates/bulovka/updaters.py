@@ -1,6 +1,7 @@
 import copy
 import logging
 
+from django.utils import timezone
 from ipharm.models import Care, Dekurz, Patient
 from references.models import Clinic, Department, Person
 
@@ -82,6 +83,7 @@ def patient_updater(data: dict, **kwargs) -> dict:
                 operations["ipharm.Care"] = Care.objects.UPDATED
 
     if patient.current_care != care:
+        care.refresh_from_db()  # prevent care.started_at to be string
         patient.set_current_care(care)
         if patient_operation == Patient.objects.NOT_CHANGED:
             operations["ipharm.Patient"] = Patient.objects.UPDATED

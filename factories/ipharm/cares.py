@@ -21,7 +21,6 @@ class CareFactory(factory.django.DjangoModelFactory):
 
     patient = factory.SubFactory(PatientFactory)
     care_type = factory.Iterator([Care.HOSPITALIZATION, Care.AMBULATION])
-    is_active = True
     main_diagnosis = factory.SubFactory(DiagnosisFactory)
     external_id = factory.Sequence(lambda n: n)
 
@@ -34,13 +33,14 @@ class CareFactory(factory.django.DjangoModelFactory):
         datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc),
     )
     finished_at = factory.Maybe(
-        "datetime_out_decider",
+        "finished_at_decider",
         yes_declaration=None,
         no_declaration=factory.fuzzy.FuzzyDateTime(
             datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc),
             datetime.datetime(2021, 11, 1, tzinfo=datetime.timezone.utc),
         ),
     )
+    is_active = factory.LazyAttribute(lambda o: o.finished_at is None)
 
     @factory.post_generation
     def patient_care(self, create, extracted, **kwargs):
