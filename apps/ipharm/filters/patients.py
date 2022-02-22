@@ -11,6 +11,8 @@ class PatientFilter(django_filters.FilterSet):
         field_name="current_care__checkin", lookup_expr="isnull", exclude=True
     )
 
+    is_active = django_filters.BooleanFilter(field_name="current_care__is_active")
+
     risk_level = django_filters.CharFilter(
         field_name="current_care__checkin__risk_level", lookup_expr="exact"
     )

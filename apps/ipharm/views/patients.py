@@ -20,7 +20,7 @@ class PatientListView(generics.ListCreateAPIView):
         .select_related("current_care__last_dekurz")
         .select_related("current_care__last_dekurz__doctor")
         .select_related("current_care__last_dekurz__department")
-        .all()
+        .filter(current_care__isnull=False)
     )
     serializer_class = PatientNestedSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]

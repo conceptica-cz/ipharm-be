@@ -11,7 +11,7 @@ from factories.ipharm import (
 from factories.references import ClinicFactory
 
 
-class PatientFilterTest(TestCase):
+class PatientFilterByClinicTest(TestCase):
     def setUp(self) -> None:
         self.clinic_1 = ClinicFactory()
         self.clinic_2 = ClinicFactory()

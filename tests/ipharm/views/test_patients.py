@@ -20,7 +20,6 @@ class GetAllPatientsTest(APITestCase):
 
         self.clinic_1 = ClinicFactory()
         self.clinic_2 = ClinicFactory()
-        self.patient_0 = PatientFactory()
 
         self.patient_1_hospital_1 = PatientFactory()
         CareFactory(
