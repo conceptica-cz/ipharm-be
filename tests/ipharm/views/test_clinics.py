@@ -97,7 +97,9 @@ class GetSingleClinicsTest(APITestCase):
 
     def test_get_invalid_single_clinic(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("clinic_detail", kwargs={"pk": 42}))
+        response = self.client.get(
+            reverse("clinic_detail", kwargs={"pk": self.clinic_3.id + 1})
+        )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
