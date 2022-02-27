@@ -7,7 +7,8 @@ from ipharm.serializers.cares import (
 from references.serializers.clinics import ClinicSerializer, DepartmentSerializer
 from references.serializers.diagnoses import DiagnosisSerializer
 
-from factories.ipharm import CareFactory
+from factories.ipharm import CareFactory, PatientFactory
+from factories.references import ExternalDepartmentFactory
 from factories.references.diagnoses import DiagnosisFactory
 
 
@@ -33,4 +34,22 @@ class CareNestedSerializerTest(TestCase):
 
 class CareSerializerTest(TestCase):
     def setUp(self) -> None:
-        self.care = CareFactory()
+        self.patient = PatientFactory()
+
+    def test_external_care__without_external_department(self):
+        data = {
+            "care_type": "external",
+            "patient": self.patient.id,
+        }
+        serializer = CareSerializer(data=data)
+        self.assertFalse(serializer.is_valid())
+
+    def test_external_care__valid_data(self):
+        external_department = ExternalDepartmentFactory()
+        data = {
+            "care_type": "external",
+            "patient": self.patient.pk,
+            "external_department": external_department.pk,
+        }
+        serializer = CareSerializer(data=data)
+        self.assertTrue(serializer.is_valid(), msg=serializer.errors)

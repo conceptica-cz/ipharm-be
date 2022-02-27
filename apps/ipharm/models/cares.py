@@ -6,10 +6,12 @@ from updates.models import BaseUpdatableModel
 class Care(BaseUpdatableModel):
     HOSPITALIZATION = "hospitalization"
     AMBULATION = "ambulation"
+    EXTERNAL = "external"
 
     CARE_TYPE_CHOICES = (
         (HOSPITALIZATION, "Hospitalization"),
         (AMBULATION, "Ambulation"),
+        (EXTERNAL, "External"),
     )
     patient = models.ForeignKey("Patient", on_delete=models.CASCADE)
     care_type = models.CharField(
@@ -27,7 +29,7 @@ class Care(BaseUpdatableModel):
     started_at = models.DateTimeField(null=True, blank=True)
     finished_at = models.DateTimeField(null=True, blank=True)
     clinic = models.ForeignKey(
-        "references.Clinic", on_delete=models.CASCADE, null=True, blank=True
+        "references.Clinic", on_delete=models.SET_NULL, null=True, blank=True
     )
     department = models.ForeignKey(
         "references.Department",
@@ -43,6 +45,13 @@ class Care(BaseUpdatableModel):
         blank=True,
         related_name="last_dekurz_care",
     )
+    external_department = models.ForeignKey(
+        "references.ExternalDepartment",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    doctor = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
