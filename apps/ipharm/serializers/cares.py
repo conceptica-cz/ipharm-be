@@ -26,6 +26,18 @@ class CareSerializer(serializers.ModelSerializer):
         exclude = ["is_deleted"]
         read_only_fields = ["id", "last_dekurz"]
         extra_kwargs = {"diagnoses": {"required": False, "allow_empty": True}}
+        validators = []
+
+    def validate(self, data):
+        care_type = data.get("care_type", Care.HOSPITALIZATION)
+        if care_type == Care.HOSPITALIZATION:
+            pass
+        elif care_type == Care.EXTERNAL:
+            if data.get("external_department") is None:
+                raise serializers.ValidationError(
+                    "external_department must be set for external care"
+                )
+        return data
 
 
 class CheckInLiteSerializer(serializers.ModelSerializer):
