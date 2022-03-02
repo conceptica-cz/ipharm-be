@@ -30,16 +30,18 @@ class Command(BaseCommand):
             care = CareFactory()
             if random.randint(0, 1):
                 CheckInFactory(care=care)
-                PharmacologicalPlanFactory(care=care)
-                RiskDrugHistoryFactory(care=care)
-                [
-                    PatientInformationFactory(care=care)
-                    for _ in range(random.randint(1, 5))
-                ]
-                [
-                    PharmacologicalEvaluationFactory(care=care)
-                    for _ in range(random.randint(1, 5))
-                ]
+                if random.randint(0, 1):
+                    PharmacologicalPlanFactory(care=care)
+                    RiskDrugHistoryFactory(care=care)
+                    [
+                        PatientInformationFactory(care=care)
+                        for _ in range(random.randint(1, 5))
+                    ]
+                    [
+                        PharmacologicalEvaluationFactory(care=care)
+                        for _ in range(random.randint(1, 5))
+                    ]
+
         for i in range(30):
             ExternalDepartmentFactory()
         IdentificationFactory()
