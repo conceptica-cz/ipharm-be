@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
 from ..models import PharmacologicalPlan, PharmacologicalPlanComment
-from ..serializers import (
+from ..serializers.pharmacological_plans import (
     PharmacologicalPlanCommentSerializer,
     PharmacologicalPlanNestedSerializer,
     PharmacologicalPlanSerializer,

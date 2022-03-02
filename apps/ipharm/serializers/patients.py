@@ -1,10 +1,18 @@
-from references.models import Diagnosis
 from references.serializers.insurances import InsuranceCompanySerializer
 from rest_framework import serializers
 
-from ..models import Care
 from ..models.patients import Patient
-from .cares import CareNestedSerializer, CareSerializer
+from .cares import CareLiteNestedSerializer, CareNestedSerializer, CareSerializer
+
+
+class PatientLiteNestedSerializer(serializers.ModelSerializer):
+    insurance_company = InsuranceCompanySerializer(read_only=True)
+    current_care = CareLiteNestedSerializer(read_only=True)
+
+    class Meta:
+        model = Patient
+        exclude = ["is_deleted"]
+        read_only_fields = ["id"]
 
 
 class PatientNestedSerializer(serializers.ModelSerializer):

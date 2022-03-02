@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
 from ..models import RiskDrugHistory, RiskDrugHistoryComment
-from ..serializers import (
+from ..serializers.risk_drug_histories import (
     RiskDrugHistoryCommentSerializer,
     RiskDrugHistoryNestedSerializer,
     RiskDrugHistorySerializer,

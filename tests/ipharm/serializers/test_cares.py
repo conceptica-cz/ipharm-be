@@ -1,6 +1,6 @@
 from django.test import TestCase
 from ipharm.serializers.cares import (
-    CareNestedSerializer,
+    CareLiteNestedSerializer,
     CareSerializer,
     DekurzNestedSerializer,
 )
@@ -17,17 +17,17 @@ class CareNestedSerializerTest(TestCase):
         self.care = CareFactory()
 
     def test_clinic_is_nested(self):
-        serializer = CareNestedSerializer(instance=self.care)
+        serializer = CareLiteNestedSerializer(instance=self.care)
         clinic_serializer = ClinicSerializer(instance=self.care.clinic)
         self.assertEqual(serializer.data["clinic"], clinic_serializer.data)
 
     def test_department_is_nested(self):
-        serializer = CareNestedSerializer(instance=self.care)
+        serializer = CareLiteNestedSerializer(instance=self.care)
         department_serializer = DepartmentSerializer(instance=self.care.department)
         self.assertEqual(serializer.data["department"], department_serializer.data)
 
     def test_last_dekurz_is_nested(self):
-        serializer = CareNestedSerializer(instance=self.care)
+        serializer = CareLiteNestedSerializer(instance=self.care)
         dekurz_serializer = DekurzNestedSerializer(instance=self.care.last_dekurz)
         self.assertEqual(serializer.data["last_dekurz"], dekurz_serializer.data)
 

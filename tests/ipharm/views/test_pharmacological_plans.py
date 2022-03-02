@@ -1,8 +1,9 @@
 from django.urls import reverse
 from ipharm.models import PharmacologicalPlan, PharmacologicalPlanComment
-from ipharm.serializers import PharmacologicalPlanCommentSerializer
+from ipharm.serializers.pharmacological_plans import (
+    PharmacologicalPlanCommentSerializer,
+)
 from references.serializers import TagSerializer
-from references.serializers.drugs import DrugSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 

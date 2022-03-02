@@ -2,8 +2,8 @@ import datetime
 
 from django.test import TestCase
 from ipharm.models import Care, Patient
-from ipharm.serializers.cares import CareNestedSerializer
-from ipharm.serializers.patients import PatientNestedSerializer, PatientSerializer
+from ipharm.serializers.cares import CareLiteNestedSerializer
+from ipharm.serializers.patients import PatientLiteNestedSerializer, PatientSerializer
 from references.serializers.insurances import InsuranceCompanySerializer
 
 from factories.ipharm import CareFactory
@@ -17,7 +17,7 @@ class PatientNestedSerializerTest(TestCase):
         self.care = CareFactory(patient=self.patient, care_type=Care.HOSPITALIZATION)
 
     def test_insurance_company_is_nested(self):
-        serializer = PatientNestedSerializer(instance=self.patient)
+        serializer = PatientLiteNestedSerializer(instance=self.patient)
         insurance_company_serializer = InsuranceCompanySerializer(
             instance=self.patient.insurance_company
         )
@@ -26,8 +26,8 @@ class PatientNestedSerializerTest(TestCase):
         )
 
     def test_current_care_is_nested(self):
-        serializer = PatientNestedSerializer(instance=self.patient)
-        serializer_care = CareNestedSerializer(instance=self.care)
+        serializer = PatientLiteNestedSerializer(instance=self.patient)
+        serializer_care = CareLiteNestedSerializer(instance=self.care)
         self.assertEqual(serializer.data["current_care"], serializer_care.data)
 
 

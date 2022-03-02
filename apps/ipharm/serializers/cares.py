@@ -1,4 +1,7 @@
 from ipharm.models import Care, CheckIn, Dekurz, PharmacologicalPlan
+from ipharm.serializers.checkins import CheckInNestedSerializer
+from ipharm.serializers.pharmacological_plans import PharmacologicalPlanSerializer
+from ipharm.serializers.risk_drug_histories import RiskDrugHistoryNestedSerializer
 from references.serializers.clinics import ClinicSerializer, DepartmentSerializer
 from references.serializers.diagnoses import DiagnosisSerializer
 from references.serializers.persons import PersonSerializer
@@ -60,13 +63,28 @@ class PharmacologicalPlanLiteSerializer(serializers.ModelSerializer):
         ]
 
 
-class CareNestedSerializer(serializers.ModelSerializer):
+class CareLiteNestedSerializer(serializers.ModelSerializer):
     clinic = ClinicSerializer(read_only=True)
     department = DepartmentSerializer(read_only=True)
     main_diagnosis = DiagnosisSerializer(read_only=True)
     last_dekurz = DekurzNestedSerializer(read_only=True)
     checkin = CheckInLiteSerializer(read_only=True)
     pharmacologicalplan = PharmacologicalPlanLiteSerializer(read_only=True)
+
+    class Meta:
+        exclude = ["is_deleted"]
+        read_only_fields = ["id"]
+        model = Care
+
+
+class CareNestedSerializer(serializers.ModelSerializer):
+    clinic = ClinicSerializer(read_only=True)
+    department = DepartmentSerializer(read_only=True)
+    main_diagnosis = DiagnosisSerializer(read_only=True)
+    last_dekurz = DekurzNestedSerializer(read_only=True)
+    checkin = CheckInNestedSerializer(read_only=True)
+    pharmacologicalplan = PharmacologicalPlanSerializer(read_only=True)
+    riskdrughistory = RiskDrugHistoryNestedSerializer(read_only=True)
 
     class Meta:
         exclude = ["is_deleted"]

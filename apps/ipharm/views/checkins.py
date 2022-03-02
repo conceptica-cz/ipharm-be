@@ -1,7 +1,7 @@
 from rest_framework import generics
 
 from ..models import CheckIn
-from ..serializers import CheckInNestedSerializer, CheckInSerializer
+from ..serializers.checkins import CheckInNestedSerializer, CheckInSerializer
 from .common import HistoryView
 
 

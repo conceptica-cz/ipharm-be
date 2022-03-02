@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
 from ..models import PatientInformation
-from ..serializers import (
+from ..serializers.patient_informations import (
     PatientInformationNestedSerializer,
     PatientInformationSerializer,
 )
