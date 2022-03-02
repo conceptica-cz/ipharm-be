@@ -1,5 +1,4 @@
-from django.db.models import Count
-from ipharm.models import CheckIn
+from ipharm.models.checkins import CheckIn
 from reports.models import ReportVariable
 
 

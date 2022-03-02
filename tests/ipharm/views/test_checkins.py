@@ -1,5 +1,5 @@
 from django.urls import reverse
-from ipharm.models import CheckIn
+from ipharm.models.checkins import CheckIn
 from references.serializers.drugs import DrugSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase

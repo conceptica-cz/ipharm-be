@@ -1,7 +1,7 @@
 import factory
 from factory import fuzzy
 from faker import Faker
-from ipharm.models import Patient
+from ipharm.models.patients import Patient
 
 from factories.references.insurances import InsuranceCompanyFactory
 

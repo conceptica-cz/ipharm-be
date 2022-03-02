@@ -1,4 +1,6 @@
-from ipharm.models import Care, CheckIn, Dekurz, PharmacologicalPlan
+from ipharm.models.cares import Care, Dekurz
+from ipharm.models.checkins import CheckIn
+from ipharm.models.pharmacological_plans import PharmacologicalPlan
 from ipharm.serializers.checkins import CheckInNestedSerializer
 from ipharm.serializers.pharmacological_plans import PharmacologicalPlanSerializer
 from ipharm.serializers.risk_drug_histories import RiskDrugHistoryNestedSerializer

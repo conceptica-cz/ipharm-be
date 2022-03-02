@@ -1,10 +1,10 @@
 from common.admin import BaseHistoryAdmin
 from django.contrib import admin
 
-from ..models import patients
+from ..models.patients import Patient
 
 
-@admin.register(patients.Patient)
+@admin.register(Patient)
 class PatientAdmin(BaseHistoryAdmin):
     list_display = [
         "pk",

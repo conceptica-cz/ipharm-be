@@ -1,10 +1,10 @@
 from common.admin import BaseHistoryAdmin
 from django.contrib import admin
 
-from .. import models
+from ..models.pharmacological_evaluations import PharmacologicalEvaluation
 
 
-@admin.register(models.PharmacologicalEvaluation)
+@admin.register(PharmacologicalEvaluation)
 class PharmacologicalEvaluationAdmin(BaseHistoryAdmin):
     list_display = (
         "id",

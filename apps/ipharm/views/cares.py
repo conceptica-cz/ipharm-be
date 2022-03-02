@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import SAFE_METHODS
 
-from ..models import Care
+from ..models.cares import Care
 from ..serializers.cares import CareNestedSerializer, CareSerializer
 from .common import HistoryView
 

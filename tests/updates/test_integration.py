@@ -1,7 +1,8 @@
 from unittest.mock import Mock, patch
 
 from django.test import TestCase
-from ipharm.models import Care, Dekurz, Patient
+from ipharm.models.cares import Care, Dekurz
+from ipharm.models.patients import Patient
 from references.models import Clinic, Department
 from updates.tasks import update
 

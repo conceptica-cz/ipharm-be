@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ipharm.models import Care
+from ipharm.models.cares import Care
 from references.models import Clinic
 
 from factories.ipharm.cares import CareFactory, PatientFactory

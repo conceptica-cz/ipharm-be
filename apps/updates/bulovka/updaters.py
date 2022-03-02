@@ -1,8 +1,8 @@
 import copy
 import logging
 
-from django.utils import timezone
-from ipharm.models import Care, Dekurz, Patient
+from ipharm.models.cares import Care, Dekurz
+from ipharm.models.patients import Patient
 from references.models import Clinic, Department, Person
 
 logger = logging.getLogger(__name__)

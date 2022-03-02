@@ -1,10 +1,9 @@
 from common.admin import BaseHistoryAdmin
 from django.contrib import admin
+from ipharm.models.patient_informations import PatientInformation
 
-from .. import models
 
-
-@admin.register(models.PatientInformation)
+@admin.register(PatientInformation)
 class PatientInformationAdmin(BaseHistoryAdmin):
     list_display = (
         "id",

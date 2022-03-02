@@ -1,5 +1,8 @@
 from django.urls import reverse
-from ipharm.models import PharmacologicalPlan, PharmacologicalPlanComment
+from ipharm.models.pharmacological_plans import (
+    PharmacologicalPlan,
+    PharmacologicalPlanComment,
+)
 from ipharm.serializers.pharmacological_plans import (
     PharmacologicalPlanCommentSerializer,
 )

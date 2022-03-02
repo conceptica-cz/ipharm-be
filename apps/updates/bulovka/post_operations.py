@@ -1,5 +1,6 @@
 from django.utils import timezone
-from ipharm.models import Care, Patient
+from ipharm.models.cares import Care
+from ipharm.models.patients import Patient
 
 
 def update_names(transformed_data, **kwargs):

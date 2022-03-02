@@ -1,4 +1,4 @@
-from ipharm.models import RiskDrugHistory, RiskDrugHistoryComment
+from ipharm.models.risk_drug_histories import RiskDrugHistory, RiskDrugHistoryComment
 from references.serializers import DiagnosisSerializer, DrugSerializer, TagSerializer
 from rest_framework import serializers
 

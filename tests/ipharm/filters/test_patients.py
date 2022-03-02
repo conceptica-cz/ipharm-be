@@ -1,6 +1,6 @@
 from django.test import TestCase
 from ipharm.filters import PatientFilter
-from ipharm.models import Care, Patient
+from ipharm.models.cares import Care
 
 from factories.ipharm import (
     CareFactory,

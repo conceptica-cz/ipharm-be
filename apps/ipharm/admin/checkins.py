@@ -1,10 +1,9 @@
 from common.admin import BaseHistoryAdmin
 from django.contrib import admin
+from ipharm.models.checkins import CheckIn
 
-from .. import models
 
-
-@admin.register(models.CheckIn)
+@admin.register(CheckIn)
 class CheckInAdmin(BaseHistoryAdmin):
     list_display = ("id", "patient", "medical_procedure", "created_at", "updated_at")
     list_select_related = ("care", "care__patient")

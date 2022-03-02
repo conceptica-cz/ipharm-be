@@ -3,7 +3,7 @@ import random
 
 import factory
 from factory import fuzzy
-from ipharm.models import Care, Dekurz
+from ipharm.models.cares import Care, Dekurz
 
 from factories.ipharm.patients import PatientFactory
 from factories.references.clinics import ClinicFactory, DepartmentFactory

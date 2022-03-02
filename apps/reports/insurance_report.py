@@ -4,7 +4,7 @@ import shutil
 from django.conf import settings
 from django.db.models import Sum
 from django.template.loader import render_to_string
-from ipharm.models import CheckIn
+from ipharm.models.checkins import CheckIn
 from references.models import (
     Department,
     Identification,
