@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
-from ..models import PharmacologicalEvaluation
+from ..models.pharmacological_evaluations import PharmacologicalEvaluation
 from ..serializers.pharmacological_evaluations import (
     PharmacologicalEvaluationNestedSerializer,
     PharmacologicalEvaluationSerializer,

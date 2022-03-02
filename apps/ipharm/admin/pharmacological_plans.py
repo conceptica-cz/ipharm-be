@@ -1,11 +1,14 @@
 from common.admin import BaseHistoryAdmin
 from django.contrib import admin
 
-from .. import models
+from ..models.pharmacological_plans import (
+    PharmacologicalPlan,
+    PharmacologicalPlanComment,
+)
 
 
 class PharmacologicalPlanCommentInline(admin.TabularInline):
-    model = models.PharmacologicalPlanComment
+    model = PharmacologicalPlanComment
     extra = 0
     exclude = ["is_deleted"]
 
@@ -13,7 +16,7 @@ class PharmacologicalPlanCommentInline(admin.TabularInline):
         return False
 
 
-@admin.register(models.PharmacologicalPlan)
+@admin.register(PharmacologicalPlan)
 class PharmacologicalPlanAdmin(BaseHistoryAdmin):
     list_display = (
         "id",

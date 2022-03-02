@@ -1,5 +1,5 @@
 import django_filters
-from ipharm.models import Patient
+from ipharm.models.patients import Patient
 
 
 class PatientFilter(django_filters.FilterSet):

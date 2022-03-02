@@ -1,5 +1,5 @@
 from django.urls import reverse
-from ipharm.models import PharmacologicalEvaluation
+from ipharm.models.pharmacological_evaluations import PharmacologicalEvaluation
 from references.serializers import TagSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase

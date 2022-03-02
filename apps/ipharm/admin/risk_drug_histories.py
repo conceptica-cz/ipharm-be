@@ -2,10 +2,11 @@ from common.admin import BaseHistoryAdmin
 from django.contrib import admin
 
 from .. import models
+from ..models.risk_drug_histories import RiskDrugHistory, RiskDrugHistoryComment
 
 
 class RiskDrugHistoryCommentInline(admin.TabularInline):
-    model = models.RiskDrugHistoryComment
+    model = RiskDrugHistoryComment
     extra = 0
     exclude = ["is_deleted"]
 
@@ -13,7 +14,7 @@ class RiskDrugHistoryCommentInline(admin.TabularInline):
         return False
 
 
-@admin.register(models.RiskDrugHistory)
+@admin.register(RiskDrugHistory)
 class RiskDrugHistoryAdmin(BaseHistoryAdmin):
     list_display = (
         "id",

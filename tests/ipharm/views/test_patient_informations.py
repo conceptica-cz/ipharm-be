@@ -1,5 +1,5 @@
 from django.urls import reverse
-from ipharm.models import PatientInformation
+from ipharm.models.patient_informations import PatientInformation
 from rest_framework import status
 from rest_framework.test import APITestCase
 

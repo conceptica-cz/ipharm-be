@@ -1,5 +1,5 @@
 from django.urls import reverse
-from ipharm.models import Care
+from ipharm.models.cares import Care
 from ipharm.serializers.cares import CareNestedSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase

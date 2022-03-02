@@ -1,8 +1,10 @@
 import logging
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from ipharm.managers.patients import PatientManager
+from ipharm.services import cares
 from updates.models import BaseUpdatableModel
 
 logger = logging.getLogger(__name__)
@@ -48,9 +50,15 @@ class Patient(BaseUpdatableModel):
     def set_current_care(self, care):
         if self.current_care:
             if self.current_care.started_at <= care.started_at:
-                self.current_care.finish()
+                old_care = self.current_care
+                old_care.finish()
                 self.current_care = care
                 self.save()
+
+                if care.started_at - old_care.started_at < timezone.timedelta(
+                    hours=settings.MIGRATE_RELATED_TIME_GAP
+                ):
+                    cares.migrate_related(old_care, care)
             else:
                 care.finish()
         else:

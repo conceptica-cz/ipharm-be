@@ -1,7 +1,8 @@
 import datetime
 
 from django.test import TestCase
-from ipharm.models import Care, Patient
+from ipharm.models.cares import Care
+from ipharm.models.patients import Patient
 from ipharm.serializers.cares import CareLiteNestedSerializer
 from ipharm.serializers.patients import PatientLiteNestedSerializer, PatientSerializer
 from references.serializers.insurances import InsuranceCompanySerializer

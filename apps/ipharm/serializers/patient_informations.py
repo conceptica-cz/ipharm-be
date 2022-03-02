@@ -1,4 +1,4 @@
-from ipharm.models import PatientInformation
+from ipharm.models.patient_informations import PatientInformation
 from rest_framework import serializers
 
 

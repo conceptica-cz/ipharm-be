@@ -1,12 +1,10 @@
 from django.db import models
 from django.utils import timezone
-from ipharm.models import Care
-from references.models import Tag
 from updates.models import BaseUpdatableModel
 
 
 class PharmacologicalPlan(BaseUpdatableModel):
-    care = models.OneToOneField(Care, on_delete=models.CASCADE)
+    care = models.OneToOneField("ipharm.Care", on_delete=models.CASCADE)
     text = models.TextField(
         blank=True, null=True, help_text="Text farmakologického plánu"
     )
@@ -15,7 +13,7 @@ class PharmacologicalPlan(BaseUpdatableModel):
     notification_datetime = models.DateTimeField(
         blank=True, null=True, help_text="Datum pro upozornění"
     )
-    tags = models.ManyToManyField(Tag, blank=True, help_text="Štítky")
+    tags = models.ManyToManyField("references.Tag", blank=True, help_text="Štítky")
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 

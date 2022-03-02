@@ -1,7 +1,8 @@
 import factory
 from django.urls import reverse
 from ipharm.filters import PatientFilter
-from ipharm.models import Care, Patient
+from ipharm.models.cares import Care
+from ipharm.models.patients import Patient
 from ipharm.serializers.patients import PatientLiteNestedSerializer, PatientSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase

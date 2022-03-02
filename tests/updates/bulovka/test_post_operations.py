@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from django.test import TestCase
 from django.utils import timezone
-from ipharm.models import Care
+from ipharm.models.cares import Care
 from updates.bulovka.post_operations import finish_cares
 
 from factories.ipharm import CareFactory

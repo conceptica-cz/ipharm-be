@@ -1,4 +1,4 @@
-from ipharm.models import CheckIn
+from ipharm.models.checkins import CheckIn
 from references.serializers import DiagnosisSerializer
 from references.serializers.drugs import DrugSerializer
 from rest_framework import serializers
