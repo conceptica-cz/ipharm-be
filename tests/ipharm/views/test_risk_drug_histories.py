@@ -1,6 +1,6 @@
 from django.urls import reverse
 from ipharm.models import RiskDrugHistory, RiskDrugHistoryComment
-from ipharm.serializers import RiskDrugHistoryCommentSerializer
+from ipharm.serializers.risk_drug_histories import RiskDrugHistoryCommentSerializer
 from references.serializers.drugs import DrugSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase

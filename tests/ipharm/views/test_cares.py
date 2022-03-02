@@ -5,8 +5,6 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from factories.ipharm import CareFactory
-from factories.ipharm.patients import PatientFactory
-from factories.references.clinics import ClinicFactory
 from factories.references.diagnoses import DiagnosisFactory
 from factories.users.models import UserFactory
 

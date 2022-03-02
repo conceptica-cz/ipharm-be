@@ -2,7 +2,7 @@ import factory
 from django.urls import reverse
 from ipharm.filters import PatientFilter
 from ipharm.models import Care, Patient
-from ipharm.serializers.patients import PatientNestedSerializer, PatientSerializer
+from ipharm.serializers.patients import PatientLiteNestedSerializer, PatientSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -72,7 +72,7 @@ class GetAllPatientsTest(APITestCase):
         self.client.force_login(user=self.user)
         response = self.client.get(reverse("patient_list"))
         patients = Patient.objects.all()
-        serializer = PatientNestedSerializer(patients, many=True)
+        serializer = PatientLiteNestedSerializer(patients, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["results"], serializer.data)
@@ -83,7 +83,7 @@ class GetAllPatientsTest(APITestCase):
             reverse("patient_list"), data={"hospital": self.clinic_1.pk}
         )
         patients = PatientFilter({"hospital": self.clinic_1.pk}).qs
-        serializer = PatientNestedSerializer(patients, many=True)
+        serializer = PatientLiteNestedSerializer(patients, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["results"], serializer.data)
@@ -112,7 +112,7 @@ class GetSinglePatientTest(APITestCase):
         response = self.client.get(
             reverse("patient_detail", kwargs={"pk": self.patient.pk})
         )
-        serializer = PatientNestedSerializer(self.patient)
+        serializer = PatientLiteNestedSerializer(self.patient)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)

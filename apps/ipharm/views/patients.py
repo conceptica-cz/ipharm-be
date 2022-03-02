@@ -4,7 +4,11 @@ from rest_framework.permissions import SAFE_METHODS
 
 from ..filters import PatientFilter
 from ..models.patients import Patient
-from ..serializers.patients import PatientNestedSerializer, PatientSerializer
+from ..serializers.patients import (
+    PatientLiteNestedSerializer,
+    PatientNestedSerializer,
+    PatientSerializer,
+)
 from .common import HistoryView
 
 
@@ -22,13 +26,13 @@ class PatientListView(generics.ListCreateAPIView):
         .select_related("current_care__last_dekurz__department")
         .filter(current_care__isnull=False)
     )
-    serializer_class = PatientNestedSerializer
+    serializer_class = PatientLiteNestedSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = PatientFilter
 
     def get_serializer_class(self):
         if self.request.method in SAFE_METHODS:
-            return PatientNestedSerializer
+            return PatientLiteNestedSerializer
         else:
             return PatientSerializer
 
