@@ -4,7 +4,7 @@
     <style>
         @page {
             size: A4;
-            margin: 0.8cm 1.8cm;
+            margin: 1.2cm;
             padding: 0;
         }
 
@@ -18,10 +18,7 @@
             font-family: "Liberation Sans Narrow";
             text-align: left;
             margin-left: 2mm;
-        }
-
-        .new-page {
-            page-break-before: always;
+            margin-top: 5mm;
         }
 
         table {
@@ -29,6 +26,7 @@
             border: 0.3mm solid black;
             font-family: "Liberation Sans Narrow";
             font-size: 12px;
+            page-break-inside: avoid;
         }
 
         td {
@@ -220,11 +218,152 @@
         .mt-25 {
             margin-top: 15mm;
         }
+        .mt-1 {
+            margin-top: 1mm;
+        }
+
+        div.main {
+            width: 180mm;
+        }
+
+        div.header {
+            width: 100%;
+            font-family: "Liberation Sans Narrow";
+        }
+
+        div.flex {
+            display: flex;
+        }
+
+        div.header-right {
+            width: 100%;
+        }
+
+        div.header-right-1-1 {
+            width: 100%;
+            font-size: 16px;
+            font-weight: 900;
+        }
+        
+        div.header-right-1-2 {
+            width: 23mm;
+            border: 0.3mm solid black;
+            font-size: 16px;
+            font-weight: 900;
+            padding: 0.5mm;
+        }
+
+        div.header-right-2 {
+            width: 100%;
+            font-size: 14px;
+            font-weight: 900;
+            margin-top: 3mm;
+        }
+
+        div.header-right-3 {
+            margin-top: 3mm;
+            width: 100%;
+        }
+
+        div.header-right-3-1 {
+            width: 46mm;
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        div.header-right-3-2 {
+            width: 100%;
+            font-size: 12px;
+        }
+
+        div.header-notes {
+            width: 30mm;
+            font-size: 8px;
+            padding: 0.5mm 5mm 0.5mm;
+        }
+
+        div.header-table-2-1 {
+            min-height: 20mm;
+            text-align: left;
+
+        }
+
+        div.header-table-2-2 {
+            min-height: 10mm;
+            font-weight: 900;
+            text-align: left;
+            padding-left: 65mm;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        table.header {
+            font-size: 10px;
+        }
+
+        td.header-1 {
+            width: 33mm;
+        }
+
+        td.header-2 {
+            width: 70mm;
+        }
+
+        tr.header-1 {
+            height: 10mm;
+        }
+
+        tr.header-2 {
+            height: 10mm;
+        }
+
+        tr.header-3 {
+            height: 10mm;
+        }
     </style>
 </head>
 <body>
 <div class="main">
-    <h1>{{ year }}</h1>
+    <div class="header flex">
+        <div class="header-notes">
+            <strong>Ministerstvo zdravotnictví</strong>
+            <p class="mt-1">Schváleno ČSÚ pro Ministerstvo zdravotnictví</p>
+            <p>ČV 83/21 ze dne 30. září 2020 v rámci Programu statistických zjišťování na rok 2021</p>
+            <p>Vyplněný výkaz předložte pracovišti státní statistické služby resortu zdravotnictví podle závazných pokynů ÚZIS ČR</p>
+            <p class="mt-1">Ochrana důvěrnosti údajů je zaručena zákonem č. 89/1995 Sb., o státní statistické službě, ve znění pozdějších předpisů Údaje se zjišťují pro potřebu Ministerstva zdravotnictví, které odpovídá za jejich ochranu</p>
+        </div>
+        <div class="header-right">
+            <div class="flex header-right-1">
+                <div class="header-right-1-1">Roční výkaz o činnosti poskytovatele ZS</div>
+                <div class="header-right-1-2">A (MZ) 1-01</div>
+            </div>
+            <div class="header-right-2">Poskytovatel (obor): klinická farmacie</div>
+            <div class="flex header-right-3">
+                <div class="header-right-3-1">Za rok {{ year }}</div>
+                <div class="header-right-3-2">
+                    <table class="header">
+                        <tr class="header-1">
+                            <td class="header-1">IČO</td>
+                            <td class="header-2" rowspan="3">
+                                <div class="header-table-2-1">Zpravodajská jednotka (adresa):</div>
+                                <div class="header-table-2-2">A007</div>
+                            </td>
+                        </tr>
+                        <tr class="header-2">
+                            <td>PČZ</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Oddělení, pracoviště, druh ZZ
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <h1>I. Pracovníci ve zdravotnictví</h1>
     <table>
         <tr>
@@ -459,7 +598,7 @@
             <td></td>
         </tr>
     </table>
-    <h1 class="new-page">VI. Evidence činností klinického farmaceuta</h1>
+    <h1>VI. Evidence činností klinického farmaceuta</h1>
     <table>
         <tr>
             <td class="a-6"></td>
@@ -691,12 +830,16 @@
             <td></td>
         </tr>
         <tr>
-            <td class="align-left">Nádorové onemocnění (dle MKN: C) – kurativní nebo paliativní onkologická farmakoterapie</td>
+            <td class="align-left">Nádorové onemocnění (dle MKN: C) – kurativní nebo paliativní onkologická
+                farmakoterapie
+            </td>
             <td>121</td>
             <td></td>
         </tr>
         <tr>
-            <td class="align-left">Pacient s dlouhodobou (déle než 1 týden) léčbou systémovými kortikoidy nebo jinými imunosupresivy</td>
+            <td class="align-left">Pacient s dlouhodobou (déle než 1 týden) léčbou systémovými kortikoidy nebo jinými
+                imunosupresivy
+            </td>
             <td>122</td>
             <td></td>
         </tr>
