@@ -25,13 +25,5 @@ class RiskDrugHistoryNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RiskDrugHistory
-        fields = [
-            "id",
-            "care",
-            "has_risk_drug",
-            "risk_drugs",
-            "risk_risk_diagnoses",
-            "tags",
-            "comments",
-        ]
+        exclude = ["is_deleted"]
         read_only_fields = ["id"]
