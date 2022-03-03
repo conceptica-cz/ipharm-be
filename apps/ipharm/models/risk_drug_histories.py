@@ -16,6 +16,7 @@ class RiskDrugHistory(BaseUpdatableModel):
         Diagnosis, blank=True, help_text="Seznam diagnóz"
     )
     tags = models.ManyToManyField(Tag, blank=True, help_text="Štítky")
+    note = models.TextField(blank=True, help_text="Poznámka")
 
     class Meta:
         verbose_name_plural = "Risk drug histories"
