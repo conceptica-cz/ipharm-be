@@ -105,3 +105,17 @@ class PharmacologicalEvaluationFactory(factory.django.DjangoModelFactory):
         if create:
             for _ in range(random.randint(0, 4)):
                 self.tags.add(TagFactory())
+
+    @factory.post_generation
+    def comments(self, create, extracted, **kwargs):
+        if create:
+            for _ in range(random.randint(0, 4)):
+                PharmacologicalEvaluationCommentFactory(pharmacological_evaluation=self)
+
+
+class PharmacologicalEvaluationCommentFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "ipharm.PharmacologicalEvaluationComment"
+
+    pharmacological_evaluation = factory.SubFactory(PharmacologicalEvaluationFactory)
+    text = factory.Faker("text", locale="la")

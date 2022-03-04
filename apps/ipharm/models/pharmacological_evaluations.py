@@ -138,3 +138,10 @@ class PharmacologicalEvaluation(BaseUpdatableModel):
     tags = models.ManyToManyField("references.Tag", blank=True, help_text="Štítky")
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+
+class PharmacologicalEvaluationComment(BaseUpdatableModel):
+    pharmacological_evaluation = models.ForeignKey(
+        "PharmacologicalEvaluation", on_delete=models.CASCADE
+    )
+    text = models.TextField(blank=True, null=True, help_text="Komentář")

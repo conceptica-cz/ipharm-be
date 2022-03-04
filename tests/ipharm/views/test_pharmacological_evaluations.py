@@ -1,11 +1,21 @@
 from django.urls import reverse
-from ipharm.models.pharmacological_evaluations import PharmacologicalEvaluation
+from ipharm.models.pharmacological_evaluations import (
+    PharmacologicalEvaluation,
+    PharmacologicalEvaluationComment,
+)
+from ipharm.serializers.pharmacological_evaluations import (
+    PharmacologicalEvaluationCommentSerializer,
+)
 from references.serializers import TagSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 from updates.serializers import ModelChangeSerializer
 
-from factories.ipharm import CareFactory, PharmacologicalEvaluationFactory
+from factories.ipharm import (
+    CareFactory,
+    PharmacologicalEvaluationCommentFactory,
+    PharmacologicalEvaluationFactory,
+)
 from factories.references import DrugFactory, TagFactory
 from factories.users.models import UserFactory
 
@@ -179,3 +189,99 @@ class GetPharmacologicalEvaluationHistoryTest(APITestCase):
                 for change in self.pharmacological_evaluation.get_changes()
             ],
         )
+
+
+class GetPharmacologicalEvaluationCommentListTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+
+        self.pharmacological_evaluation_2 = PharmacologicalEvaluationFactory()
+        PharmacologicalEvaluationComment.objects.all().delete()
+        self.comment_1_1 = PharmacologicalEvaluationCommentFactory(
+            pharmacological_evaluation=self.pharmacological_evaluation_2
+        )
+        self.comment_1_2 = PharmacologicalEvaluationCommentFactory(
+            pharmacological_evaluation=self.pharmacological_evaluation_2
+        )
+
+        self.pharmacological_evaluation_2 = PharmacologicalEvaluationFactory()
+        PharmacologicalEvaluationComment.objects.all().delete()
+        self.comment_2_1 = PharmacologicalEvaluationCommentFactory(
+            pharmacological_evaluation=self.pharmacological_evaluation_2
+        )
+        self.comment_2_2 = PharmacologicalEvaluationCommentFactory(
+            pharmacological_evaluation=self.pharmacological_evaluation_2
+        )
+
+    def test_get_comment_list(self):
+        self.client.force_login(user=self.user)
+        response = self.client.get(
+            reverse("pharmacological_evaluation_comment_list")
+            + f"?pharmacological_evaluation={self.pharmacological_evaluation_2.pk}"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data["results"],
+            [
+                PharmacologicalEvaluationCommentSerializer(instance=comment).data
+                for comment in PharmacologicalEvaluationComment.objects.filter(
+                    pharmacological_evaluation=self.pharmacological_evaluation_2
+                )
+            ],
+        )
+
+
+class GetPharmacologicalEvaluationCommentTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+
+        self.pharmacological_evaluation_comment = (
+            PharmacologicalEvaluationCommentFactory()
+        )
+
+    def test_get_comment(self):
+        self.client.force_login(user=self.user)
+
+        response = self.client.get(
+            reverse(
+                "pharmacological_evaluation_comment_detail",
+                kwargs={"pk": self.pharmacological_evaluation_comment.pk},
+            )
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data,
+            PharmacologicalEvaluationCommentSerializer(
+                instance=self.pharmacological_evaluation_comment
+            ).data,
+        )
+
+
+class UpdatePharmacologicalEvaluationCommentTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+
+        self.pharmacological_evaluation_comment = (
+            PharmacologicalEvaluationCommentFactory(text="old_text")
+        )
+
+    def test_get_comment(self):
+        self.client.force_login(user=self.user)
+
+        data = {
+            "text": "new_text",
+        }
+
+        response = self.client.patch(
+            reverse(
+                "pharmacological_evaluation_comment_detail",
+                kwargs={"pk": self.pharmacological_evaluation_comment.pk},
+            ),
+            data=data,
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.pharmacological_evaluation_comment.refresh_from_db()
+        self.assertEqual(self.pharmacological_evaluation_comment.text, "new_text")

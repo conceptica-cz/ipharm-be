@@ -1,5 +1,8 @@
-from ipharm.models.pharmacological_evaluations import PharmacologicalEvaluation
-from references.serializers import DiagnosisSerializer, DrugSerializer, TagSerializer
+from ipharm.models.pharmacological_evaluations import (
+    PharmacologicalEvaluation,
+    PharmacologicalEvaluationComment,
+)
+from references.serializers import TagSerializer
 from rest_framework import serializers
 
 
@@ -15,5 +18,12 @@ class PharmacologicalEvaluationNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PharmacologicalEvaluation
+        exclude = ["is_deleted"]
+        read_only_fields = ["id"]
+
+
+class PharmacologicalEvaluationCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PharmacologicalEvaluationComment
         exclude = ["is_deleted"]
         read_only_fields = ["id"]

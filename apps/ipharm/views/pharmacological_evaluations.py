@@ -1,8 +1,12 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
-from ..models.pharmacological_evaluations import PharmacologicalEvaluation
+from ..models.pharmacological_evaluations import (
+    PharmacologicalEvaluation,
+    PharmacologicalEvaluationComment,
+)
 from ..serializers.pharmacological_evaluations import (
+    PharmacologicalEvaluationCommentSerializer,
     PharmacologicalEvaluationNestedSerializer,
     PharmacologicalEvaluationSerializer,
 )
@@ -30,3 +34,19 @@ class PharmacologicalEvaluationDetailView(
 
 class PharmacologicalEvaluationHistoryView(HistoryView):
     queryset = PharmacologicalEvaluation.objects.all()
+
+
+class PharmacologicalEvaluationCommentListView(generics.ListCreateAPIView):
+    queryset = PharmacologicalEvaluationComment.objects.all()
+    serializer_class = PharmacologicalEvaluationCommentSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["pharmacological_evaluation"]
+
+
+class PharmacologicalEvaluationCommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PharmacologicalEvaluationComment.objects.all()
+    serializer_class = PharmacologicalEvaluationCommentSerializer
+
+
+class PharmacologicalEvaluationCommentHistoryView(HistoryView):
+    queryset = PharmacologicalEvaluationComment.objects.all()

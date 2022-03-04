@@ -129,6 +129,21 @@ urlpatterns = [
         name="pharmacological_evaluation_history",
     ),
     path(
+        "pharmacological-evaluation-comments/",
+        pharmacological_evaluations.PharmacologicalEvaluationCommentListView.as_view(),
+        name="pharmacological_evaluation_comment_list",
+    ),
+    path(
+        "pharmacological-evaluation-comments/<int:pk>/",
+        pharmacological_evaluations.PharmacologicalEvaluationCommentDetailView.as_view(),
+        name="pharmacological_evaluation_comment_detail",
+    ),
+    path(
+        "pharmacological-evaluation-comments/<int:pk>/history/",
+        pharmacological_evaluations.PharmacologicalEvaluationCommentHistoryView.as_view(),
+        name="pharmacological_evaluation_comment_history",
+    ),
+    path(
         "pharmacological-plans/",
         pharmacological_plans.PharmacologicalPlanListView.as_view(),
         name="pharmacological_plan_list",
