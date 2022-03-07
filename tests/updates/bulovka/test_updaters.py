@@ -337,11 +337,11 @@ class PatientUpdaterTest(TestCase):
         Test that if the time gap between last care and new care is less than
         settings.MIGRATE_RELATED_TIME_GAP all related models are migrated.
         """
-        old_care_time = timezone.datetime(2022, 1, 1, tzinfo=timezone.utc)
 
         old_care = CareFactory(
             external_id=142,
-            started_at=old_care_time,
+            started_at=timezone.datetime(2021, 1, 1, tzinfo=timezone.utc),
+            finished_at=timezone.datetime(2022, 1, 1, tzinfo=timezone.utc),
             patient__birth_number="1234567890",
         )
         check_in = CheckInFactory(care=old_care)
@@ -419,6 +419,7 @@ class PatientUpdaterTest(TestCase):
         old_care = CareFactory(
             external_id=142,
             started_at=old_care_time,
+            finished_at=old_care_time,
             patient__birth_number="1234567890",
         )
         check_in = CheckInFactory(care=old_care)

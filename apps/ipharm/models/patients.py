@@ -55,7 +55,7 @@ class Patient(BaseUpdatableModel):
                 self.current_care = care
                 self.save()
 
-                if care.started_at - old_care.started_at < timezone.timedelta(
+                if care.started_at - old_care.finished_at < timezone.timedelta(
                     hours=settings.MIGRATE_RELATED_TIME_GAP
                 ):
                     cares.migrate_related(old_care, care)
