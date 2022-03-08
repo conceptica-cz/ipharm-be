@@ -7,6 +7,7 @@ class PharmacologicalEvaluation(BaseUpdatableModel):
     care = models.ForeignKey("ipharm.Care", on_delete=models.CASCADE)
     drug = models.ForeignKey("references.Drug", on_delete=models.CASCADE)
 
+    deployment = models.BooleanField(default=False, help_text="Nasazení léčiva")
     deployment_initial_diagnosis = models.BooleanField(
         default=False, help_text="Diagnóza ve vstupní kontrole"
     )
@@ -20,6 +21,7 @@ class PharmacologicalEvaluation(BaseUpdatableModel):
         blank=True, null=True, help_text="Jiný důvod"
     )
 
+    discontinuation = models.BooleanField(default=False, help_text="Vysazení léčiva")
     discontinuation_contradiction = models.BooleanField(
         default=False, help_text="Kontraindikace"
     )
@@ -58,6 +60,7 @@ class PharmacologicalEvaluation(BaseUpdatableModel):
         blank=True, null=True, help_text="Jiný důvod"
     )
 
+    dose_change = models.BooleanField(default=False, help_text="Změna dávky")
     dose_change_adverse_effect = models.BooleanField(
         default=False, help_text="Projev nežádoucího účinku"
     )
@@ -92,6 +95,7 @@ class PharmacologicalEvaluation(BaseUpdatableModel):
         blank=True, null=True, help_text="Jiný důvod"
     )
 
+    continuation = models.BooleanField(default=False, help_text="Pokračování v terapii")
     continuation_drug_reintroduction = models.BooleanField(
         default=False, help_text="Znovunasazení léčiva"
     )
