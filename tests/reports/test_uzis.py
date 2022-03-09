@@ -5,10 +5,15 @@ from django.utils import timezone
 from reports.uzis import uzis_loader
 
 from factories.ipharm import CheckInFactory
+from factories.references import DepartmentFactory, IdentificationFactory
 from factories.reports import GenericReportTypeFactory, ReportVariableFactory
 
 
 class TestUzisLoader(TestCase):
+    def setUp(self) -> None:
+        self.identification = IdentificationFactory(for_insurance=True)
+        self.department = DepartmentFactory(for_insurance=True)
+
     def test_uzis_loader(self):
         report_type = GenericReportTypeFactory()
         ReportVariableFactory(
@@ -29,7 +34,6 @@ class TestUzisLoader(TestCase):
 
         data = uzis_loader(**kwargs)
 
-        self.assertEqual(data["year"], 2020)
         self.assertEqual(data["variables"]["string_variable"], "text")
         self.assertEqual(data["variables"]["integer_variable"], 42)
 
@@ -62,4 +66,30 @@ class TestUzisLoader(TestCase):
 
         data = uzis_loader(**kwargs)
 
-        self.assertEqual(data["medical_procedure_05751"], 2)
+        self.assertEqual(data["medical_procedures"]["05751"], 2)
+
+    def test_uzis_header(self):
+
+        kwargs = {"year": 2020}
+
+        data = uzis_loader(**kwargs)
+
+        self.assertEqual(data["header"]["year"], 2020)
+
+        self.assertEqual(data["header"]["name"], self.identification.name)
+        self.assertEqual(data["header"]["address"], self.identification.address)
+        self.assertEqual(data["header"]["zip"], self.identification.zip)
+        self.assertEqual(data["header"]["city"], self.identification.city)
+        self.assertEqual(data["header"]["ico"], self.identification.ico)
+
+        self.assertEqual(data["header"]["department_name"], self.department.description)
+
+    @patch("reports.uzis.timezone.now")
+    def test_uzis_signature(self, mocked_now):
+        now = timezone.datetime(2021, 3, 15, tzinfo=timezone.utc)
+        mocked_now.return_value = now
+        kwargs = {"year": 2020}
+
+        data = uzis_loader(**kwargs)
+
+        self.assertEqual(data["signature"]["date"], "15.3.2021")

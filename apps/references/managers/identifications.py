@@ -1,5 +1,8 @@
-from django.conf import settings
 from updates.managers import BaseUpdatableManager
+
+
+class IdentificationForReportNotFound(Exception):
+    pass
 
 
 class IdentificationManager(BaseUpdatableManager):
@@ -9,4 +12,8 @@ class IdentificationManager(BaseUpdatableManager):
 
     def get_identification_for_insurance_report(self):
         """Returns the identification using the insurance report."""
-        return self.get(for_insurance=True)
+        try:
+            identification = self.get(for_insurance=True)
+        except self.model.DoesNotExist:
+            raise IdentificationForReportNotFound()
+        return identification

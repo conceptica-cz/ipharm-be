@@ -203,12 +203,20 @@
         }
 
         td.n2-signature {
-            width: 78.7mm;
+            width: 28.7mm;
+        }
+
+        td.n3-signature {
+            width: 50mm;
         }
 
 
         .align-left {
             text-align: left;
+        }
+
+        .align-right {
+            text-align: right;
         }
 
         .grey {
@@ -218,8 +226,13 @@
         .mt-25 {
             margin-top: 15mm;
         }
+
         .mt-1 {
             margin-top: 1mm;
+        }
+
+        .mt-2 {
+            margin-top: 2mm;
         }
 
         div.main {
@@ -266,7 +279,7 @@
         }
 
         div.header-right-3-1 {
-            width: 46mm;
+            width: 54mm;
             font-size: 14px;
             font-weight: 900;
         }
@@ -291,8 +304,6 @@
         div.header-table-2-2 {
             min-height: 10mm;
             font-weight: 900;
-            text-align: left;
-            padding-left: 65mm;
         }
 
         p {
@@ -300,15 +311,18 @@
         }
 
         table.header {
-            font-size: 10px;
+            font-size: 13px;
+            width: 100%;
         }
 
         td.header-1 {
-            width: 33mm;
+            width: 38mm;
         }
 
         td.header-2 {
-            width: 70mm;
+            padding-top: 0;
+            padding-left: 3mm;
+            margin-top: 0;
         }
 
         tr.header-1 {
@@ -331,32 +345,46 @@
             <strong>Ministerstvo zdravotnictví</strong>
             <p class="mt-1">Schváleno ČSÚ pro Ministerstvo zdravotnictví</p>
             <p>ČV 83/21 ze dne 30. září 2020 v rámci Programu statistických zjišťování na rok 2021</p>
-            <p>Vyplněný výkaz předložte pracovišti státní statistické služby resortu zdravotnictví podle závazných pokynů ÚZIS ČR</p>
-            <p class="mt-1">Ochrana důvěrnosti údajů je zaručena zákonem č. 89/1995 Sb., o státní statistické službě, ve znění pozdějších předpisů Údaje se zjišťují pro potřebu Ministerstva zdravotnictví, které odpovídá za jejich ochranu</p>
+            <p>Vyplněný výkaz předložte pracovišti státní statistické služby resortu zdravotnictví podle závazných
+                pokynů ÚZIS ČR</p>
+            <p class="mt-1">Ochrana důvěrnosti údajů je zaručena zákonem č. 89/1995 Sb., o státní statistické službě, ve
+                znění pozdějších předpisů Údaje se zjišťují pro potřebu Ministerstva zdravotnictví, které odpovídá za
+                jejich ochranu</p>
         </div>
         <div class="header-right">
             <div class="flex header-right-1">
                 <div class="header-right-1-1">Roční výkaz o činnosti poskytovatele ZS</div>
                 <div class="header-right-1-2">A (MZ) 1-01</div>
             </div>
-            <div class="header-right-2">Poskytovatel (obor): klinická farmacie</div>
+            <div class="header-right-2">Poskytovatel (obor): <i>klinická farmacie</i></div>
             <div class="flex header-right-3">
-                <div class="header-right-3-1">Za rok {{ year }}</div>
+                <div class="header-right-3-1">Za rok {{ header.year }}</div>
                 <div class="header-right-3-2">
                     <table class="header">
                         <tr class="header-1">
-                            <td class="header-1">IČO</td>
+                            <td class="header-1">
+                                <div class="align-left">IČO</div>
+                                <div class="align-left"><strong>{{ header.ico }}</strong></div>
+                            </td>
                             <td class="header-2" rowspan="3">
-                                <div class="header-table-2-1">Zpravodajská jednotka (adresa):</div>
-                                <div class="header-table-2-2">A007</div>
+                                <div class="align-left">Zpravodajská jednotka (adresa):</div>
+                                <div class="align-left mt-1"><strong>{{ header.name }}</strong></div>
+                                <div class="align-left mt-1"><strong>odd. {{ header.department_name }}</strong></div>
+                                <div class="align-left mt-1"><strong>{{ header.address }}</strong></div>
+                                <div class="align-left mt-1"><strong>{{ header.zip }} {{ header.city }}</strong></div>
+                                <div class="align-right mt-1"><strong>A007</strong></div>
                             </td>
                         </tr>
                         <tr class="header-2">
-                            <td>PČZ</td>
+                            <td>
+                                <div class="align-left">PČZ</div>
+                                <div class="align-left"><strong></strong></div>
+                            </td>
                         </tr>
                         <tr>
                             <td>
-                                Oddělení, pracoviště, druh ZZ
+                                <div class="align-left">Oddělení, pracoviště, druh ZZ</div>
+                                <div class="align-left"><strong></strong></div>
                             </td>
                         </tr>
                     </table>
@@ -420,34 +448,34 @@
         <tr>
             <td class="align-left">Oddělení klinické farmacie vyššího typu</td>
             <td>21</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{% if  variables.department_of_cp_high_level and variables.ministry %}1{% endif %}</td>
+            <td>{% if  variables.department_of_cp_high_level and variables.region %}1{% endif %}</td>
+            <td>{% if  variables.department_of_cp_high_level and variables.city %}1{% endif %}</td>
+            <td>{% if  variables.department_of_cp_high_level and variables.person %}1{% endif %}</td>
         </tr>
         <tr>
             <td class="align-left">Oddělení klinické farmacie základního typu</td>
             <td>22</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{% if  variables.department_of_cp_base_level and variables.ministry %}1{% endif %}</td>
+            <td>{% if  variables.department_of_cp_base_level and variables.region %}1{% endif %}</td>
+            <td>{% if  variables.department_of_cp_base_level and variables.city %}1{% endif %}</td>
+            <td>{% if  variables.department_of_cp_base_level and variables.person %}1{% endif %}</td>
         </tr>
         <tr>
             <td class="align-left">Pracoviště klinického farmaceuta</td>
             <td>23</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{% if  variables.workplace_of_cp and variables.ministry %}1{% endif %}</td>
+            <td>{% if  variables.workplace_of_cp and variables.region %}1{% endif %}</td>
+            <td>{% if  variables.workplace_of_cp and variables.city %}1{% endif %}</td>
+            <td>{% if  variables.workplace_of_cp and variables.person %}1{% endif %}</td>
         </tr>
         <tr>
             <td class="align-left">Pracoviště s konzultační službou klinického<br>farmaceuta</td>
             <td>24</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{% if  variables.consultation_workplace_of_cp and variables.ministry %}1{% endif %}</td>
+            <td>{% if  variables.consultation_workplace_of_cp and variables.region %}1{% endif %}</td>
+            <td>{% if  variables.consultation_workplace_of_cp and variables.city %}1{% endif %}</td>
+            <td>{% if  variables.consultation_workplace_of_cp and variables.person %}1{% endif %}</td>
         </tr>
     </table>
     <h1>III. Zdravotnická zařízení lůžkové péče</h1>
@@ -474,15 +502,15 @@
         <tr>
             <td class="align-left">Akutní péče</td>
             <td>31</td>
-            <td class="n1-1">{{ variables.acute_care_beds }}</td>
-            <td class="n2-1">{{ variables.intensive_care }}</td>
-            <td class="n3-1">{{ variables.surgical_beds }}</td>
-            <td class="n4-1">{{ variables.internal_medicine_beds }}</td>
+            <td class="n1-1">{{ variables.acute_care_beds|default:"" }}</td>
+            <td class="n2-1">{{ variables.intensive_care|default:"" }}</td>
+            <td class="n3-1">{{ variables.surgical_beds|default:"" }}</td>
+            <td class="n4-1">{{ variables.internal_medicine_beds|default:"" }}</td>
         </tr>
         <tr>
             <td class="align-left">Následná péče</td>
             <td>32</td>
-            <td>{{ variables.aftercare_beds }}</td>
+            <td>{{ variables.aftercare_beds|default:"" }}</td>
             <td class="grey"></td>
             <td class="grey"></td>
             <td class="grey"></td>
@@ -490,7 +518,7 @@
         <tr>
             <td class="align-left">Dlouhodobá péče</td>
             <td>33</td>
-            <td>{{ variables.long_term_care_beds }}</td>
+            <td>{{ variables.long_term_care_beds|default:"" }}</td>
             <td class="grey"></td>
             <td class="grey"></td>
             <td class="grey"></td>
@@ -517,7 +545,7 @@
         <tr>
             <td class="align-left">Specializovaná ambulantní složka<br>zdravotnického zařízení lůžkové péče</td>
             <td>41</td>
-            <td>{{ variables.internal_ambulances }}</td>
+            <td>{{ variables.internal_ambulances|default:"" }}</td>
             <td></td>
             <td></td>
             <td></td>
@@ -525,7 +553,7 @@
         <tr>
             <td class="align-left">Samostatná ordinace (fyzická/právnická<br>osoba)</td>
             <td>42</td>
-            <td>{{ variables.independent_physician }}</td>
+            <td>{{ variables.independent_physician|default:"" }}</td>
             <td></td>
             <td></td>
             <td></td>
@@ -853,18 +881,22 @@
         <tr>
             <td class="n1-signature td-signature">Razítko:</td>
             <td class="n2-signature td-signature">Výkaz vyplnil:</td>
+            <td class="n3-signature td-signature">{{ signature.name }}</td>
         </tr>
         <tr>
             <td class="n1-signature td-signature"></td>
             <td class="n2-signature td-signature">Telefon:</td>
+            <td class="n3-signature td-signature">{{ signature.phone }}</td>
         </tr>
         <tr>
             <td class="n1-signature td-signature"></td>
             <td class="n2-signature td-signature">E-mail:</td>
+            <td class="n3-signature td-signature">{{ signature.email }}</td>
         </tr>
         <tr>
             <td class="n1-signature td-signature">Podpis vedoucího zpravodajské jednotky:</td>
             <td class="n2-signature td-signature">Datum:</td>
+            <td class="n3-signature td-signature">{{ signature.date }}</td>
         </tr>
     </table>
 </div>
