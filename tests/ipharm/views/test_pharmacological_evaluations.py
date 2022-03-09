@@ -6,7 +6,7 @@ from ipharm.models.pharmacological_evaluations import (
 from ipharm.serializers.pharmacological_evaluations import (
     PharmacologicalEvaluationCommentSerializer,
 )
-from references.serializers import TagSerializer
+from references.serializers import DrugSerializer, TagSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 from updates.serializers import ModelChangeSerializer
@@ -107,7 +107,10 @@ class GetPharmacologicalEvaluationTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK, msg=response.data)
         self.assertEqual(response.data["id"], self.pharmacological_evaluation.pk)
         self.assertEqual(response.data["care"], self.pharmacological_evaluation.care.pk)
-        self.assertEqual(response.data["drug"], self.pharmacological_evaluation.drug.pk)
+        self.assertEqual(
+            response.data["drug"],
+            DrugSerializer(instance=self.pharmacological_evaluation.drug).data,
+        )
         self.assertEqual(
             response.data["tags"],
             [

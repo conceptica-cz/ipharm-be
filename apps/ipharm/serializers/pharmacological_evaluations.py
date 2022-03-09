@@ -2,7 +2,7 @@ from ipharm.models.pharmacological_evaluations import (
     PharmacologicalEvaluation,
     PharmacologicalEvaluationComment,
 )
-from references.serializers import TagSerializer
+from references.serializers import DrugSerializer, TagSerializer
 from rest_framework import serializers
 
 
@@ -15,6 +15,7 @@ class PharmacologicalEvaluationSerializer(serializers.ModelSerializer):
 
 class PharmacologicalEvaluationNestedSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
+    drug = DrugSerializer(read_only=True)
 
     class Meta:
         model = PharmacologicalEvaluation
