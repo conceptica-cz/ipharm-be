@@ -2,6 +2,9 @@ from ipharm.models.cares import Care, Dekurz
 from ipharm.models.checkins import CheckIn
 from ipharm.models.pharmacological_plans import PharmacologicalPlan
 from ipharm.serializers.checkins import CheckInNestedSerializer
+from ipharm.serializers.pharmacological_evaluations import (
+    PharmacologicalEvaluationNestedSerializer,
+)
 from ipharm.serializers.pharmacological_plans import PharmacologicalPlanSerializer
 from ipharm.serializers.risk_drug_histories import RiskDrugHistoryNestedSerializer
 from references.serializers.clinics import ClinicSerializer, DepartmentSerializer
@@ -87,6 +90,9 @@ class CareNestedSerializer(serializers.ModelSerializer):
     checkin = CheckInNestedSerializer(read_only=True)
     pharmacologicalplan = PharmacologicalPlanSerializer(read_only=True)
     riskdrughistory = RiskDrugHistoryNestedSerializer(read_only=True)
+    pharmacological_evaluations = PharmacologicalEvaluationNestedSerializer(
+        read_only=True, many=True
+    )
 
     class Meta:
         exclude = ["is_deleted"]

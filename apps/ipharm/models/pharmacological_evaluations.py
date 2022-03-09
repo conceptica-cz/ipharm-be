@@ -4,7 +4,11 @@ from updates.models import BaseUpdatableModel
 
 
 class PharmacologicalEvaluation(BaseUpdatableModel):
-    care = models.ForeignKey("ipharm.Care", on_delete=models.CASCADE)
+    care = models.ForeignKey(
+        "ipharm.Care",
+        related_name="pharmacological_evaluations",
+        on_delete=models.CASCADE,
+    )
     drug = models.ForeignKey("references.Drug", on_delete=models.CASCADE)
 
     deployment = models.BooleanField(default=False, help_text="Nasazení léčiva")
