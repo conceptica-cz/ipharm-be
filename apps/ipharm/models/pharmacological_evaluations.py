@@ -56,6 +56,12 @@ class PharmacologicalEvaluation(BaseUpdatableModel):
     discontinuation_underdosage_risk = models.BooleanField(
         default=False, help_text="Rizika poddávkováí"
     )
+    discontinuation_overdosage = models.BooleanField(
+        default=False, help_text="Předávkování"
+    )
+    discontinuation_overdosage_risk = models.BooleanField(
+        default=False, help_text="Rizika předávkováí"
+    )
     discontinuation_other_reason = models.TextField(
         blank=True, null=True, help_text="Jiný důvod"
     )
