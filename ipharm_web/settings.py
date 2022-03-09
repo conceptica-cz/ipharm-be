@@ -325,7 +325,7 @@ GENERIC_REPORTS = {
     "uzis": {
         "description": "UZIS výkaz",
         "file_name": "uzis_report",
-        "frequency": "monthly",
+        "frequency": "yearly",
         "data_loader": "reports.uzis.uzis_loader",
         "templates": {
             "pdf": "generic_reports/uzis/pdf.html",

@@ -1,9 +1,12 @@
 import importlib
+import logging
 from typing import Callable
 
 from django.conf import settings
 from django.template.loader import render_to_string
 from weasyprint import HTML
+
+logger = logging.getLogger(__name__)
 
 
 def to_pdf(content):
@@ -36,6 +39,7 @@ class GenericReport:
 
     def render(self):
         data = self.data_loader(**self.kwargs)
+        logger.debug(f"Report data was generated", extra={"data": data})
         content = render_to_string(self.template, data)
         return self.CONVERTERS[self.report_format](content)
 
