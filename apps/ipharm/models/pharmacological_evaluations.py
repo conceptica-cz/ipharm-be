@@ -78,10 +78,10 @@ class PharmacologicalEvaluation(BaseUpdatableModel):
         default=False, help_text="Riziko nežádoucího účinku"
     )
     dose_change_renal_insufficiency = models.BooleanField(
-        default=False, help_text="Hepatální insuficience"
+        default=False, help_text="Renální insuficience"
     )
     dose_change_hepatic_insufficiency = models.BooleanField(
-        default=False, help_text="Renální insuficience"
+        default=False, help_text="Hepatální insuficience"
     )
     dose_change_drug_interaction = models.BooleanField(
         default=False, help_text="Léková interakce"
