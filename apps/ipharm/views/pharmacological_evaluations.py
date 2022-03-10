@@ -21,7 +21,7 @@ class PharmacologicalEvaluationListView(generics.ListCreateAPIView):
 
 
 class PharmacologicalEvaluationDetailView(
-    generics.RetrieveUpdateAPIView,
+    generics.RetrieveUpdateDestroyAPIView,
 ):
     queryset = PharmacologicalEvaluation.objects.all()
     serializer_class = PharmacologicalEvaluationSerializer
