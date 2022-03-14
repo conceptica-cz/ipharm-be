@@ -159,3 +159,5 @@ class PharmacologicalEvaluationComment(BaseUpdatableModel):
         "PharmacologicalEvaluation", on_delete=models.CASCADE
     )
     text = models.TextField(blank=True, null=True, help_text="Komentář")
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
