@@ -22,6 +22,9 @@ class Identification(BaseUpdatableModel):
     city = models.CharField(max_length=50, help_text="Město")
     ico = models.CharField(max_length=20, blank=True, help_text="IČO")
     dic = models.CharField(max_length=20, blank=True, help_text="DIČ")
+    pcz = models.CharField(
+        max_length=3, blank=True, help_text="Pořadové číslo začleněného zařízení"
+    )
     for_insurance = models.BooleanField(
         blank=True,
         null=True,
