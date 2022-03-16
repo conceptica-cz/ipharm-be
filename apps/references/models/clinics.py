@@ -46,6 +46,12 @@ class Department(BaseUpdatableModel):
     )
     icp = models.CharField(max_length=8, help_text="IČP")
     ns = models.CharField(max_length=6, blank=True, help_text="Nákladove středisko")
+    provider_code = models.CharField(
+        max_length=3, blank=True, help_text="Kód poskytovatele"
+    )
+    workplace_code = models.CharField(
+        max_length=10, blank=True, help_text="Zkrácený kód pracoviště dle ÚZIS"
+    )
     for_insurance = models.BooleanField(
         blank=True,
         null=True,
