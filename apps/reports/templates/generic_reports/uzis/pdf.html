@@ -389,8 +389,10 @@
                             <td>
                                 <div class="align-left">Oddělení, pracoviště, druh ZZ</div>
                                 <div class="flex">
-                                    <div class="align-left"><strong>{{ header.department_workplace_code }}</strong></div>
-                                    <div class="align-right width-100"><strong>{{ header.department_icp }}</strong></div>
+                                    <div class="align-left"><strong>{{ header.department_workplace_code }}</strong>
+                                    </div>
+                                    <div class="align-right width-100"><strong>{{ header.department_icp }}</strong>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -595,42 +597,78 @@
         <tr>
             <td class="align-left">Oddělení klinické farmacie<br>vyššího typu</td>
             <td>51</td>
-            <td></td>
-            <td>{{ variables.surgical_clinics }}</td>
-            <td>{{ variables.internal_clinics }}</td>
-            <td>{{ variables.oncology_clinics }}</td>
-            <td>{{ variables.psychiatry_clinics }}</td>
-            <td>{{ variables.aro_icu }}</td>
+            {% if variables.department_of_cp_high_level %}
+                <td>{{ variables.clinic_sum }}</td>
+                <td>{{ variables.internal_clinics }}</td>
+                <td>{{ variables.surgical_clinics }}</td>
+                <td>{{ variables.oncology_clinics }}</td>
+                <td>{{ variables.psychiatry_clinics }}</td>
+                <td>{{ variables.aro_icu }}</td>
+            {% else %}
+                <td>0</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            {% endif %}
         </tr>
         <tr>
             <td class="align-left">Oddělení klinické farmacie<br>základního typu</td>
             <td>52</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            {% if variables.department_of_cp_base_level %}
+                <td>{{ variables.clinic_sum }}</td>
+                <td>{{ variables.internal_clinics }}</td>
+                <td>{{ variables.surgical_clinics }}</td>
+                <td>{{ variables.oncology_clinics }}</td>
+                <td>{{ variables.psychiatry_clinics }}</td>
+                <td>{{ variables.aro_icu }}</td>
+            {% else %}
+                <td>0</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            {% endif %}
         </tr>
         <tr>
             <td class="align-left">Pracoviště klinického<br>farmaceuta</td>
             <td>53</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            {% if variables.workplace_of_cp %}
+                <td>{{ variables.clinic_sum }}</td>
+                <td>{{ variables.internal_clinics }}</td>
+                <td>{{ variables.surgical_clinics }}</td>
+                <td>{{ variables.oncology_clinics }}</td>
+                <td>{{ variables.psychiatry_clinics }}</td>
+                <td>{{ variables.aro_icu }}</td>
+            {% else %}
+                <td>0</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            {% endif %}
         </tr>
         <tr>
             <td class="align-left">Pracoviště s konzultační<br>službou klinického<br>farmaceuta</td>
             <td>54</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            {% if variables.consultation_workplace_of_cp %}
+                <td>{{ variables.clinic_sum }}</td>
+                <td>{{ variables.internal_clinics }}</td>
+                <td>{{ variables.surgical_clinics }}</td>
+                <td>{{ variables.oncology_clinics }}</td>
+                <td>{{ variables.psychiatry_clinics }}</td>
+                <td>{{ variables.aro_icu }}</td>
+            {% else %}
+                <td>0</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            {% endif %}
         </tr>
     </table>
     <h1>VI. Evidence činností klinického farmaceuta</h1>

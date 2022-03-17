@@ -38,13 +38,21 @@ def _signature():
     return signature
 
 
+def _variables(report_type):
+    variables = ReportVariable.objects.as_dict(report_type=report_type)
+    variables["clinic_sum"] = variables.get("surgical_clinics", 0) + variables.get(
+        "internal_clinics", 0
+    )
+    return variables
+
+
 def uzis_loader(**kwargs):
     year = kwargs["year"]
-    variables = ReportVariable.objects.as_dict()
+    report_type = kwargs.get("report_type")
     data = {
-        "variables": variables,
+        "variables": _variables(report_type),
+        "header": _header(year),
+        "signature": _signature(),
+        "medical_procedures": _count_check_in_medical_procedures(year),
     }
-    data["medical_procedures"] = _count_check_in_medical_procedures(year)
-    data["header"] = _header(year)
-    data["signature"] = _signature()
     return data

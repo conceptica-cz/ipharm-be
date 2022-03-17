@@ -51,11 +51,16 @@ class GenericReportFactory:
         module = importlib.import_module(module_name)
         return getattr(module, func_name)
 
-    def create(self, report_name: str, report_format: str, **kwargs) -> GenericReport:
+    def create(
+        self, report_type: "GenericReportType", report_format: str, **kwargs
+    ) -> GenericReport:
         data_loader = self._get_func(
-            settings.GENERIC_REPORTS[report_name]["data_loader"]
+            settings.GENERIC_REPORTS[report_type.name]["data_loader"]
         )
-        template = settings.GENERIC_REPORTS[report_name]["templates"][report_format]
+        template = settings.GENERIC_REPORTS[report_type.name]["templates"][
+            report_format
+        ]
+        kwargs["report_type"] = report_type
         return GenericReport(
             data_loader=data_loader,
             template=template,
