@@ -1,6 +1,6 @@
-from django.contrib import admin
-
 # Register your models here.
+from common.admin import BaseHistoryAdmin
+from django.contrib import admin
 from reports import models
 
 # @admin.register(models.ReportFile)
@@ -47,7 +47,7 @@ class GenericReportFileAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.ReportVariable)
-class ReportVariableAdmin(admin.ModelAdmin):
+class ReportVariableAdmin(BaseHistoryAdmin):
     list_display = (
         "report_type",
         "name",

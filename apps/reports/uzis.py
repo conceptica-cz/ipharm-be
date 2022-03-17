@@ -23,16 +23,16 @@ def _header(year):
         "zip": identification.zip,
         "city": identification.city,
         "ico": identification.ico,
+        "pcz": identification.pcz,
         "department_name": department.description,
+        "department_icp": department.icp,
+        "department_workplace_code": department.workplace_code,
     }
     return header
 
 
 def _signature():
     signature = {
-        "name": "PharmDr. Jana Gregorová, Ph.D.",
-        "phone": "604753142",
-        "email": "jana.gregorova@bulovka.cz",
         "date": timezone.now().strftime("%d.%m.%Y").replace(".0", "."),
     }
     return signature

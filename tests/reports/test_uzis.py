@@ -81,8 +81,13 @@ class TestUzisLoader(TestCase):
         self.assertEqual(data["header"]["zip"], self.identification.zip)
         self.assertEqual(data["header"]["city"], self.identification.city)
         self.assertEqual(data["header"]["ico"], self.identification.ico)
+        self.assertEqual(data["header"]["pcz"], self.identification.pcz)
 
         self.assertEqual(data["header"]["department_name"], self.department.description)
+        self.assertEqual(data["header"]["department_icp"], self.department.icp)
+        self.assertEqual(
+            data["header"]["department_workplace_code"], self.department.workplace_code
+        )
 
     @patch("reports.uzis.timezone.now")
     def test_uzis_signature(self, mocked_now):

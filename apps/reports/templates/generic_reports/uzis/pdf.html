@@ -219,6 +219,10 @@
             text-align: right;
         }
 
+        .width-100 {
+            width: 100%;
+        }
+
         .grey {
             background-color: #aaaaaa;
         }
@@ -257,7 +261,7 @@
             font-size: 16px;
             font-weight: 900;
         }
-        
+
         div.header-right-1-2 {
             width: 23mm;
             border: 0.3mm solid black;
@@ -378,13 +382,16 @@
                         <tr class="header-2">
                             <td>
                                 <div class="align-left">PČZ</div>
-                                <div class="align-left"><strong></strong></div>
+                                <div class="align-left"><strong>{{ header.pcz }}</strong></div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="align-left">Oddělení, pracoviště, druh ZZ</div>
-                                <div class="align-left"><strong></strong></div>
+                                <div class="flex">
+                                    <div class="align-left"><strong>{{ header.department_workplace_code }}</strong></div>
+                                    <div class="align-right width-100"><strong>{{ header.department_icp }}</strong></div>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -881,17 +888,17 @@
         <tr>
             <td class="n1-signature td-signature">Razítko:</td>
             <td class="n2-signature td-signature">Výkaz vyplnil:</td>
-            <td class="n3-signature td-signature">{{ signature.name }}</td>
+            <td class="n3-signature td-signature">{{ variables.author }}</td>
         </tr>
         <tr>
             <td class="n1-signature td-signature"></td>
             <td class="n2-signature td-signature">Telefon:</td>
-            <td class="n3-signature td-signature">{{ signature.phone }}</td>
+            <td class="n3-signature td-signature">{{ variables.author_phone }}</td>
         </tr>
         <tr>
             <td class="n1-signature td-signature"></td>
             <td class="n2-signature td-signature">E-mail:</td>
-            <td class="n3-signature td-signature">{{ signature.email }}</td>
+            <td class="n3-signature td-signature">{{ variables.author_email }}</td>
         </tr>
         <tr>
             <td class="n1-signature td-signature">Podpis vedoucího zpravodajské jednotky:</td>
