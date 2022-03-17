@@ -59,4 +59,5 @@ class DepartmentFactory(factory.django.DjangoModelFactory):
     description = factory.LazyAttribute(lambda o: f"Oddělení {o.external_id}")
     specialization_code = factory.LazyAttribute(lambda o: f"{o.external_id}")
     icp = factory.LazyAttribute(lambda o: f"{o.external_id}")
+    workplace_code = factory.LazyAttribute(lambda o: f"{o.external_id}")
     for_insurance = None
