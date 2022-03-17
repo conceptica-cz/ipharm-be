@@ -4,6 +4,8 @@ from unittest import TestCase
 from django.test import override_settings
 from reports.generic_report import GenericReport, GenericReportFactory
 
+from factories.reports import GenericReportTypeFactory
+
 
 def test_data_loader(**kwargs):
     return {"test": "test", "year": kwargs.get("year", "2020")}
@@ -51,10 +53,11 @@ GENERIC_REPORTS = {
 class TestGenericReportFactory(TestCase):
     @override_settings(GENERIC_REPORTS=GENERIC_REPORTS)
     def test_generic_report_factory(self):
+        report_type = GenericReportTypeFactory(name="monthly_report")
 
         generic_report_factory = GenericReportFactory()
         generic_report = generic_report_factory.create(
-            report_name="monthly_report", report_format="txt"
+            report_type=report_type, report_format="txt"
         )
 
         self.assertEqual(generic_report.template, "test.html")

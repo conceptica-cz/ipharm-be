@@ -96,7 +96,7 @@ class GenericReportType(models.Model):
             )
 
         generic_report = GenericReportFactory().create(
-            report_name=self.name,
+            report_type=self,
             report_format=report_format,
             **{"year": year, "month": month} | kwargs,
         )
