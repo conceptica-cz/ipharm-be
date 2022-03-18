@@ -738,10 +738,10 @@
         <tr>
             <td class="align-left" colspan="2">Celkem</td>
             <td>81</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ interventions.deployment }}</td>
+            <td>{{ interventions.discontinuation }}</td>
+            <td>{{ interventions.dose_change }}</td>
+            <td>{{ interventions.specific_consultation }}</td>
             <td></td>
             <td></td>
         </tr>
@@ -749,7 +749,7 @@
             <td rowspan="6" class="a-1-7"></td>
             <td class="align-left a-2-7">vhodnějších farmakolo-<br>gických vlastností</td>
             <td>82</td>
-            <td></td>
+            <td>{{ interventions.deployment_ft_approach }}</td>
             <td class="grey"></td>
             <td class="grey"></td>
             <td class="grey"></td>
@@ -760,8 +760,8 @@
             <td class="align-left">projevu nebo rizika<br>nežádoucího účinku</td>
             <td>83</td>
             <td class="grey"></td>
-            <td></td>
-            <td></td>
+            <td>{{ interventions.discontinuation_adverse_effect }}</td>
+            <td>{{ interventions.dose_change_adverse_effect_risk }}</td>
             <td class="grey"></td>
             <td></td>
             <td></td>
@@ -770,8 +770,8 @@
             <td class="align-left">renální insuficience</td>
             <td>84</td>
             <td class="grey"></td>
-            <td></td>
-            <td></td>
+            <td>{{ interventions.discontinuation_renal_insufficiency }}</td>
+            <td>{{ interventions.dose_change_renal_insufficiency }}</td>
             <td class="grey"></td>
             <td></td>
             <td></td>
@@ -780,7 +780,7 @@
             <td class="align-left">lékařského zákroku</td>
             <td>85</td>
             <td class="grey"></td>
-            <td></td>
+            <td>{{ interventions.discontinuation_medical_intervention }}</td>
             <td></td>
             <td class="grey"></td>
             <td></td>
@@ -790,7 +790,7 @@
             <td class="align-left">zbytnosti léčiva<br>v průběhu hospitalizace</td>
             <td>86</td>
             <td class="grey"></td>
-            <td></td>
+            <td>{{ interventions.discontinuation_overdosage }}</td>
             <td class="grey"></td>
             <td class="grey"></td>
             <td></td>
@@ -800,8 +800,8 @@
             <td class="align-left">lékové interakce</td>
             <td>87</td>
             <td class="grey"></td>
-            <td></td>
-            <td></td>
+            <td>{{ interventions.discontinuation_drug_interaction }}</td>
+            <td>{{ interventions.dose_change_drug_interaction }}</td>
             <td class="grey"></td>
             <td></td>
             <td></td>
@@ -855,37 +855,37 @@
         <tr>
             <td class="align-left">Polypragmázie</td>
             <td>111</td>
-            <td></td>
+            <td>{{ risk_factors.polypharmacy }}</td>
         </tr>
         <tr>
             <td class="align-left">Léčivo s úzkým terapeutickým oknem</td>
             <td>112</td>
-            <td></td>
+            <td>{{ risk_factors.narrow_therapeutic_window }}</td>
         </tr>
         <tr>
             <td class="align-left">Léčivo s vysokým interakčním potenciálem, popsanými interakcemi</td>
             <td>113</td>
-            <td></td>
+            <td>{{ risk_factors.high_interaction_potential }}</td>
         </tr>
         <tr>
             <td class="align-left">Renální insuficience glomerulární filtrace je rovna nebo méně než 30 ml/min</td>
             <td>114</td>
-            <td></td>
+            <td>{{ risk_factors.renal_insufficiency }}</td>
         </tr>
         <tr>
             <td class="align-left">Laboratorní známky hepatální insuficience</td>
             <td>115</td>
-            <td></td>
+            <td>{{ risk_factors.hepatic_insufficiency }}</td>
         </tr>
         <tr>
             <td class="align-left">Další významné změny biochemických a/nebo hematologických parametrů</td>
             <td>116</td>
-            <td></td>
+            <td>{{ risk_factors.significant_biochemical_changes }}</td>
         </tr>
         <tr>
             <td class="align-left">Pacient v intenzivní péči</td>
             <td>117</td>
-            <td></td>
+            <td>{{ risk_factors.intensive_care }}</td>
         </tr>
         <tr>
             <td class="align-left">Diabetes mellitus (dle MKN: E10 – E14) – na terapii PAD a/nebo inzulínu</td>
@@ -914,7 +914,7 @@
                 imunosupresivy
             </td>
             <td>122</td>
-            <td></td>
+            <td>{{ risk_factors.systemic_corticosteroids }}</td>
         </tr>
         <tr>
             <td class="align-left">Pacient s parkinsonským syndromem (dle MKN: G20, G21).</td>
