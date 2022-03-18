@@ -38,7 +38,7 @@ class TestUzisLoader(TestCase):
         self.assertEqual(data["variables"]["integer_variable"], 42)
 
     @patch("django.utils.timezone.now")
-    def test_uzis_counted_variables(self, mocked_now):
+    def test_medical_procedures(self, mocked_now):
         now_2019 = timezone.datetime(2019, 2, 1, tzinfo=timezone.utc)
         now_2020 = timezone.datetime(2020, 3, 1, tzinfo=timezone.utc)
         mocked_now.return_value = now_2020
@@ -67,6 +67,41 @@ class TestUzisLoader(TestCase):
         data = uzis_loader(**kwargs)
 
         self.assertEqual(data["medical_procedures"]["05751"], 2)
+
+    @patch("django.utils.timezone.now")
+    def test_risk_levels(self, mocked_now):
+        now_2019 = timezone.datetime(2019, 2, 1, tzinfo=timezone.utc)
+        now_2020 = timezone.datetime(2020, 3, 1, tzinfo=timezone.utc)
+        mocked_now.return_value = now_2020
+        CheckInFactory(
+            care__patient__insurance_number=1111111111,
+            risk_level="1",
+        )
+        CheckInFactory(
+            care__patient__insurance_number=2222222222,
+            risk_level="2",
+        )
+        CheckInFactory(
+            care__patient__insurance_number=3333333333,
+            risk_level="3",
+        )
+        CheckInFactory(
+            care__patient__insurance_number=5555555555,
+            risk_level="2",
+        )
+        mocked_now.return_value = now_2019
+        CheckInFactory(
+            care__patient__insurance_number=4444444444,
+            risk_level="2",
+        )
+
+        kwargs = {"year": 2020}
+
+        data = uzis_loader(**kwargs)
+
+        self.assertEqual(data["risk_levels"]["1"], 1)
+        self.assertEqual(data["risk_levels"]["2"], 2)
+        self.assertEqual(data["risk_levels"]["3"], 1)
 
     def test_header(self):
 
