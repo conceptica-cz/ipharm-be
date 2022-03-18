@@ -4,13 +4,22 @@ from references.models import Department, Identification
 from reports.models import ReportVariable
 
 
-def _count_check_in_medical_procedures(year):
+def _medical_procedures(year):
     procedures = {
         "05751": CheckIn.objects.filter(
             medical_procedure__code="05751", updated_at__year=year
         ).count(),
     }
     return procedures
+
+
+def _risk_levels(year):
+    risk_levels = {
+        "1": CheckIn.objects.filter(risk_level="1", updated_at__year=year).count(),
+        "2": CheckIn.objects.filter(risk_level="2", updated_at__year=year).count(),
+        "3": CheckIn.objects.filter(risk_level="3", updated_at__year=year).count(),
+    }
+    return risk_levels
 
 
 def _header(year):
@@ -53,6 +62,7 @@ def uzis_loader(**kwargs):
         "variables": _variables(report_type),
         "header": _header(year),
         "signature": _signature(),
-        "medical_procedures": _count_check_in_medical_procedures(year),
+        "medical_procedures": _medical_procedures(year),
+        "risk_levels": _risk_levels(year),
     }
     return data
