@@ -130,6 +130,28 @@ class CreatePharmacologicalPlanCommentTest(APITestCase):
             response.status_code, status.HTTP_201_CREATED, msg=response.data
         )
 
+    def test_that_only_two_verification_comments_can_be_created(self):
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=self.pharmacological_plan, comment_type="verification"
+        )
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=self.pharmacological_plan, comment_type="verification"
+        )
+
+        self.client.force_login(user=self.user)
+        data = {
+            "pharmacological_plan": self.pharmacological_plan.pk,
+            "text": "Test comment",
+            "comment_type": "verification",
+        }
+        response = self.client.post(
+            reverse("pharmacological_plan_comment_list"), data=data
+        )
+
+        self.assertEqual(
+            response.status_code, status.HTTP_400_BAD_REQUEST, msg=response.data
+        )
+
 
 class GetPharmacologicalPlanCommentListTest(APITestCase):
     def setUp(self) -> None:
@@ -220,6 +242,6 @@ class UpdatePharmacologicalPlanCommentTest(APITestCase):
             data=data,
         )
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK, msg=response.data)
         self.pharmacological_plan_comment.refresh_from_db()
         self.assertEqual(self.pharmacological_plan_comment.text, "new_text")

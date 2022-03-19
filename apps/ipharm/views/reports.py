@@ -6,7 +6,7 @@ from reports.serializers import (
     GenericReportTypeSerializer,
     ReportVariableSerializer,
 )
-from rest_framework import generics, status
+from rest_framework import generics, serializers, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -36,20 +36,14 @@ class ReportGenerateView(APIView):
         try:
             report_file = report_type.generate_report(year=year, month=month)
         except IdentificationForReportNotFound:
-            return Response(
-                {
-                    "error": "IdentificationForReportNotFound",
-                    "detail": "Identification for report not found. Please, add it. Dont forget to set for_for_insurance=True.",
-                },
-                status=status.HTTP_409_CONFLICT,
+            raise serializers.ValidationError(
+                "Identification for report not found. Please, add it. Dont forget to set for_for_insurance=True.",
+                code="IdentificationForReportNotFound",
             )
         except DepartmentForReportNotFound:
-            return Response(
-                {
-                    "error": "DepartmentForReportNotFound",
-                    "detail": "Department for report not found. Please, add it. Dont forget to set for_for_insurance=True.",
-                },
-                status=status.HTTP_409_CONFLICT,
+            raise serializers.ValidationError(
+                "Department for report not found. Please, add it. Dont forget to set for_for_insurance=True.",
+                code="DepartmentForReportNotFound",
             )
         response = Response(GenericReportFileSerializer(report_file).data)
         return response

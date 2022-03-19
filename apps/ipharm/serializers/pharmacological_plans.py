@@ -3,7 +3,7 @@ from ipharm.models.pharmacological_plans import (
     PharmacologicalPlanComment,
 )
 from references.serializers import TagSerializer
-from rest_framework import serializers
+from rest_framework import serializers, status
 
 
 class PharmacologicalPlanCommentSerializer(serializers.ModelSerializer):
@@ -11,6 +11,25 @@ class PharmacologicalPlanCommentSerializer(serializers.ModelSerializer):
         model = PharmacologicalPlanComment
         exclude = ["is_deleted"]
         read_only_fields = ["id"]
+
+    def validate(self, data):
+        if self.instance:
+            pharmacological_plan = self.instance.pharmacological_plan
+        else:
+            pharmacological_plan = data["pharmacological_plan"]
+
+        if (
+            PharmacologicalPlanComment.objects.filter(
+                pharmacological_plan=pharmacological_plan,
+                comment_type=PharmacologicalPlanComment.VERIFICATION,
+            ).count()
+            >= 2
+        ):
+            raise serializers.ValidationError(
+                "Verification comments are limited to 2 per plan.",
+                code="VerificationNumberLimitIsReached",
+            )
+        return data
 
 
 class PharmacologicalPlanSerializer(serializers.ModelSerializer):
