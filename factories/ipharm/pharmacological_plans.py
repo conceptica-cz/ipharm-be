@@ -25,13 +25,6 @@ class PharmacologicalPlanFactory(factory.django.DjangoModelFactory):
             for _ in range(random.randint(1, 4)):
                 self.tags.add(TagFactory())
 
-    @factory.post_generation
-    def comments(self, create, extracted, **kwargs):
-        [
-            PharmacologicalPlanCommentFactory(pharmacological_plan=self)
-            for i in range(random.randint(1, 3))
-        ]
-
 
 class PharmacologicalPlanCommentFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -40,4 +33,3 @@ class PharmacologicalPlanCommentFactory(factory.django.DjangoModelFactory):
     pharmacological_plan = factory.SubFactory(PharmacologicalPlanFactory)
     comment_type = factory.Iterator(["comment", "verification"])
     text = factory.Faker("text", locale="la")
-    verify = factory.Faker("boolean", chance_of_getting_true=50)

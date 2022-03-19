@@ -6,7 +6,13 @@ from django.utils import timezone
 from reports import insurance_report
 from reports.models import InsuranceReport
 
-from factories.ipharm import CareFactory, CheckInFactory, PatientFactory
+from factories.ipharm import (
+    CareFactory,
+    CheckInFactory,
+    PatientFactory,
+    PharmacologicalPlanCommentFactory,
+    PharmacologicalPlanFactory,
+)
 from factories.references import (
     DepartmentFactory,
     DiagnosisFactory,
@@ -28,6 +34,8 @@ class InsuranceReportTestCase(TestCase):
         self.insurance_company = InsuranceCompanyFactory(code="111", name="a")
         self.another_insurance_company = InsuranceCompanyFactory(code="222", name="b")
         MedicalProcedureFactory(code="05751", scores=185)
+        MedicalProcedureFactory(code="05753", scores=10)
+        MedicalProcedureFactory(code="05755", scores=1)
 
         CheckInFactory(
             care__patient__insurance_number=1111111111,
@@ -51,11 +59,43 @@ class InsuranceReportTestCase(TestCase):
             care__patient__insurance_company=self.another_insurance_company,
             risk_level="2",
         )
+        plan_1 = PharmacologicalPlanFactory(
+            care__patient__insurance_number=1111111111,
+            care__patient__insurance_company=self.insurance_company,
+        )
+        plan_2 = PharmacologicalPlanFactory(
+            care__patient__insurance_number=2222222222,
+            care__patient__insurance_company=self.insurance_company,
+        )
+        plan_3 = PharmacologicalPlanFactory(
+            care__patient__insurance_number=3333333333,
+            care__patient__insurance_company=self.another_insurance_company,
+        )
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=plan_1, comment_type="verification"
+        )
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=plan_1, comment_type="verification"
+        )
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=plan_2, comment_type="verification"
+        )
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=plan_3, comment_type="verification"
+        )
+
         mocked_now.return_value = now_2019_02
         CheckInFactory(
             care__patient__insurance_number=5555555555,
             care__patient__insurance_company=self.insurance_company,
             risk_level="2",
+        )
+        plan_4 = PharmacologicalPlanFactory(
+            care__patient__insurance_number=4444444444,
+            care__patient__insurance_company=self.insurance_company,
+        )
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=plan_4, comment_type="verification"
         )
 
         self.identification = IdentificationFactory(
@@ -75,8 +115,8 @@ class InsuranceReportTestCase(TestCase):
             department_for_insurance=self.department_for_insurance,
         )
 
-        self.assertEqual(len(data["documents"]), 2)
-        self.assertEqual(data["dosage"]["DBODY"], "        370")
+        self.assertEqual(len(data["documents"]), 7)
+        self.assertEqual(data["dosage"]["DBODY"], "        393")
 
     def test_generate_insurance_report(self):
         content = insurance_report.generate_insurance_report(
@@ -89,9 +129,9 @@ class InsuranceReportTestCase(TestCase):
         )
 
         report = InsuranceReport.objects.first()
-        self.assertEqual(len(report.data["documents"]), 2)
+        self.assertEqual(len(report.data["documents"]), 7)
         self.assertIn("1111111111", report.content)
-        self.assertEqual(report.documents_number, 2)
+        self.assertEqual(report.documents_number, 7)
         self.assertEqual(report.year, 2019)
         self.assertEqual(report.month, 3)
         self.assertEqual(report.insurance_company, self.insurance_company)
@@ -151,9 +191,9 @@ class InsuranceReportTestCase(TestCase):
             year=2019, month=3, insurance_company=self.another_insurance_company
         )
 
-        self.assertEqual(report_2019_2_111.documents_number, 1)
-        self.assertEqual(report_2019_3_111.documents_number, 2)
-        self.assertEqual(report_2019_3_222.documents_number, 1)
+        self.assertEqual(report_2019_2_111.documents_number, 3)
+        self.assertEqual(report_2019_3_111.documents_number, 7)
+        self.assertEqual(report_2019_3_222.documents_number, 3)
 
         self.assertEqual(
             report_2019_2_111.data["documents"][0]["heading"]["ECID"], "     10"
@@ -163,21 +203,21 @@ class InsuranceReportTestCase(TestCase):
         )
 
         self.assertEqual(
-            report_2019_3_111.data["documents"][0]["heading"]["ECID"], "     11"
+            report_2019_3_111.data["documents"][0]["heading"]["ECID"], "     13"
         )
         self.assertEqual(
             report_2019_3_111.data["documents"][0]["heading"]["EPOR"], "  1"
         )
 
         self.assertEqual(
-            report_2019_3_111.data["documents"][1]["heading"]["ECID"], "     12"
+            report_2019_3_111.data["documents"][1]["heading"]["ECID"], "     14"
         )
         self.assertEqual(
             report_2019_3_111.data["documents"][1]["heading"]["EPOR"], "  2"
         )
 
         self.assertEqual(
-            report_2019_3_222.data["documents"][0]["heading"]["ECID"], "     13"
+            report_2019_3_222.data["documents"][0]["heading"]["ECID"], "     20"
         )
         self.assertEqual(
             report_2019_3_222.data["documents"][0]["heading"]["EPOR"], "  1"

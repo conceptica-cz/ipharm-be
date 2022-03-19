@@ -4,7 +4,12 @@ from django.test import TestCase
 from django.utils import timezone
 from reports.uzis import uzis_loader
 
-from factories.ipharm import CheckInFactory, PharmacologicalEvaluationFactory
+from factories.ipharm import (
+    CheckInFactory,
+    PharmacologicalEvaluationFactory,
+    PharmacologicalPlanCommentFactory,
+    PharmacologicalPlanFactory,
+)
 from factories.references import DepartmentFactory, IdentificationFactory
 from factories.reports import GenericReportTypeFactory, ReportVariableFactory
 
@@ -38,7 +43,7 @@ class TestUzisLoader(TestCase):
         self.assertEqual(data["variables"]["integer_variable"], 42)
 
     @patch("django.utils.timezone.now")
-    def test_medical_procedures(self, mocked_now):
+    def test_medical_procedure_05751(self, mocked_now):
         now_2019 = timezone.datetime(2019, 2, 1, tzinfo=timezone.utc)
         now_2020 = timezone.datetime(2020, 3, 1, tzinfo=timezone.utc)
         mocked_now.return_value = now_2020
@@ -67,6 +72,40 @@ class TestUzisLoader(TestCase):
         data = uzis_loader(**kwargs)
 
         self.assertEqual(data["medical_procedures"]["05751"], 2)
+
+    @patch("django.utils.timezone.now")
+    def test_medical_procedure_05753(self, mocked_now):
+        now_2019 = timezone.datetime(2019, 2, 1, tzinfo=timezone.utc)
+        now_2020 = timezone.datetime(2020, 3, 1, tzinfo=timezone.utc)
+        mocked_now.return_value = now_2020
+        PharmacologicalPlanFactory()
+        PharmacologicalPlanFactory()
+        mocked_now.return_value = now_2019
+        PharmacologicalPlanFactory()
+
+        kwargs = {"year": 2020}
+
+        data = uzis_loader(**kwargs)
+
+        self.assertEqual(data["medical_procedures"]["05753"], 2)
+
+    @patch("django.utils.timezone.now")
+    def test_medical_procedure_05755(self, mocked_now):
+        now_2019 = timezone.datetime(2019, 2, 1, tzinfo=timezone.utc)
+        now_2020 = timezone.datetime(2020, 3, 1, tzinfo=timezone.utc)
+        mocked_now.return_value = now_2020
+        PharmacologicalPlanCommentFactory(comment_type="verification")
+        PharmacologicalPlanCommentFactory(comment_type="verification")
+        PharmacologicalPlanCommentFactory(comment_type="comment")
+        PharmacologicalPlanCommentFactory(comment_type="verification")
+        mocked_now.return_value = now_2019
+        PharmacologicalPlanCommentFactory(comment_type="verification")
+
+        kwargs = {"year": 2020}
+
+        data = uzis_loader(**kwargs)
+
+        self.assertEqual(data["medical_procedures"]["05755"], 3)
 
     @patch("django.utils.timezone.now")
     def test_risk_levels(self, mocked_now):

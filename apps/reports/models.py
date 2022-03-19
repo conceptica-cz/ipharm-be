@@ -185,8 +185,8 @@ class ReportVariable(BaseUpdatableModel):
     }
 
     report_type = models.ForeignKey(GenericReportType, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, unique=True)
-    description = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
     variable_type = models.CharField(
         max_length=255, choices=VARIABLE_TYPE_CHOICES, default=VARIABLE_TYPE_INT
     )
@@ -197,6 +197,7 @@ class ReportVariable(BaseUpdatableModel):
 
     class Meta:
         ordering = ["order"]
+        unique_together = (("report_type", "name"), ("report_type", "description"))
 
     def __str__(self):
         return self.name

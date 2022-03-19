@@ -1,6 +1,10 @@
 from django.utils import timezone
 from ipharm.models.checkins import CheckIn
 from ipharm.models.pharmacological_evaluations import PharmacologicalEvaluation
+from ipharm.models.pharmacological_plans import (
+    PharmacologicalPlan,
+    PharmacologicalPlanComment,
+)
 from references.models import Department, Identification
 from reports.models import ReportVariable
 
@@ -9,6 +13,12 @@ def _medical_procedures(year):
     procedures = {
         "05751": CheckIn.objects.filter(
             medical_procedure__code="05751", updated_at__year=year
+        ).count(),
+        "05753": PharmacologicalPlan.objects.filter(
+            medical_procedure__code="05753", updated_at__year=year
+        ).count(),
+        "05755": PharmacologicalPlanComment.objects.filter(
+            medical_procedure__code="05755", updated_at__year=year
         ).count(),
     }
     return procedures

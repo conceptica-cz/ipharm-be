@@ -1,10 +1,15 @@
 import logging
 import shutil
+from itertools import chain
 
 from django.conf import settings
 from django.db.models import Sum
 from django.template.loader import render_to_string
 from ipharm.models.checkins import CheckIn
+from ipharm.models.pharmacological_plans import (
+    PharmacologicalPlan,
+    PharmacologicalPlanComment,
+)
 from references.models import (
     Department,
     Identification,
@@ -202,17 +207,27 @@ def get_insurance_report_data(
         updated_at__year=year,
         updated_at__month=month,
     )
-    try:
-        medical_procedure = MedicalProcedure.objects.get(code="05751")
-    except MedicalProcedure.DoesNotExist as ex:
-        raise InsuranceReportError("Medical procedure 05751 does not exist") from ex
+    pharmacological_plans = PharmacologicalPlan.objects.filter(
+        care__patient__insurance_company=insurance_company,
+        medical_procedure__isnull=False,
+        updated_at__year=year,
+        updated_at__month=month,
+    )
+    pharmacological_plan_comments = PharmacologicalPlanComment.objects.filter(
+        pharmacological_plan__care__patient__insurance_company=insurance_company,
+        medical_procedure__isnull=False,
+        updated_at__year=year,
+        updated_at__month=month,
+    )
 
-    for document_number, obj in enumerate(check_ins):
+    all_objects = chain(check_ins, pharmacological_plans, pharmacological_plan_comments)
+
+    for document_number, obj in enumerate(all_objects):
         document_total_number = start_number + document_number
         documents.append(
             get_document_data(
                 obj=obj,
-                medical_procedure=medical_procedure,
+                medical_procedure=obj.medical_procedure,
                 department_for_insurance=department_for_insurance,
                 document_number=document_number + 1,
                 document_total_number=document_total_number,

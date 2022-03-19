@@ -7,6 +7,7 @@ from factories.ipharm import (
     CheckInFactory,
     PatientInformationFactory,
     PharmacologicalEvaluationFactory,
+    PharmacologicalPlanCommentFactory,
     PharmacologicalPlanFactory,
     RiskDrugHistoryFactory,
 )
@@ -31,7 +32,21 @@ class Command(BaseCommand):
             if random.randint(0, 1):
                 CheckInFactory(care=care)
                 if random.randint(0, 1):
-                    PharmacologicalPlanFactory(care=care)
+                    pharmacological_plan = PharmacologicalPlanFactory(care=care)
+                    [
+                        PharmacologicalPlanCommentFactory(
+                            pharmacological_plan=pharmacological_plan,
+                            comment_type="verification",
+                        )
+                        for _ in range(random.randint(0, 2))
+                    ]
+                    [
+                        PharmacologicalPlanCommentFactory(
+                            pharmacological_plan=pharmacological_plan,
+                            comment_type="comment",
+                        )
+                        for _ in range(random.randint(0, 5))
+                    ]
                     RiskDrugHistoryFactory(care=care)
                     [
                         PatientInformationFactory(care=care)
