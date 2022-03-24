@@ -9,3 +9,6 @@ class PatientInformation(BaseUpdatableModel):
     text = models.TextField(blank=True, null=True, help_text="Popis")
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    file = models.FileField(
+        blank=True, null=True, upload_to="patient_information/", help_text="Soubor"
+    )
