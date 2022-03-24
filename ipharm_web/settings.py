@@ -191,7 +191,7 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 3145728
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-APP_VERSION = Path("version.txt").read_text()
+APP_VERSION = (BASE_DIR / Path("version.txt")).read_text()
 
 # REFERENCES AND UPDATES
 

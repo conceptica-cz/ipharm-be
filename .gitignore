@@ -12,3 +12,4 @@ _postgres_data*
 dump.sql
 hosts
 /media/
+/docs/build/.doctrees/

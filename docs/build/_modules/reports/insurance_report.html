@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>reports.insurance_report &mdash; iPharm  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> iPharm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates.html">Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../variables.html">Environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rest_api.html">Rest API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/modules.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">iPharm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>reports.insurance_report</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for reports.insurance_report</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Sum</span>
+<span class="kn">from</span> <span class="nn">django.template.loader</span> <span class="kn">import</span> <span class="n">render_to_string</span>
+<span class="kn">from</span> <span class="nn">ipharm.models.checkins</span> <span class="kn">import</span> <span class="n">CheckIn</span>
+<span class="kn">from</span> <span class="nn">ipharm.models.pharmacological_plans</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PharmacologicalPlan</span><span class="p">,</span>
+    <span class="n">PharmacologicalPlanComment</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">references.models</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Department</span><span class="p">,</span>
+    <span class="n">Identification</span><span class="p">,</span>
+    <span class="n">InsuranceCompany</span><span class="p">,</span>
+    <span class="n">MedicalProcedure</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">reports.models</span> <span class="kn">import</span> <span class="n">InsuranceReport</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="InsuranceReportError"><a class="viewcode-back" href="../../modules/reports.html#reports.insurance_report.InsuranceReportError">[docs]</a><span class="k">class</span> <span class="nc">InsuranceReportError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="PaddingError"><a class="viewcode-back" href="../../modules/reports.html#reports.insurance_report.PaddingError">[docs]</a><span class="k">class</span> <span class="nc">PaddingError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="add_padding"><a class="viewcode-back" href="../../modules/reports.html#reports.insurance_report.add_padding">[docs]</a><span class="k">def</span> <span class="nf">add_padding</span><span class="p">(</span><span class="n">padding_table</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">padding_table</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;length&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="n">PaddingError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> is too long: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">padding_table</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;padding&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+        <span class="n">padded_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">padding_table</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;length&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="o">*</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">value</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">padded_value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">+</span> <span class="p">(</span><span class="n">padding_table</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;length&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="o">*</span> <span class="s2">&quot; &quot;</span>
+    <span class="k">return</span> <span class="n">padded_value</span></div>
+
+
+<div class="viewcode-block" id="get_document_data"><a class="viewcode-back" href="../../modules/reports.html#reports.insurance_report.get_document_data">[docs]</a><span class="k">def</span> <span class="nf">get_document_data</span><span class="p">(</span>
+    <span class="n">obj</span><span class="p">:</span> <span class="n">CheckIn</span><span class="p">,</span>
+    <span class="n">department_for_insurance</span><span class="p">:</span> <span class="n">Department</span><span class="p">,</span>
+    <span class="n">medical_procedure</span><span class="p">:</span> <span class="n">MedicalProcedure</span><span class="p">,</span>
+    <span class="n">document_total_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">document_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param obj: CheckIn to calculate dosage from</span>
+<span class="sd">    :param department_for_insurance: Department, which data is used for dosage report</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">heading_padding</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;TYP&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;ECID&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+        <span class="s2">&quot;ESTR&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;EPOC&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;EPOR&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+        <span class="s2">&quot;ECPO&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+        <span class="s2">&quot;ETPP&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;EICO&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+        <span class="s2">&quot;EVAR&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">},</span>
+        <span class="s2">&quot;EODB&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+        <span class="s2">&quot;EROD&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+        <span class="s2">&quot;EZDG&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+        <span class="s2">&quot;EKO&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;EICZ&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+        <span class="s2">&quot;ECDZ&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+        <span class="s2">&quot;EDAT&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+        <span class="s2">&quot;ECCEL&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+        <span class="s2">&quot;ECBOD&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+        <span class="s2">&quot;EODZ&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+        <span class="s2">&quot;EVARZ&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">},</span>
+        <span class="s2">&quot;DTYP&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="p">}</span>
+    <span class="n">result_padding</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;TYP&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;VDAT&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+        <span class="s2">&quot;VKOD&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+        <span class="s2">&quot;VPOC&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;DTYP&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="n">heading</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;TYP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;E&quot;</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;ECID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">document_total_number</span><span class="p">)</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;ESTR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EPOC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EPOR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">document_number</span><span class="p">)</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;ECPO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">care</span><span class="o">.</span><span class="n">patient</span><span class="o">.</span><span class="n">insurance_company</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;ETPP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EICO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">department_for_insurance</span><span class="o">.</span><span class="n">icp</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EVAR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">department_for_insurance</span><span class="o">.</span><span class="n">ns</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EODB&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">department_for_insurance</span><span class="o">.</span><span class="n">specialization_code</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EROD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">care</span><span class="o">.</span><span class="n">patient</span><span class="o">.</span><span class="n">insurance_number</span><span class="p">)</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EZDG&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">care</span><span class="o">.</span><span class="n">main_diagnosis</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EKO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EICZ&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">care</span><span class="o">.</span><span class="n">department</span><span class="o">.</span><span class="n">icp</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;ECDZ&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EDAT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">care</span><span class="o">.</span><span class="n">started_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">%m%Y&quot;</span><span class="p">)</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;ECCEL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;ECBOD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">medical_procedure</span><span class="o">.</span><span class="n">scores</span><span class="p">))</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EODZ&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">care</span><span class="o">.</span><span class="n">department</span><span class="o">.</span><span class="n">specialization_code</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;EVARZ&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">heading</span><span class="p">[</span><span class="s2">&quot;DTYP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">heading</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">heading</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">add_padding</span><span class="p">(</span><span class="n">heading_padding</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="n">result</span><span class="p">[</span><span class="s2">&quot;TYP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;V&quot;</span>
+    <span class="n">result</span><span class="p">[</span><span class="s2">&quot;VDAT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">updated_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">%m%Y&quot;</span><span class="p">)</span>
+    <span class="n">result</span><span class="p">[</span><span class="s2">&quot;VKOD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">medical_procedure</span><span class="o">.</span><span class="n">code</span>
+    <span class="n">result</span><span class="p">[</span><span class="s2">&quot;VPOC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+    <span class="n">result</span><span class="p">[</span><span class="s2">&quot;DTYP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">add_padding</span><span class="p">(</span><span class="n">result_padding</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;heading&quot;</span><span class="p">:</span> <span class="n">heading</span><span class="p">,</span>
+        <span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="get_dosage_data"><a class="viewcode-back" href="../../modules/reports.html#reports.insurance_report.get_dosage_data">[docs]</a><span class="k">def</span> <span class="nf">get_dosage_data</span><span class="p">(</span>
+    <span class="n">insurance_company</span><span class="p">:</span> <span class="n">InsuranceCompany</span><span class="p">,</span>
+    <span class="n">identification</span><span class="p">:</span> <span class="n">Identification</span><span class="p">,</span>
+    <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">documents</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create dosage data for insurance report.</span>
+
+<span class="sd">    :param insurance_company: InsuranceCompany for which data is created.</span>
+<span class="sd">    :param identification: Identification, which data is used for dosage report.</span>
+<span class="sd">    :return: dictionary with dosage data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+    <span class="n">month</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">month</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">month</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">month_with_prefix</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span> <span class="o">+</span> <span class="n">month</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">month_with_prefix</span> <span class="o">=</span> <span class="n">month</span>
+
+    <span class="n">documents_count</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">documents</span><span class="p">))</span>
+    <span class="n">documents_scoring</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+        <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;heading&quot;</span><span class="p">][</span><span class="s2">&quot;ECBOD&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">]))</span>
+    <span class="p">)</span>
+
+    <span class="n">padding</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;TYP&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;CHAR&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;DTYP&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+        <span class="s2">&quot;DICO&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+        <span class="s2">&quot;DPOB&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+        <span class="s2">&quot;DROK&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+        <span class="s2">&quot;DMES&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+        <span class="s2">&quot;DCID&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">},</span>
+        <span class="s2">&quot;DPOC&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+        <span class="s2">&quot;DBODY&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">},</span>
+        <span class="s2">&quot;DFIN&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">},</span>
+        <span class="s2">&quot;DDPP&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;DVDR1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">},</span>
+        <span class="s2">&quot;DVDR2&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="n">dosage</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;TYP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;D&quot;</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;CHAR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;P&quot;</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DTYP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;90&quot;</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DICO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">identification</span><span class="o">.</span><span class="n">identifier</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DPOB&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">identification</span><span class="o">.</span><span class="n">identifier</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DROK&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">year</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DMES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">month_with_prefix</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DCID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">month</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DPOC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">documents_count</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DBODY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">documents_scoring</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DFIN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0.00&quot;</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DDPP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">insurance_company</span><span class="o">.</span><span class="n">type</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DVDR1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;06:6.2.42&quot;</span>
+    <span class="n">dosage</span><span class="p">[</span><span class="s2">&quot;DVDR2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dosage</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">dosage</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">add_padding</span><span class="p">(</span><span class="n">padding</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dosage</span></div>
+
+
+<div class="viewcode-block" id="get_insurance_report_data"><a class="viewcode-back" href="../../modules/reports.html#reports.insurance_report.get_insurance_report_data">[docs]</a><span class="k">def</span> <span class="nf">get_insurance_report_data</span><span class="p">(</span>
+    <span class="n">insurance_company</span><span class="p">:</span> <span class="n">InsuranceCompany</span><span class="p">,</span>
+    <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">start_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">identification</span><span class="p">:</span> <span class="n">Identification</span><span class="p">,</span>
+    <span class="n">department_for_insurance</span><span class="p">:</span> <span class="n">Department</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">documents</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">check_ins</span> <span class="o">=</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+        <span class="n">care__patient__insurance_company</span><span class="o">=</span><span class="n">insurance_company</span><span class="p">,</span>
+        <span class="n">medical_procedure__isnull</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+        <span class="n">updated_at__month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">pharmacological_plans</span> <span class="o">=</span> <span class="n">PharmacologicalPlan</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+        <span class="n">care__patient__insurance_company</span><span class="o">=</span><span class="n">insurance_company</span><span class="p">,</span>
+        <span class="n">medical_procedure__isnull</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+        <span class="n">updated_at__month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">pharmacological_plan_comments</span> <span class="o">=</span> <span class="n">PharmacologicalPlanComment</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+        <span class="n">pharmacological_plan__care__patient__insurance_company</span><span class="o">=</span><span class="n">insurance_company</span><span class="p">,</span>
+        <span class="n">medical_procedure__isnull</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+        <span class="n">updated_at__month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">all_objects</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="n">check_ins</span><span class="p">,</span> <span class="n">pharmacological_plans</span><span class="p">,</span> <span class="n">pharmacological_plan_comments</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">document_number</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_objects</span><span class="p">):</span>
+        <span class="n">document_total_number</span> <span class="o">=</span> <span class="n">start_number</span> <span class="o">+</span> <span class="n">document_number</span>
+        <span class="n">documents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">get_document_data</span><span class="p">(</span>
+                <span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span>
+                <span class="n">medical_procedure</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">medical_procedure</span><span class="p">,</span>
+                <span class="n">department_for_insurance</span><span class="o">=</span><span class="n">department_for_insurance</span><span class="p">,</span>
+                <span class="n">document_number</span><span class="o">=</span><span class="n">document_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="n">document_total_number</span><span class="o">=</span><span class="n">document_total_number</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">dosage</span> <span class="o">=</span> <span class="n">get_dosage_data</span><span class="p">(</span>
+        <span class="n">insurance_company</span><span class="o">=</span><span class="n">insurance_company</span><span class="p">,</span>
+        <span class="n">identification</span><span class="o">=</span><span class="n">identification</span><span class="p">,</span>
+        <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span>
+        <span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;documents&quot;</span><span class="p">:</span> <span class="n">documents</span><span class="p">,</span> <span class="s2">&quot;dosage&quot;</span><span class="p">:</span> <span class="n">dosage</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="generate_insurance_report"><a class="viewcode-back" href="../../modules/reports.html#reports.insurance_report.generate_insurance_report">[docs]</a><span class="k">def</span> <span class="nf">generate_insurance_report</span><span class="p">(</span>
+    <span class="n">insurance_company</span><span class="p">:</span> <span class="n">InsuranceCompany</span><span class="p">,</span>
+    <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">start_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">identification</span><span class="p">:</span> <span class="n">Identification</span><span class="p">,</span>
+    <span class="n">department_for_insurance</span><span class="p">:</span> <span class="n">Department</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_insurance_report_data</span><span class="p">(</span>
+        <span class="n">insurance_company</span><span class="o">=</span><span class="n">insurance_company</span><span class="p">,</span>
+        <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span>
+        <span class="n">start_number</span><span class="o">=</span><span class="n">start_number</span><span class="p">,</span>
+        <span class="n">identification</span><span class="o">=</span><span class="n">identification</span><span class="p">,</span>
+        <span class="n">department_for_insurance</span><span class="o">=</span><span class="n">department_for_insurance</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="s2">&quot;reports/insurance_report.txt&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">documents_number</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;documents&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">documents_number</span><span class="p">:</span>
+        <span class="n">insurance_report</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">InsuranceReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">update_or_create</span><span class="p">(</span>
+            <span class="n">insurance_company</span><span class="o">=</span><span class="n">insurance_company</span><span class="p">,</span>
+            <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+            <span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span>
+            <span class="n">defaults</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;documents_number&quot;</span><span class="p">:</span> <span class="n">documents_number</span><span class="p">,</span>
+                <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+                <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">content</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+        <span class="n">insurance_report</span><span class="o">.</span><span class="n">save_file</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="get_start_number"><a class="viewcode-back" href="../../modules/reports.html#reports.insurance_report.get_start_number">[docs]</a><span class="k">def</span> <span class="nf">get_start_number</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">document_count</span> <span class="o">=</span> <span class="n">InsuranceReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span>
+        <span class="n">document_count</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s2">&quot;documents_number&quot;</span><span class="p">)</span>
+    <span class="p">)[</span><span class="s2">&quot;document_count&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">document_count</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">document_count</span> <span class="k">else</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="generate_all_reports"><a class="viewcode-back" href="../../modules/reports.html#reports.insurance_report.generate_all_reports">[docs]</a><span class="k">def</span> <span class="nf">generate_all_reports</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">month</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">previous_month</span> <span class="o">=</span> <span class="n">month</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">previous_year</span> <span class="o">=</span> <span class="n">year</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">previous_month</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="n">previous_year</span> <span class="o">=</span> <span class="n">year</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">identification</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Identification</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_identification_for_insurance_report</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">Identification</span><span class="o">.</span><span class="n">DoesNotExist</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InsuranceReportError</span><span class="p">(</span>
+            <span class="s2">&quot;Identification &#39;for_insurance&#39; does not exist&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">department_for_insurance</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Department</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_department_for_insurance_report</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">Department</span><span class="o">.</span><span class="n">DoesNotExist</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InsuranceReportError</span><span class="p">(</span><span class="s2">&quot;Department &#39;for_insurance&#39; does not exist&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+
+    <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_ROOT</span>
+        <span class="o">/</span> <span class="n">settings</span><span class="o">.</span><span class="n">INSURANCE_REPORT_FOLDER</span>
+        <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">previous_year</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">previous_month</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">insurance_company</span> <span class="ow">in</span> <span class="n">InsuranceCompany</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+        <span class="n">start_number</span> <span class="o">=</span> <span class="n">get_start_number</span><span class="p">(</span><span class="n">previous_year</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Generating company insurance reports for previous month&quot;</span><span class="p">,</span>
+            <span class="n">extra</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;insurance_company&quot;</span><span class="p">:</span> <span class="n">insurance_company</span><span class="o">.</span><span class="n">code</span><span class="p">,</span>
+                <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">previous_year</span><span class="p">,</span>
+                <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">previous_month</span><span class="p">,</span>
+                <span class="s2">&quot;start_number&quot;</span><span class="p">:</span> <span class="n">start_number</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+        <span class="n">generate_insurance_report</span><span class="p">(</span>
+            <span class="n">insurance_company</span><span class="o">=</span><span class="n">insurance_company</span><span class="p">,</span>
+            <span class="n">year</span><span class="o">=</span><span class="n">previous_year</span><span class="p">,</span>
+            <span class="n">month</span><span class="o">=</span><span class="n">previous_month</span><span class="p">,</span>
+            <span class="n">start_number</span><span class="o">=</span><span class="n">start_number</span><span class="p">,</span>
+            <span class="n">identification</span><span class="o">=</span><span class="n">identification</span><span class="p">,</span>
+            <span class="n">department_for_insurance</span><span class="o">=</span><span class="n">department_for_insurance</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_ROOT</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;dosages/</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">month</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">insurance_company</span> <span class="ow">in</span> <span class="n">InsuranceCompany</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+        <span class="n">start_number</span> <span class="o">=</span> <span class="n">get_start_number</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Generating company insurance reports for current month&quot;</span><span class="p">,</span>
+            <span class="n">extra</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;insurance_company&quot;</span><span class="p">:</span> <span class="n">insurance_company</span><span class="o">.</span><span class="n">code</span><span class="p">,</span>
+                <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+                <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">month</span><span class="p">,</span>
+                <span class="s2">&quot;start_number&quot;</span><span class="p">:</span> <span class="n">start_number</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+        <span class="n">generate_insurance_report</span><span class="p">(</span>
+            <span class="n">insurance_company</span><span class="o">=</span><span class="n">insurance_company</span><span class="p">,</span>
+            <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+            <span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span>
+            <span class="n">start_number</span><span class="o">=</span><span class="n">start_number</span><span class="p">,</span>
+            <span class="n">identification</span><span class="o">=</span><span class="n">identification</span><span class="p">,</span>
+            <span class="n">department_for_insurance</span><span class="o">=</span><span class="n">department_for_insurance</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Conceptica s.r.o.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

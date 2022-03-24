@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>updates.bulovka.updaters &mdash; iPharm  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> iPharm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../updates.html">Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../variables.html">Environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rest_api.html">Rest API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/modules.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">iPharm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>updates.bulovka.updaters</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for updates.bulovka.updaters</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">ipharm.models.cares</span> <span class="kn">import</span> <span class="n">Care</span><span class="p">,</span> <span class="n">Dekurz</span>
+<span class="kn">from</span> <span class="nn">ipharm.models.patients</span> <span class="kn">import</span> <span class="n">Patient</span>
+<span class="kn">from</span> <span class="nn">references.models</span> <span class="kn">import</span> <span class="n">Clinic</span><span class="p">,</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Person</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="patient_updater"><a class="viewcode-back" href="../../../modules/updates.bulovka.html#updates.bulovka.updaters.patient_updater">[docs]</a><span class="k">def</span> <span class="nf">patient_updater</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Updating patient </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">operations</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">update</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;update&quot;</span><span class="p">]</span>
+    <span class="n">clinic_id</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;url_parameters&quot;</span><span class="p">][</span><span class="s2">&quot;clinicId&quot;</span><span class="p">]</span>
+
+    <span class="c1"># patient handling</span>
+
+    <span class="n">patient</span><span class="p">,</span> <span class="n">patient_operation</span> <span class="o">=</span> <span class="n">Patient</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">update_or_create_from_dict</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;patient&quot;</span><span class="p">],</span>
+        <span class="n">identifiers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;birth_number&quot;</span><span class="p">],</span>
+        <span class="n">relations</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;insurance_company&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="s2">&quot;insurance_company&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;code&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;delete_source_field&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="n">update</span><span class="o">=</span><span class="n">update</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">operations</span><span class="p">[</span><span class="s2">&quot;ipharm.Patient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">patient_operation</span>
+
+    <span class="c1"># care handling</span>
+
+    <span class="n">clinic</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">Clinic</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create_temporary</span><span class="p">(</span><span class="n">external_id</span><span class="o">=</span><span class="n">clinic_id</span><span class="p">)</span>
+    <span class="n">department</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">Department</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
+        <span class="n">external_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;care&quot;</span><span class="p">][</span><span class="s2">&quot;department&quot;</span><span class="p">],</span>
+        <span class="n">defaults</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;clinic&quot;</span><span class="p">:</span> <span class="n">clinic</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;care&quot;</span><span class="p">][</span><span class="s2">&quot;patient_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">patient</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;care&quot;</span><span class="p">][</span><span class="s2">&quot;department_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">department</span><span class="o">.</span><span class="n">id</span>
+    <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;care&quot;</span><span class="p">][</span><span class="s2">&quot;department&quot;</span><span class="p">]</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;care&quot;</span><span class="p">][</span><span class="s2">&quot;care_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Care</span><span class="o">.</span><span class="n">HOSPITALIZATION</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;care&quot;</span><span class="p">][</span><span class="s2">&quot;clinic&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clinic</span>
+    <span class="n">care</span><span class="p">,</span> <span class="n">care_operation</span> <span class="o">=</span> <span class="n">Care</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">update_or_create_from_dict</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;care&quot;</span><span class="p">],</span>
+        <span class="n">identifiers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;external_id&quot;</span><span class="p">,</span> <span class="s2">&quot;clinic&quot;</span><span class="p">],</span>
+        <span class="n">relations</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;main_diagnosis&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="s2">&quot;main_diagnosis&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;code&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;delete_source_field&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+        <span class="n">update</span><span class="o">=</span><span class="n">update</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">operations</span><span class="p">[</span><span class="s2">&quot;ipharm.Care&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">care_operation</span>
+
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;dekurz&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;dekurz&quot;</span><span class="p">][</span><span class="s2">&quot;doctor&quot;</span><span class="p">]:</span>
+            <span class="n">dekurz_docktor</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">Person</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create_temporary</span><span class="p">(</span>
+                <span class="n">person_number</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;dekurz&quot;</span><span class="p">][</span><span class="s2">&quot;doctor&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dekurz_docktor</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">dekurz_department</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">Department</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create_temporary</span><span class="p">(</span>
+            <span class="n">clinic</span><span class="o">=</span><span class="n">clinic</span><span class="p">,</span>
+            <span class="n">external_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;dekurz&quot;</span><span class="p">][</span><span class="s2">&quot;department&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">dekurz</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">Dekurz</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
+            <span class="n">care</span><span class="o">=</span><span class="n">care</span><span class="p">,</span>
+            <span class="n">made_at</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;dekurz&quot;</span><span class="p">][</span><span class="s2">&quot;made_at&quot;</span><span class="p">],</span>
+            <span class="n">doctor</span><span class="o">=</span><span class="n">dekurz_docktor</span><span class="p">,</span>
+            <span class="n">department</span><span class="o">=</span><span class="n">dekurz_department</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">care</span><span class="o">.</span><span class="n">last_dekurz</span> <span class="o">!=</span> <span class="n">dekurz</span><span class="p">:</span>
+            <span class="n">care</span><span class="o">.</span><span class="n">set_last_dekurz</span><span class="p">(</span><span class="n">dekurz</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">care_operation</span> <span class="o">==</span> <span class="n">Care</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">NOT_CHANGED</span><span class="p">:</span>
+                <span class="n">operations</span><span class="p">[</span><span class="s2">&quot;ipharm.Care&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Care</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">UPDATED</span>
+
+    <span class="k">if</span> <span class="n">patient</span><span class="o">.</span><span class="n">current_care</span> <span class="o">!=</span> <span class="n">care</span><span class="p">:</span>
+        <span class="n">care</span><span class="o">.</span><span class="n">refresh_from_db</span><span class="p">()</span>  <span class="c1"># prevent care.started_at to be string</span>
+        <span class="n">patient</span><span class="o">.</span><span class="n">set_current_care</span><span class="p">(</span><span class="n">care</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">patient_operation</span> <span class="o">==</span> <span class="n">Patient</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">NOT_CHANGED</span><span class="p">:</span>
+            <span class="n">operations</span><span class="p">[</span><span class="s2">&quot;ipharm.Patient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Patient</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">UPDATED</span>
+
+    <span class="k">return</span> <span class="n">operations</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Conceptica s.r.o.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
