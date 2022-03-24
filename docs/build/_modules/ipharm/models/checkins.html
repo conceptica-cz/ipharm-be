@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ipharm.models.checkins &mdash; iPharm  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> iPharm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../updates.html">Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../variables.html">Environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rest_api.html">Rest API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/modules.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">iPharm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>ipharm.models.checkins</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ipharm.models.checkins</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">ipharm.models.cares</span> <span class="kn">import</span> <span class="n">Care</span>
+<span class="kn">from</span> <span class="nn">references.models</span> <span class="kn">import</span> <span class="n">MedicalProcedure</span>
+<span class="kn">from</span> <span class="nn">references.models.drugs</span> <span class="kn">import</span> <span class="n">Drug</span>
+<span class="kn">from</span> <span class="nn">updates.models</span> <span class="kn">import</span> <span class="n">BaseUpdatableModel</span>
+
+
+<div class="viewcode-block" id="CheckIn"><a class="viewcode-back" href="../../../modules/ipharm.models.html#ipharm.models.checkins.CheckIn">[docs]</a><span class="k">class</span> <span class="nc">CheckIn</span><span class="p">(</span><span class="n">BaseUpdatableModel</span><span class="p">):</span>
+    <span class="n">RISK_LEVEL_1</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+    <span class="n">RISK_LEVEL_2</span> <span class="o">=</span> <span class="s2">&quot;2&quot;</span>
+    <span class="n">RISK_LEVEL_3</span> <span class="o">=</span> <span class="s2">&quot;3&quot;</span>
+    <span class="n">RISK_LEVEL_CHOICE</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">RISK_LEVEL_1</span><span class="p">,</span> <span class="s2">&quot;1. stupeň&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">RISK_LEVEL_2</span><span class="p">,</span> <span class="s2">&quot;2. stupeň&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">RISK_LEVEL_3</span><span class="p">,</span> <span class="s2">&quot;3. stupeň&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">care</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Care</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+    <span class="n">drugs</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="n">Drug</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;drug_checkins&quot;</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Seznam léčiv&quot;</span>
+    <span class="p">)</span>
+    <span class="n">polypharmacy</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Polypragmazie&quot;</span><span class="p">)</span>
+    <span class="n">polypharmacy_note</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span>
+        <span class="s2">&quot;poznámka k polypragmazii&quot;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Poznámka k polypragmazii&quot;</span>
+    <span class="p">)</span>
+    <span class="n">high_interaction_potential</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="s2">&quot;polypragmazie&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Léčiva s vysokým interakčním potenciálem&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">high_interaction_potential_drugs</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="n">Drug</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;high_interaction_potential_checkins&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Seznam léčiv s vysokým účinkovým tlakem&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">high_interaction_potential_note</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Poznámka k léčivám s vysokým interakčním potenciálem&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">diagnoses</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="s2">&quot;references.Diagnosis&quot;</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Diagnóza&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">diagnoses_drugs</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="n">Drug</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;drugs_checkins&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Seznam léčiv&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">diagnoses_note</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Poznámka&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">renal_insufficiency</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Renální insuficience&quot;</span>
+    <span class="p">)</span>
+    <span class="n">renal_insufficiency_note</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Poznámka k renální insuficience&quot;</span>
+    <span class="p">)</span>
+    <span class="n">significant_biochemical_changes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Další významné změny biochemických nebo hematolologických parametrů&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">significant_biochemical_changes_note</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Poznámka k dalším významným změnám biochemických nebo hematolologických parametrů&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">systemic_corticosteroids</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Systémové kortikoidy nebo jiné imunosupresiva&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">systemic_corticosteroids_note</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Poznámka k systémovým kortikoidům nebo jiným imunosupresivům&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">narrow_therapeutic_window</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Léčiva s úzkým terapeutickým oknem&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">narrow_therapeutic_window_drugs</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="n">Drug</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;narrow_therapeutic_window_checkins&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Seznam léčiv s úzkým terapeutickým oknem&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">narrow_therapeutic_window_note</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Poznámka k léčivům s úzkým terapeutickým oknem&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">hepatic_insufficiency</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Laboratorní známky hepatální insuficience&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">hepatic_insufficiency_note</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Poznámka k laboratorním známkám hepatální insuficience&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">intensive_care</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Pacient v intenzivní péči&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">intensive_care_note</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Poznámka k intenzivní péči&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">pharmacist_intervention_required</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Nutný zásah klinického farmaceuta&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">consultation_requested</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Vyžádané konzilium&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">risk_level</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">RISK_LEVEL_CHOICE</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">RISK_LEVEL_1</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Výsledný stupeň rizikovosti&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">patient_condition_change</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Změna stavu pacienta&quot;</span>
+    <span class="p">)</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">updated_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">medical_procedure</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="s2">&quot;references.MedicalProcedure&quot;</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="CheckIn.save"><a class="viewcode-back" href="../../../modules/ipharm.models.html#ipharm.models.checkins.CheckIn.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">medical_procedure</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">patient_condition_change</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">risk_level</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">RISK_LEVEL_2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">RISK_LEVEL_3</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="n">medical_procedure</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">MedicalProcedure</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s2">&quot;05751&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">medical_procedure</span> <span class="o">=</span> <span class="n">medical_procedure</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CheckIn</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Conceptica s.r.o.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

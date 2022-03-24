@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ipharm.serializers package &mdash; iPharm  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ipharm.services package" href="ipharm.services.html" />
+    <link rel="prev" title="ipharm.models package" href="ipharm.models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> iPharm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../updates.html">Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variables.html">Environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rest_api.html">Rest API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ipharm</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ipharm.html">ipharm package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ipharm.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ipharm.filters.html">ipharm.filters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipharm.management.html">ipharm.management package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipharm.managers.html">ipharm.managers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipharm.models.html">ipharm.models package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">ipharm.serializers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipharm.services.html">ipharm.services package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipharm.views.html">ipharm.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ipharm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipharm.html#module-ipharm.apps">ipharm.apps module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipharm.html#module-ipharm.urls">ipharm.urls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipharm.html#module-ipharm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">iPharm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">ipharm</a> &raquo;</li>
+          <li><a href="ipharm.html">ipharm package</a> &raquo;</li>
+      <li>ipharm.serializers package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/ipharm.serializers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ipharm-serializers-package">
+<h1>ipharm.serializers package<a class="headerlink" href="#ipharm-serializers-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-ipharm.serializers.cares">
+<span id="ipharm-serializers-cares-module"></span><h2>ipharm.serializers.cares module<a class="headerlink" href="#module-ipharm.serializers.cares" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareLiteNestedSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.cares.</span></span><span class="sig-name descname"><span class="pre">CareLiteNestedSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#CareLiteNestedSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.CareLiteNestedSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareLiteNestedSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#CareLiteNestedSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.CareLiteNestedSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareLiteNestedSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.cares.CareLiteNestedSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareLiteNestedSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.cares.CareLiteNestedSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.cares.Care" title="ipharm.models.cares.Care"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.cares.Care</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareLiteNestedSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.cares.CareLiteNestedSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareNestedSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.cares.</span></span><span class="sig-name descname"><span class="pre">CareNestedSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#CareNestedSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.CareNestedSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareNestedSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#CareNestedSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.CareNestedSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareNestedSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.cares.CareNestedSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareNestedSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.cares.CareNestedSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.cares.Care" title="ipharm.models.cares.Care"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.cares.Care</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareNestedSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.cares.CareNestedSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.cares.</span></span><span class="sig-name descname"><span class="pre">CareSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#CareSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.CareSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#CareSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.CareSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.cares.CareSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareSerializer.Meta.extra_kwargs">
+<span class="sig-name descname"><span class="pre">extra_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'diagnoses':</span> <span class="pre">{'allow_empty':</span> <span class="pre">True,</span> <span class="pre">'required':</span> <span class="pre">False}}</span></em><a class="headerlink" href="#ipharm.serializers.cares.CareSerializer.Meta.extra_kwargs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.cares.CareSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.cares.Care" title="ipharm.models.cares.Care"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.cares.Care</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'last_dekurz']</span></em><a class="headerlink" href="#ipharm.serializers.cares.CareSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareSerializer.Meta.validators">
+<span class="sig-name descname"><span class="pre">validators</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#ipharm.serializers.cares.CareSerializer.Meta.validators" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CareSerializer.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#CareSerializer.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.CareSerializer.validate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CheckInLiteSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.cares.</span></span><span class="sig-name descname"><span class="pre">CheckInLiteSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#CheckInLiteSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.CheckInLiteSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CheckInLiteSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#CheckInLiteSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.CheckInLiteSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CheckInLiteSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'risk_level',</span> <span class="pre">'consultation_requested',</span> <span class="pre">'pharmacist_intervention_required']</span></em><a class="headerlink" href="#ipharm.serializers.cares.CheckInLiteSerializer.Meta.fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CheckInLiteSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.cares.CheckInLiteSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.checkins.CheckIn" title="ipharm.models.checkins.CheckIn"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.checkins.CheckIn</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.CheckInLiteSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'risk_level',</span> <span class="pre">'consultation_requested',</span> <span class="pre">'pharmacist_intervention_required']</span></em><a class="headerlink" href="#ipharm.serializers.cares.CheckInLiteSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.DekurzNestedSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.cares.</span></span><span class="sig-name descname"><span class="pre">DekurzNestedSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#DekurzNestedSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.DekurzNestedSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.DekurzNestedSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#DekurzNestedSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.DekurzNestedSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.DekurzNestedSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.cares.DekurzNestedSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.DekurzNestedSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.cares.DekurzNestedSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.cares.Dekurz" title="ipharm.models.cares.Dekurz"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.cares.Dekurz</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.DekurzNestedSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'care']</span></em><a class="headerlink" href="#ipharm.serializers.cares.DekurzNestedSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.PharmacologicalPlanLiteSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.cares.</span></span><span class="sig-name descname"><span class="pre">PharmacologicalPlanLiteSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#PharmacologicalPlanLiteSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.PharmacologicalPlanLiteSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.PharmacologicalPlanLiteSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/cares.html#PharmacologicalPlanLiteSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.cares.PharmacologicalPlanLiteSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.PharmacologicalPlanLiteSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'notification_datetime']</span></em><a class="headerlink" href="#ipharm.serializers.cares.PharmacologicalPlanLiteSerializer.Meta.fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.PharmacologicalPlanLiteSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.cares.PharmacologicalPlanLiteSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.pharmacological_plans.PharmacologicalPlan" title="ipharm.models.pharmacological_plans.PharmacologicalPlan"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.pharmacological_plans.PharmacologicalPlan</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.cares.PharmacologicalPlanLiteSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'notification_datetime']</span></em><a class="headerlink" href="#ipharm.serializers.cares.PharmacologicalPlanLiteSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ipharm.serializers.checkins">
+<span id="ipharm-serializers-checkins-module"></span><h2>ipharm.serializers.checkins module<a class="headerlink" href="#module-ipharm.serializers.checkins" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.checkins.CheckInNestedSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.checkins.</span></span><span class="sig-name descname"><span class="pre">CheckInNestedSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/checkins.html#CheckInNestedSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.checkins.CheckInNestedSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.checkins.CheckInNestedSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/checkins.html#CheckInNestedSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.checkins.CheckInNestedSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.checkins.CheckInNestedSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.checkins.CheckInNestedSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.checkins.CheckInNestedSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.checkins.CheckInNestedSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.checkins.CheckIn" title="ipharm.models.checkins.CheckIn"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.checkins.CheckIn</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.checkins.CheckInNestedSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.checkins.CheckInNestedSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.checkins.CheckInSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.checkins.</span></span><span class="sig-name descname"><span class="pre">CheckInSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/checkins.html#CheckInSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.checkins.CheckInSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.checkins.CheckInSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/checkins.html#CheckInSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.checkins.CheckInSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.checkins.CheckInSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.checkins.CheckInSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.checkins.CheckInSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.checkins.CheckInSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.checkins.CheckIn" title="ipharm.models.checkins.CheckIn"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.checkins.CheckIn</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.checkins.CheckInSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.checkins.CheckInSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ipharm.serializers.patient_informations">
+<span id="ipharm-serializers-patient-informations-module"></span><h2>ipharm.serializers.patient_informations module<a class="headerlink" href="#module-ipharm.serializers.patient_informations" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.patient_informations.PatientInformationNestedSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.patient_informations.</span></span><span class="sig-name descname"><span class="pre">PatientInformationNestedSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/patient_informations.html#PatientInformationNestedSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patient_informations.PatientInformationNestedSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.patient_informations.PatientInformationNestedSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/patient_informations.html#PatientInformationNestedSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patient_informations.PatientInformationNestedSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patient_informations.PatientInformationNestedSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.patient_informations.PatientInformationNestedSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patient_informations.PatientInformationNestedSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.patient_informations.PatientInformationNestedSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.patient_informations.PatientInformation" title="ipharm.models.patient_informations.PatientInformation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.patient_informations.PatientInformation</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patient_informations.PatientInformationNestedSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.patient_informations.PatientInformationNestedSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.patient_informations.PatientInformationSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.patient_informations.</span></span><span class="sig-name descname"><span class="pre">PatientInformationSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/patient_informations.html#PatientInformationSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patient_informations.PatientInformationSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.patient_informations.PatientInformationSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/patient_informations.html#PatientInformationSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patient_informations.PatientInformationSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patient_informations.PatientInformationSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.patient_informations.PatientInformationSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patient_informations.PatientInformationSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.patient_informations.PatientInformationSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.patient_informations.PatientInformation" title="ipharm.models.patient_informations.PatientInformation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.patient_informations.PatientInformation</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patient_informations.PatientInformationSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.patient_informations.PatientInformationSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ipharm.serializers.patients">
+<span id="ipharm-serializers-patients-module"></span><h2>ipharm.serializers.patients module<a class="headerlink" href="#module-ipharm.serializers.patients" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientLiteNestedSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.patients.</span></span><span class="sig-name descname"><span class="pre">PatientLiteNestedSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/patients.html#PatientLiteNestedSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patients.PatientLiteNestedSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientLiteNestedSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/patients.html#PatientLiteNestedSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patients.PatientLiteNestedSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientLiteNestedSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.patients.PatientLiteNestedSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientLiteNestedSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.patients.PatientLiteNestedSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.patients.Patient" title="ipharm.models.patients.Patient"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.patients.Patient</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientLiteNestedSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.patients.PatientLiteNestedSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientNestedSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.patients.</span></span><span class="sig-name descname"><span class="pre">PatientNestedSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/patients.html#PatientNestedSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patients.PatientNestedSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientNestedSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/patients.html#PatientNestedSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patients.PatientNestedSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientNestedSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.patients.PatientNestedSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientNestedSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.patients.PatientNestedSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.patients.Patient" title="ipharm.models.patients.Patient"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.patients.Patient</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientNestedSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.patients.PatientNestedSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.patients.</span></span><span class="sig-name descname"><span class="pre">PatientSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/patients.html#PatientSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patients.PatientSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/patients.html#PatientSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patients.PatientSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.patients.PatientSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.patients.PatientSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.patients.Patient" title="ipharm.models.patients.Patient"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.patients.Patient</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.patients.PatientSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientSerializer.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validated_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/patients.html#PatientSerializer.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patients.PatientSerializer.create" title="Permalink to this definition"></a></dt>
+<dd><p>We have a bit of extra checking around this in order to provide
+descriptive messages when something goes wrong, but this method is
+essentially just:</p>
+<blockquote>
+<div><p>return ExampleModel.objects.create(<a href="#id1"><span class="problematic" id="id2">**</span></a>validated_data)</p>
+</div></blockquote>
+<p>If there are many to many fields present on the instance then they
+cannot be set until the model is instantiated, in which case the
+implementation is like so:</p>
+<blockquote>
+<div><p>example_relationship = validated_data.pop(‘example_relationship’)
+instance = ExampleModel.objects.create(<a href="#id3"><span class="problematic" id="id4">**</span></a>validated_data)
+instance.example_relationship = example_relationship
+return instance</p>
+</div></blockquote>
+<p>The default implementation also does not handle nested relationships.
+If you want to support writable nested relationships you’ll need
+to write an explicit <cite>.create()</cite> method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipharm.serializers.patients.PatientSerializer.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validated_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/patients.html#PatientSerializer.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.patients.PatientSerializer.update" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ipharm.serializers.pharmacological_evaluations">
+<span id="ipharm-serializers-pharmacological-evaluations-module"></span><h2>ipharm.serializers.pharmacological_evaluations module<a class="headerlink" href="#module-ipharm.serializers.pharmacological_evaluations" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationCommentSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.pharmacological_evaluations.</span></span><span class="sig-name descname"><span class="pre">PharmacologicalEvaluationCommentSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_evaluations.html#PharmacologicalEvaluationCommentSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationCommentSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationCommentSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_evaluations.html#PharmacologicalEvaluationCommentSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationCommentSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationCommentSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationCommentSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationCommentSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationCommentSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.pharmacological_evaluations.PharmacologicalEvaluationComment" title="ipharm.models.pharmacological_evaluations.PharmacologicalEvaluationComment"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.pharmacological_evaluations.PharmacologicalEvaluationComment</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationCommentSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationCommentSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationNestedSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.pharmacological_evaluations.</span></span><span class="sig-name descname"><span class="pre">PharmacologicalEvaluationNestedSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_evaluations.html#PharmacologicalEvaluationNestedSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationNestedSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationNestedSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_evaluations.html#PharmacologicalEvaluationNestedSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationNestedSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationNestedSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationNestedSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationNestedSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationNestedSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.pharmacological_evaluations.PharmacologicalEvaluation" title="ipharm.models.pharmacological_evaluations.PharmacologicalEvaluation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.pharmacological_evaluations.PharmacologicalEvaluation</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationNestedSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationNestedSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.pharmacological_evaluations.</span></span><span class="sig-name descname"><span class="pre">PharmacologicalEvaluationSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_evaluations.html#PharmacologicalEvaluationSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_evaluations.html#PharmacologicalEvaluationSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.pharmacological_evaluations.PharmacologicalEvaluation" title="ipharm.models.pharmacological_evaluations.PharmacologicalEvaluation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.pharmacological_evaluations.PharmacologicalEvaluation</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_evaluations.PharmacologicalEvaluationSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ipharm.serializers.pharmacological_plans">
+<span id="ipharm-serializers-pharmacological-plans-module"></span><h2>ipharm.serializers.pharmacological_plans module<a class="headerlink" href="#module-ipharm.serializers.pharmacological_plans" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.pharmacological_plans.</span></span><span class="sig-name descname"><span class="pre">PharmacologicalPlanCommentSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_plans.html#PharmacologicalPlanCommentSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_plans.html#PharmacologicalPlanCommentSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.pharmacological_plans.PharmacologicalPlanComment" title="ipharm.models.pharmacological_plans.PharmacologicalPlanComment"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.pharmacological_plans.PharmacologicalPlanComment</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_plans.html#PharmacologicalPlanCommentSerializer.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanCommentSerializer.validate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanNestedSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.pharmacological_plans.</span></span><span class="sig-name descname"><span class="pre">PharmacologicalPlanNestedSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_plans.html#PharmacologicalPlanNestedSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanNestedSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanNestedSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_plans.html#PharmacologicalPlanNestedSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanNestedSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanNestedSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'care',</span> <span class="pre">'text',</span> <span class="pre">'his_text',</span> <span class="pre">'note',</span> <span class="pre">'notification_datetime',</span> <span class="pre">'tags',</span> <span class="pre">'comments']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanNestedSerializer.Meta.fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanNestedSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanNestedSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.pharmacological_plans.PharmacologicalPlan" title="ipharm.models.pharmacological_plans.PharmacologicalPlan"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.pharmacological_plans.PharmacologicalPlan</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanNestedSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanNestedSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.pharmacological_plans.</span></span><span class="sig-name descname"><span class="pre">PharmacologicalPlanSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_plans.html#PharmacologicalPlanSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/pharmacological_plans.html#PharmacologicalPlanSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.pharmacological_plans.PharmacologicalPlan" title="ipharm.models.pharmacological_plans.PharmacologicalPlan"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.pharmacological_plans.PharmacologicalPlan</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.pharmacological_plans.PharmacologicalPlanSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.pharmacological_plans.PharmacologicalPlanSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ipharm.serializers.risk_drug_histories">
+<span id="ipharm-serializers-risk-drug-histories-module"></span><h2>ipharm.serializers.risk_drug_histories module<a class="headerlink" href="#module-ipharm.serializers.risk_drug_histories" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistoryCommentSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.risk_drug_histories.</span></span><span class="sig-name descname"><span class="pre">RiskDrugHistoryCommentSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/risk_drug_histories.html#RiskDrugHistoryCommentSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistoryCommentSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistoryCommentSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/risk_drug_histories.html#RiskDrugHistoryCommentSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistoryCommentSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistoryCommentSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistoryCommentSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistoryCommentSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistoryCommentSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.risk_drug_histories.RiskDrugHistoryComment" title="ipharm.models.risk_drug_histories.RiskDrugHistoryComment"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.risk_drug_histories.RiskDrugHistoryComment</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistoryCommentSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistoryCommentSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistoryNestedSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.risk_drug_histories.</span></span><span class="sig-name descname"><span class="pre">RiskDrugHistoryNestedSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/risk_drug_histories.html#RiskDrugHistoryNestedSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistoryNestedSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistoryNestedSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/risk_drug_histories.html#RiskDrugHistoryNestedSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistoryNestedSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistoryNestedSerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistoryNestedSerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistoryNestedSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistoryNestedSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.risk_drug_histories.RiskDrugHistory" title="ipharm.models.risk_drug_histories.RiskDrugHistory"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.risk_drug_histories.RiskDrugHistory</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistoryNestedSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistoryNestedSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.serializers.risk_drug_histories.</span></span><span class="sig-name descname"><span class="pre">RiskDrugHistorySerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/serializers/risk_drug_histories.html#RiskDrugHistorySerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/ipharm/serializers/risk_drug_histories.html#RiskDrugHistorySerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer.Meta.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['is_deleted']</span></em><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer.Meta.exclude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.models.html#ipharm.models.risk_drug_histories.RiskDrugHistory" title="ipharm.models.risk_drug_histories.RiskDrugHistory"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.models.risk_drug_histories.RiskDrugHistory</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id']</span></em><a class="headerlink" href="#ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ipharm.serializers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ipharm.serializers" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ipharm.models.html" class="btn btn-neutral float-left" title="ipharm.models package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ipharm.services.html" class="btn btn-neutral float-right" title="ipharm.services package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Conceptica s.r.o.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

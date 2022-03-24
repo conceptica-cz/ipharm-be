@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>reports package &mdash; iPharm  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> iPharm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../updates.html">Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variables.html">Environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rest_api.html">Rest API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">ipharm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">iPharm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>reports package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/reports.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="reports-package">
+<h1>reports package<a class="headerlink" href="#reports-package" title="Permalink to this headline"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reports.management.html">reports.management package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reports.management.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reports.management.commands.html">reports.management.commands package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reports.management.commands.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.management.commands.html#module-reports.management.commands.create_reports">reports.management.commands.create_reports module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.management.commands.html#module-reports.management.commands">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reports.management.html#module-reports.management">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-reports.apps">
+<span id="reports-apps-module"></span><h2>reports.apps module<a class="headerlink" href="#module-reports.apps" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.apps.ReportsConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.apps.</span></span><span class="sig-name descname"><span class="pre">ReportsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/apps.html#ReportsConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.apps.ReportsConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.apps.config.AppConfig</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.apps.ReportsConfig.default_auto_field">
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#reports.apps.ReportsConfig.default_auto_field" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.apps.ReportsConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'reports'</span></em><a class="headerlink" href="#reports.apps.ReportsConfig.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-reports.common">
+<span id="reports-common-module"></span><h2>reports.common module<a class="headerlink" href="#module-reports.common" title="Permalink to this headline"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.common.ReportError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.common.</span></span><span class="sig-name descname"><span class="pre">ReportError</span></span><a class="reference internal" href="../_modules/reports/common.html#ReportError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.common.ReportError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-reports.generic_report">
+<span id="reports-generic-report-module"></span><h2>reports.generic_report module<a class="headerlink" href="#module-reports.generic_report" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.generic_report.GenericReport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.generic_report.</span></span><span class="sig-name descname"><span class="pre">GenericReport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_loader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/generic_report.html#GenericReport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.generic_report.GenericReport" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.generic_report.GenericReport.CONVERTERS">
+<span class="sig-name descname"><span class="pre">CONVERTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'pdf':</span> <span class="pre">&lt;function</span> <span class="pre">to_pdf&gt;,</span> <span class="pre">'txt':</span> <span class="pre">&lt;function</span> <span class="pre">to_text&gt;}</span></em><a class="headerlink" href="#reports.generic_report.GenericReport.CONVERTERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.generic_report.GenericReport.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/generic_report.html#GenericReport.render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.generic_report.GenericReport.render" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.generic_report.GenericReportFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.generic_report.</span></span><span class="sig-name descname"><span class="pre">GenericReportFactory</span></span><a class="reference internal" href="../_modules/reports/generic_report.html#GenericReportFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.generic_report.GenericReportFactory" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.generic_report.GenericReportFactory.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#reports.models.GenericReportType" title="reports.models.GenericReportType"><span class="pre">GenericReportType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#reports.generic_report.GenericReport" title="reports.generic_report.GenericReport"><span class="pre">reports.generic_report.GenericReport</span></a></span></span><a class="reference internal" href="../_modules/reports/generic_report.html#GenericReportFactory.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.generic_report.GenericReportFactory.create" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.generic_report.to_pdf">
+<span class="sig-prename descclassname"><span class="pre">reports.generic_report.</span></span><span class="sig-name descname"><span class="pre">to_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/generic_report.html#to_pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.generic_report.to_pdf" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.generic_report.to_text">
+<span class="sig-prename descclassname"><span class="pre">reports.generic_report.</span></span><span class="sig-name descname"><span class="pre">to_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/generic_report.html#to_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.generic_report.to_text" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-reports.insurance_report">
+<span id="reports-insurance-report-module"></span><h2>reports.insurance_report module<a class="headerlink" href="#module-reports.insurance_report" title="Permalink to this headline"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.insurance_report.InsuranceReportError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.insurance_report.</span></span><span class="sig-name descname"><span class="pre">InsuranceReportError</span></span><a class="reference internal" href="../_modules/reports/insurance_report.html#InsuranceReportError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.insurance_report.InsuranceReportError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.insurance_report.PaddingError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.insurance_report.</span></span><span class="sig-name descname"><span class="pre">PaddingError</span></span><a class="reference internal" href="../_modules/reports/insurance_report.html#PaddingError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.insurance_report.PaddingError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.insurance_report.add_padding">
+<span class="sig-prename descclassname"><span class="pre">reports.insurance_report.</span></span><span class="sig-name descname"><span class="pre">add_padding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">padding_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/reports/insurance_report.html#add_padding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.insurance_report.add_padding" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.insurance_report.generate_all_reports">
+<span class="sig-prename descclassname"><span class="pre">reports.insurance_report.</span></span><span class="sig-name descname"><span class="pre">generate_all_reports</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/insurance_report.html#generate_all_reports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.insurance_report.generate_all_reports" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.insurance_report.generate_insurance_report">
+<span class="sig-prename descclassname"><span class="pre">reports.insurance_report.</span></span><span class="sig-name descname"><span class="pre">generate_insurance_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">insurance_company</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="references.models.html#references.models.insurances.InsuranceCompany" title="references.models.insurances.InsuranceCompany"><span class="pre">references.models.insurances.InsuranceCompany</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identification</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="references.models.html#references.models.identifications.Identification" title="references.models.identifications.Identification"><span class="pre">references.models.identifications.Identification</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">department_for_insurance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="references.models.html#references.models.clinics.Department" title="references.models.clinics.Department"><span class="pre">references.models.clinics.Department</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/insurance_report.html#generate_insurance_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.insurance_report.generate_insurance_report" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.insurance_report.get_document_data">
+<span class="sig-prename descclassname"><span class="pre">reports.insurance_report.</span></span><span class="sig-name descname"><span class="pre">get_document_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ipharm.models.html#ipharm.models.checkins.CheckIn" title="ipharm.models.checkins.CheckIn"><span class="pre">ipharm.models.checkins.CheckIn</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">department_for_insurance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="references.models.html#references.models.clinics.Department" title="references.models.clinics.Department"><span class="pre">references.models.clinics.Department</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">medical_procedure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="references.models.html#references.models.medical_procedures.MedicalProcedure" title="references.models.medical_procedures.MedicalProcedure"><span class="pre">references.models.medical_procedures.MedicalProcedure</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">document_total_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">document_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/reports/insurance_report.html#get_document_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.insurance_report.get_document_data" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> – CheckIn to calculate dosage from</p></li>
+<li><p><strong>department_for_insurance</strong> – Department, which data is used for dosage report</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.insurance_report.get_dosage_data">
+<span class="sig-prename descclassname"><span class="pre">reports.insurance_report.</span></span><span class="sig-name descname"><span class="pre">get_dosage_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">insurance_company</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="references.models.html#references.models.insurances.InsuranceCompany" title="references.models.insurances.InsuranceCompany"><span class="pre">references.models.insurances.InsuranceCompany</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">identification</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="references.models.html#references.models.identifications.Identification" title="references.models.identifications.Identification"><span class="pre">references.models.identifications.Identification</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">documents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/reports/insurance_report.html#get_dosage_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.insurance_report.get_dosage_data" title="Permalink to this definition"></a></dt>
+<dd><p>Create dosage data for insurance report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>insurance_company</strong> – InsuranceCompany for which data is created.</p></li>
+<li><p><strong>identification</strong> – Identification, which data is used for dosage report.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary with dosage data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.insurance_report.get_insurance_report_data">
+<span class="sig-prename descclassname"><span class="pre">reports.insurance_report.</span></span><span class="sig-name descname"><span class="pre">get_insurance_report_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">insurance_company</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="references.models.html#references.models.insurances.InsuranceCompany" title="references.models.insurances.InsuranceCompany"><span class="pre">references.models.insurances.InsuranceCompany</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identification</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="references.models.html#references.models.identifications.Identification" title="references.models.identifications.Identification"><span class="pre">references.models.identifications.Identification</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">department_for_insurance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="references.models.html#references.models.clinics.Department" title="references.models.clinics.Department"><span class="pre">references.models.clinics.Department</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/insurance_report.html#get_insurance_report_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.insurance_report.get_insurance_report_data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.insurance_report.get_start_number">
+<span class="sig-prename descclassname"><span class="pre">reports.insurance_report.</span></span><span class="sig-name descname"><span class="pre">get_start_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/insurance_report.html#get_start_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.insurance_report.get_start_number" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-reports.managers">
+<span id="reports-managers-module"></span><h2>reports.managers module<a class="headerlink" href="#module-reports.managers" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.managers.ReportVariableManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.managers.</span></span><span class="sig-name descname"><span class="pre">ReportVariableManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/managers.html#ReportVariableManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.managers.ReportVariableManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="updates.html#updates.managers.BaseUpdatableManager" title="updates.managers.BaseUpdatableManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.managers.BaseUpdatableManager</span></code></a></p>
+<p>Manager for ReportVariable model.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.managers.ReportVariableManager.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/managers.html#ReportVariableManager.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.managers.ReportVariableManager.as_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a dictionary representation of the ReportVariable model.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-reports.models">
+<span id="reports-models-module"></span><h2>reports.models module<a class="headerlink" href="#module-reports.models" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.models.</span></span><span class="sig-name descname"><span class="pre">GenericReportFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_deleted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_format</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/models.html#GenericReportFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.GenericReportFile" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="updates.html#updates.models.BaseUpdatableModel" title="updates.models.BaseUpdatableModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.models.BaseUpdatableModel</span></code></a></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#reports.models.GenericReportFile.DoesNotExist" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#reports.models.GenericReportFile.MultipleObjectsReturned" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#reports.models.GenericReportFile.created_at" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.file">
+<span class="sig-name descname"><span class="pre">file</span></span><a class="headerlink" href="#reports.models.GenericReportFile.file" title="Permalink to this definition"></a></dt>
+<dd><p>The descriptor for the file attribute on the model instance. Return a
+FieldFile when accessed so you can write code like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">myapp.models</span> <span class="kn">import</span> <span class="n">MyModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span> <span class="o">=</span> <span class="n">MyModel</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">size</span>
+</pre></div>
+</div>
+<p>Assign a file object on assignment so you can do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/path/to/hello.world&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">instance</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.GenericReportFile.get_next_by_created_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.GenericReportFile.get_next_by_updated_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.GenericReportFile.get_previous_by_created_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.GenericReportFile.get_previous_by_updated_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.history">
+<span class="sig-name descname"><span class="pre">history</span></span><a class="headerlink" href="#reports.models.GenericReportFile.history" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#reports.models.GenericReportFile.id" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.log">
+<span class="sig-name descname"><span class="pre">log</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;simple_history.manager.HistoryManager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#reports.models.GenericReportFile.log" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.month">
+<span class="sig-name descname"><span class="pre">month</span></span><a class="headerlink" href="#reports.models.GenericReportFile.month" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.report_format">
+<span class="sig-name descname"><span class="pre">report_format</span></span><a class="headerlink" href="#reports.models.GenericReportFile.report_format" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.report_type">
+<span class="sig-name descname"><span class="pre">report_type</span></span><a class="headerlink" href="#reports.models.GenericReportFile.report_type" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.report_type_id">
+<span class="sig-name descname"><span class="pre">report_type_id</span></span><a class="headerlink" href="#reports.models.GenericReportFile.report_type_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.save_file">
+<span class="sig-name descname"><span class="pre">save_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/models.html#GenericReportFile.save_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.GenericReportFile.save_file" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#reports.models.GenericReportFile.updated_at" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportFile.year">
+<span class="sig-name descname"><span class="pre">year</span></span><a class="headerlink" href="#reports.models.GenericReportFile.year" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.models.GenericReportType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.models.</span></span><span class="sig-name descname"><span class="pre">GenericReportType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/models.html#GenericReportType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.GenericReportType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Generic report type model</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#reports.models.GenericReportType.DoesNotExist" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.FREQUENCY_CHOICES">
+<span class="sig-name descname"><span class="pre">FREQUENCY_CHOICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(('monthly',</span> <span class="pre">'Monthly'),</span> <span class="pre">('yearly',</span> <span class="pre">'Yearly'))</span></em><a class="headerlink" href="#reports.models.GenericReportType.FREQUENCY_CHOICES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.FREQUENCY_MONTHLY">
+<span class="sig-name descname"><span class="pre">FREQUENCY_MONTHLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'monthly'</span></em><a class="headerlink" href="#reports.models.GenericReportType.FREQUENCY_MONTHLY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.FREQUENCY_YEARLY">
+<span class="sig-name descname"><span class="pre">FREQUENCY_YEARLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'yearly'</span></em><a class="headerlink" href="#reports.models.GenericReportType.FREQUENCY_YEARLY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#reports.models.GenericReportType.MultipleObjectsReturned" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#reports.models.GenericReportType.description" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.file_name">
+<span class="sig-name descname"><span class="pre">file_name</span></span><a class="headerlink" href="#reports.models.GenericReportType.file_name" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.formats">
+<span class="sig-name descname"><span class="pre">formats</span></span><a class="headerlink" href="#reports.models.GenericReportType.formats" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.frequency">
+<span class="sig-name descname"><span class="pre">frequency</span></span><a class="headerlink" href="#reports.models.GenericReportType.frequency" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.generate_report">
+<span class="sig-name descname"><span class="pre">generate_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#reports.models.GenericReportFile" title="reports.models.GenericReportFile"><span class="pre">reports.models.GenericReportFile</span></a></span></span><a class="reference internal" href="../_modules/reports/models.html#GenericReportType.generate_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.GenericReportType.generate_report" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.genericreportfile_set">
+<span class="sig-name descname"><span class="pre">genericreportfile_set</span></span><a class="headerlink" href="#reports.models.GenericReportType.genericreportfile_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.get_frequency_display">
+<span class="sig-name descname"><span class="pre">get_frequency_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">frequency&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.GenericReportType.get_frequency_display" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#reports.models.GenericReportType.id" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#reports.models.GenericReportType.name" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#reports.models.GenericReportType.objects" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.order">
+<span class="sig-name descname"><span class="pre">order</span></span><a class="headerlink" href="#reports.models.GenericReportType.order" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.GenericReportType.reportvariable_set">
+<span class="sig-name descname"><span class="pre">reportvariable_set</span></span><a class="headerlink" href="#reports.models.GenericReportType.reportvariable_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.models.</span></span><span class="sig-name descname"><span class="pre">HistoricalGenericReportFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_deleted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_change_reason</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_relation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_user</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">simple_history.models.HistoricalChanges</span></code>, <a class="reference internal" href="updates.html#updates.models.UpdateHistoricalModel" title="updates.models.UpdateHistoricalModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.models.UpdateHistoricalModel</span></code></a></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.DoesNotExist" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.MultipleObjectsReturned" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.created_at" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.file">
+<span class="sig-name descname"><span class="pre">file</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.file" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.get_default_history_user">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_history_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.get_default_history_user" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the user specified by <cite>get_user</cite> method for manually creating
+historical objects</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.get_history_type_display">
+<span class="sig-name descname"><span class="pre">get_history_type_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">history_type&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.get_history_type_display" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.get_next_by_created_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.get_next_by_history_date">
+<span class="sig-name descname"><span class="pre">get_next_by_history_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">history_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.get_next_by_history_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.get_next_by_updated_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.get_previous_by_created_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.get_previous_by_history_date">
+<span class="sig-name descname"><span class="pre">get_previous_by_history_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">history_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.get_previous_by_history_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.get_previous_by_updated_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.history_change_reason">
+<span class="sig-name descname"><span class="pre">history_change_reason</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.history_change_reason" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.history_date">
+<span class="sig-name descname"><span class="pre">history_date</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.history_date" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.history_id">
+<span class="sig-name descname"><span class="pre">history_id</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.history_id" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.history_object">
+<span class="sig-name descname"><span class="pre">history_object</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.history_object" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.history_relation">
+<span class="sig-name descname"><span class="pre">history_relation</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.history_relation" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.history_relation_id">
+<span class="sig-name descname"><span class="pre">history_relation_id</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.history_relation_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.history_type">
+<span class="sig-name descname"><span class="pre">history_type</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.history_type" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.history_user">
+<span class="sig-name descname"><span class="pre">history_user</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.history_user" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.history_user_id">
+<span class="sig-name descname"><span class="pre">history_user_id</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.history_user_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.id" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.instance">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instance</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.instance" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.instance_type">
+<span class="sig-name descname"><span class="pre">instance_type</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.instance_type" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#reports.models.GenericReportFile" title="reports.models.GenericReportFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.models.GenericReportFile</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.is_deleted">
+<span class="sig-name descname"><span class="pre">is_deleted</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.is_deleted" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.month">
+<span class="sig-name descname"><span class="pre">month</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.month" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.next_record">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">next_record</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.next_record" title="Permalink to this definition"></a></dt>
+<dd><p>Get the next history record for the instance. <cite>None</cite> if last.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.objects" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.prev_record">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">prev_record</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.prev_record" title="Permalink to this definition"></a></dt>
+<dd><p>Get the previous history record for the instance. <cite>None</cite> if first.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.report_format">
+<span class="sig-name descname"><span class="pre">report_format</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.report_format" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.report_type">
+<span class="sig-name descname"><span class="pre">report_type</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.report_type" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.report_type_id">
+<span class="sig-name descname"><span class="pre">report_type_id</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.report_type_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.revert_url">
+<span class="sig-name descname"><span class="pre">revert_url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.revert_url" title="Permalink to this definition"></a></dt>
+<dd><p>URL for this change in the default admin site.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.update" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.updated_at" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalGenericReportFile.year">
+<span class="sig-name descname"><span class="pre">year</span></span><a class="headerlink" href="#reports.models.HistoricalGenericReportFile.year" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.models.</span></span><span class="sig-name descname"><span class="pre">HistoricalInsuranceReport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_deleted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">documents_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insurance_company</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_change_reason</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_relation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_user</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">simple_history.models.HistoricalChanges</span></code>, <a class="reference internal" href="updates.html#updates.models.UpdateHistoricalModel" title="updates.models.UpdateHistoricalModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.models.UpdateHistoricalModel</span></code></a></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.DoesNotExist" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.MultipleObjectsReturned" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.content">
+<span class="sig-name descname"><span class="pre">content</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.content" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.created_at" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.data" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.documents_number">
+<span class="sig-name descname"><span class="pre">documents_number</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.documents_number" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.file">
+<span class="sig-name descname"><span class="pre">file</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.file" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.get_default_history_user">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_history_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.get_default_history_user" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the user specified by <cite>get_user</cite> method for manually creating
+historical objects</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.get_history_type_display">
+<span class="sig-name descname"><span class="pre">get_history_type_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">history_type&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.get_history_type_display" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.get_next_by_created_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.get_next_by_history_date">
+<span class="sig-name descname"><span class="pre">get_next_by_history_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">history_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.get_next_by_history_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.get_next_by_updated_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.get_previous_by_created_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.get_previous_by_history_date">
+<span class="sig-name descname"><span class="pre">get_previous_by_history_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">history_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.get_previous_by_history_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.get_previous_by_updated_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.history_change_reason">
+<span class="sig-name descname"><span class="pre">history_change_reason</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.history_change_reason" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.history_date">
+<span class="sig-name descname"><span class="pre">history_date</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.history_date" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.history_id">
+<span class="sig-name descname"><span class="pre">history_id</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.history_id" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.history_object">
+<span class="sig-name descname"><span class="pre">history_object</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.history_object" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.history_relation">
+<span class="sig-name descname"><span class="pre">history_relation</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.history_relation" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.history_relation_id">
+<span class="sig-name descname"><span class="pre">history_relation_id</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.history_relation_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.history_type">
+<span class="sig-name descname"><span class="pre">history_type</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.history_type" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.history_user">
+<span class="sig-name descname"><span class="pre">history_user</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.history_user" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.history_user_id">
+<span class="sig-name descname"><span class="pre">history_user_id</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.history_user_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.id" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.instance">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instance</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.instance" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.instance_type">
+<span class="sig-name descname"><span class="pre">instance_type</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.instance_type" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#reports.models.InsuranceReport" title="reports.models.InsuranceReport"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.models.InsuranceReport</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.insurance_company">
+<span class="sig-name descname"><span class="pre">insurance_company</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.insurance_company" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.insurance_company_id">
+<span class="sig-name descname"><span class="pre">insurance_company_id</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.insurance_company_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.is_deleted">
+<span class="sig-name descname"><span class="pre">is_deleted</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.is_deleted" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.month">
+<span class="sig-name descname"><span class="pre">month</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.month" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.next_record">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">next_record</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.next_record" title="Permalink to this definition"></a></dt>
+<dd><p>Get the next history record for the instance. <cite>None</cite> if last.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.objects" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.prev_record">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">prev_record</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.prev_record" title="Permalink to this definition"></a></dt>
+<dd><p>Get the previous history record for the instance. <cite>None</cite> if first.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.revert_url">
+<span class="sig-name descname"><span class="pre">revert_url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.revert_url" title="Permalink to this definition"></a></dt>
+<dd><p>URL for this change in the default admin site.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.update" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.updated_at" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalInsuranceReport.year">
+<span class="sig-name descname"><span class="pre">year</span></span><a class="headerlink" href="#reports.models.HistoricalInsuranceReport.year" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.models.</span></span><span class="sig-name descname"><span class="pre">HistoricalReportVariable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_deleted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_change_reason</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_relation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_user</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalReportVariable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">simple_history.models.HistoricalChanges</span></code>, <a class="reference internal" href="updates.html#updates.models.UpdateHistoricalModel" title="updates.models.UpdateHistoricalModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.models.UpdateHistoricalModel</span></code></a></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.DoesNotExist" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.MultipleObjectsReturned" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.description" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.get_default_history_user">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_history_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalReportVariable.get_default_history_user" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the user specified by <cite>get_user</cite> method for manually creating
+historical objects</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.get_history_type_display">
+<span class="sig-name descname"><span class="pre">get_history_type_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">history_type&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalReportVariable.get_history_type_display" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.get_next_by_history_date">
+<span class="sig-name descname"><span class="pre">get_next_by_history_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">history_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalReportVariable.get_next_by_history_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.get_previous_by_history_date">
+<span class="sig-name descname"><span class="pre">get_previous_by_history_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">history_date&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalReportVariable.get_previous_by_history_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.get_variable_type_display">
+<span class="sig-name descname"><span class="pre">get_variable_type_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">variable_type&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalReportVariable.get_variable_type_display" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.history_change_reason">
+<span class="sig-name descname"><span class="pre">history_change_reason</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.history_change_reason" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.history_date">
+<span class="sig-name descname"><span class="pre">history_date</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.history_date" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.history_id">
+<span class="sig-name descname"><span class="pre">history_id</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.history_id" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.history_object">
+<span class="sig-name descname"><span class="pre">history_object</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.history_object" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.history_relation">
+<span class="sig-name descname"><span class="pre">history_relation</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.history_relation" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.history_relation_id">
+<span class="sig-name descname"><span class="pre">history_relation_id</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.history_relation_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.history_type">
+<span class="sig-name descname"><span class="pre">history_type</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.history_type" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.history_user">
+<span class="sig-name descname"><span class="pre">history_user</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.history_user" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.history_user_id">
+<span class="sig-name descname"><span class="pre">history_user_id</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.history_user_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.id" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.instance">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instance</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.instance" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.instance_type">
+<span class="sig-name descname"><span class="pre">instance_type</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.instance_type" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#reports.models.ReportVariable" title="reports.models.ReportVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.models.ReportVariable</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.is_deleted">
+<span class="sig-name descname"><span class="pre">is_deleted</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.is_deleted" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.name" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.next_record">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">next_record</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.next_record" title="Permalink to this definition"></a></dt>
+<dd><p>Get the next history record for the instance. <cite>None</cite> if last.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#reports.models.HistoricalReportVariable.objects" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.order">
+<span class="sig-name descname"><span class="pre">order</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.order" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.prev_record">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">prev_record</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.prev_record" title="Permalink to this definition"></a></dt>
+<dd><p>Get the previous history record for the instance. <cite>None</cite> if first.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.report_type">
+<span class="sig-name descname"><span class="pre">report_type</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.report_type" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.report_type_id">
+<span class="sig-name descname"><span class="pre">report_type_id</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.report_type_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.revert_url">
+<span class="sig-name descname"><span class="pre">revert_url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.HistoricalReportVariable.revert_url" title="Permalink to this definition"></a></dt>
+<dd><p>URL for this change in the default admin site.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.update" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.value">
+<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.value" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.HistoricalReportVariable.variable_type">
+<span class="sig-name descname"><span class="pre">variable_type</span></span><a class="headerlink" href="#reports.models.HistoricalReportVariable.variable_type" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.models.</span></span><span class="sig-name descname"><span class="pre">InsuranceReport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/models.html#InsuranceReport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.InsuranceReport" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="updates.html#updates.models.BaseUpdatableModel" title="updates.models.BaseUpdatableModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.models.BaseUpdatableModel</span></code></a></p>
+<p>Insurance report model</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#reports.models.InsuranceReport.DoesNotExist" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#reports.models.InsuranceReport.MultipleObjectsReturned" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.content">
+<span class="sig-name descname"><span class="pre">content</span></span><a class="headerlink" href="#reports.models.InsuranceReport.content" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#reports.models.InsuranceReport.created_at" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#reports.models.InsuranceReport.data" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.documents_number">
+<span class="sig-name descname"><span class="pre">documents_number</span></span><a class="headerlink" href="#reports.models.InsuranceReport.documents_number" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.file">
+<span class="sig-name descname"><span class="pre">file</span></span><a class="headerlink" href="#reports.models.InsuranceReport.file" title="Permalink to this definition"></a></dt>
+<dd><p>The descriptor for the file attribute on the model instance. Return a
+FieldFile when accessed so you can write code like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">myapp.models</span> <span class="kn">import</span> <span class="n">MyModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span> <span class="o">=</span> <span class="n">MyModel</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">size</span>
+</pre></div>
+</div>
+<p>Assign a file object on assignment so you can do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/path/to/hello.world&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">instance</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.InsuranceReport.get_next_by_created_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.InsuranceReport.get_next_by_updated_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.InsuranceReport.get_previous_by_created_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.InsuranceReport.get_previous_by_updated_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.history">
+<span class="sig-name descname"><span class="pre">history</span></span><a class="headerlink" href="#reports.models.InsuranceReport.history" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#reports.models.InsuranceReport.id" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.insurance_company">
+<span class="sig-name descname"><span class="pre">insurance_company</span></span><a class="headerlink" href="#reports.models.InsuranceReport.insurance_company" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.insurance_company_id">
+<span class="sig-name descname"><span class="pre">insurance_company_id</span></span><a class="headerlink" href="#reports.models.InsuranceReport.insurance_company_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.log">
+<span class="sig-name descname"><span class="pre">log</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;simple_history.manager.HistoryManager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#reports.models.InsuranceReport.log" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.month">
+<span class="sig-name descname"><span class="pre">month</span></span><a class="headerlink" href="#reports.models.InsuranceReport.month" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.save_file">
+<span class="sig-name descname"><span class="pre">save_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/models.html#InsuranceReport.save_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.InsuranceReport.save_file" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#reports.models.InsuranceReport.updated_at" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.InsuranceReport.year">
+<span class="sig-name descname"><span class="pre">year</span></span><a class="headerlink" href="#reports.models.InsuranceReport.year" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.models.ReportVariable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.models.</span></span><span class="sig-name descname"><span class="pre">ReportVariable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/models.html#ReportVariable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.ReportVariable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="updates.html#updates.models.BaseUpdatableModel" title="updates.models.BaseUpdatableModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.models.BaseUpdatableModel</span></code></a></p>
+<p>Report variable model</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.CASTERS">
+<span class="sig-name descname"><span class="pre">CASTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'bool':</span> <span class="pre">&lt;function</span> <span class="pre">bool_caster&gt;,</span> <span class="pre">'int':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'str':</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;}</span></em><a class="headerlink" href="#reports.models.ReportVariable.CASTERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#reports.models.ReportVariable.DoesNotExist" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#reports.models.ReportVariable.MultipleObjectsReturned" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.VALIDATION_ERROR_MESSAGE">
+<span class="sig-name descname"><span class="pre">VALIDATION_ERROR_MESSAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'bool':</span> <span class="pre">'Value</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">an</span> <span class="pre">boolean',</span> <span class="pre">'int':</span> <span class="pre">'Value</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">an</span> <span class="pre">integer',</span> <span class="pre">'str':</span> <span class="pre">'Value</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">an</span> <span class="pre">string'}</span></em><a class="headerlink" href="#reports.models.ReportVariable.VALIDATION_ERROR_MESSAGE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.VARIABLE_TYPE_BOOL">
+<span class="sig-name descname"><span class="pre">VARIABLE_TYPE_BOOL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'bool'</span></em><a class="headerlink" href="#reports.models.ReportVariable.VARIABLE_TYPE_BOOL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.VARIABLE_TYPE_CHOICES">
+<span class="sig-name descname"><span class="pre">VARIABLE_TYPE_CHOICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(('int',</span> <span class="pre">'Integer'),</span> <span class="pre">('str',</span> <span class="pre">'String'),</span> <span class="pre">('bool',</span> <span class="pre">'Boolean'))</span></em><a class="headerlink" href="#reports.models.ReportVariable.VARIABLE_TYPE_CHOICES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.VARIABLE_TYPE_INT">
+<span class="sig-name descname"><span class="pre">VARIABLE_TYPE_INT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'int'</span></em><a class="headerlink" href="#reports.models.ReportVariable.VARIABLE_TYPE_INT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.VARIABLE_TYPE_STR">
+<span class="sig-name descname"><span class="pre">VARIABLE_TYPE_STR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'str'</span></em><a class="headerlink" href="#reports.models.ReportVariable.VARIABLE_TYPE_STR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.casted_value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">casted_value</span></span><a class="headerlink" href="#reports.models.ReportVariable.casted_value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.clean">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/models.html#ReportVariable.clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.ReportVariable.clean" title="Permalink to this definition"></a></dt>
+<dd><p>Hook for doing any extra model-wide validation after clean() has been
+called on every field by self.clean_fields. Any ValidationError raised
+by this method will not be associated with a particular field; it will
+have a special-case association with the field defined by NON_FIELD_ERRORS.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#reports.models.ReportVariable.description" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.get_variable_type_display">
+<span class="sig-name descname"><span class="pre">get_variable_type_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">variable_type&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reports.models.ReportVariable.get_variable_type_display" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.history">
+<span class="sig-name descname"><span class="pre">history</span></span><a class="headerlink" href="#reports.models.ReportVariable.history" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#reports.models.ReportVariable.id" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.log">
+<span class="sig-name descname"><span class="pre">log</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;simple_history.manager.HistoryManager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#reports.models.ReportVariable.log" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#reports.models.ReportVariable.name" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;reports.managers.ReportVariableManager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#reports.models.ReportVariable.objects" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.order">
+<span class="sig-name descname"><span class="pre">order</span></span><a class="headerlink" href="#reports.models.ReportVariable.order" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.report_type">
+<span class="sig-name descname"><span class="pre">report_type</span></span><a class="headerlink" href="#reports.models.ReportVariable.report_type" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.report_type_id">
+<span class="sig-name descname"><span class="pre">report_type_id</span></span><a class="headerlink" href="#reports.models.ReportVariable.report_type_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/models.html#ReportVariable.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.ReportVariable.save" title="Permalink to this definition"></a></dt>
+<dd><p>Save the current instance. Override this in a subclass if you want to
+control the saving process.</p>
+<p>The ‘force_insert’ and ‘force_update’ parameters can be used to insist
+that the “save” must be an SQL insert or update (or equivalent for
+non-SQL backends), respectively. Normally, they should not be set.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.value">
+<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#reports.models.ReportVariable.value" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.models.ReportVariable.variable_type">
+<span class="sig-name descname"><span class="pre">variable_type</span></span><a class="headerlink" href="#reports.models.ReportVariable.variable_type" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.models.bool_caster">
+<span class="sig-prename descclassname"><span class="pre">reports.models.</span></span><span class="sig-name descname"><span class="pre">bool_caster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/reports/models.html#bool_caster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.bool_caster" title="Permalink to this definition"></a></dt>
+<dd><p>Cast string to boolean</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.models.generic_upload_to">
+<span class="sig-prename descclassname"><span class="pre">reports.models.</span></span><span class="sig-name descname"><span class="pre">generic_upload_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/models.html#generic_upload_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.generic_upload_to" title="Permalink to this definition"></a></dt>
+<dd><p>Upload file to the right path</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.models.insurance_upload_to">
+<span class="sig-prename descclassname"><span class="pre">reports.models.</span></span><span class="sig-name descname"><span class="pre">insurance_upload_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/models.html#insurance_upload_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.models.insurance_upload_to" title="Permalink to this definition"></a></dt>
+<dd><p>Upload file to the right path</p>
+</dd></dl>
+
+</section>
+<section id="module-reports.serializers">
+<span id="reports-serializers-module"></span><h2>reports.serializers module<a class="headerlink" href="#module-reports.serializers" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.serializers.GenericReportFileSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.serializers.</span></span><span class="sig-name descname"><span class="pre">GenericReportFileSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/serializers.html#GenericReportFileSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.serializers.GenericReportFileSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.serializers.GenericReportFileSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/reports/serializers.html#GenericReportFileSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.serializers.GenericReportFileSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.serializers.GenericReportFileSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('file',</span> <span class="pre">'created_at',</span> <span class="pre">'updated_at')</span></em><a class="headerlink" href="#reports.serializers.GenericReportFileSerializer.Meta.fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.serializers.GenericReportFileSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#reports.serializers.GenericReportFileSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#reports.models.GenericReportFile" title="reports.models.GenericReportFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.models.GenericReportFile</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.serializers.GenericReportFileSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('file',</span> <span class="pre">'created_at',</span> <span class="pre">'updated_at')</span></em><a class="headerlink" href="#reports.serializers.GenericReportFileSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.serializers.GenericReportTypeSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.serializers.</span></span><span class="sig-name descname"><span class="pre">GenericReportTypeSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/serializers.html#GenericReportTypeSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.serializers.GenericReportTypeSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.serializers.GenericReportTypeSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/reports/serializers.html#GenericReportTypeSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.serializers.GenericReportTypeSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.serializers.GenericReportTypeSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'__all__'</span></em><a class="headerlink" href="#reports.serializers.GenericReportTypeSerializer.Meta.fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.serializers.GenericReportTypeSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#reports.serializers.GenericReportTypeSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#reports.models.GenericReportType" title="reports.models.GenericReportType"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.models.GenericReportType</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.serializers.GenericReportTypeSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'name',</span> <span class="pre">'description',</span> <span class="pre">'file_name',</span> <span class="pre">'order',</span> <span class="pre">'frequency',</span> <span class="pre">'formats']</span></em><a class="headerlink" href="#reports.serializers.GenericReportTypeSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.serializers.ReportVariableSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.serializers.</span></span><span class="sig-name descname"><span class="pre">ReportVariableSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/serializers.html#ReportVariableSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.serializers.ReportVariableSerializer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="reports.serializers.ReportVariableSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/reports/serializers.html#ReportVariableSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.serializers.ReportVariableSerializer.Meta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.serializers.ReportVariableSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'name',</span> <span class="pre">'description',</span> <span class="pre">'variable_type',</span> <span class="pre">'value',</span> <span class="pre">'order')</span></em><a class="headerlink" href="#reports.serializers.ReportVariableSerializer.Meta.fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.serializers.ReportVariableSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#reports.serializers.ReportVariableSerializer.Meta.model" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#reports.models.ReportVariable" title="reports.models.ReportVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.models.ReportVariable</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reports.serializers.ReportVariableSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'name',</span> <span class="pre">'description',</span> <span class="pre">'variable_type',</span> <span class="pre">'order']</span></em><a class="headerlink" href="#reports.serializers.ReportVariableSerializer.Meta.read_only_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reports.serializers.ReportVariableSerializer.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/serializers.html#ReportVariableSerializer.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.serializers.ReportVariableSerializer.validate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-reports.tasks">
+<span id="reports-tasks-module"></span><h2>reports.tasks module<a class="headerlink" href="#module-reports.tasks" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-reports.tests">
+<span id="reports-tests-module"></span><h2>reports.tests module<a class="headerlink" href="#module-reports.tests" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-reports.uzis">
+<span id="reports-uzis-module"></span><h2>reports.uzis module<a class="headerlink" href="#module-reports.uzis" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="reports.uzis.uzis_loader">
+<span class="sig-prename descclassname"><span class="pre">reports.uzis.</span></span><span class="sig-name descname"><span class="pre">uzis_loader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reports/uzis.html#uzis_loader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.uzis.uzis_loader" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-reports.views">
+<span id="reports-views-module"></span><h2>reports.views module<a class="headerlink" href="#module-reports.views" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-reports">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-reports" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Conceptica s.r.o.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

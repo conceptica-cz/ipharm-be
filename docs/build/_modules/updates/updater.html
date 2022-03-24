@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>updates.updater &mdash; iPharm  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> iPharm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates.html">Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../variables.html">Environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rest_api.html">Rest API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/modules.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">iPharm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>updates.updater</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for updates.updater</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="UpdateError"><a class="viewcode-back" href="../../modules/updates.html#updates.updater.UpdateError">[docs]</a><span class="k">class</span> <span class="nc">UpdateError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Updater"><a class="viewcode-back" href="../../modules/updates.html#updates.updater.Updater">[docs]</a><span class="k">class</span> <span class="nc">Updater</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data_loader</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">data_loader_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">model_updater</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">model_updater_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">transformers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">post_operations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">data_loader</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_loader_kwargs</span> <span class="o">=</span> <span class="n">data_loader_kwargs</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="k">if</span> <span class="n">transformers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">transformers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformers</span> <span class="o">=</span> <span class="n">transformers</span>
+        <span class="k">if</span> <span class="n">post_operations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">post_operations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">post_operations</span> <span class="o">=</span> <span class="n">post_operations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_updater</span> <span class="o">=</span> <span class="n">model_updater</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_updater_kwargs</span> <span class="o">=</span> <span class="n">model_updater_kwargs</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+<div class="viewcode-block" id="Updater.update"><a class="viewcode-back" href="../../modules/updates.html#updates.updater.Updater.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">update_result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">data_loader_kwargs</span><span class="p">)</span>
+        <span class="n">transformed_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">transformer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">:</span>
+                    <span class="n">entity</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_updater</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">entity</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">model_updater_kwargs</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error updating </span><span class="si">{</span><span class="n">entity</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">transformed_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">operation</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">model_result</span> <span class="o">=</span> <span class="n">update_result</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">{})</span>
+                <span class="n">model_result</span><span class="p">[</span><span class="n">operation</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">post_operation</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_operations</span><span class="p">:</span>
+            <span class="n">post_operation</span><span class="p">(</span><span class="n">transformed_data</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">update_result</span></div></div>
+
+
+<div class="viewcode-block" id="UpdaterFactory"><a class="viewcode-back" href="../../modules/updates.html#updates.updater.UpdaterFactory">[docs]</a><span class="k">class</span> <span class="nc">UpdaterFactory</span><span class="p">:</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_func</span><span class="p">(</span><span class="n">dotted_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="n">module_name</span><span class="p">,</span> <span class="n">func_name</span> <span class="o">=</span> <span class="n">dotted_path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">func_name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UpdaterFactory.create"><a class="viewcode-back" href="../../modules/updates.html#updates.updater.UpdaterFactory.create">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Updater</span><span class="p">:</span>
+        <span class="n">data_loader</span> <span class="o">=</span> <span class="n">UpdaterFactory</span><span class="o">.</span><span class="n">_get_func</span><span class="p">(</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">UPDATE_SOURCES</span><span class="p">[</span><span class="n">source</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;data_loader&quot;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEFAULT_DATA_LOADER</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data_loader_kwargs</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">UPDATE_SOURCES</span><span class="p">[</span><span class="n">source</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;data_loader_kwargs&quot;</span><span class="p">,</span> <span class="p">{}</span>
+        <span class="p">)</span>
+        <span class="n">model_updater</span> <span class="o">=</span> <span class="n">UpdaterFactory</span><span class="o">.</span><span class="n">_get_func</span><span class="p">(</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">UPDATE_SOURCES</span><span class="p">[</span><span class="n">source</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;model_updater&quot;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEFAULT_MODEL_UPDATER</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">model_updater_kwargs</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">UPDATE_SOURCES</span><span class="p">[</span><span class="n">source</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;model_updater_kwargs&quot;</span><span class="p">,</span> <span class="p">{}</span>
+        <span class="p">)</span>
+        <span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">UpdaterFactory</span><span class="o">.</span><span class="n">_get_func</span><span class="p">(</span><span class="n">transformer</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">transformer</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">UPDATE_SOURCES</span><span class="p">[</span><span class="n">source</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transformers&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="p">]</span>
+        <span class="n">post_operations</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">UpdaterFactory</span><span class="o">.</span><span class="n">_get_func</span><span class="p">(</span><span class="n">post_operation</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">post_operation</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">UPDATE_SOURCES</span><span class="p">[</span><span class="n">source</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;post_operations&quot;</span><span class="p">,</span> <span class="p">[]</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">Updater</span><span class="p">(</span>
+            <span class="n">data_loader</span><span class="o">=</span><span class="n">data_loader</span><span class="p">,</span>
+            <span class="n">data_loader_kwargs</span><span class="o">=</span><span class="n">data_loader_kwargs</span><span class="p">,</span>
+            <span class="n">model_updater</span><span class="o">=</span><span class="n">model_updater</span><span class="p">,</span>
+            <span class="n">model_updater_kwargs</span><span class="o">=</span><span class="n">model_updater_kwargs</span><span class="p">,</span>
+            <span class="n">transformers</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
+            <span class="n">post_operations</span><span class="o">=</span><span class="n">post_operations</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Conceptica s.r.o.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

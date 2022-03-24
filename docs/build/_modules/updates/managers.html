@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>updates.managers &mdash; iPharm  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> iPharm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates.html">Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../variables.html">Environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rest_api.html">Rest API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/modules.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">iPharm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>updates.managers</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for updates.managers</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">common.managers</span> <span class="kn">import</span> <span class="n">BaseSoftDeletableManager</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Manager</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BaseUpdatableManager"><a class="viewcode-back" href="../../modules/updates.html#updates.managers.BaseUpdatableManager">[docs]</a><span class="k">class</span> <span class="nc">BaseUpdatableManager</span><span class="p">(</span><span class="n">BaseSoftDeletableManager</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base manager for an updatable Model&quot;&quot;&quot;</span>
+
+    <span class="n">CREATED</span> <span class="o">=</span> <span class="s2">&quot;created&quot;</span>
+    <span class="n">UPDATED</span> <span class="o">=</span> <span class="s2">&quot;updated&quot;</span>
+    <span class="n">NOT_CHANGED</span> <span class="o">=</span> <span class="s2">&quot;not_changed&quot;</span>
+
+<div class="viewcode-block" id="BaseUpdatableManager.update_or_create_from_dict"><a class="viewcode-back" href="../../modules/updates.html#updates.managers.BaseUpdatableManager.update_or_create_from_dict">[docs]</a>    <span class="k">def</span> <span class="nf">update_or_create_from_dict</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">identifiers</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">relations</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">update</span><span class="p">:</span> <span class="s2">&quot;ReferenceUpdate&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Create or update model instance from data dictionary</span>
+
+<span class="sd">        :param data: model values dictionary</span>
+<span class="sd">        :param identifiers: list or tuple of unique (together) model&#39;s field, used to find existing instance</span>
+<span class="sd">        :param relations: dictionary of relation</span>
+<span class="sd">        :return: tuple (object, operation), where operation is one of &#39;created&#39;, &#39;updated&#39;, &#39;not_changed&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding record&quot;</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span>
+
+        <span class="n">obj</span><span class="p">,</span> <span class="n">is_changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_changed</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">relations</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_changed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">NOT_CHANGED</span>
+
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">identifier</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span> <span class="k">for</span> <span class="n">identifier</span> <span class="ow">in</span> <span class="n">identifiers</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_relations</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">relations</span><span class="p">)</span>
+        <span class="n">obj</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_or_create</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">operation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CREATED</span> <span class="k">if</span> <span class="n">created</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">UPDATED</span>
+        <span class="k">if</span> <span class="n">update</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">set_update</span><span class="p">(</span><span class="n">update</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="p">,</span> <span class="n">operation</span></div>
+
+    <span class="k">def</span> <span class="nf">_is_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">relations</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if model instance is changed</span>
+<span class="sd">        :param data: dictionary of model values</span>
+<span class="sd">        :param relations: dictionary of relation</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Return object if one is not changed&quot;&quot;&quot;</span>
+        <span class="n">changed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">relations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">data_field</span> <span class="ow">in</span> <span class="n">relations</span><span class="p">:</span>
+                <span class="n">field_name</span> <span class="o">=</span> <span class="n">relations</span><span class="p">[</span><span class="n">data_field</span><span class="p">][</span><span class="s2">&quot;field&quot;</span><span class="p">]</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">relations</span><span class="p">[</span><span class="n">data_field</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="n">data_field</span><span class="p">)</span>
+                <span class="n">field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">field_name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">many_to_one</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">related_instance</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">related_model</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                            <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">fields</span><span class="p">[</span><span class="n">data_field</span><span class="p">]}</span>
+                        <span class="p">)</span>
+                    <span class="k">except</span> <span class="n">field</span><span class="o">.</span><span class="n">related_model</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">True</span>
+                    <span class="k">if</span> <span class="n">relations</span><span class="p">[</span><span class="n">data_field</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;delete_source_field&quot;</span><span class="p">):</span>
+                        <span class="k">del</span> <span class="n">fields</span><span class="p">[</span><span class="n">data_field</span><span class="p">]</span>
+                    <span class="n">fields</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">related_instance</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">not_changed_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">fields</span><span class="p">)</span>
+        <span class="k">except</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">not_changed_obj</span><span class="p">,</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">_get_relations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">relations</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create temporary relations for model instance</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">relations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="k">for</span> <span class="n">data_field</span> <span class="ow">in</span> <span class="n">relations</span><span class="p">:</span>
+            <span class="n">field_name</span> <span class="o">=</span> <span class="n">relations</span><span class="p">[</span><span class="n">data_field</span><span class="p">][</span><span class="s2">&quot;field&quot;</span><span class="p">]</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">relations</span><span class="p">[</span><span class="n">data_field</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="n">data_field</span><span class="p">)</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">field_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">many_to_one</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="n">data_field</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">related_model</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="p">(</span>
+                        <span class="n">related_model</span><span class="p">,</span>
+                        <span class="n">_</span><span class="p">,</span>
+                    <span class="p">)</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">related_model</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create_temporary</span><span class="p">(</span>
+                        <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">data_field</span><span class="p">]}</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="n">relations</span><span class="p">[</span><span class="n">data_field</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;delete_source_field&quot;</span><span class="p">):</span>
+                    <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">data_field</span><span class="p">]</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">related_model</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="BaseTemporaryCreatableManager"><a class="viewcode-back" href="../../modules/updates.html#updates.managers.BaseTemporaryCreatableManager">[docs]</a><span class="k">class</span> <span class="nc">BaseTemporaryCreatableManager</span><span class="p">(</span><span class="n">BaseUpdatableManager</span><span class="p">):</span>
+    <span class="n">TEMPORARY_DEFAULTS</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="BaseTemporaryCreatableManager.get_temporary_defaults"><a class="viewcode-back" href="../../modules/updates.html#updates.managers.BaseTemporaryCreatableManager.get_temporary_defaults">[docs]</a>    <span class="k">def</span> <span class="nf">get_temporary_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TEMPORARY_DEFAULTS</span></div>
+
+<div class="viewcode-block" id="BaseTemporaryCreatableManager.get_or_create_temporary"><a class="viewcode-back" href="../../modules/updates.html#updates.managers.BaseTemporaryCreatableManager.get_or_create_temporary">[docs]</a>    <span class="k">def</span> <span class="nf">get_or_create_temporary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get or create temporary instance.</span>
+
+<span class="sd">        Defaults for temporary model are defined in TEMPORARY_DEFAULTS.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">defaults</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_temporary_defaults</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Getting or creating temporary instance </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2"> kwargs=</span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2"> defaults=</span><span class="si">{</span><span class="n">defaults</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="n">defaults</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="SourceManager"><a class="viewcode-back" href="../../modules/updates.html#updates.managers.SourceManager">[docs]</a><span class="k">class</span> <span class="nc">SourceManager</span><span class="p">(</span><span class="n">Manager</span><span class="p">):</span>
+<div class="viewcode-block" id="SourceManager.get_or_create_from_settings"><a class="viewcode-back" href="../../modules/updates.html#updates.managers.SourceManager.get_or_create_from_settings">[docs]</a>    <span class="k">def</span> <span class="nf">get_or_create_from_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">source</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">source</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Conceptica s.r.o.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

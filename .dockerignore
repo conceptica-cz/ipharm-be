@@ -3,6 +3,7 @@
 .gitignore
 .github
 .git
+docs
 dump.sql
 dockerfiles
 _postgres_data

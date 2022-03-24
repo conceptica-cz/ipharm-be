@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>references.managers package &mdash; iPharm  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> iPharm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../updates.html">Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variables.html">Environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rest_api.html">Rest API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">ipharm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">iPharm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>references.managers package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/references.managers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="references-managers-package">
+<h1>references.managers package<a class="headerlink" href="#references-managers-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-references.managers.clinics">
+<span id="references-managers-clinics-module"></span><h2>references.managers.clinics module<a class="headerlink" href="#module-references.managers.clinics" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.managers.clinics.ClinicManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.managers.clinics.</span></span><span class="sig-name descname"><span class="pre">ClinicManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/clinics.html#ClinicManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.clinics.ClinicManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="updates.html#updates.managers.BaseTemporaryCreatableManager" title="updates.managers.BaseTemporaryCreatableManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.managers.BaseTemporaryCreatableManager</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.managers.clinics.ClinicManager.TEMPORARY_DEFAULTS">
+<span class="sig-name descname"><span class="pre">TEMPORARY_DEFAULTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'abbreviation':</span> <span class="pre">'TMP',</span> <span class="pre">'description':</span> <span class="pre">'TMP'}</span></em><a class="headerlink" href="#references.managers.clinics.ClinicManager.TEMPORARY_DEFAULTS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.managers.clinics.ClinicManager.get_ambulances">
+<span class="sig-name descname"><span class="pre">get_ambulances</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/clinics.html#ClinicManager.get_ambulances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.clinics.ClinicManager.get_ambulances" title="Permalink to this definition"></a></dt>
+<dd><p>Return only ambulance clinics</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.managers.clinics.ClinicManager.get_hospitals">
+<span class="sig-name descname"><span class="pre">get_hospitals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/clinics.html#ClinicManager.get_hospitals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.clinics.ClinicManager.get_hospitals" title="Permalink to this definition"></a></dt>
+<dd><p>Return only hospital clinics</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.managers.clinics.ClinicManager.get_my_ambulances">
+<span class="sig-name descname"><span class="pre">get_my_ambulances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/clinics.html#ClinicManager.get_my_ambulances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.clinics.ClinicManager.get_my_ambulances" title="Permalink to this definition"></a></dt>
+<dd><p>Return ambulances belonging to user</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.managers.clinics.ClinicManager.get_my_hospitals">
+<span class="sig-name descname"><span class="pre">get_my_hospitals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/clinics.html#ClinicManager.get_my_hospitals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.clinics.ClinicManager.get_my_hospitals" title="Permalink to this definition"></a></dt>
+<dd><p>Return clinics belonging to user</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.managers.clinics.ClinicManager.get_with_counters">
+<span class="sig-name descname"><span class="pre">get_with_counters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/clinics.html#ClinicManager.get_with_counters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.clinics.ClinicManager.get_with_counters" title="Permalink to this definition"></a></dt>
+<dd><p>Return clinics with  patient counters</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.managers.departments">
+<span id="references-managers-departments-module"></span><h2>references.managers.departments module<a class="headerlink" href="#module-references.managers.departments" title="Permalink to this headline"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="references.managers.departments.DepartmentForReportNotFound">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.managers.departments.</span></span><span class="sig-name descname"><span class="pre">DepartmentForReportNotFound</span></span><a class="reference internal" href="../_modules/references/managers/departments.html#DepartmentForReportNotFound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.departments.DepartmentForReportNotFound" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.managers.departments.DepartmentManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.managers.departments.</span></span><span class="sig-name descname"><span class="pre">DepartmentManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/departments.html#DepartmentManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.departments.DepartmentManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="updates.html#updates.managers.BaseTemporaryCreatableManager" title="updates.managers.BaseTemporaryCreatableManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.managers.BaseTemporaryCreatableManager</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.managers.departments.DepartmentManager.TEMPORARY_DEFAULTS">
+<span class="sig-name descname"><span class="pre">TEMPORARY_DEFAULTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'abbreviation':</span> <span class="pre">'TMP',</span> <span class="pre">'description':</span> <span class="pre">'TMP',</span> <span class="pre">'icp':</span> <span class="pre">'TMP',</span> <span class="pre">'specialization_code':</span> <span class="pre">'TMP'}</span></em><a class="headerlink" href="#references.managers.departments.DepartmentManager.TEMPORARY_DEFAULTS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.managers.departments.DepartmentManager.get_department_for_insurance_report">
+<span class="sig-name descname"><span class="pre">get_department_for_insurance_report</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/departments.html#DepartmentManager.get_department_for_insurance_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.departments.DepartmentManager.get_department_for_insurance_report" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the department using the insurance report.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.managers.diagnosis">
+<span id="references-managers-diagnosis-module"></span><h2>references.managers.diagnosis module<a class="headerlink" href="#module-references.managers.diagnosis" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.managers.diagnosis.DiagnosisManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.managers.diagnosis.</span></span><span class="sig-name descname"><span class="pre">DiagnosisManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/diagnosis.html#DiagnosisManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.diagnosis.DiagnosisManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="updates.html#updates.managers.BaseTemporaryCreatableManager" title="updates.managers.BaseTemporaryCreatableManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.managers.BaseTemporaryCreatableManager</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.managers.diagnosis.DiagnosisManager.TEMPORARY_DEFAULTS">
+<span class="sig-name descname"><span class="pre">TEMPORARY_DEFAULTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'name':</span> <span class="pre">'TMP'}</span></em><a class="headerlink" href="#references.managers.diagnosis.DiagnosisManager.TEMPORARY_DEFAULTS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.managers.diagnosis.DiagnosisManager.only_via_api">
+<span class="sig-name descname"><span class="pre">only_via_api</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/diagnosis.html#DiagnosisManager.only_via_api"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.diagnosis.DiagnosisManager.only_via_api" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.managers.identifications">
+<span id="references-managers-identifications-module"></span><h2>references.managers.identifications module<a class="headerlink" href="#module-references.managers.identifications" title="Permalink to this headline"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="references.managers.identifications.IdentificationForReportNotFound">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.managers.identifications.</span></span><span class="sig-name descname"><span class="pre">IdentificationForReportNotFound</span></span><a class="reference internal" href="../_modules/references/managers/identifications.html#IdentificationForReportNotFound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.identifications.IdentificationForReportNotFound" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.managers.identifications.IdentificationManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.managers.identifications.</span></span><span class="sig-name descname"><span class="pre">IdentificationManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/identifications.html#IdentificationManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.identifications.IdentificationManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="updates.html#updates.managers.BaseUpdatableManager" title="updates.managers.BaseUpdatableManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.managers.BaseUpdatableManager</span></code></a></p>
+<p>Manager for the IdentificationMna model.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="references.managers.identifications.IdentificationManager.get_identification_for_insurance_report">
+<span class="sig-name descname"><span class="pre">get_identification_for_insurance_report</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/identifications.html#IdentificationManager.get_identification_for_insurance_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.identifications.IdentificationManager.get_identification_for_insurance_report" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the identification using the insurance report.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.managers.insurances">
+<span id="references-managers-insurances-module"></span><h2>references.managers.insurances module<a class="headerlink" href="#module-references.managers.insurances" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.managers.insurances.InsuranceCompanyManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.managers.insurances.</span></span><span class="sig-name descname"><span class="pre">InsuranceCompanyManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/insurances.html#InsuranceCompanyManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.insurances.InsuranceCompanyManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="updates.html#updates.managers.BaseTemporaryCreatableManager" title="updates.managers.BaseTemporaryCreatableManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.managers.BaseTemporaryCreatableManager</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.managers.insurances.InsuranceCompanyManager.TEMPORARY_DEFAULTS">
+<span class="sig-name descname"><span class="pre">TEMPORARY_DEFAULTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'f_title':</span> <span class="pre">'TMP',</span> <span class="pre">'l_title':</span> <span class="pre">'TMP',</span> <span class="pre">'name':</span> <span class="pre">'TMP'}</span></em><a class="headerlink" href="#references.managers.insurances.InsuranceCompanyManager.TEMPORARY_DEFAULTS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.managers.insurances.InsuranceCompanyManager.get_temporary_defaults">
+<span class="sig-name descname"><span class="pre">get_temporary_defaults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/references/managers/insurances.html#InsuranceCompanyManager.get_temporary_defaults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.insurances.InsuranceCompanyManager.get_temporary_defaults" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.managers.medical_procedures">
+<span id="references-managers-medical-procedures-module"></span><h2>references.managers.medical_procedures module<a class="headerlink" href="#module-references.managers.medical_procedures" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.managers.medical_procedures.MedicalProcedureManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.managers.medical_procedures.</span></span><span class="sig-name descname"><span class="pre">MedicalProcedureManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/medical_procedures.html#MedicalProcedureManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.medical_procedures.MedicalProcedureManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="updates.html#updates.managers.BaseUpdatableManager" title="updates.managers.BaseUpdatableManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.managers.BaseUpdatableManager</span></code></a></p>
+<p>Manager for the MedicalProcedure model.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="references.managers.medical_procedures.MedicalProcedureManager.get_procedure_by_code">
+<span class="sig-name descname"><span class="pre">get_procedure_by_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="references.models.html#references.models.medical_procedures.MedicalProcedure" title="references.models.medical_procedures.MedicalProcedure"><span class="pre">MedicalProcedure</span></a></span></span><a class="reference internal" href="../_modules/references/managers/medical_procedures.html#MedicalProcedureManager.get_procedure_by_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.medical_procedures.MedicalProcedureManager.get_procedure_by_code" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.managers.persons">
+<span id="references-managers-persons-module"></span><h2>references.managers.persons module<a class="headerlink" href="#module-references.managers.persons" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.managers.persons.PersonManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.managers.persons.</span></span><span class="sig-name descname"><span class="pre">PersonManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/managers/persons.html#PersonManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.managers.persons.PersonManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="updates.html#updates.managers.BaseTemporaryCreatableManager" title="updates.managers.BaseTemporaryCreatableManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">updates.managers.BaseTemporaryCreatableManager</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.managers.persons.PersonManager.TEMPORARY_DEFAULTS">
+<span class="sig-name descname"><span class="pre">TEMPORARY_DEFAULTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'f_title':</span> <span class="pre">'TMP',</span> <span class="pre">'l_title':</span> <span class="pre">'TMP',</span> <span class="pre">'name':</span> <span class="pre">'TMP'}</span></em><a class="headerlink" href="#references.managers.persons.PersonManager.TEMPORARY_DEFAULTS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.managers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-references.managers" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Conceptica s.r.o.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

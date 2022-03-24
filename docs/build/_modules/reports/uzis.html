@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>reports.uzis &mdash; iPharm  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> iPharm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../updates.html">Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../variables.html">Environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rest_api.html">Rest API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/modules.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">iPharm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>reports.uzis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for reports.uzis</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">ipharm.models.checkins</span> <span class="kn">import</span> <span class="n">CheckIn</span>
+<span class="kn">from</span> <span class="nn">ipharm.models.pharmacological_evaluations</span> <span class="kn">import</span> <span class="n">PharmacologicalEvaluation</span>
+<span class="kn">from</span> <span class="nn">ipharm.models.pharmacological_plans</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PharmacologicalPlan</span><span class="p">,</span>
+    <span class="n">PharmacologicalPlanComment</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">references.models</span> <span class="kn">import</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Identification</span>
+<span class="kn">from</span> <span class="nn">reports.models</span> <span class="kn">import</span> <span class="n">ReportVariable</span>
+
+
+<span class="k">def</span> <span class="nf">_medical_procedures</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
+    <span class="n">procedures</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;05751&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">medical_procedure__code</span><span class="o">=</span><span class="s2">&quot;05751&quot;</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;05753&quot;</span><span class="p">:</span> <span class="n">PharmacologicalPlan</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">medical_procedure__code</span><span class="o">=</span><span class="s2">&quot;05753&quot;</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;05755&quot;</span><span class="p">:</span> <span class="n">PharmacologicalPlanComment</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">medical_procedure__code</span><span class="o">=</span><span class="s2">&quot;05755&quot;</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">procedures</span>
+
+
+<span class="k">def</span> <span class="nf">_risk_levels</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
+    <span class="n">risk_levels</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">risk_level</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;2&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">risk_level</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;3&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">risk_level</span><span class="o">=</span><span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">risk_levels</span>
+
+
+<span class="k">def</span> <span class="nf">_header</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
+    <span class="n">identification</span> <span class="o">=</span> <span class="n">Identification</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_identification_for_insurance_report</span><span class="p">()</span>
+    <span class="n">department</span> <span class="o">=</span> <span class="n">Department</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_department_for_insurance_report</span><span class="p">()</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">identification</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="n">identification</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
+        <span class="s2">&quot;zip&quot;</span><span class="p">:</span> <span class="n">identification</span><span class="o">.</span><span class="n">zip</span><span class="p">,</span>
+        <span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="n">identification</span><span class="o">.</span><span class="n">city</span><span class="p">,</span>
+        <span class="s2">&quot;ico&quot;</span><span class="p">:</span> <span class="n">identification</span><span class="o">.</span><span class="n">ico</span><span class="p">,</span>
+        <span class="s2">&quot;pcz&quot;</span><span class="p">:</span> <span class="n">identification</span><span class="o">.</span><span class="n">pcz</span><span class="p">,</span>
+        <span class="s2">&quot;department_name&quot;</span><span class="p">:</span> <span class="n">department</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+        <span class="s2">&quot;department_icp&quot;</span><span class="p">:</span> <span class="n">department</span><span class="o">.</span><span class="n">icp</span><span class="p">,</span>
+        <span class="s2">&quot;department_workplace_code&quot;</span><span class="p">:</span> <span class="n">department</span><span class="o">.</span><span class="n">workplace_code</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">header</span>
+
+
+<span class="k">def</span> <span class="nf">_signature</span><span class="p">():</span>
+    <span class="n">signature</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">.%m.%Y&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.0&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">signature</span>
+
+
+<span class="k">def</span> <span class="nf">_variables</span><span class="p">(</span><span class="n">report_type</span><span class="p">):</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="n">ReportVariable</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">as_dict</span><span class="p">(</span><span class="n">report_type</span><span class="o">=</span><span class="n">report_type</span><span class="p">)</span>
+    <span class="n">variables</span><span class="p">[</span><span class="s2">&quot;clinic_sum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variables</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;surgical_clinics&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">variables</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;internal_clinics&quot;</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">variables</span>
+
+
+<span class="k">def</span> <span class="nf">_interventions</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
+    <span class="n">interventions</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;deployment&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">deployment</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;deployment_ft_approach&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">deployment</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">deployment_ft_approach</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;discontinuation&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">discontinuation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;discontinuation_adverse_effect&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">discontinuation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">discontinuation_adverse_effect</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;discontinuation_renal_insufficiency&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">discontinuation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">discontinuation_renal_insufficiency</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;discontinuation_drug_interaction&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">discontinuation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">discontinuation_drug_interaction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;discontinuation_overdosage&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">discontinuation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">discontinuation_overdosage</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;discontinuation_medical_intervention&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">discontinuation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">discontinuation_medical_intervention</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;dose_change&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">dose_change</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;dose_change_adverse_effect_risk&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">dose_change</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">dose_change_adverse_effect_risk</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;dose_change_renal_insufficiency&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">dose_change</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">dose_change_renal_insufficiency</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;dose_change_drug_interaction&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">dose_change</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dose_change_drug_interaction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;specific_consultation&quot;</span><span class="p">:</span> <span class="n">PharmacologicalEvaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">specific_consultation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">interventions</span>
+
+
+<span class="k">def</span> <span class="nf">_risk_factors</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
+    <span class="n">risk_factors</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;polypharmacy&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">polypharmacy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;narrow_therapeutic_window&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">narrow_therapeutic_window</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;high_interaction_potential&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">high_interaction_potential</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;renal_insufficiency&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">renal_insufficiency</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;hepatic_insufficiency&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">hepatic_insufficiency</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;significant_biochemical_changes&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">significant_biochemical_changes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;intensive_care&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">intensive_care</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;systemic_corticosteroids&quot;</span><span class="p">:</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">systemic_corticosteroids</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">updated_at__year</span><span class="o">=</span><span class="n">year</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">risk_factors</span>
+
+
+<div class="viewcode-block" id="uzis_loader"><a class="viewcode-back" href="../../modules/reports.html#reports.uzis.uzis_loader">[docs]</a><span class="k">def</span> <span class="nf">uzis_loader</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span>
+    <span class="n">report_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;report_type&quot;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="n">_variables</span><span class="p">(</span><span class="n">report_type</span><span class="p">),</span>
+        <span class="s2">&quot;header&quot;</span><span class="p">:</span> <span class="n">_header</span><span class="p">(</span><span class="n">year</span><span class="p">),</span>
+        <span class="s2">&quot;signature&quot;</span><span class="p">:</span> <span class="n">_signature</span><span class="p">(),</span>
+        <span class="s2">&quot;medical_procedures&quot;</span><span class="p">:</span> <span class="n">_medical_procedures</span><span class="p">(</span><span class="n">year</span><span class="p">),</span>
+        <span class="s2">&quot;risk_levels&quot;</span><span class="p">:</span> <span class="n">_risk_levels</span><span class="p">(</span><span class="n">year</span><span class="p">),</span>
+        <span class="s2">&quot;interventions&quot;</span><span class="p">:</span> <span class="n">_interventions</span><span class="p">(</span><span class="n">year</span><span class="p">),</span>
+        <span class="s2">&quot;risk_factors&quot;</span><span class="p">:</span> <span class="n">_risk_factors</span><span class="p">(</span><span class="n">year</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Conceptica s.r.o.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
