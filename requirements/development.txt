@@ -3,5 +3,8 @@ black==22.3.0
 django-debug-toolbar==3.2.4
 django-extensions==3.1.5
 isort==5.9.3
+markdown-it-py==2.0.1
+mdit-py-plugins==0.3.0
+myst-parser==0.17.0
 Sphinx==4.4.0
 sphinx-rtd-theme==1.0.0

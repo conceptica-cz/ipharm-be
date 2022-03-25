@@ -18,7 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Updates" href="updates.html" />
+    <link rel="next" title="Environment variables" href="variables.html" />
     <link rel="prev" title="Welcome to iPharm’s documentation!" href="index.html" /> 
 </head>
 
@@ -40,16 +40,23 @@
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation-and-configuration">Installation and configuration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clone-the-repository">Clone the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-environment-variable-files">Add environment variable files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-the-app">Run the app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-superuser">Create superuser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#populate-database-with-fake-data-optional-development-only">Populate database with fake data (optional, development only)</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="updates.html">Updates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reports.html">Reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="variables.html">Environment variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="celery.html">Celery tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Model updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reports.html">Reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rest_api.html">Rest API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">API reference</a></li>
 </ul>
@@ -70,7 +77,7 @@
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Getting started</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/getting_started.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -80,11 +87,53 @@
              
   <section id="getting-started">
 <span id="id1"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline"></a></h1>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h2>
+<p>You need <code class="docutils literal notranslate"><span class="pre">docker</span></code> and <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code> to run the app.</p>
+</section>
 <section id="installation-and-configuration">
 <h2>Installation and configuration<a class="headerlink" href="#installation-and-configuration" title="Permalink to this headline"></a></h2>
-<section id="requirements">
-<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h3>
+<section id="clone-the-repository">
+<h3>Clone the repository<a class="headerlink" href="#clone-the-repository" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/conceptica-cz/ipharm-be.git
+</pre></div>
+</div>
 </section>
+<section id="add-environment-variable-files">
+<h3>Add environment variable files<a class="headerlink" href="#add-environment-variable-files" title="Permalink to this headline"></a></h3>
+<p>Create a environment variable files for:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">./.envs/.development/.ipharm_app</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./.envs/.development/.ipharm_postgres</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./.envs/.development/.ipharm_redis</span></code></p></li>
+</ul>
+<p>In the files, set environment variables, mainly those that do not have default values.</p>
+<p>See the <a class="reference internal" href="variables.html#environment-variables"><span class="std std-ref">Environment variables</span></a> section below for more information about variables.</p>
+</section>
+<section id="run-the-app">
+<h3>Run the app<a class="headerlink" href="#run-the-app" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd ipharm-be
+$ docker-compose up -d
+</pre></div>
+</div>
+</section>
+<section id="create-superuser">
+<h3>Create superuser<a class="headerlink" href="#create-superuser" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker-compose exec ipharm-app python manage.py createsuperuser
+</pre></div>
+</div>
+<p>Now you can login to the app’s admin on localhost:8000/admin/</p>
+</section>
+<section id="populate-database-with-fake-data-optional-development-only">
+<h3>Populate database with fake data (optional, development only)<a class="headerlink" href="#populate-database-with-fake-data-optional-development-only" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker-compose exec ipharm-app python manage.py populate
+</pre></div>
+</div>
+</section>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline"></a></h2>
+<p>The documentation is available in the source code in the <code class="docutils literal notranslate"><span class="pre">/docs/build</span></code> directory</p>
 </section>
 </section>
 
@@ -93,7 +142,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to iPharm’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="updates.html" class="btn btn-neutral float-right" title="Updates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="variables.html" class="btn btn-neutral float-right" title="Environment variables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
