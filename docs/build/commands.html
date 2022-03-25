@@ -18,7 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Rest API" href="rest_api.html" />
+    <link rel="next" title="Celery tasks" href="celery.html" />
     <link rel="prev" title="Environment variables" href="variables.html" /> 
 </head>
 
@@ -40,15 +40,17 @@
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="updates.html">Updates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reports.html">Reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="variables.html">Environment variables</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Django commands</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#create-sources">create_sources</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#create-reports">create_reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-beat">create_beat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#populate">populate</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="celery.html">Celery tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Model updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reports.html">Reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rest_api.html">Rest API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">API reference</a></li>
 </ul>
@@ -69,7 +71,7 @@
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Django commands</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/commands.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/commands.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -86,14 +88,23 @@ For example, to run the <code class="docutils literal notranslate"><span class="
 </div>
 <section id="create-sources">
 <h2>create_sources<a class="headerlink" href="#create-sources" title="Permalink to this headline"></a></h2>
-<p>Create the sources for update (<a class="reference internal" href="modules/updates.html#updates.models.Source" title="updates.models.Source"><code class="xref py py-meth docutils literal notranslate"><span class="pre">updates.models.Source()</span></code></a> instances).</p>
+<p>Create the sources for update (<a class="reference internal" href="modules/updates.html#updates.models.Source" title="updates.models.Source"><code class="xref py py-meth docutils literal notranslate"><span class="pre">updates.models.Source()</span></code></a> instances). Sources are created from the <code class="docutils literal notranslate"><span class="pre">settings.UPDATE_SOURCES</span></code> list.</p>
 </section>
 <section id="create-reports">
 <h2>create_reports<a class="headerlink" href="#create-reports" title="Permalink to this headline"></a></h2>
-<p>Create the generic report types (<a class="reference internal" href="modules/reports.html#reports.models.GenericReportType" title="reports.models.GenericReportType"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reports.models.GenericReportType()</span></code></a> instances).</p>
+<p>Create the generic report types (<a class="reference internal" href="modules/reports.html#reports.models.GenericReportType" title="reports.models.GenericReportType"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reports.models.GenericReportType()</span></code></a> instances). Report types are created from the <code class="docutils literal notranslate"><span class="pre">settings.GENERIC_REPORTS</span></code> list.</p>
+</section>
+<section id="create-beat">
+<h2>create_beat<a class="headerlink" href="#create-beat" title="Permalink to this headline"></a></h2>
+<p>Create celery_beat periodic tasks (<a class="reference internal" href="modules/reports.html#reports.models.GenericReportType" title="reports.models.GenericReportType"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reports.models.GenericReportType()</span></code></a> instances).</p>
 </section>
 <section id="populate">
 <h2>populate<a class="headerlink" href="#populate" title="Permalink to this headline"></a></h2>
+<p>Populate the database with fake data. This is useful for testing.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Works only if the <code class="docutils literal notranslate"><span class="pre">settings.ENVIRONMENT</span></code> is <code class="docutils literal notranslate"><span class="pre">'development'</span></code>, <code class="docutils literal notranslate"><span class="pre">'local'</span></code> or <code class="docutils literal notranslate"><span class="pre">'test'</span></code>.</p>
+</div>
 </section>
 </section>
 
@@ -102,7 +113,7 @@ For example, to run the <code class="docutils literal notranslate"><span class="
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="variables.html" class="btn btn-neutral float-left" title="Environment variables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="rest_api.html" class="btn btn-neutral float-right" title="Rest API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="celery.html" class="btn btn-neutral float-right" title="Celery tasks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

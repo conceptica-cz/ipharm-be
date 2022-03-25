@@ -18,8 +18,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Environment variables" href="variables.html" />
-    <link rel="prev" title="Updates" href="updates.html" /> 
+    <link rel="next" title="Rest API" href="rest_api.html" />
+    <link rel="prev" title="Model updates" href="updates.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,10 +40,15 @@
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="updates.html">Updates</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="variables.html">Environment variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="celery.html">Celery tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updates.html">Model updates</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reports</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#generic-reports">Generic reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#insurance-reports">Insurance reports</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="rest_api.html">Rest API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">API reference</a></li>
 </ul>
@@ -64,7 +69,7 @@
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Reports</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/reports.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/reports.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -74,14 +79,26 @@
              
   <section id="reports">
 <h1>Reports<a class="headerlink" href="#reports" title="Permalink to this headline"></a></h1>
+<p>The application generates two type of reports:</p>
+<ul class="simple">
+<li><p><strong>Generic reports</strong> are different <code class="docutils literal notranslate"><span class="pre">pdf</span></code> reports from raw data. The generic reports are pluggable.</p></li>
+<li><p><strong>Insurance report</strong> is generated for insurance companies. The report is generated as text files,
+that are saved to the disk.</p></li>
+</ul>
+<section id="generic-reports">
+<h2>Generic reports<a class="headerlink" href="#generic-reports" title="Permalink to this headline"></a></h2>
+</section>
+<section id="insurance-reports">
+<h2>Insurance reports<a class="headerlink" href="#insurance-reports" title="Permalink to this headline"></a></h2>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="updates.html" class="btn btn-neutral float-left" title="Updates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="variables.html" class="btn btn-neutral float-right" title="Environment variables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="updates.html" class="btn btn-neutral float-left" title="Model updates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rest_api.html" class="btn btn-neutral float-right" title="Rest API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
