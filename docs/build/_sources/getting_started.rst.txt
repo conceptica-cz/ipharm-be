@@ -3,3 +3,9 @@
 Getting started
 ===============
 
+Installation and configuration
+------------------------------
+
+Requirements
+^^^^^^^^^^^^
+
