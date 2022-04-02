@@ -18,6 +18,7 @@ from factories.references import (
     IdentificationFactory,
     TagFactory,
 )
+from factories.users import UserFactory
 
 
 class Command(BaseCommand):
@@ -32,11 +33,21 @@ class Command(BaseCommand):
             )
             return
         print("Populating database. Please wait...")
+
+        users = [
+            UserFactory(),
+            UserFactory(),
+            UserFactory(),
+            UserFactory(),
+            UserFactory(),
+        ]
+
         for i in range(50):
             TagFactory()
             AdverseEffectFactory()
-        for i in range(800):
+        for i in range(200):
             care = CareFactory()
+            print(f"Patient {care.patient} created")
             if random.randint(0, 1):
                 CheckInFactory(care=care)
                 if random.randint(0, 1):
@@ -56,10 +67,13 @@ class Command(BaseCommand):
                         for _ in range(random.randint(0, 5))
                     ]
                     RiskDrugHistoryFactory(care=care)
-                    [
-                        PatientInformationFactory(care=care)
-                        for _ in range(random.randint(1, 5))
-                    ]
+                    for _ in range(random.randint(1, 4)):
+                        patient_information = PatientInformationFactory(care=care)
+                        for i in range(random.randint(1, 4)):
+                            patient_information.text = i
+                            patient_information.save()
+                            patient_information.set_history_user(random.choice(users))
+
                     [
                         PharmacologicalEvaluationFactory(care=care)
                         for _ in range(random.randint(1, 5))

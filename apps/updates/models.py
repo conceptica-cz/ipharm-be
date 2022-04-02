@@ -120,6 +120,11 @@ class BaseUpdatableModel(BaseSoftDeletableModel):
         history.update = update
         history.save()
 
+    def set_history_user(self, user):
+        history = self.history.first()
+        history.history_user = user
+        history.save()
+
     def get_changes(self):
         current = self.history.first()
         while current.prev_record:
