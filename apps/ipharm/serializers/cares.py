@@ -93,6 +93,7 @@ class CareNestedSerializer(serializers.ModelSerializer):
     pharmacological_evaluations = PharmacologicalEvaluationNestedSerializer(
         read_only=True, many=True
     )
+    patient_informations = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         exclude = ["is_deleted"]
