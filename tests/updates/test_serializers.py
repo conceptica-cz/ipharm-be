@@ -35,6 +35,8 @@ class ModelChangeSerializerTest(TestCase):
             serializer.data,
             {
                 "date": "2020-01-01T03:00:00+01:00",
+                "entity_name": "Patient",
+                "entity_id": patient.id,
                 "user": {
                     "id": user_2.id,
                     "username": user_2.username,

@@ -11,4 +11,6 @@ class FieldChangeSerializer(serializers.Serializer):
 class ModelChangeSerializer(serializers.Serializer):
     user = UserLightSerializer()
     date = serializers.DateTimeField()
+    entity_name = serializers.CharField(max_length=255)
+    entity_id = serializers.IntegerField()
     field_changes = FieldChangeSerializer(many=True)

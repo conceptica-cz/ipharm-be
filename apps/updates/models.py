@@ -90,9 +90,11 @@ class UpdateHistoricalModel(models.Model):
 
 
 class ModelChange:
-    def __init__(self, date, user, field_changes):
+    def __init__(self, date, user, entity_name, entity_id, field_changes):
         self.date = date
         self.user = user
+        self.entity_name = entity_name
+        self.entity_id = entity_id
         self.field_changes = field_changes
 
 
@@ -133,5 +135,7 @@ class BaseUpdatableModel(BaseSoftDeletableModel):
                     date=current.history_date,
                     user=current.history_user,
                     field_changes=changes,
+                    entity_name=self.__class__.__name__,
+                    entity_id=self.id,
                 )
             current = current.prev_record
