@@ -16,10 +16,16 @@ GENERIC_REPORTS = {
     "monthly_report": {
         "description": "",
         "file_name": "monthly_report",
-        "frequency": "monthly",
-        "data_loader": "tests.reports.test_generic_report_integrations.test_data_loader",
-        "templates": {
-            "txt": "test.html",
+        "time_ranges": ["month"],
+        "data_loader": "tests.reports.generic_reports.test_generic_report.test_data_loader",  # noqa
+        "data_loader_kwargs": {"loader_variable": "loader_value"},
+        "renderers": {
+            "txt": {
+                "renderer": "reports.generic_reports.common.txt_renderer",
+                "renderer_kwargs": {
+                    "template": "test.html",
+                },
+            },
         },
         "order": 1,
     }
@@ -44,10 +50,13 @@ class GenericReportTest(TestCase):
             name="monthly_report",
             file_name="test_report",
             formats=["txt"],
-            frequency="monthly",
+            time_ranges=["month"],
         )
 
-        generic_report_file = generic_report_type.generate_report(report_format="txt")
+        generic_report_file = generic_report_type.generate_report(
+            report_format="txt",
+            time_range="month",
+        )
 
         self.assertEqual(GenericReportFile.objects.count(), 1)
 
@@ -66,7 +75,7 @@ class GenericReportTest(TestCase):
             name="monthly_report",
             file_name="test_report",
             formats=["txt"],
-            frequency="monthly",
+            time_ranges=["month"],
         )
 
         generic_report_type.generate_report(report_format="txt")

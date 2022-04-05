@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from references.models import InsuranceCompany
-from reports.generic_report import GenericReportFactory
+from reports.generic_reports.generic_report import GenericReportFactory
 from reports.managers import ReportVariableManager
 from updates.models import BaseUpdatableModel
 
@@ -47,58 +47,78 @@ class GenericReportType(models.Model):
     Generic report type model
     """
 
-    FREQUENCY_MONTHLY = "monthly"
-    FREQUENCY_YEARLY = "yearly"
-
-    FREQUENCY_CHOICES = (
-        (FREQUENCY_MONTHLY, "Monthly"),
-        (FREQUENCY_YEARLY, "Yearly"),
-    )
+    MONTH = "month"
+    YEAR = "year"
+    CUSTOM = "custom"
 
     name = models.CharField(max_length=255, unique=True)
     description = models.CharField(max_length=255, blank=True)
     file_name = models.CharField(max_length=255)
     order = models.IntegerField(default=0)
-    frequency = models.CharField(
-        max_length=255, choices=FREQUENCY_CHOICES, default=FREQUENCY_MONTHLY
-    )
+    time_ranges = ArrayField(models.CharField(max_length=255), default=list)
+    filters = ArrayField(models.CharField(max_length=255), default=list)
     formats = ArrayField(models.CharField(max_length=255), default=list)
 
     def __str__(self):
         return self.name
 
     def generate_report(
-        self, report_format: str = "pdf", year=None, month=None, **kwargs
+        self,
+        report_format: str = None,
+        time_range: str = None,
+        year=None,
+        month=None,
+        date_from=None,
+        date_to=None,
+        **kwargs,
     ) -> "GenericReportFile":
+        if report_format is None:
+            report_format = self.formats[0]
+
         if report_format not in self.formats:
             raise ValueError(f"{report_format} is not supported")
 
-        if year is None:
-            year = timezone.now().year
-        if month is None:
-            month = timezone.now().month
+        if time_range is None:
+            time_range = self.time_ranges[0]
 
-        if self.frequency == self.FREQUENCY_MONTHLY:
-            generic_report_file, _ = GenericReportFile.objects.update_or_create(
-                report_type=self,
-                year=year,
-                month=month,
-                report_format=report_format,
-            )
-        else:
-            generic_report_file, _ = GenericReportFile.objects.update_or_create(
-                report_type=self,
-                year=year,
-                report_format=report_format,
-                defaults={
-                    "month": None,
-                },
-            )
+        if time_range not in self.time_ranges:
+            raise ValueError(f"{time_range} is not supported")
+
+        if time_range in [GenericReportType.YEAR, GenericReportType.MONTH]:
+            if year is None:
+                year = timezone.now().year
+
+        if time_range == GenericReportType.MONTH:
+            if month is None:
+                month = timezone.now().month
+
+        if time_range == GenericReportType.CUSTOM:
+            if date_to is None:
+                date_to = timezone.now()
+            if date_from is None:
+                date_from = date_to - timezone.timedelta(days=30)
+
+        generic_report_file, _ = GenericReportFile.objects.update_or_create(
+            report_type=self,
+            time_range=time_range,
+            year=year,
+            month=month,
+            date_from=date_from,
+            date_to=date_to,
+            report_format=report_format,
+        )
 
         generic_report = GenericReportFactory().create(
             report_type=self,
             report_format=report_format,
-            **{"year": year, "month": month} | kwargs,
+            **{
+                "time_range": time_range,
+                "year": year,
+                "month": month,
+                "date_from": date_from,
+                "date_to": date_to,
+            }
+            | kwargs,
         )
 
         content = generic_report.render()
@@ -112,12 +132,12 @@ def generic_upload_to(instance, filename):
     Upload file to the right path
     """
     postfix = ""
-    if instance.report_type.frequency == GenericReportType.FREQUENCY_MONTHLY:
+    if instance.time_range == GenericReportType.MONTH:
         if instance.month < 10:
             postfix = f"_{instance.year}_0{instance.month}"
         else:
             postfix = f"_{instance.year}_{instance.month}"
-    elif instance.report_type.frequency == GenericReportType.FREQUENCY_YEARLY:
+    elif instance.time_range == GenericReportType.YEAR:
         postfix = f"_{instance.year}"
 
     report_path = (
@@ -132,8 +152,11 @@ def generic_upload_to(instance, filename):
 class GenericReportFile(BaseUpdatableModel):
     report_type = models.ForeignKey(GenericReportType, on_delete=models.CASCADE)
     file = models.FileField(upload_to=generic_upload_to)
-    year = models.IntegerField()
+    time_range = models.CharField(max_length=255, default="custom")
+    year = models.IntegerField(null=True, blank=True)
     month = models.IntegerField(null=True, blank=True)
+    date_from = models.DateField(null=True, blank=True)
+    date_to = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     report_format = models.CharField(max_length=255, default="pdf")

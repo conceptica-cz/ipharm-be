@@ -23,8 +23,9 @@ class GenericReportTypeFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence(lambda n: f"report_type_{n}")
     description = factory.Sequence(lambda n: f"report_type_description_{n}")
     file_name = factory.Sequence(lambda n: f"report_type_file_name_{n}")
-    formats = ["pdf"]
-    frequency = "monthly"
+    time_ranges = ["month"]
+    filters = []
+    formats = ["txt"]
     order = factory.Sequence(lambda n: n)
 
 

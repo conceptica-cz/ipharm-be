@@ -1,0 +1,103 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 1.2cm;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        table {
+            border-collapse: collapse;
+            border: 0.3mm solid black;
+            font-family: "Liberation Sans Narrow";
+            font-size: 12px;
+            page-break-inside: avoid;
+            width: 100%;
+        }
+
+        td, th {
+            border: 0.3mm solid black;
+            text-align: center;
+            padding: 0.7mm;
+            padding-left: 2mm;
+            text-align: left;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="main">
+    <h1>Rizikovost</h1>
+    <table>
+        <tr>
+            <th colspan="4">{% include "./parameter_header_pdf.html" %}</th>
+        </tr>
+        <tr>
+            <td></td>
+            <th colspan="3">Hospitalizovaní pacienti</th>
+        </tr>
+        <tr>
+            <th>Rizikovost</th>
+            <th>Počet pacientů</th>
+            <th>Počet stanovených FK plánů</th>
+            <th>Počet ověřených FK plánů </th>
+        </tr>
+        <tr>
+            <th>Rizikovost 1</th>
+            <td>{{ hospital_risk_level_1 }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Rizikovost 2</th>
+            <td>{{ hospital_risk_level_2 }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Rizikovost 3</th>
+            <td>{{ hospital_risk_level_3 }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <th colspan="3">Ambulantní pacienti</th>
+        </tr>
+        <tr>
+            <th>Rizikovost</th>
+            <th>Počet pacientů</th>
+            <th>Počet stanovených FK plánů</th>
+            <th>Počet ověřených FK plánů </th>
+        </tr>
+        <tr>
+            <th>Rizikovost 1</th>
+            <td>{{ ambulance_risk_level_1 }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Rizikovost 2</th>
+            <td>{{ ambulance_risk_level_2 }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Rizikovost 3</th>
+            <td>{{ ambulance_risk_level_3 }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
