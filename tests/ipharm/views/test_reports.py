@@ -112,7 +112,7 @@ class ReportVariablesTest(APITestCase):
 class GenerateReportTest(APITestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
-        self.report = GenericReportTypeFactory(name="uzis")
+        self.report = GenericReportTypeFactory(name="uzis", formats=["pdf"])
 
     def test_generate(self):
         IdentificationFactory(for_insurance=True)

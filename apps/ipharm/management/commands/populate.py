@@ -2,6 +2,7 @@ import random
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from references.models import Department
 
 from factories.ipharm import (
     CareFactory,
@@ -87,5 +88,8 @@ class Command(BaseCommand):
 
         for i in range(30):
             ExternalDepartmentFactory()
-        IdentificationFactory()
+        department = Department.objects.first()
+        department.for_insurance = True
+        department.save()
+        IdentificationFactory(for_insurance=True)
         print("Database was populated.")

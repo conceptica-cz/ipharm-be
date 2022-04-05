@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from django.test import TestCase
 from django.utils import timezone
-from reports.uzis import uzis_loader
+from reports.generic_reports.uzis import uzis_loader
 
 from factories.ipharm import (
     CheckInFactory,
@@ -163,7 +163,7 @@ class TestUzisLoader(TestCase):
             data["header"]["department_workplace_code"], self.department.workplace_code
         )
 
-    @patch("reports.uzis.timezone.now")
+    @patch("reports.generic_reports.uzis.timezone.now")
     def test_signature(self, mocked_now):
         now = timezone.datetime(2021, 3, 15, tzinfo=timezone.utc)
         mocked_now.return_value = now

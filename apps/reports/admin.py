@@ -24,7 +24,7 @@ class InsuranceReportAdmin(admin.ModelAdmin):
 
 @admin.register(models.GenericReportType)
 class GenericReportTypeAdmin(admin.ModelAdmin):
-    list_display = ("name", "description", "file_name", "frequency", "formats", "order")
+    list_display = ("name", "description", "file_name", "formats", "order")
     actions = ["generate"]
 
     @admin.action(description="Generate report")
@@ -38,8 +38,11 @@ class GenericReportFileAdmin(admin.ModelAdmin):
     list_display = (
         "report_type",
         "report_format",
+        "time_range",
         "year",
         "month",
+        "date_from",
+        "date_to",
         "updated_at",
     )
 

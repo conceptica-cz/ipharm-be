@@ -20,28 +20,25 @@ def to_text(content):
 
 
 class GenericReport:
-    CONVERTERS = {
-        "txt": to_text,
-        "pdf": to_pdf,
-    }
-
     def __init__(
         self,
         data_loader: Callable,
-        template: str,
-        report_format: str = "pdf",
+        data_loader_kwargs: dict,
+        renderer: Callable,
+        renderer_kwargs: dict,
         **kwargs,
     ):
         self.data_loader = data_loader
-        self.template = template
-        self.report_format = report_format
+        self.data_loader_kwargs = data_loader_kwargs
+        self.renderer = renderer
+        self.renderer_kwargs = renderer_kwargs
         self.kwargs = kwargs
 
     def render(self):
-        data = self.data_loader(**self.kwargs)
+        data = self.data_loader(**self.data_loader_kwargs | self.kwargs)
         logger.debug(f"Report data was generated", extra={"data": data})
-        content = render_to_string(self.template, data)
-        return self.CONVERTERS[self.report_format](content)
+        content = self.renderer(data=data, **self.renderer_kwargs | self.kwargs)
+        return content
 
 
 class GenericReportFactory:
@@ -57,13 +54,27 @@ class GenericReportFactory:
         data_loader = self._get_func(
             settings.GENERIC_REPORTS[report_type.name]["data_loader"]
         )
-        template = settings.GENERIC_REPORTS[report_type.name]["templates"][
+
+        data_loader_kwargs = settings.GENERIC_REPORTS[report_type.name].get(
+            "data_loader_kwargs", {}
+        )
+
+        renderer = self._get_func(
+            settings.GENERIC_REPORTS[report_type.name]["renderers"][report_format][
+                "renderer"
+            ]
+        )
+
+        renderer_kwargs = settings.GENERIC_REPORTS[report_type.name]["renderers"][
             report_format
-        ]
+        ].get("renderer_kwargs", {})
+
         kwargs["report_type"] = report_type
+
         return GenericReport(
             data_loader=data_loader,
-            template=template,
-            report_format=report_format,
+            data_loader_kwargs=data_loader_kwargs,
+            renderer=renderer,
+            renderer_kwargs=renderer_kwargs,
             **kwargs,
         )

@@ -331,10 +331,16 @@ GENERIC_REPORTS = {
     "uzis": {
         "description": "UZIS výkaz",
         "file_name": "uzis_report",
-        "frequency": "yearly",
-        "data_loader": "reports.uzis.uzis_loader",
-        "templates": {
-            "pdf": "generic_reports/uzis/pdf.html",
+        "time_ranges": ["year"],
+        "filters": [],
+        "data_loader": "reports.generic_reports.uzis.uzis_loader",
+        "renderers": {
+            "pdf": {
+                "renderer": "reports.generic_reports.common.pdf_renderer",
+                "renderer_kwargs": {
+                    "template": "generic_reports/uzis/pdf.html",
+                },
+            },
         },
         "order": 1,
         "variables": [
@@ -535,7 +541,23 @@ GENERIC_REPORTS = {
                 "order": 29,
             },
         ],
-    }
+    },
+    "risk_levels": {
+        "description": "Rizikovost",
+        "file_name": "Rizikovost",
+        "time_ranges": ["year", "month", "custom"],
+        "filters": ["clinic", "department"],
+        "data_loader": "reports.generic_reports.statistical_reports.risk_level_loader",
+        "renderers": {
+            "pdf": {
+                "renderer": "reports.generic_reports.common.pdf_renderer",
+                "renderer_kwargs": {
+                    "template": "generic_reports/statistical_reports/risk_levels_pdf.html",  # noqa
+                },
+            },
+        },
+        "order": 2,
+    },
 }
 
 # CELERY

@@ -2,7 +2,8 @@ from pathlib import Path
 from unittest import TestCase
 
 from django.test import override_settings
-from reports.generic_report import GenericReport, GenericReportFactory
+from reports.generic_reports.common import txt_renderer
+from reports.generic_reports.generic_report import GenericReport, GenericReportFactory
 
 from factories.reports import GenericReportTypeFactory
 
@@ -26,8 +27,9 @@ class TestGenericReport(TestCase):
     def test_generic_report(self):
         generic_report = GenericReport(
             data_loader=test_data_loader,
-            template="test.html",
-            report_format="txt",
+            data_loader_kwargs={},
+            renderer=txt_renderer,
+            renderer_kwargs={"template": "test.html"},
             year=2021,
         )
 
@@ -40,10 +42,16 @@ GENERIC_REPORTS = {
     "monthly_report": {
         "description": "",
         "file_name": "monthly_report",
-        "frequency": "monthly",
-        "data_loader": "tests.reports.test_generic_report.test_data_loader",
-        "templates": {
-            "txt": "test.html",
+        "time_ranges": ["month"],
+        "data_loader": "tests.reports.generic_reports.test_generic_report.test_data_loader",  # noqa
+        "data_loader_kwargs": {"loader_variable": "loader_value"},
+        "renderers": {
+            "txt": {
+                "renderer": "reports.generic_reports.common.txt_renderer",
+                "renderer_kwargs": {
+                    "template": "txt.html",
+                },
+            },
         },
         "order": 1,
     }
@@ -60,6 +68,9 @@ class TestGenericReportFactory(TestCase):
             report_type=report_type, report_format="txt"
         )
 
-        self.assertEqual(generic_report.template, "test.html")
         self.assertEqual(generic_report.data_loader, test_data_loader)
-        self.assertEqual(generic_report.report_format, "txt")
+        self.assertEqual(
+            generic_report.data_loader_kwargs, {"loader_variable": "loader_value"}
+        )
+        self.assertEqual(generic_report.renderer, txt_renderer)
+        self.assertEqual(generic_report.renderer_kwargs, {"template": "txt.html"})
