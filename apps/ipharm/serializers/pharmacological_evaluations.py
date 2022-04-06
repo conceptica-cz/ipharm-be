@@ -7,6 +7,13 @@ from rest_framework import serializers
 
 
 class PharmacologicalEvaluationSerializer(serializers.ModelSerializer):
+    tags = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=TagSerializer.Meta.model.objects.all(),
+        allow_empty=True,
+        required=False,
+    )
+
     class Meta:
         model = PharmacologicalEvaluation
         exclude = ["is_deleted"]

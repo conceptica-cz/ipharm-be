@@ -89,6 +89,14 @@ class UpdateHistoricalModel(models.Model):
         abstract = True
 
 
+class FieldChange:
+    def __init__(self, field, old, new, many_to_many_entity=None):
+        self.field = field
+        self.old = old
+        self.new = new
+        self.many_to_many_entity = many_to_many_entity
+
+
 class ModelChange:
     def __init__(self, date, user, entity_name, entity_id, field_changes):
         self.date = date
@@ -128,14 +136,84 @@ class BaseUpdatableModel(BaseSoftDeletableModel):
         history.save()
 
     def get_changes(self):
+        change_list = []
         current = self.history.first()
         while current.prev_record:
             if changes := current.diff_against(current.prev_record).changes:
-                yield ModelChange(
-                    date=current.history_date,
-                    user=current.history_user,
-                    field_changes=changes,
-                    entity_name=self.__class__.__name__,
-                    entity_id=self.id,
+                change_list.append(
+                    ModelChange(
+                        date=current.history_date,
+                        user=current.history_user,
+                        field_changes=changes,
+                        entity_name=self.__class__.__name__,
+                        entity_id=self.id,
+                    )
                 )
             current = current.prev_record
+        change_list.extend(self._get_m2m_changes())
+        change_list.sort(key=lambda x: x.date, reverse=True)
+        return change_list
+
+    def _get_m2m_changes(self):
+        changes = []
+        for field in self._meta.many_to_many:
+            through = getattr(self, field.name).through
+            history = through.log.filter(**{f"{self._meta.model_name}_id": self})
+            field_changes = self._m2m_history_to_value_changes(
+                history, field.m2m_reverse_field_name()
+            )
+            for change in field_changes:
+                changes.append(
+                    ModelChange(
+                        date=change["date"],
+                        user=change["user"],
+                        entity_name=self.__class__.__name__,
+                        entity_id=self.id,
+                        field_changes=[
+                            FieldChange(
+                                field=field.name,
+                                old=change["old"],
+                                new=change["new"],
+                                many_to_many_entity=field.related_model._meta.object_name,
+                            )
+                        ],
+                    )
+                )
+        return changes
+
+    @staticmethod
+    def _m2m_history_to_value_changes(history, reverse_field_name):
+        """
+        Convert m2m history to value changes
+        :param history: QuerySet of HistoryRecord for many-to-many field
+        :return: dictionary of value changes in format::
+
+        {
+            "date": change datetime,
+            "user": change user,
+            "old": list of old many-to-many values,
+            "new": list of new many-to-many values,
+        }
+
+        """
+        changes = []
+        values = set()
+        for history_record in history.order_by("history_id"):
+            old_values = values.copy()
+            if history_record.history_type in ["~", "+"]:
+                values.add(getattr(history_record, reverse_field_name))
+            elif history_record.history_type == "-":
+                values.remove(getattr(history_record, reverse_field_name))
+            new_values = values.copy()
+
+            if old_values != new_values:
+                changes.append(
+                    {
+                        "date": history_record.history_date,
+                        "user": history_record.history_user,
+                        "old": [v.serialize().data for v in old_values],
+                        "new": [v.serialize().data for v in new_values],
+                    }
+                )
+
+        return changes

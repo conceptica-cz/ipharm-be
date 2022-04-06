@@ -49,7 +49,13 @@ class Command(BaseCommand):
             care = CareFactory()
             print(f"Patient {care.patient} created")
             if random.randint(0, 1):
-                CheckInFactory(care=care)
+                CheckInFactory(
+                    care=care,
+                    drugs__add=True,
+                    diagnoses__add=True,
+                    high_interaction_potential_drugs__add=True,
+                    narrow_therapeutic_window_drugs__add=True,
+                )
                 if random.randint(0, 1):
                     pharmacological_plan = PharmacologicalPlanFactory(care=care)
                     [

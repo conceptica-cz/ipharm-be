@@ -3,6 +3,13 @@ from django.utils import timezone
 from updates.models import BaseUpdatableModel
 
 
+class PharmacologicalEvaluation_tags(BaseUpdatableModel):
+    pharmacologicalevaluation = models.ForeignKey(
+        "ipharm.PharmacologicalEvaluation", on_delete=models.CASCADE
+    )
+    tag = models.ForeignKey("references.Tag", on_delete=models.CASCADE)
+
+
 class PharmacologicalEvaluation(BaseUpdatableModel):
     care = models.ForeignKey(
         "ipharm.Care",
@@ -149,7 +156,12 @@ class PharmacologicalEvaluation(BaseUpdatableModel):
     administration_method_optimization = models.TextField(
         blank=True, null=True, help_text="Optimalizace způsobu poddání"
     )
-    tags = models.ManyToManyField("references.Tag", blank=True, help_text="Štítky")
+    tags = models.ManyToManyField(
+        "references.Tag",
+        through=PharmacologicalEvaluation_tags,
+        blank=True,
+        help_text="Štítky",
+    )
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 

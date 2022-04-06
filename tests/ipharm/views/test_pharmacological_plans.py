@@ -25,7 +25,7 @@ class CreatePharmacologicalPlanTest(APITestCase):
         self.care = CareFactory(checkin=None)
         PharmacologicalPlan.objects.all().delete()
 
-    def test_create_history(self):
+    def test_create_plan(self):
         self.client.force_login(user=self.user)
         drug_1 = DrugFactory()
         drug_2 = DrugFactory()

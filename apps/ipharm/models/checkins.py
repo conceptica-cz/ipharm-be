@@ -6,6 +6,31 @@ from references.models.drugs import Drug
 from updates.models import BaseUpdatableModel
 
 
+class CheckIn_drugs(BaseUpdatableModel):
+    checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
+    drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
+
+
+class CheckIn_high_interaction_potential_drugs(BaseUpdatableModel):
+    checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
+    drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
+
+
+class CheckIn_diagnoses(BaseUpdatableModel):
+    checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
+    diagnosis = models.ForeignKey("references.Diagnosis", on_delete=models.CASCADE)
+
+
+class CheckIn_diagnoses_drugs(BaseUpdatableModel):
+    checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
+    drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
+
+
+class CheckIn_narrow_therapeutic_window_drugs(BaseUpdatableModel):
+    checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
+    drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
+
+
 class CheckIn(BaseUpdatableModel):
     RISK_LEVEL_1 = "1"
     RISK_LEVEL_2 = "2"
@@ -18,7 +43,11 @@ class CheckIn(BaseUpdatableModel):
 
     care = models.OneToOneField(Care, on_delete=models.CASCADE)
     drugs = models.ManyToManyField(
-        Drug, blank=True, related_name="drug_checkins", help_text="Seznam léčiv"
+        Drug,
+        through=CheckIn_drugs,
+        blank=True,
+        related_name="drug_checkins",
+        help_text="Seznam léčiv",
     )
     polypharmacy = models.BooleanField(default=False, help_text="Polypragmazie")
     polypharmacy_note = models.TextField(
@@ -31,6 +60,7 @@ class CheckIn(BaseUpdatableModel):
     )
     high_interaction_potential_drugs = models.ManyToManyField(
         Drug,
+        through=CheckIn_high_interaction_potential_drugs,
         blank=True,
         related_name="high_interaction_potential_checkins",
         help_text="Seznam léčiv s vysokým účinkovým tlakem",
@@ -41,11 +71,13 @@ class CheckIn(BaseUpdatableModel):
     )
     diagnoses = models.ManyToManyField(
         "references.Diagnosis",
+        through=CheckIn_diagnoses,
         blank=True,
         help_text="Diagnóza",
     )
     diagnoses_drugs = models.ManyToManyField(
         Drug,
+        through=CheckIn_diagnoses_drugs,
         blank=True,
         related_name="drugs_checkins",
         help_text="Seznam léčiv",
@@ -82,6 +114,7 @@ class CheckIn(BaseUpdatableModel):
     )
     narrow_therapeutic_window_drugs = models.ManyToManyField(
         Drug,
+        through=CheckIn_narrow_therapeutic_window_drugs,
         blank=True,
         related_name="narrow_therapeutic_window_checkins",
         help_text="Seznam léčiv s úzkým terapeutickým oknem",

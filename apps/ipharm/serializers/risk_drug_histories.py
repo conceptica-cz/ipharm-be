@@ -11,6 +11,25 @@ class RiskDrugHistoryCommentSerializer(serializers.ModelSerializer):
 
 
 class RiskDrugHistorySerializer(serializers.ModelSerializer):
+    risk_drugs = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=DrugSerializer.Meta.model.objects.all(),
+        allow_empty=True,
+        required=False,
+    )
+    risk_diagnoses = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=DiagnosisSerializer.Meta.model.objects.all(),
+        allow_empty=True,
+        required=False,
+    )
+    tags = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=TagSerializer.Meta.model.objects.all(),
+        allow_empty=True,
+        required=False,
+    )
+
     class Meta:
         model = RiskDrugHistory
         exclude = ["is_deleted"]
