@@ -6,6 +6,7 @@ class FieldChangeSerializer(serializers.Serializer):
     field = serializers.CharField(max_length=255)
     old_value = serializers.CharField(max_length=255, source="old")
     new_value = serializers.CharField(max_length=255, source="new")
+    many_to_many_entity = serializers.CharField(max_length=255, required=False)
 
 
 class ModelChangeSerializer(serializers.Serializer):

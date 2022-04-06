@@ -106,13 +106,13 @@ class PharmacologicalEvaluationFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def tags(self, create, extracted, **kwargs):
-        if create:
+        if kwargs.get("add", False):
             for _ in range(random.randint(0, 4)):
                 self.tags.add(TagFactory())
 
     @factory.post_generation
     def comments(self, create, extracted, **kwargs):
-        if create:
+        if kwargs.get("add", False):
             for _ in range(random.randint(0, 4)):
                 PharmacologicalEvaluationCommentFactory(pharmacological_evaluation=self)
 

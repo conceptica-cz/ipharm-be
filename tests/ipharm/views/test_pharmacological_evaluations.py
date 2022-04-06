@@ -26,7 +26,7 @@ class CreatePharmacologicalEvaluationTest(APITestCase):
         self.care = CareFactory(checkin=None)
         PharmacologicalEvaluation.objects.all().delete()
 
-    def test_create_history(self):
+    def test_create_evaluation(self):
         self.client.force_login(user=self.user)
         drug = DrugFactory()
         tag_1 = TagFactory()

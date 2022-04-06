@@ -3,12 +3,22 @@ from django.contrib import admin
 
 from ..models.pharmacological_evaluations import (
     PharmacologicalEvaluation,
+    PharmacologicalEvaluation_tags,
     PharmacologicalEvaluationComment,
 )
 
 
 class PharmacologicalEvaluationCommentInline(admin.TabularInline):
     model = PharmacologicalEvaluationComment
+    extra = 0
+    exclude = ["is_deleted"]
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class PharmacologicalEvaluation_tagsInline(admin.TabularInline):
+    model = PharmacologicalEvaluation_tags
     extra = 0
     exclude = ["is_deleted"]
 
@@ -45,8 +55,10 @@ class PharmacologicalEvaluationAdmin(BaseHistoryAdmin):
         "discontinuation_overdosage",
         "discontinuation_overdosage_risk",
     )
-    autocomplete_fields = ("tags",)
-    inlines = (PharmacologicalEvaluationCommentInline,)
+    inlines = (
+        PharmacologicalEvaluationCommentInline,
+        PharmacologicalEvaluation_tagsInline,
+    )
 
     def patient(self, obj):
         return obj.care.patient

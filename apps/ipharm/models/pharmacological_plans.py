@@ -4,6 +4,13 @@ from references.models import MedicalProcedure
 from updates.models import BaseUpdatableModel
 
 
+class PharmacologicalPlan_tags(BaseUpdatableModel):
+    pharmacologicalplan = models.ForeignKey(
+        "ipharm.PharmacologicalPlan", on_delete=models.CASCADE
+    )
+    tag = models.ForeignKey("references.Tag", on_delete=models.CASCADE)
+
+
 class PharmacologicalPlan(BaseUpdatableModel):
     care = models.OneToOneField("ipharm.Care", on_delete=models.CASCADE)
     text = models.TextField(
@@ -14,7 +21,12 @@ class PharmacologicalPlan(BaseUpdatableModel):
     notification_datetime = models.DateTimeField(
         blank=True, null=True, help_text="Datum pro upozornění"
     )
-    tags = models.ManyToManyField("references.Tag", blank=True, help_text="Štítky")
+    tags = models.ManyToManyField(
+        "references.Tag",
+        through=PharmacologicalPlan_tags,
+        blank=True,
+        help_text="Štítky",
+    )
     medical_procedure = models.ForeignKey(
         "references.MedicalProcedure",
         on_delete=models.SET_NULL,

@@ -3,6 +3,7 @@ import random
 
 import factory
 
+from factories.references import DiagnosisFactory
 from factories.references.drugs import DrugFactory
 
 
@@ -77,18 +78,24 @@ class CheckInFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def drugs(self, create, extracted, **kwargs):
-        if create:
+        if kwargs.get("add", False):
             for _ in range(random.randint(1, 4)):
                 self.drugs.add(DrugFactory())
 
     @factory.post_generation
+    def diagnoses(self, create, extracted, **kwargs):
+        if kwargs.get("add", False):
+            for _ in range(random.randint(1, 4)):
+                self.diagnoses.add(DiagnosisFactory())
+
+    @factory.post_generation
     def high_interaction_potential_drugs(self, create, extracted, **kwargs):
-        if create:
+        if kwargs.get("add", False):
             for _ in range(random.randint(1, 3)):
                 self.high_interaction_potential_drugs.add(DrugFactory())
 
     @factory.post_generation
     def narrow_therapeutic_window_drugs(self, create, extracted, **kwargs):
-        if create:
+        if kwargs.get("add", False):
             for _ in range(random.randint(1, 3)):
                 self.narrow_therapeutic_window_drugs.add(DrugFactory())

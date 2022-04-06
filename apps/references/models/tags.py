@@ -12,3 +12,8 @@ class Tag(BaseUpdatableModel):
 
     def __str__(self):
         return self.name
+
+    def serialize(self):
+        from references.serializers import TagSerializer
+
+        return TagSerializer(self)

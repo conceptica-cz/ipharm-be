@@ -33,6 +33,13 @@ class PharmacologicalPlanCommentSerializer(serializers.ModelSerializer):
 
 
 class PharmacologicalPlanSerializer(serializers.ModelSerializer):
+    tags = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=TagSerializer.Meta.model.objects.all(),
+        allow_empty=True,
+        required=False,
+    )
+
     class Meta:
         model = PharmacologicalPlan
         exclude = ["is_deleted"]

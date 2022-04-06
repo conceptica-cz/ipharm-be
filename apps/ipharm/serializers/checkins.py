@@ -5,6 +5,37 @@ from rest_framework import serializers
 
 
 class CheckInSerializer(serializers.ModelSerializer):
+    drugs = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=DrugSerializer.Meta.model.objects.all(),
+        allow_empty=True,
+        required=False,
+    )
+    high_interaction_potential_drugs = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=DrugSerializer.Meta.model.objects.all(),
+        allow_empty=True,
+        required=False,
+    )
+    diagnoses = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=DiagnosisSerializer.Meta.model.objects.all(),
+        allow_empty=True,
+        required=False,
+    )
+    diagnoses_drugs = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=DrugSerializer.Meta.model.objects.all(),
+        allow_empty=True,
+        required=False,
+    )
+    narrow_therapeutic_window_drugs = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=DrugSerializer.Meta.model.objects.all(),
+        allow_empty=True,
+        required=False,
+    )
+
     class Meta:
         model = CheckIn
         exclude = ["is_deleted"]
