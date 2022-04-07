@@ -193,6 +193,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 APP_VERSION = (BASE_DIR / Path("version.txt")).read_text()
 
+# CHANGE_HISTORY
+
+CHANGE_HISTORY_MAX_INTERVAL = int(os.environ.get("CHANGE_HISTORY_MAX_INTERVAL", 500))
+
 # REFERENCES AND UPDATES
 
 BASE_IPHARM_REFERENCES_URL = os.environ.get(

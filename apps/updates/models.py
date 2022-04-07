@@ -1,6 +1,8 @@
-from typing import List
+from dataclasses import dataclass
+from typing import Any, List
 
 from common.models import BaseHistoricalModel, BaseSoftDeletableModel
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from simple_history.models import HistoricalRecords
@@ -89,21 +91,39 @@ class UpdateHistoricalModel(models.Model):
         abstract = True
 
 
+@dataclass(eq=True)
 class FieldChange:
-    def __init__(self, field, old, new, many_to_many_entity=None):
-        self.field = field
-        self.old = old
-        self.new = new
-        self.many_to_many_entity = many_to_many_entity
+    field: str
+    old: Any
+    new: Any
+    many_to_many_entity: str = None
 
 
+@dataclass(eq=True)
 class ModelChange:
-    def __init__(self, date, user, entity_name, entity_id, field_changes):
-        self.date = date
-        self.user = user
-        self.entity_name = entity_name
-        self.entity_id = entity_id
-        self.field_changes = field_changes
+    date: timezone.datetime
+    user: User
+    entity_name: str
+    entity_id: int
+    field_changes: List[FieldChange]
+
+    def __add__(self, other):
+        if self.date > other.date:
+            raise ValueError("change_1 must be older than change_2")
+        # user must be the same
+        if self.user != other.user:
+            raise ValueError("change_1 and change_2 must have the same user")
+
+        for field_change in other.field_changes:
+            try:
+                source_field_change = next(
+                    f for f in self.field_changes if f.field == field_change.field
+                )
+            except StopIteration:
+                self.field_changes.append(field_change)
+            else:
+                source_field_change.new = field_change.new
+        return self
 
 
 class BaseUpdatableModel(BaseSoftDeletableModel):
@@ -198,12 +218,24 @@ class BaseUpdatableModel(BaseSoftDeletableModel):
         """
         changes = []
         values = set()
+        through_values = {}
         for history_record in history.order_by("history_id"):
             old_values = values.copy()
-            if history_record.history_type in ["~", "+"]:
-                values.add(getattr(history_record, reverse_field_name))
-            elif history_record.history_type == "-":
-                values.remove(getattr(history_record, reverse_field_name))
+
+            value = getattr(history_record, reverse_field_name)
+            through_id = history_record.id
+            history_type = history_record.history_type
+
+            if history_type in ["~", "+"]:
+                if through_id in through_values and history_type == "~":
+                    if value != through_values[through_id]:
+                        values.remove(through_values[through_id])
+                through_values[through_id] = value
+                values.add(value)
+            elif history_type == "-":
+                if value in values:
+                    values.remove(value)
+
             new_values = values.copy()
 
             if old_values != new_values:
@@ -217,3 +249,39 @@ class BaseUpdatableModel(BaseSoftDeletableModel):
                 )
 
         return changes
+
+    def get_merged_changes(self):
+        return self._merge_changes(self.get_changes())
+
+    @staticmethod
+    def _merge_changes(changes: list[ModelChange]):
+        """
+        Merge changes if interval between changes
+        is less than settings.CHANGE_HISTORY_MAX_INTERVAL minute
+
+        :param changes: list of ModelChange
+        :return: list of merged changes
+        """
+        changes = sorted(changes, key=lambda x: x.date)
+
+        merged_changes = []
+
+        by_user = {}
+        for change in changes:
+            by_user.setdefault(change.user, []).append(change)
+
+        for user_changes in by_user.values():
+
+            user_merged_changes = [user_changes[0]]
+
+            for change in user_changes[1:]:
+                if change.date - user_merged_changes[-1].date <= timezone.timedelta(
+                    milliseconds=settings.CHANGE_HISTORY_MAX_INTERVAL
+                ):
+                    user_merged_changes[-1] += change
+                else:
+                    user_merged_changes.append(change)
+
+            merged_changes.extend(user_merged_changes)
+
+        return sorted(merged_changes, key=lambda x: x.date, reverse=True)

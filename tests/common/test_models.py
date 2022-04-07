@@ -1,5 +1,6 @@
-from django.test import TestCase
-from updates.models import BaseUpdatableModel
+from django.test import TestCase, override_settings
+from django.utils import timezone
+from updates.models import BaseUpdatableModel, FieldChange, ModelChange
 
 from factories.ipharm import CheckInFactory
 from factories.references import DrugFactory
@@ -61,3 +62,194 @@ class BaseUpdatableModelTest(TestCase):
             ),
         )
         self.assertEqual(len(changes), 4)
+
+    @override_settings(CHANGE_HISTORY_MAX_INTERVAL=500)
+    def test_merge_changes(self):
+        changes = [
+            ModelChange(
+                date=timezone.datetime(2020, 1, 1, 0, 0, 0, 0),
+                user="user1",
+                entity_name="entity1",
+                entity_id=1,
+                field_changes=[
+                    FieldChange(field="field1", old="value1_1", new="value1_2"),
+                    FieldChange(field="field2", old="value2_1", new="value2_2"),
+                ],
+            ),
+            ModelChange(
+                date=timezone.datetime(2020, 1, 1, 0, 0, 0, 1),
+                user="user2",
+                entity_name="entity1",
+                entity_id=1,
+                field_changes=[
+                    FieldChange(field="field3", old="value3_1_u2", new="value3_2_u2"),
+                ],
+            ),
+            ModelChange(
+                date=timezone.datetime(2020, 1, 1, 0, 0, 0, 2),
+                user="user1",
+                entity_name="entity1",
+                entity_id=1,
+                field_changes=[
+                    FieldChange(field="field3", old="value3_1", new="value3_2"),
+                ],
+            ),
+            ModelChange(
+                date=timezone.datetime(2020, 1, 1, 0, 0, 0, 3),
+                user="user1",
+                entity_name="entity1",
+                entity_id=1,
+                field_changes=[
+                    FieldChange(field="field3", old="value3_2", new="value3_3"),
+                ],
+            ),
+            ModelChange(
+                date=timezone.datetime(2020, 1, 1, 0, 0, 1, 0),
+                user="user1",
+                entity_name="entity1",
+                entity_id=1,
+                field_changes=[
+                    FieldChange(field="field1", old="value1_2", new="value1_3"),
+                    FieldChange(field="field2", old="value2_2", new="value2_3"),
+                ],
+            ),
+            ModelChange(
+                date=timezone.datetime(2020, 1, 1, 0, 0, 1, 2),
+                user="user1",
+                entity_name="entity1",
+                entity_id=1,
+                field_changes=[
+                    FieldChange(field="field3", old="value3_3", new="value3_4"),
+                ],
+            ),
+        ]
+
+        merged_changes = BaseUpdatableModel._merge_changes(
+            sorted(changes, key=lambda x: x.date, reverse=True)
+        )
+
+        self.assertEqual(
+            merged_changes[2],
+            ModelChange(
+                date=timezone.datetime(2020, 1, 1, 0, 0, 0, 0),
+                user="user1",
+                entity_name="entity1",
+                entity_id=1,
+                field_changes=[
+                    FieldChange(field="field1", old="value1_1", new="value1_2"),
+                    FieldChange(field="field2", old="value2_1", new="value2_2"),
+                    FieldChange(field="field3", old="value3_1", new="value3_3"),
+                ],
+            ),
+        )
+
+        self.assertEqual(
+            merged_changes[1],
+            ModelChange(
+                date=timezone.datetime(2020, 1, 1, 0, 0, 0, 1),
+                user="user2",
+                entity_name="entity1",
+                entity_id=1,
+                field_changes=[
+                    FieldChange(field="field3", old="value3_1_u2", new="value3_2_u2"),
+                ],
+            ),
+        )
+
+        self.assertEqual(
+            merged_changes[0],
+            ModelChange(
+                date=timezone.datetime(2020, 1, 1, 0, 0, 1, 0),
+                user="user1",
+                entity_name="entity1",
+                entity_id=1,
+                field_changes=[
+                    FieldChange(field="field1", old="value1_2", new="value1_3"),
+                    FieldChange(field="field2", old="value2_2", new="value2_3"),
+                    FieldChange(field="field3", old="value3_3", new="value3_4"),
+                ],
+            ),
+        )
+
+        self.assertEqual(len(merged_changes), 3)
+
+
+class TestModelChange(TestCase):
+    def test_add_changes(self):
+        change_1 = ModelChange(
+            date=timezone.datetime(2020, 1, 1, 0, 0, 0, 0),
+            user="user1",
+            entity_name="entity1",
+            entity_id=1,
+            field_changes=[
+                FieldChange(field="field1", old="value1_1", new="value1_2"),
+                FieldChange(field="field2", old="value2_1", new="value2_2"),
+            ],
+        )
+
+        change_2 = ModelChange(
+            date=timezone.datetime(2020, 1, 1, 0, 0, 0, 2),
+            user="user1",
+            entity_name="entity1",
+            entity_id=1,
+            field_changes=[
+                FieldChange(field="field3", old="value3_1", new="value3_2"),
+            ],
+        )
+
+        merged = change_1 + change_2
+
+        self.assertEqual(
+            merged,
+            ModelChange(
+                date=timezone.datetime(2020, 1, 1, 0, 0, 0, 0),
+                user="user1",
+                entity_name="entity1",
+                entity_id=1,
+                field_changes=[
+                    FieldChange(field="field1", old="value1_1", new="value1_2"),
+                    FieldChange(field="field2", old="value2_1", new="value2_2"),
+                    FieldChange(field="field3", old="value3_1", new="value3_2"),
+                ],
+            ),
+        )
+
+    def test_add_changes_for_existing_field(self):
+        change_1 = ModelChange(
+            date=timezone.datetime(2020, 1, 1, 0, 0, 0, 0),
+            user="user1",
+            entity_name="entity1",
+            entity_id=1,
+            field_changes=[
+                FieldChange(field="field1", old="value1_1", new="value1_2"),
+                FieldChange(field="field2", old="value2_1", new="value2_2"),
+                FieldChange(field="field3", old="value3_1", new="value3_1"),
+            ],
+        )
+
+        change_2 = ModelChange(
+            date=timezone.datetime(2020, 1, 1, 0, 0, 0, 2),
+            user="user1",
+            entity_name="entity1",
+            entity_id=1,
+            field_changes=[
+                FieldChange(field="field3", old="value3_2", new="value3_3"),
+            ],
+        )
+
+        merged = change_1 + change_2
+
+        self.assertEqual(
+            merged,
+            ModelChange(
+                date=timezone.datetime(2020, 1, 1, 0, 0, 0, 0),
+                user="user1",
+                entity_name="entity1",
+                entity_id=1,
+                field_changes=[
+                    FieldChange(field="field1", old="value1_1", new="value1_2"),
+                    FieldChange(field="field2", old="value2_1", new="value2_2"),
+                    FieldChange(field="field3", old="value3_1", new="value3_3"),
+                ],
+            ),
+        )
