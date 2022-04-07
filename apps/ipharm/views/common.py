@@ -9,6 +9,6 @@ class HistoryView(views.APIView):
     def get(self, request, *args, **kwargs):
         pk = kwargs.get("pk")
         obj = self.queryset.get(pk=pk)
-        changes = obj.get_changes()
+        changes = obj.get_merged_changes()
         serializer = ModelChangeSerializer(changes, many=True)
         return Response(serializer.data)
