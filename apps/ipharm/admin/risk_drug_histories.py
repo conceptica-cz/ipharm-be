@@ -14,6 +14,7 @@ class RiskDrugHistory_risk_drugsInline(admin.TabularInline):
     model = RiskDrugHistory_risk_drugs
     extra = 0
     exclude = ["is_deleted"]
+    autocomplete_fields = ["drug"]
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -23,6 +24,7 @@ class RiskDrugHistory_risk_diagnosesInline(admin.TabularInline):
     model = RiskDrugHistory_risk_diagnoses
     extra = 0
     exclude = ["is_deleted"]
+    autocomplete_fields = ["diagnosis"]
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -32,6 +34,7 @@ class RiskDrugHistory_tagsInline(admin.TabularInline):
     model = RiskDrugHistory_tags
     extra = 0
     exclude = ["is_deleted"]
+    autocomplete_fields = ["tag"]
 
     def has_delete_permission(self, request, obj=None):
         return False

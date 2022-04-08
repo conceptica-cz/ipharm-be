@@ -21,6 +21,7 @@ class PharmacologicalPlan_tagsInline(admin.TabularInline):
     model = PharmacologicalPlan_tags
     extra = 0
     exclude = ["is_deleted"]
+    autocomplete_fields = ["tag"]
 
     def has_delete_permission(self, request, obj=None):
         return False
