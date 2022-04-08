@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.test import TestCase, override_settings
 from django.utils import timezone
 from updates.models import BaseUpdatableModel, FieldChange, ModelChange
@@ -62,6 +64,36 @@ class BaseUpdatableModelTest(TestCase):
             ),
         )
         self.assertEqual(len(changes), 4)
+
+    @patch("simple_history.models.timezone.now")
+    def test_get_changes_filtered(self, mocked_now):
+        time_1 = timezone.datetime(2020, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
+        time_2 = timezone.datetime(2020, 1, 2, 0, 0, 0, tzinfo=timezone.utc)
+        time_3 = timezone.datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.utc)
+        time_4 = timezone.datetime(2020, 1, 4, 0, 0, 0, tzinfo=timezone.utc)
+        time_5 = timezone.datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.utc)
+
+        mocked_now.return_value = time_1
+        check_in = CheckInFactory(polypharmacy_note="note 1")
+
+        mocked_now.return_value = time_2
+        check_in.polypharmacy_note = "note 2"
+        check_in.save()
+
+        mocked_now.return_value = time_3
+        check_in.polypharmacy_note = "note 3"
+        check_in.save()
+
+        mocked_now.return_value = time_4
+        check_in.polypharmacy_note = "note 4"
+        check_in.save()
+
+        mocked_now.return_value = time_5
+        check_in.polypharmacy_note = "note 5"
+        check_in.save()
+
+        changes = check_in.get_changes(datetime_from=time_3, datetime_to=time_4)
+        self.assertEqual(len(changes), 2)
 
     @override_settings(CHANGE_HISTORY_MAX_INTERVAL=500)
     def test_merge_changes(self):
