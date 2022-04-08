@@ -155,7 +155,11 @@ class BaseUpdatableModel(BaseSoftDeletableModel):
         history.history_user = user
         history.save()
 
-    def get_changes(self):
+    def get_changes(
+        self,
+        datetime_from: timezone.datetime = None,
+        datetime_to: timezone.datetime = None,
+    ) -> List[ModelChange]:
         change_list = []
         current = self.history.first()
         while current.prev_record:
@@ -172,6 +176,15 @@ class BaseUpdatableModel(BaseSoftDeletableModel):
             current = current.prev_record
         change_list.extend(self._get_m2m_changes())
         change_list.sort(key=lambda x: x.date, reverse=True)
+
+        def datetime_filter(model_change):
+            if datetime_from and model_change.date < datetime_from:
+                return False
+            if datetime_to and model_change.date > datetime_to:
+                return False
+            return True
+
+        change_list = list(filter(datetime_filter, change_list))
         return change_list
 
     def _get_m2m_changes(self):
@@ -250,8 +263,8 @@ class BaseUpdatableModel(BaseSoftDeletableModel):
 
         return changes
 
-    def get_merged_changes(self):
-        return self._merge_changes(self.get_changes())
+    def get_merged_changes(self, datetime_from=None, datetime_to=None):
+        return self._merge_changes(self.get_changes(datetime_from, datetime_to))
 
     @staticmethod
     def _merge_changes(changes: list[ModelChange]):
