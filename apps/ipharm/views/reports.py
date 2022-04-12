@@ -1,4 +1,6 @@
 from django.utils import dateparse
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from references.managers.departments import DepartmentForReportNotFound
 from references.managers.identifications import IdentificationForReportNotFound
 from reports.models import GenericReportType, ReportVariable
@@ -29,6 +31,62 @@ class ReportVariableDetailView(generics.RetrieveUpdateAPIView):
     serializer_class = ReportVariableSerializer
 
 
+@extend_schema_view(
+    get=extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="report_format",
+                type=OpenApiTypes.STR,
+                enum=["pdf", "xsls"],
+                location=OpenApiParameter.QUERY,
+                description="Report file format. Not all formats are available for every report. Value must be from the report's field ``formats``",  # noqa
+            ),
+            OpenApiParameter(
+                name="time_range",
+                type=OpenApiTypes.DATE,
+                enum=["year", "month", "custom"],
+                location=OpenApiParameter.QUERY,
+                description="Type of report time interval. Not all time intervals available for every report. Value must be from the report's field ``time_ranges``",  # noqa
+            ),
+            OpenApiParameter(
+                name="year",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                description="From date (only if parameter ``time_range`` is **month**).",
+            ),
+            OpenApiParameter(
+                name="month",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                description="From date (only if parameter ``time_range`` is **year** or **month**).",
+            ),
+            OpenApiParameter(
+                name="date_to",
+                type=OpenApiTypes.DATE,
+                location=OpenApiParameter.QUERY,
+                description="From date (only if parameter ``time_range`` is **custom**)",
+            ),
+            OpenApiParameter(
+                name="date_to",
+                type=OpenApiTypes.DATETIME,
+                location=OpenApiParameter.QUERY,
+                description="To date (only if parameter ``time_range`` is **custom**)",
+            ),
+            OpenApiParameter(
+                name="clinic",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                description="The ID of the clinic used as filter. Not all filters available for every report. **clinic** must be in the report's field ``filters``",  # noqa
+            ),
+            OpenApiParameter(
+                name="department",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                description="The ID of the department used as filter. Not all filters available for every report. **department** must be in the report's field ``filters``",  # noqa
+            ),
+        ]
+    )
+)
 class ReportGenerateView(APIView):
     def get(self, request, *args, **kwargs):
         report_format = self.request.query_params.get("report_format")
