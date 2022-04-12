@@ -31,7 +31,7 @@ class ReportVariableDetailView(generics.RetrieveUpdateAPIView):
 
 class ReportGenerateView(APIView):
     def get(self, request, *args, **kwargs):
-        report_format = self.request.query_params.get("format")
+        report_format = self.request.query_params.get("report_format")
         time_range = self.request.query_params.get("time_range")
         year = self.request.query_params.get("year")
         month = self.request.query_params.get("month")
@@ -39,7 +39,7 @@ class ReportGenerateView(APIView):
         date_to = self.request.query_params.get("date_to")
         report_type = GenericReportType.objects.get(pk=self.kwargs["pk"])
         NO_FILTER_PARAMS = (
-            "format",
+            "report_format",
             "time_range",
             "year",
             "month",
@@ -93,5 +93,7 @@ class ReportGenerateView(APIView):
                 "Department for report not found. Please, add it. Dont forget to set for_for_insurance=True.",
                 code="DepartmentForReportNotFound",
             )
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)
         response = Response(GenericReportFileSerializer(report_file).data)
         return response
