@@ -3,20 +3,10 @@ import logging
 from typing import Callable
 
 from django.conf import settings
-from django.template.loader import render_to_string
-from weasyprint import HTML
+
+from . import common
 
 logger = logging.getLogger(__name__)
-
-
-def to_pdf(content):
-    html = HTML(string=content)
-    rendered = html.write_pdf()
-    return rendered
-
-
-def to_text(content):
-    return content
 
 
 class GenericReport:
@@ -42,16 +32,10 @@ class GenericReport:
 
 
 class GenericReportFactory:
-    @staticmethod
-    def _get_func(dotted_path: str) -> Callable:
-        module_name, func_name = dotted_path.rsplit(".", 1)
-        module = importlib.import_module(module_name)
-        return getattr(module, func_name)
-
     def create(
         self, report_type: "GenericReportType", report_format: str, **kwargs
     ) -> GenericReport:
-        data_loader = self._get_func(
+        data_loader = common.get_func_from_path(
             settings.GENERIC_REPORTS[report_type.name]["data_loader"]
         )
 
@@ -59,7 +43,7 @@ class GenericReportFactory:
             "data_loader_kwargs", {}
         )
 
-        renderer = self._get_func(
+        renderer = common.get_func_from_path(
             settings.GENERIC_REPORTS[report_type.name]["renderers"][report_format][
                 "renderer"
             ]
