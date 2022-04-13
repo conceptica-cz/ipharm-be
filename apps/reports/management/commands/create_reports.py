@@ -36,4 +36,4 @@ class Command(BaseCommand):
                 if created:
                     print(f"Created variable: {variable['name']}")
 
-        print("Report was created.")
+        print("Reports was created/updated.")

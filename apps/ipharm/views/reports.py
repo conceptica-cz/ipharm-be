@@ -151,7 +151,5 @@ class ReportGenerateView(APIView):
                 "Department for report not found. Please, add it. Dont forget to set for_for_insurance=True.",
                 code="DepartmentForReportNotFound",
             )
-        except Exception as e:
-            return Response({"error": str(e)}, status=400)
         response = Response(GenericReportFileSerializer(report_file).data)
         return response

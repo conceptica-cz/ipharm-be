@@ -32,7 +32,6 @@ if "ALLOWED_HOSTS" in os.environ:
 else:
     ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -90,7 +89,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ipharm_web.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -132,7 +130,6 @@ if "CORS_ALLOWED_ORIGINS" in os.environ:
 else:
     CORS_ALLOWED_ORIGINS = []
 
-
 SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_DIST": "SIDECAR",
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
@@ -160,7 +157,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -173,7 +169,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -336,7 +331,7 @@ GENERIC_REPORTS = {
         "data_loader": "reports.generic_reports.uzis.uzis_loader",
         "renderers": {
             "pdf": {
-                "renderer": "reports.generic_reports.common.pdf_renderer",
+                "renderer": "reports.generic_reports.pdf.pdf_renderer",
                 "renderer_kwargs": {
                     "template": "generic_reports/uzis/pdf.html",
                 },
@@ -550,9 +545,15 @@ GENERIC_REPORTS = {
         "data_loader": "reports.generic_reports.statistical_reports.risk_level_loader",
         "renderers": {
             "pdf": {
-                "renderer": "reports.generic_reports.common.pdf_renderer",
+                "renderer": "reports.generic_reports.pdf.pdf_renderer",
                 "renderer_kwargs": {
                     "template": "generic_reports/statistical_reports/risk_levels_pdf.html",  # noqa
+                },
+            },
+            "xlsx": {
+                "renderer": "reports.generic_reports.xlsx.xlsx_renderer",
+                "renderer_kwargs": {
+                    "data_transformer": "reports.generic_reports.statistical_reports.risk_level_xlsx_data_transformer",  # noqa
                 },
             },
         },

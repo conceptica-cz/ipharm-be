@@ -1,7 +1,0 @@
-{% if kwargs.time_range == "year"  %}
-Rok: {{  kwargs.year }}
-{% elif kwargs.time_range == "month"  %}
-Rok: {{  kwargs.year }} Měsíc: {{  kwargs.month }}
-{% elif kwargs.time_range == "custom"  %}
-Od: {{  kwargs.date_from|default_if_none:"..." }} do: {{  kwargs.date_to|default_if_none:"..." }}
-{% endif %}
