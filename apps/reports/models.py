@@ -76,13 +76,13 @@ class GenericReportType(models.Model):
             report_format = self.formats[0]
 
         if report_format not in self.formats:
-            raise ValueError(f"{report_format} is not supported")
+            raise ValueError(f"report_format '{report_format}' is not supported")
 
         if time_range is None:
             time_range = self.time_ranges[0]
 
         if time_range not in self.time_ranges:
-            raise ValueError(f"{time_range} is not supported")
+            raise ValueError(f"time_range '{time_range}' is not supported")
 
         if time_range in [GenericReportType.YEAR, GenericReportType.MONTH]:
             if year is None:
@@ -95,8 +95,6 @@ class GenericReportType(models.Model):
         if time_range == GenericReportType.CUSTOM:
             if date_to is None:
                 date_to = timezone.now()
-            if date_from is None:
-                date_from = date_to - timezone.timedelta(days=30)
 
         generic_report_file, _ = GenericReportFile.objects.update_or_create(
             report_type=self,

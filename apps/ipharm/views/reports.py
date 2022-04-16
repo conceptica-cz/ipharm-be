@@ -61,7 +61,7 @@ class ReportVariableDetailView(generics.RetrieveUpdateAPIView):
                 description="From date (only if parameter ``time_range`` is **year** or **month**).",
             ),
             OpenApiParameter(
-                name="date_to",
+                name="date_from",
                 type=OpenApiTypes.DATE,
                 location=OpenApiParameter.QUERY,
                 description="From date (only if parameter ``time_range`` is **custom**)",
@@ -151,5 +151,7 @@ class ReportGenerateView(APIView):
                 "Department for report not found. Please, add it. Dont forget to set for_for_insurance=True.",
                 code="DepartmentForReportNotFound",
             )
+        except ValueError as e:
+            return Response({"error": str(e)}, status=400)
         response = Response(GenericReportFileSerializer(report_file).data)
         return response
