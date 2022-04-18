@@ -1,0 +1,56 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 1.2cm;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        table {
+            border-collapse: collapse;
+            border: 0.3mm solid black;
+            font-family: "Liberation Sans Narrow";
+            font-size: 12px;
+            width: 100%;
+        }
+
+        td, th {
+            border: 0.3mm solid black;
+            text-align: center;
+            padding: 0.7mm;
+            padding-left: 2mm;
+            text-align: left;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="main">
+    <h1>Štítky</h1>
+    <table>
+        <tr>
+            <th colspan="2">{{ header }}</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Počet pacientů</td>
+        </tr>
+        {% for tag in tags %}
+            <tr>
+                <td>{{ tag.name }}</td>
+                <td>{{ tag.total_count }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>

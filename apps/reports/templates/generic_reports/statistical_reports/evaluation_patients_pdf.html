@@ -1,0 +1,250 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 1.2cm;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        table {
+            border-collapse: collapse;
+            border: 0.3mm solid black;
+            font-family: "Liberation Sans Narrow";
+            font-size: 12px;
+            width: 100%;
+        }
+
+        td, th {
+            border: 0.3mm solid black;
+            text-align: center;
+            padding: 0.7mm;
+            padding-left: 2mm;
+            text-align: left;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="main">
+    <h1>FTD hodnocení – pacienti</h1>
+    <table>
+        <tr>
+            <th colspan="2">{{ header }}</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Počet pacientů</td>
+        </tr>
+        <tr>
+            <th>Nasazení léčiva</th>
+            <td>{{ counts.deployment_count }}</td>
+        </tr>
+        <tr>
+            <td>Diagnóza ve vstupní kontrole</td>
+            <td>{{ counts.deployment_initial_diagnosis_count }}</td>
+        </tr>
+        <tr>
+            <td>Diagnóza v průběhu hospitalizace</td>
+            <td>{{ counts.deployment_during_diagnosis_count }}</td>
+        </tr>
+        <tr>
+            <td>Vhodnější FT postup</td>
+            <td>{{ counts.deployment_ft_approach_count }}</td>
+        </tr>
+        <tr>
+            <td>Jiný důvod</td>
+            <td>{{ counts.deployment_other_reason_count }}</td>
+        </tr>
+
+        <tr>
+            <th>Pokračování v terapii</th>
+            <td>{{ counts.continuation_count }}</td>
+        </tr>
+        <tr>
+            <td>Znovunasazení léčiva</td>
+            <td>{{ counts.continuation_drug_reintroduction_count }}</td>
+        </tr>
+        <tr>
+            <td>Po lékařské intervenci</td>
+            <td>{{ counts.continuation_medical_intervention_count }}</td>
+        </tr>
+        <tr>
+            <td>Jiný důvod</td>
+            <td>{{ counts.continuation_other_reason_count }}</td>
+        </tr>
+
+        <tr>
+            <th>Vysazení léčiva</th>
+            <td>{{ counts.discontinuation_count }}</td>
+        </tr>
+        <tr>
+            <td>Kontraindikace</td>
+            <td>{{ counts.discontinuation_contradiction_count }}</td>
+        </tr>
+        <tr>
+            <td>Projev nežádoucího účinku</td>
+            <td>{{ counts.discontinuation_adverse_effect_count }}</td>
+        </tr>
+        <tr>
+            <td>Riziko nežádoucího účinku</td>
+            <td>{{ counts.discontinuation_adverse_effect_risk_count }}</td>
+        </tr>
+        <tr>
+            <td>Chybějící indikace</td>
+            <td>{{ counts.discontinuation_missing_indication_count }}</td>
+        </tr>
+        <tr>
+            <td>Alergie</td>
+            <td>{{ counts.discontinuation_allergies_count }}</td>
+        </tr>
+        <tr>
+            <td>Riziko poddávkování</td>
+            <td>{{ counts.discontinuation_underdosage_risk_count }}</td>
+        </tr>
+        <tr>
+            <td>Poddávkování</td>
+            <td>{{ counts.discontinuation_underdosage_count }}</td>
+        </tr>
+        <tr>
+            <td>Riziko předávkování</td>
+            <td>{{ counts.discontinuation_overdosage_risk_count }}</td>
+        </tr>
+        <tr>
+            <td>Léková interakce</td>
+            <td>{{ counts.discontinuation_drug_interaction_count }}</td>
+        </tr>
+        <tr>
+            <td>Duplicity</td>
+            <td>{{ counts.discontinuation_duplicity_count }}</td>
+        </tr>
+        <tr>
+            <td>Renální insuficience</td>
+            <td>{{ counts.discontinuation_renal_insufficiency_count }}</td>
+        </tr>
+        <tr>
+            <td>Hepatální insuficience</td>
+            <td>{{ counts.discontinuation_hepatic_insufficiency_count }}</td>
+        </tr>
+        <tr>
+            <td>Lékařská intervence</td>
+            <td>{{ counts.discontinuation_medical_intervention_count }}</td>
+        </tr>
+        <tr>
+            <td>Jiný důvod</td>
+            <td>{{ counts.discontinuation_other_reason_count }}</td>
+        </tr>
+
+        <tr>
+            <th>Změna dávky</th>
+            <td>{{ counts.dose_change_count }}</td>
+        </tr>
+        <tr>
+            <td>Projev nežádoucího účinku</td>
+            <td>{{ counts.dose_change_adverse_effect_count }}</td>
+        </tr>
+        <tr>
+            <td>Riziko nežádoucího účinku</td>
+            <td>{{ counts.dose_change_adverse_effect_risk_count }}</td>
+        </tr>
+        <tr>
+            <td>Hepatální insuficience</td>
+            <td>{{ counts.dose_change_hepatic_insufficiency_count }}</td>
+        </tr>
+        <tr>
+            <td>Renální insuficience</td>
+            <td>{{ counts.dose_change_renal_insufficiency_count }}</td>
+        </tr>
+        <tr>
+            <td>Léková interakce</td>
+            <td>{{ counts.dose_change_drug_interaction_count }}</td>
+        </tr>
+        <tr>
+            <td>Riziko poddávkování</td>
+            <td>{{ counts.dose_change_underdosage_count }}</td>
+        </tr>
+        <tr>
+            <td>Riziko předávkování</td>
+            <td>{{ counts.dose_change_overdosage_count }}</td>
+        </tr>
+        <tr>
+            <td>Na základě laboratorních výsledků</td>
+            <td>{{ counts.dose_change_laboratory_findings_count }}</td>
+        </tr>
+        <tr>
+            <td>Snížení dávky</td>
+            <td>{{ counts.dose_change_dosage_reduction_count }}</td>
+        </tr>
+        <tr>
+            <td>Zvýšení dávky</td>
+            <td>{{ counts.dose_change_dosage_increase_count }}</td>
+        </tr>
+        <tr>
+            <td>Jiný důvod</td>
+            <td>{{ counts.dose_change_other_reason_count }}</td>
+        </tr>
+
+        <tr>
+            <th>Doporučené vyšetření</th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Specialistou</td>
+            <td>{{ counts.recommended_investigation_by_specialist_count }}</td>
+        </tr>
+        <tr>
+            <td>Laboratoří</td>
+            <td>{{ counts.recommended_investigation_by_laboratory_count }}</td>
+        </tr>
+        <tr>
+            <td>Fyzikální</td>
+            <td>{{ counts.recommended_investigation_by_physical_count }}</td>
+        </tr>
+        <tr>
+            <th>TDM</th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Interpretace</td>
+            <td>{{ counts.tdm_interpretation_count }}</td>
+        </tr>
+        <tr>
+            <td>Doporučené změření hladiny</td>
+            <td>{{ counts.tdm_measure_level_recommendation_count }}</td>
+        </tr>
+        <tr>
+            <th>Specifika</th>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Diagnostika nežádoucího účinku</td>
+            <td>{{ counts.specific_adverse_effect_diagnosis_count }}</td>
+        </tr>
+        <tr>
+            <td>Hlášení NÚ</td>
+            <td>{{ counts.specific_adverse_effect_reporting_count }}</td>
+        </tr>
+        <tr>
+            <td>Konzultace</td>
+            <td>{{ counts.specific_consultation_count }}</td>
+        </tr>
+        <tr>
+            <td>Stanovení dávka</td>
+            <td>{{ counts.dosage_determination_count }}</td>
+        </tr>
+        <tr>
+            <td>Optimalizace způsobu</td>
+            <td>{{ counts.administration_method_optimization_count }}</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
