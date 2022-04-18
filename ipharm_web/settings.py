@@ -559,6 +559,116 @@ GENERIC_REPORTS = {
         },
         "order": 2,
     },
+    "pharmacological_evaluation_patients": {
+        "description": "FTD hodnocení – pacienti",
+        "file_name": "FTD hodnocení – pacienti",
+        "time_ranges": ["year", "month", "custom"],
+        "filters": ["clinic", "department"],
+        "data_loader": "reports.generic_reports.statistical_reports.evaluation_patients_loader",  # noqa
+        "renderers": {
+            "pdf": {
+                "renderer": "reports.generic_reports.pdf.pdf_renderer",
+                "renderer_kwargs": {
+                    "template": "generic_reports/statistical_reports/evaluation_patients_pdf.html",  # noqa
+                },
+            },
+            "xlsx": {
+                "renderer": "reports.generic_reports.xlsx.xlsx_renderer",
+                "renderer_kwargs": {
+                    "data_transformer": "reports.generic_reports.statistical_reports.evaluation_patients_xlsx_data_transformer",  # noqa
+                },
+            },
+        },
+        "order": 3,
+    },
+    "tags": {
+        "description": "Štítky",
+        "file_name": "Štítky",
+        "time_ranges": ["year", "month", "custom"],
+        "filters": ["clinic", "department"],
+        "data_loader": "reports.generic_reports.statistical_reports.tags_loader",
+        "renderers": {
+            "pdf": {
+                "renderer": "reports.generic_reports.pdf.pdf_renderer",
+                "renderer_kwargs": {
+                    "template": "generic_reports/statistical_reports/tags_pdf.html",  # noqa
+                },
+            },
+            "xlsx": {
+                "renderer": "reports.generic_reports.xlsx.xlsx_renderer",
+                "renderer_kwargs": {
+                    "data_transformer": "reports.generic_reports.statistical_reports.tags_xlsx_data_transformer",  # noqa
+                },
+            },
+        },
+        "order": 4,
+    },
+    # "pharmacological_evaluation_drugs": {
+    #     "description": "FTD hodnocení – léčiva",
+    #     "file_name": "FTD hodnocení – léčiva",
+    #     "time_ranges": ["year", "month", "custom"],
+    #     "filters": ["clinic", "department"],
+    #     "data_loader": "reports.generic_reports.statistical_reports.evaluation_drugs_loader",  # noqa
+    #     "renderers": {
+    #         "pdf": {
+    #             "renderer": "reports.generic_reports.pdf.pdf_renderer",
+    #             "renderer_kwargs": {
+    #                 "template": "generic_reports/statistical_reports/evaluation_drugs_pdf.html",  # noqa
+    #             },
+    #         },
+    #         "xlsx": {
+    #             "renderer": "reports.generic_reports.xlsx.xlsx_renderer",
+    #             "renderer_kwargs": {
+    #                 "data_transformer": "reports.generic_reports.statistical_reports.evaluation_drugs_xlsx_data_transformer",  # noqa
+    #             },
+    #         },
+    #     },
+    #     "order": 5,
+    # },
+    # "pharmacological_evaluation_atc_groups_summary": {
+    #     "description": "FTD hodnocení – ATC skupiny souhrn",
+    #     "file_name": "FTD hodnocení – ATC skupiny souhrn",
+    #     "time_ranges": ["year", "month", "custom"],
+    #     "filters": ["clinic", "department"],
+    #     "data_loader": "reports.generic_reports.statistical_reports.evaluation_atc_groups_summary_loader",  # noqa
+    #     "renderers": {
+    #         "pdf": {
+    #             "renderer": "reports.generic_reports.pdf.pdf_renderer",
+    #             "renderer_kwargs": {
+    #                 "template": "generic_reports/statistical_reports/evaluation_atc_groups_summary_pdf.html",  # noqa
+    #             },
+    #         },
+    #         "xlsx": {
+    #             "renderer": "reports.generic_reports.xlsx.xlsx_renderer",
+    #             "renderer_kwargs": {
+    #                 "data_transformer": "reports.generic_reports.statistical_reports.evaluation_atc_groups_summary_xlsx_data_transformer",  # noqa
+    #             },
+    #         },
+    #     },
+    #     "order": 6,
+    # },
+    # "pharmacological_evaluation_atc_groups_detail": {
+    #     "description": "FTD hodnocení – ATC skupiny detail",
+    #     "file_name": "FTD hodnocení – ATC skupiny detail",
+    #     "time_ranges": ["year", "month", "custom"],
+    #     "filters": ["clinic", "department"],
+    #     "data_loader": "reports.generic_reports.statistical_reports.evaluation_atc_groups_detail_loader",  # noqa
+    #     "renderers": {
+    #         "pdf": {
+    #             "renderer": "reports.generic_reports.pdf.pdf_renderer",
+    #             "renderer_kwargs": {
+    #                 "template": "generic_reports/statistical_reports/evaluation_atc_groups_detail_pdf.html",  # noqa
+    #             },
+    #         },
+    #         "xlsx": {
+    #             "renderer": "reports.generic_reports.xlsx.xlsx_renderer",
+    #             "renderer_kwargs": {
+    #                 "data_transformer": "reports.generic_reports.statistical_reports.evaluation_atc_groups_detail_xlsx_data_transformer",  # noqa
+    #             },
+    #         },
+    #     },
+    #     "order": 7,
+    # },
 }
 
 # CELERY

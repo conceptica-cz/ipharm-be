@@ -15,7 +15,7 @@ def xlsx_renderer(data: dict, **kwargs):
 
     for row, data_row in enumerate(transformed["data"]):
         for col, data_cell in enumerate(data_row):
-            format = {}
+            format = transformed.get("default_format", {})
 
             if isinstance(data_cell, tuple):  # cell has a value and a style
                 data_cell, format = data_cell

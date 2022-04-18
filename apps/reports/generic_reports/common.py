@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from references.models import Clinic, Department
 
-FILTER_FIELDS = {
+FILTER_FIELD_LOOKUPS = {
     "clinic": "care__clinic_id",
     "department": "care__department_id",
 }
@@ -24,7 +24,7 @@ def get_func_from_path(dotted_path):
     return getattr(module, func_name)
 
 
-def get_time_filter(**kwargs):
+def get_time_filter(lookup_prefix="", **kwargs):
     time_range = kwargs["time_range"]
     year = kwargs.get("year")
     month = kwargs.get("month")
@@ -33,23 +33,26 @@ def get_time_filter(**kwargs):
 
     q = Q()
     if time_range == "year":
-        q = q & Q(updated_at__year=year)
+        q = q & Q(**{f"{lookup_prefix}updated_at__year": year})
     elif time_range == "month":
-        q = q & Q(updated_at__year=year) & Q(updated_at__month=month)
+        q = (
+            q
+            & Q(**{f"{lookup_prefix}updated_at__year": year})
+            & Q(**{f"{lookup_prefix}updated_at__month": month})
+        )
     elif time_range == "custom":
         if date_from:
-            q = q & Q(updated_at__gte=date_from)
+            q = q & Q(**{f"{lookup_prefix}updated_at__gte": date_from})
         if date_to:
-            q = q & Q(updated_at__lte=date_to)
+            q = q & Q(**{f"{lookup_prefix}updated_at__lte": date_to})
     return q
 
 
-def get_entity_filter(filters, field_transformers=None):
-    if field_transformers is None:
-        field_transformers = FILTER_FIELDS
+def get_entity_filter(filters, lookup_prefix=""):
+    field_lookup = FILTER_FIELD_LOOKUPS
     q = Q()
     for field, value in filters.items():
-        q &= Q(**{field_transformers[field]: value})
+        q &= Q(**{f"{lookup_prefix}{field_lookup[field]}": value})
     return q
 
 

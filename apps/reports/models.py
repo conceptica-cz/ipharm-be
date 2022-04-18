@@ -54,10 +54,13 @@ class GenericReportType(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.CharField(max_length=255, blank=True)
     file_name = models.CharField(max_length=255)
-    order = models.IntegerField(default=0)
+    order = models.IntegerField(default=0, db_index=True)
     time_ranges = ArrayField(models.CharField(max_length=255), default=list)
     filters = ArrayField(models.CharField(max_length=255), default=list)
     formats = ArrayField(models.CharField(max_length=255), default=list)
+
+    class Meta:
+        ordering = ["order"]
 
     def __str__(self):
         return self.name
