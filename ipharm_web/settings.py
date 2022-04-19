@@ -603,28 +603,22 @@ GENERIC_REPORTS = {
         },
         "order": 4,
     },
-    # "pharmacological_evaluation_drugs": {
-    #     "description": "FTD hodnocení – léčiva",
-    #     "file_name": "FTD hodnocení – léčiva",
-    #     "time_ranges": ["year", "month", "custom"],
-    #     "filters": ["clinic", "department"],
-    #     "data_loader": "reports.generic_reports.statistical_reports.evaluation_drugs_loader",  # noqa
-    #     "renderers": {
-    #         "pdf": {
-    #             "renderer": "reports.generic_reports.pdf.pdf_renderer",
-    #             "renderer_kwargs": {
-    #                 "template": "generic_reports/statistical_reports/evaluation_drugs_pdf.html",  # noqa
-    #             },
-    #         },
-    #         "xlsx": {
-    #             "renderer": "reports.generic_reports.xlsx.xlsx_renderer",
-    #             "renderer_kwargs": {
-    #                 "data_transformer": "reports.generic_reports.statistical_reports.evaluation_drugs_xlsx_data_transformer",  # noqa
-    #             },
-    #         },
-    #     },
-    #     "order": 5,
-    # },
+    "pharmacological_evaluation_drugs": {
+        "description": "FTD hodnocení – léčiva",
+        "file_name": "FTD hodnocení – léčiva",
+        "time_ranges": ["year", "month", "custom"],
+        "filters": ["clinic", "department"],
+        "data_loader": "reports.generic_reports.statistical_reports.evaluation_drugs_loader",  # noqa
+        "renderers": {
+            "xlsx": {
+                "renderer": "reports.generic_reports.xlsx.xlsx_renderer",
+                "renderer_kwargs": {
+                    "data_transformer": "reports.generic_reports.statistical_reports.evaluation_drugs_xlsx_data_transformer",  # noqa
+                },
+            },
+        },
+        "order": 5,
+    },
     # "pharmacological_evaluation_atc_groups_summary": {
     #     "description": "FTD hodnocení – ATC skupiny souhrn",
     #     "file_name": "FTD hodnocení – ATC skupiny souhrn",

@@ -60,6 +60,7 @@ class PharmacologicalEvaluationAdmin(BaseHistoryAdmin):
         PharmacologicalEvaluationCommentInline,
         PharmacologicalEvaluation_tagsInline,
     )
+    autocomplete_fields = ["drug"]
 
     def patient(self, obj):
         return obj.care.patient
