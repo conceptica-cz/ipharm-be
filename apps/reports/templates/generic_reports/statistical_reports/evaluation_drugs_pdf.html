@@ -2,11 +2,6 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        @page {
-            size: A4;
-            margin: 1.2cm;
-            padding: 0;
-        }
 
         body {
             margin: 0;
@@ -19,7 +14,6 @@
             border: 0.3mm solid black;
             font-family: "Liberation Sans Narrow";
             font-size: 12px;
-            page-break-inside: avoid;
             width: 100%;
         }
 
@@ -36,66 +30,20 @@
 </head>
 <body>
 <div class="main">
-    <h1>Rizikovost</h1>
+    <h1>FTD hodnocení – pacienti</h1>
     <table>
         <tr>
-            <th colspan="4">{{ header }}</th>
+            <th colspan="{{ columns }}">{{ header }}</th>
         </tr>
         <tr>
             <td></td>
-            <th colspan="3">Hospitalizovaní pacienti</th>
+            {% for drug in drugs %}
+                <td>{{ drug.name }}</td>
+            {% endfor %}
         </tr>
         <tr>
-            <th>Rizikovost</th>
-            <th>Počet pacientů</th>
-            <th>Počet stanovených FK plánů</th>
-            <th>Počet ověřených FK plánů </th>
-        </tr>
-        <tr>
-            <th>Rizikovost 1</th>
-            <td>{{ hospital_risk_level_1 }}</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>Rizikovost 2</th>
-            <td>{{ hospital_risk_level_2 }}</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>Rizikovost 3</th>
-            <td>{{ hospital_risk_level_3 }}</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <th colspan="3">Ambulantní pacienti</th>
-        </tr>
-        <tr>
-            <th>Rizikovost</th>
-            <th>Počet pacientů</th>
-            <th>Počet stanovených FK plánů</th>
-            <th>Počet ověřených FK plánů </th>
-        </tr>
-        <tr>
-            <th>Rizikovost 1</th>
-            <td>{{ ambulance_risk_level_1 }}</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>Rizikovost 2</th>
-            <td>{{ ambulance_risk_level_2 }}</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>Rizikovost 3</th>
-            <td>{{ ambulance_risk_level_3 }}</td>
-            <td></td>
-            <td></td>
+            <th>Nasazení léčiva</th>
+            {% include "generic_reports/statistical_reports/evaluation_field_drugs.html" with counter=counts.deployment_count %}
         </tr>
     </table>
 </div>

@@ -11,7 +11,12 @@ from factories.ipharm import (
     PharmacologicalPlanFactory,
     RiskDrugHistoryFactory,
 )
-from factories.references import ClinicFactory, DepartmentFactory, TagFactory
+from factories.references import (
+    ClinicFactory,
+    DepartmentFactory,
+    DrugFactory,
+    TagFactory,
+)
 
 
 class RiskLevelsLoadersTest(TestCase):
@@ -233,3 +238,121 @@ class TestTagsLoader(TestCase):
 
         tag_1 = tags.get(name="tag_1")
         self.assertEqual(tag_1.evaluation_count, 1)
+
+
+class TestEvaluationLoader(TestCase):
+    @patch("django.utils.timezone.now")
+    def setUp(self, mocked_now):
+        now_2019_12 = timezone.datetime(2019, 12, 2, tzinfo=timezone.utc)
+        now_2020_01 = timezone.datetime(2020, 1, 2, tzinfo=timezone.utc)
+
+        mocked_now.return_value = now_2019_12
+
+        self.clinic_1 = ClinicFactory()
+        self.clinic_2 = ClinicFactory()
+
+        self.drug_2 = DrugFactory(name="drug_2")
+        self.drug_1 = DrugFactory(name="drug_1")
+        self.drug_3 = DrugFactory(name="drug_3")
+
+        PharmacologicalEvaluationFactory(
+            drug=self.drug_1,
+            care__clinic=self.clinic_1,
+            deployment=True,
+            deployment_initial_diagnosis=False,
+            continuation=False,
+        )
+        PharmacologicalEvaluationFactory(
+            drug=self.drug_1,
+            care__clinic=self.clinic_2,
+            deployment=True,
+            deployment_initial_diagnosis=True,
+            continuation=False,
+        )
+
+        PharmacologicalEvaluationFactory(
+            drug=self.drug_2,
+            care__clinic=self.clinic_2,
+            deployment=False,
+            deployment_initial_diagnosis=False,
+            continuation=True,
+        )
+
+        mocked_now.return_value = now_2020_01
+
+        PharmacologicalEvaluationFactory(
+            drug=self.drug_1,
+            care__clinic=self.clinic_1,
+            deployment=True,
+            deployment_initial_diagnosis=False,
+            continuation=False,
+        )
+
+    def test_loader__all(self):
+        data = statistical_reports.evaluation_drugs_loader(time_range="custom")
+
+        drugs = data["drugs"]
+
+        self.assertEqual(len(drugs), 2)
+
+        self.assertEqual(drugs[0].name, "drug_1")
+        self.assertEqual(drugs[1].name, "drug_2")
+
+        counts = data["counts"]
+
+        self.assertEqual(counts["deployment_count"]["drug_1"], 3)
+        self.assertEqual(counts["deployment_count"]["drug_2"], 0)
+        self.assertEqual(counts["deployment_initial_diagnosis_count"]["drug_1"], 1)
+        self.assertEqual(counts["deployment_initial_diagnosis_count"]["drug_2"], 0)
+        self.assertEqual(counts["continuation_count"]["drug_1"], 0)
+        self.assertEqual(counts["continuation_count"]["drug_2"], 1)
+
+    def test_loader__clinic_1(self):
+        data = statistical_reports.evaluation_drugs_loader(
+            time_range="custom", filters={"clinic": self.clinic_1.pk}
+        )
+
+        drugs = data["drugs"]
+
+        self.assertEqual(len(drugs), 1)
+
+        self.assertEqual(drugs[0].name, "drug_1")
+
+        counts = data["counts"]
+
+        self.assertEqual(counts["deployment_count"]["drug_1"], 2)
+        self.assertEqual(counts["deployment_initial_diagnosis_count"]["drug_1"], 0)
+        self.assertEqual(counts["continuation_count"]["drug_1"], 0)
+
+    def test_loader__year_2020(self):
+        data = statistical_reports.evaluation_drugs_loader(time_range="year", year=2020)
+
+        drugs = data["drugs"]
+
+        self.assertEqual(len(drugs), 1)
+
+        self.assertEqual(drugs[0].name, "drug_1")
+
+        counts = data["counts"]
+
+        self.assertEqual(counts["deployment_count"]["drug_1"], 1)
+        self.assertEqual(counts["deployment_initial_diagnosis_count"]["drug_1"], 0)
+        self.assertEqual(counts["continuation_count"]["drug_1"], 0)
+
+    def test_xlsx_transformer(self):
+        data = statistical_reports.evaluation_drugs_loader(time_range="custom")
+        xlsx_data = statistical_reports.evaluation_drugs_xlsx_data_transformer(data)
+
+        header = xlsx_data["data"][0]
+        drugs = xlsx_data["data"][1]
+        deployment_count = xlsx_data["data"][2]
+
+        self.assertEqual(len(header), 3)
+        self.assertEqual(len(xlsx_data["widths"]), 3)
+        self.assertEqual(xlsx_data["merges"], [(0, 0, 0, 2)])
+
+        self.assertEqual(drugs, ["", "drug_1", "drug_2"])
+
+        self.assertEqual(deployment_count[0][0], "Nasazení léčiva")
+        self.assertEqual(deployment_count[1], 3)
+        self.assertEqual(deployment_count[2], 0)

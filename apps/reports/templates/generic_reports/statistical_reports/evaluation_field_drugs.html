@@ -1,0 +1,5 @@
+{% load reports %}
+
+{%  for drug in drugs %}
+    <td>{{ counter|get_item:drug.name}}</td>
+{% endfor %}
