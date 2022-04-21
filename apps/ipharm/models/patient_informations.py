@@ -14,3 +14,7 @@ class PatientInformation(BaseUpdatableModel):
     file = models.FileField(
         blank=True, null=True, upload_to="patient_information/", help_text="Soubor"
     )
+
+    def delete(self, using=None, keep_parents=False):
+        self.file.delete()
+        return super().delete(using, keep_parents)

@@ -607,7 +607,7 @@ GENERIC_REPORTS = {
         "description": "FTD hodnocení – léčiva",
         "file_name": "FTD hodnocení – léčiva",
         "time_ranges": ["year", "month", "custom"],
-        "filters": ["clinic", "department"],
+        "filters": ["clinic", "department", "atc_group_exact"],
         "data_loader": "reports.generic_reports.statistical_reports.evaluation_drugs_loader",  # noqa
         "renderers": {
             "xlsx": {

@@ -2,14 +2,11 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from references.models import Clinic, Department
 
-FILTER_FIELD_LOOKUPS = {
-    "clinic": "care__clinic_id",
-    "department": "care__department_id",
-}
-
 FILTER_NAMES = {
     "clinic": "Klinika",
     "department": "Oddělení",
+    "atc_group_exact": "ATC skupina",
+    "atc_group_startswith": "ATC skupina začíná písmeny",
 }
 
 FILTER_MODELS = {
@@ -48,11 +45,10 @@ def get_time_filter(lookup_prefix="", **kwargs):
     return q
 
 
-def get_entity_filter(filters, lookup_prefix=""):
-    field_lookup = FILTER_FIELD_LOOKUPS
+def get_entity_filter(filters, field_lookup=None):
     q = Q()
     for field, value in filters.items():
-        q &= Q(**{f"{lookup_prefix}{field_lookup[field]}": value})
+        q &= Q(**{field_lookup[field]: value})
     return q
 
 
@@ -66,8 +62,11 @@ def get_header(**kwargs) -> str:
         header = (
             f"Od: {kwargs.get('date_from', '...')} do: {kwargs.get('date_to', '...')}"
         )
-    for f, pk in kwargs.get("filters", {}).items():
-        header += f" {FILTER_NAMES[f]}: {FILTER_MODELS[f].objects.get(pk=pk)}"
+    for f, value in kwargs.get("filters", {}).items():
+        if f in FILTER_MODELS.keys():
+            header += f" {FILTER_NAMES[f]}: {FILTER_MODELS[f].objects.get(pk=value)}"
+        else:
+            header += f" {FILTER_NAMES[f]}: {value}"
     return header
 
 

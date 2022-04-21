@@ -84,6 +84,18 @@ class ReportVariableDetailView(generics.RetrieveUpdateAPIView):
                 location=OpenApiParameter.QUERY,
                 description="The ID of the department used as filter. Not all filters available for every report. **department** must be in the report's field ``filters``",  # noqa
             ),
+            OpenApiParameter(
+                name="atc_group_exact",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description="The exact name of the ATC group used as filter. Not all filters available for every report. **atc_group_exact** must be in the report's field ``filters``",  # noqa
+            ),
+            OpenApiParameter(
+                name="atc_group_startswith",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description="The beginning part of the ATC group name used as filter. Not all filters available for every report. **atc_group_startswith** must be in the report's field ``filters``",  # noqa
+            ),
         ]
     )
 )
