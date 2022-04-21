@@ -43,6 +43,10 @@ TEMPLATES = [
 
 @patch("reports.models.timezone.now")
 class GenericReportTest(TestCase):
+    def tearDown(self) -> None:
+        [report_file.file.delete() for report_file in GenericReportFile.objects.all()]
+        super().tearDown()
+
     @override_settings(GENERIC_REPORTS=GENERIC_REPORTS, TEMPLATES=TEMPLATES)
     def test_new_report(self, mocked_now):
         mocked_now.return_value = timezone.datetime(2020, 1, 1, tzinfo=timezone.utc)
@@ -64,29 +68,7 @@ class GenericReportTest(TestCase):
         self.assertEqual(generic_report_file.month, 1)
         self.assertEqual(generic_report_file.report_format, "txt")
         self.assertEqual(
-            generic_report_file.file.name, "reports/test_report_2020_01.txt"
-        )
-        self.assertEqual(generic_report_file.file.read(), b"test 2020")
-
-    @override_settings(GENERIC_REPORTS=GENERIC_REPORTS, TEMPLATES=TEMPLATES)
-    def test_update_report(self, mocked_now):
-        mocked_now.return_value = timezone.datetime(2020, 1, 1, tzinfo=timezone.utc)
-        generic_report_type = GenericReportTypeFactory(
-            name="monthly_report",
-            file_name="test_report",
-            formats=["txt"],
-            time_ranges=["month"],
-        )
-
-        generic_report_type.generate_report(report_format="txt")
-        generic_report_file = generic_report_type.generate_report(report_format="txt")
-
-        self.assertEqual(GenericReportFile.objects.count(), 1)
-
-        self.assertEqual(generic_report_file.year, 2020)
-        self.assertEqual(generic_report_file.month, 1)
-        self.assertEqual(generic_report_file.report_format, "txt")
-        self.assertEqual(
-            generic_report_file.file.name, "reports/test_report_2020_01.txt"
+            generic_report_file.file.name,
+            f"reports/{generic_report_file.id}/test_report_2020_01.txt",
         )
         self.assertEqual(generic_report_file.file.read(), b"test 2020")

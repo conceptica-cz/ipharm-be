@@ -99,7 +99,7 @@ class GenericReportType(models.Model):
             if date_to is None:
                 date_to = timezone.now()
 
-        generic_report_file, _ = GenericReportFile.objects.update_or_create(
+        generic_report_file = GenericReportFile.objects.create(
             report_type=self,
             time_range=time_range,
             year=year,
@@ -141,16 +141,11 @@ def generic_upload_to(instance, filename):
     elif instance.time_range == GenericReportType.YEAR:
         postfix = f"_{instance.year}"
 
-    report_path = (
-        f"{settings.GENERIC_REPORT_FOLDER}/{filename}{postfix}.{instance.report_format}"
-    )
-    system_path = f"{settings.MEDIA_ROOT}/{report_path}"
-    if os.path.exists(system_path):
-        os.remove(system_path)
+    report_path = f"{settings.GENERIC_REPORT_FOLDER}/{instance.id}/{filename}{postfix}.{instance.report_format}"
     return report_path
 
 
-class GenericReportFile(BaseUpdatableModel):
+class GenericReportFile(models.Model):
     report_type = models.ForeignKey(GenericReportType, on_delete=models.CASCADE)
     file = models.FileField(upload_to=generic_upload_to)
     time_range = models.CharField(max_length=255, default="custom")
@@ -169,6 +164,10 @@ class GenericReportFile(BaseUpdatableModel):
             file = StringIO(content)
         filename = f"{self.report_type.file_name}"
         self.file.save(filename, file)
+
+    def delete(self, using=None, keep_parents=False):
+        self.file.delete()
+        return super().delete(using, keep_parents)
 
 
 def bool_caster(value: str) -> bool:

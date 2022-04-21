@@ -13,7 +13,14 @@ from reports.generic_reports.common import (
 def risk_level_loader(**kwargs) -> dict:
     time_filter = get_time_filter(**kwargs)
 
-    entity_filter = get_entity_filter(kwargs.get("filters", {}))
+    field_lookup = {
+        "clinic": "care__clinic_id",
+        "department": "care__department_id",
+    }
+
+    entity_filter = get_entity_filter(
+        kwargs.get("filters", {}), field_lookup=field_lookup
+    )
 
     query_set = CheckIn.objects.filter(time_filter & entity_filter)
 
@@ -125,7 +132,7 @@ def risk_level_xlsx_data_transformer(data: dict) -> dict:
 def evaluation_patients_loader(**kwargs) -> dict:
     time_filter = get_time_filter(**kwargs)
 
-    entity_filter = get_entity_filter(kwargs.get("filters", {}))
+    entity_filter = get_entity_filter(**kwargs)
 
     counts = PharmacologicalEvaluation.objects.filter(
         time_filter & entity_filter
@@ -584,25 +591,37 @@ def tags_loader(**kwargs) -> dict:
         **kwargs, lookup_prefix="pharmacologicalevaluation__"
     )
 
+    field_lookup = {
+        "clinic": "pharmacologicalevaluation__care__clinic_id",
+        "department": "pharmacologicalevaluation__care__department_id",
+    }
     evaluation_filter = get_entity_filter(
         filters=kwargs.get("filters", {}),
-        lookup_prefix="pharmacologicalevaluation__",
+        field_lookup=field_lookup,
     )
 
     plan_time_filter = get_time_filter(**kwargs, lookup_prefix="pharmacologicalplan__")
 
+    field_lookup = {
+        "clinic": "pharmacologicalplan__care__clinic_id",
+        "department": "pharmacologicalplan__care__department_id",
+    }
     plan_filter = get_entity_filter(
         filters=kwargs.get("filters", {}),
-        lookup_prefix="pharmacologicalplan__",
+        field_lookup=field_lookup,
     )
 
     risk_drug_history_time_filter = get_time_filter(
         **kwargs, lookup_prefix="riskdrughistory__"
     )
 
+    field_lookup = {
+        "clinic": "riskdrughistory__care__clinic_id",
+        "department": "riskdrughistory__care__department_id",
+    }
     risk_drug_history_filter = get_entity_filter(
         filters=kwargs.get("filters", {}),
-        lookup_prefix="riskdrughistory__",
+        field_lookup=field_lookup,
     )
 
     tags = Tag.objects.annotate(
@@ -662,8 +681,14 @@ def tags_xlsx_data_transformer(data: dict) -> dict:
 def evaluation_drugs_loader(**kwargs) -> dict:
     time_filter = get_time_filter(**kwargs, lookup_prefix="pharmacologicalevaluation__")
 
+    field_lookup = {
+        "clinic": "pharmacologicalevaluation__care__clinic_id",
+        "department": "pharmacologicalevaluation__care__department_id",
+        "atc_group_exact": "atc_group__exact",
+    }
+
     entity_filter = get_entity_filter(
-        filters=kwargs.get("filters", {}), lookup_prefix="pharmacologicalevaluation__"
+        filters=kwargs.get("filters", {}), field_lookup=field_lookup
     )
 
     drugs = (

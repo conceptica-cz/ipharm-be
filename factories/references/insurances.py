@@ -8,7 +8,7 @@ class InsuranceCompanyFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ("code",)
 
     code = factory.Iterator(range(1, 8))
-    name = factory.Faker("company")
+    name = factory.LazyAttribute(lambda o: "Insurance Company {}".format(o.code))
     address = factory.Faker("street_address", locale="cs")
     zip = factory.Faker("postcode", locale="cs")
     city = factory.Faker("city", locale="cs")
