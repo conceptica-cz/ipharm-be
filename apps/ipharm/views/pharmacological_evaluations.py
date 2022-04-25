@@ -14,7 +14,7 @@ from .common import HistoryView
 
 
 class PharmacologicalEvaluationListView(generics.ListCreateAPIView):
-    queryset = PharmacologicalEvaluation.objects.all()
+    queryset = PharmacologicalEvaluation.objects.prefetch_related("tags").all()
     serializer_class = PharmacologicalEvaluationSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["care"]

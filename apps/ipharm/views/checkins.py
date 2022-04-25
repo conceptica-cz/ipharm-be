@@ -6,7 +6,13 @@ from .common import HistoryView
 
 
 class CheckInListView(generics.ListCreateAPIView):
-    queryset = CheckIn.objects.all()
+    queryset = (
+        CheckIn.objects.prefetch_related("drugs")
+        .prefetch_related("high_interaction_potential_drugs")
+        .prefetch_related("diagnoses_drugs")
+        .prefetch_related("diagnoses")
+        .all()
+    )
     serializer_class = CheckInSerializer
 
 
