@@ -132,7 +132,14 @@ def risk_level_xlsx_data_transformer(data: dict) -> dict:
 def evaluation_patients_loader(**kwargs) -> dict:
     time_filter = get_time_filter(**kwargs)
 
-    entity_filter = get_entity_filter(**kwargs)
+    field_lookup = {
+        "clinic": "care__clinic_id",
+        "department": "care__department_id",
+    }
+
+    entity_filter = get_entity_filter(
+        kwargs.get("filters", {}), field_lookup=field_lookup
+    )
 
     counts = PharmacologicalEvaluation.objects.filter(
         time_filter & entity_filter
