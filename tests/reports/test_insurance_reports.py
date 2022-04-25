@@ -72,16 +72,24 @@ class InsuranceReportTestCase(TestCase):
             care__patient__insurance_company=self.another_insurance_company,
         )
         PharmacologicalPlanCommentFactory(
-            pharmacological_plan=plan_1, comment_type="verification"
+            pharmacological_plan=plan_1,
+            comment_type="verification",
+            verify=True,
         )
         PharmacologicalPlanCommentFactory(
-            pharmacological_plan=plan_1, comment_type="verification"
+            pharmacological_plan=plan_1,
+            comment_type="verification",
+            verify=True,
         )
         PharmacologicalPlanCommentFactory(
-            pharmacological_plan=plan_2, comment_type="verification"
+            pharmacological_plan=plan_2,
+            comment_type="verification",
+            verify=True,
         )
         PharmacologicalPlanCommentFactory(
-            pharmacological_plan=plan_3, comment_type="verification"
+            pharmacological_plan=plan_3,
+            comment_type="verification",
+            verify=True,
         )
 
         mocked_now.return_value = now_2019_02
@@ -95,7 +103,7 @@ class InsuranceReportTestCase(TestCase):
             care__patient__insurance_company=self.insurance_company,
         )
         PharmacologicalPlanCommentFactory(
-            pharmacological_plan=plan_4, comment_type="verification"
+            pharmacological_plan=plan_4, comment_type="verification", verify=True
         )
 
         self.identification = IdentificationFactory(

@@ -154,8 +154,10 @@ class GenericReportFile(models.Model):
     date_from = models.DateField(null=True, blank=True)
     date_to = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     report_format = models.CharField(max_length=255, default="pdf")
+
+    class Meta:
+        ordering = ["-created_at"]
 
     def save_file(self, content: str):
         if isinstance(content, bytes):

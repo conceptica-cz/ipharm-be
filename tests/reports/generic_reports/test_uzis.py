@@ -94,12 +94,12 @@ class TestUzisLoader(TestCase):
         now_2019 = timezone.datetime(2019, 2, 1, tzinfo=timezone.utc)
         now_2020 = timezone.datetime(2020, 3, 1, tzinfo=timezone.utc)
         mocked_now.return_value = now_2020
-        PharmacologicalPlanCommentFactory(comment_type="verification")
-        PharmacologicalPlanCommentFactory(comment_type="verification")
-        PharmacologicalPlanCommentFactory(comment_type="comment")
-        PharmacologicalPlanCommentFactory(comment_type="verification")
+        PharmacologicalPlanCommentFactory(comment_type="verification", verify=True)
+        PharmacologicalPlanCommentFactory(comment_type="verification", verify=True)
+        PharmacologicalPlanCommentFactory(comment_type="comment", verify=True)
+        PharmacologicalPlanCommentFactory(comment_type="verification", verify=True)
         mocked_now.return_value = now_2019
-        PharmacologicalPlanCommentFactory(comment_type="verification")
+        PharmacologicalPlanCommentFactory(comment_type="verification", verify=True)
 
         kwargs = {"year": 2020}
 

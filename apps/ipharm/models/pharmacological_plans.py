@@ -61,6 +61,7 @@ class PharmacologicalPlanComment(BaseUpdatableModel):
         max_length=20, choices=COMMENT_TYPE_CHOICES, default=COMMENT
     )
     text = models.TextField(blank=True, null=True, help_text="Text")
+    verify = models.BooleanField(default=False, help_text="Vykázat ověření")
     medical_procedure = models.ForeignKey(
         "references.MedicalProcedure",
         on_delete=models.SET_NULL,
@@ -71,7 +72,7 @@ class PharmacologicalPlanComment(BaseUpdatableModel):
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        if self.pk is None and self.comment_type == self.VERIFICATION:
+        if self.pk is None and self.comment_type == self.VERIFICATION and self.verify:
             if (
                 PharmacologicalPlanComment.objects.filter(
                     pharmacological_plan=self.pharmacological_plan,

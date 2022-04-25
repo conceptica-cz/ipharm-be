@@ -20,20 +20,36 @@ class PharmacologicalPlanTest(TestCase):
 
 
 class PharmacologicalPlanCommentTest(TestCase):
-    def test_that_medical_procedure_is_created_for_type_verification(self):
+    def test_that_medical_procedure_is_created_for_type_verification_and_verify_is_true(
+        self,
+    ):
         """
         Medical procedure 05755 is created when a new PharmacologicalPlanComment
-        with comment_type "verification" is created.
+        with comment_type "verification" is created and verify is True.
         """
-        plan = PharmacologicalPlanCommentFactory(comment_type="verification")
+        plan = PharmacologicalPlanCommentFactory(
+            comment_type="verification", verify=True
+        )
         self.assertEqual(plan.medical_procedure.code, "05755")
+
+    def test_that_medical_procedure_is_not_created_for_type_verification_and_verify_is_false(
+        self,
+    ):
+        """
+        Medical procedure 05755 is not created when a new PharmacologicalPlanComment
+        with comment_type "verification" is created and verify is False.
+        """
+        plan = PharmacologicalPlanCommentFactory(
+            comment_type="verification", verify=False
+        )
+        self.assertEqual(plan.medical_procedure, None)
 
     def test_that_medical_procedure_is_not_created_for_type_comment(self):
         """
         Medical procedure 05755 is created when a new PharmacologicalPlanComment
         with comment_type "verification" is created.
         """
-        plan = PharmacologicalPlanCommentFactory(comment_type="comment")
+        plan = PharmacologicalPlanCommentFactory(comment_type="comment", verify=True)
         self.assertEqual(plan.medical_procedure, None)
 
     def test_that_only_two_verification_comments_can_be_created(self):
@@ -43,15 +59,15 @@ class PharmacologicalPlanCommentTest(TestCase):
         plan = PharmacologicalPlanFactory()
         PharmacologicalPlanComment.objects.all().delete()
         PharmacologicalPlanCommentFactory(
-            pharmacological_plan=plan, comment_type="verification"
+            pharmacological_plan=plan, comment_type="verification", verify=True
         )
         comment = PharmacologicalPlanCommentFactory(
-            pharmacological_plan=plan, comment_type="verification"
+            pharmacological_plan=plan, comment_type="verification", verify=True
         )
         comment.save()
         with self.assertRaises(VerificationNumberLimitIsReached):
             PharmacologicalPlanCommentFactory(
-                pharmacological_plan=plan, comment_type="verification"
+                pharmacological_plan=plan, comment_type="verification", verify=True
             )
         PharmacologicalPlanCommentFactory(
             pharmacological_plan=plan, comment_type="comment"
@@ -68,7 +84,7 @@ class PharmacologicalPlanCommentTest(TestCase):
         )
         self.assertEqual(
             PharmacologicalPlanComment.objects.filter(
-                comment_type="verification"
+                comment_type="verification", verify=True
             ).count(),
             2,
         )

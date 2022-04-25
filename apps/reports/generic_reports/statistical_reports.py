@@ -2,6 +2,10 @@ from django.db.models import Count, F, Q, Sum
 from ipharm.models.cares import Care
 from ipharm.models.checkins import CheckIn
 from ipharm.models.pharmacological_evaluations import PharmacologicalEvaluation
+from ipharm.models.pharmacological_plans import (
+    PharmacologicalPlan,
+    PharmacologicalPlanComment,
+)
 from references.models import Drug, Tag
 from reports.generic_reports.common import (
     get_entity_filter,
@@ -23,27 +27,202 @@ def risk_level_loader(**kwargs) -> dict:
     )
 
     query_set = CheckIn.objects.filter(time_filter & entity_filter)
+    risk_level_counts = query_set.aggregate(
+        hospital_risk_level_1=Count(
+            "id",
+            filter=Q(
+                risk_level=1,
+                care__care_type=Care.HOSPITALIZATION,
+            ),
+        ),
+        hospital_risk_level_2=Count(
+            "id",
+            filter=Q(
+                risk_level=2,
+                care__care_type=Care.HOSPITALIZATION,
+            ),
+        ),
+        hospital_risk_level_3=Count(
+            "id",
+            filter=Q(
+                risk_level=3,
+                care__care_type=Care.HOSPITALIZATION,
+            ),
+        ),
+        ambulance_risk_level_1=Count(
+            "id",
+            filter=Q(
+                risk_level=1,
+                care__care_type=Care.AMBULATION,
+            ),
+        ),
+        ambulance_risk_level_2=Count(
+            "id",
+            filter=Q(
+                risk_level=2,
+                care__care_type=Care.AMBULATION,
+            ),
+        ),
+        ambulance_risk_level_3=Count(
+            "id",
+            filter=Q(
+                risk_level=3,
+                care__care_type=Care.AMBULATION,
+            ),
+        ),
+    )
+
+    query_set = PharmacologicalPlan.objects.filter(time_filter & entity_filter)
+    pharmacological_plan_counts = query_set.aggregate(
+        pharmacological_plan_hospital_risk_level_1=Count(
+            "id",
+            filter=Q(
+                care__checkin__risk_level=1,
+                care__care_type=Care.HOSPITALIZATION,
+            ),
+        ),
+        pharmacological_plan_hospital_risk_level_2=Count(
+            "id",
+            filter=Q(
+                care__checkin__risk_level=2,
+                care__care_type=Care.HOSPITALIZATION,
+            ),
+        ),
+        pharmacological_plan_hospital_risk_level_3=Count(
+            "id",
+            filter=Q(
+                care__checkin__risk_level=3,
+                care__care_type=Care.HOSPITALIZATION,
+            ),
+        ),
+        pharmacological_plan_ambulance_risk_level_1=Count(
+            "id",
+            filter=Q(
+                care__checkin__risk_level=1,
+                care__care_type=Care.AMBULATION,
+            ),
+        ),
+        pharmacological_plan_ambulance_risk_level_2=Count(
+            "id",
+            filter=Q(
+                care__checkin__risk_level=2,
+                care__care_type=Care.AMBULATION,
+            ),
+        ),
+        pharmacological_plan_ambulance_risk_level_3=Count(
+            "id",
+            filter=Q(
+                care__checkin__risk_level=3,
+                care__care_type=Care.AMBULATION,
+            ),
+        ),
+    )
+
+    field_lookup = {
+        "clinic": "pharmacological_plan__care__clinic_id",
+        "department": "pharmacological_plan__care__department_id",
+    }
+
+    entity_filter = get_entity_filter(
+        kwargs.get("filters", {}), field_lookup=field_lookup
+    )
+
+    query_set = PharmacologicalPlanComment.objects.filter(time_filter & entity_filter)
+    pharmacological_plan_verification_counts = query_set.aggregate(
+        pharmacological_plan_verification_hospital_risk_level_1=Count(
+            "id",
+            filter=Q(
+                pharmacological_plan__care__checkin__risk_level=1,
+                pharmacological_plan__care__care_type=Care.HOSPITALIZATION,
+                comment_type=PharmacologicalPlanComment.VERIFICATION,
+            ),
+        ),
+        pharmacological_plan_verification_hospital_risk_level_2=Count(
+            "id",
+            filter=Q(
+                pharmacological_plan__care__checkin__risk_level=2,
+                pharmacological_plan__care__care_type=Care.HOSPITALIZATION,
+                comment_type=PharmacologicalPlanComment.VERIFICATION,
+            ),
+        ),
+        pharmacological_plan_verification_hospital_risk_level_3=Count(
+            "id",
+            filter=Q(
+                pharmacological_plan__care__checkin__risk_level=3,
+                pharmacological_plan__care__care_type=Care.HOSPITALIZATION,
+                comment_type=PharmacologicalPlanComment.VERIFICATION,
+            ),
+        ),
+        pharmacological_plan_verification_ambulance_risk_level_1=Count(
+            "id",
+            filter=Q(
+                pharmacological_plan__care__checkin__risk_level=1,
+                pharmacological_plan__care__care_type=Care.AMBULATION,
+                comment_type=PharmacologicalPlanComment.VERIFICATION,
+            ),
+        ),
+        pharmacological_plan_verification_ambulance_risk_level_2=Count(
+            "id",
+            filter=Q(
+                pharmacological_plan__care__checkin__risk_level=2,
+                pharmacological_plan__care__care_type=Care.AMBULATION,
+                comment_type=PharmacologicalPlanComment.VERIFICATION,
+            ),
+        ),
+        pharmacological_plan_verification_ambulance_risk_level_3=Count(
+            "id",
+            filter=Q(
+                pharmacological_plan__care__checkin__risk_level=3,
+                pharmacological_plan__care__care_type=Care.AMBULATION,
+                comment_type=PharmacologicalPlanComment.VERIFICATION,
+            ),
+        ),
+    )
 
     data = {
         "header": get_header(**kwargs),
-        "hospital_risk_level_1": query_set.filter(
-            care__care_type=Care.HOSPITALIZATION, risk_level=1
-        ).count(),
-        "hospital_risk_level_2": query_set.filter(
-            care__care_type=Care.HOSPITALIZATION, risk_level=2
-        ).count(),
-        "hospital_risk_level_3": query_set.filter(
-            care__care_type=Care.HOSPITALIZATION, risk_level=3
-        ).count(),
-        "ambulance_risk_level_1": query_set.filter(
-            care__care_type=Care.AMBULATION, risk_level=1
-        ).count(),
-        "ambulance_risk_level_2": query_set.filter(
-            care__care_type=Care.AMBULATION, risk_level=2
-        ).count(),
-        "ambulance_risk_level_3": query_set.filter(
-            care__care_type=Care.AMBULATION, risk_level=3
-        ).count(),
+        "hospital_risk_level_1": risk_level_counts["hospital_risk_level_1"],
+        "hospital_risk_level_2": risk_level_counts["hospital_risk_level_2"],
+        "hospital_risk_level_3": risk_level_counts["hospital_risk_level_3"],
+        "ambulance_risk_level_1": risk_level_counts["ambulance_risk_level_1"],
+        "ambulance_risk_level_2": risk_level_counts["ambulance_risk_level_2"],
+        "ambulance_risk_level_3": risk_level_counts["ambulance_risk_level_3"],
+        "pharmacological_plan_hospital_risk_level_1": pharmacological_plan_counts[
+            "pharmacological_plan_hospital_risk_level_1"
+        ],
+        "pharmacological_plan_hospital_risk_level_2": pharmacological_plan_counts[
+            "pharmacological_plan_hospital_risk_level_2"
+        ],
+        "pharmacological_plan_hospital_risk_level_3": pharmacological_plan_counts[
+            "pharmacological_plan_hospital_risk_level_3"
+        ],
+        "pharmacological_plan_ambulance_risk_level_1": pharmacological_plan_counts[
+            "pharmacological_plan_ambulance_risk_level_1"
+        ],
+        "pharmacological_plan_ambulance_risk_level_2": pharmacological_plan_counts[
+            "pharmacological_plan_ambulance_risk_level_2"
+        ],
+        "pharmacological_plan_ambulance_risk_level_3": pharmacological_plan_counts[
+            "pharmacological_plan_ambulance_risk_level_3"
+        ],
+        "pharmacological_plan_verification_hospital_risk_level_1": pharmacological_plan_verification_counts[
+            "pharmacological_plan_verification_hospital_risk_level_1"
+        ],
+        "pharmacological_plan_verification_hospital_risk_level_2": pharmacological_plan_verification_counts[
+            "pharmacological_plan_verification_hospital_risk_level_2"
+        ],
+        "pharmacological_plan_verification_hospital_risk_level_3": pharmacological_plan_verification_counts[
+            "pharmacological_plan_verification_hospital_risk_level_3"
+        ],
+        "pharmacological_plan_verification_ambulance_risk_level_1": pharmacological_plan_verification_counts[
+            "pharmacological_plan_verification_ambulance_risk_level_1"
+        ],
+        "pharmacological_plan_verification_ambulance_risk_level_2": pharmacological_plan_verification_counts[
+            "pharmacological_plan_verification_ambulance_risk_level_2"
+        ],
+        "pharmacological_plan_verification_ambulance_risk_level_3": pharmacological_plan_verification_counts[
+            "pharmacological_plan_verification_ambulance_risk_level_3"
+        ],
     }
     return data
 
@@ -80,20 +259,20 @@ def risk_level_xlsx_data_transformer(data: dict) -> dict:
         [
             ("Rizikovost 1", default),
             (data["hospital_risk_level_1"], default),
-            ("", default),
-            ("", default),
+            (data["pharmacological_plan_hospital_risk_level_1"], default),
+            (data["pharmacological_plan_verification_hospital_risk_level_1"], default),
         ],
         [
             ("Rizikovost 2", default),
             (data["hospital_risk_level_2"], default),
-            ("", default),
-            ("", default),
+            (data["pharmacological_plan_hospital_risk_level_2"], default),
+            (data["pharmacological_plan_verification_hospital_risk_level_2"], default),
         ],
         [
             ("Rizikovost 3", default),
             (data["hospital_risk_level_3"], default),
-            ("", default),
-            ("", default),
+            (data["pharmacological_plan_hospital_risk_level_3"], default),
+            (data["pharmacological_plan_verification_hospital_risk_level_3"], default),
         ],
         [
             ("", default),
@@ -110,20 +289,20 @@ def risk_level_xlsx_data_transformer(data: dict) -> dict:
         [
             ("Rizikovost 1", default),
             (data["ambulance_risk_level_1"], default),
-            ("", default),
-            ("", default),
+            (data["pharmacological_plan_ambulance_risk_level_1"], default),
+            (data["pharmacological_plan_verification_ambulance_risk_level_1"], default),
         ],
         [
             ("Rizikovost 2", default),
             (data["ambulance_risk_level_2"], default),
-            ("", default),
-            ("", default),
+            (data["pharmacological_plan_ambulance_risk_level_2"], default),
+            (data["pharmacological_plan_verification_ambulance_risk_level_2"], default),
         ],
         [
             ("Rizikovost 3", default),
             (data["ambulance_risk_level_3"], default),
-            ("", default),
-            ("", default),
+            (data["pharmacological_plan_ambulance_risk_level_3"], default),
+            (data["pharmacological_plan_verification_ambulance_risk_level_3"], default),
         ],
     ]
     return {"data": xlsx_data, "widths": widths, "merges": merges}
@@ -1282,7 +1461,7 @@ def evaluation_drugs_xlsx_data_transformer(data: dict) -> dict:
             ("Doporučené vyšetření", bold),
             "",
         ]
-        + [""] * (data["columns"] - 1),
+        + [""] * (data["columns"] - 2),
         [
             "Specialistou",
         ]
@@ -1305,7 +1484,7 @@ def evaluation_drugs_xlsx_data_transformer(data: dict) -> dict:
             ("TDM", bold),
             "",
         ]
-        + [""] * (data["columns"] - 1),
+        + [""] * (data["columns"] - 2),
         [
             "Interpretace",
         ]
@@ -1318,7 +1497,7 @@ def evaluation_drugs_xlsx_data_transformer(data: dict) -> dict:
             ("Specifika", bold),
             "",
         ]
-        + [""] * (data["columns"] - 1),
+        + [""] * (data["columns"] - 2),
         [
             "Diagnostika nežádoucího účinku",
         ]
@@ -1950,7 +2129,7 @@ def evaluation_groups_xlsx_data_transformer(data: dict) -> dict:
             ("Doporučené vyšetření", bold),
             "",
         ]
-        + [""] * (data["columns"] - 1),
+        + [""] * (data["columns"] - 2),
         [
             "Specialistou",
         ]
@@ -1973,7 +2152,7 @@ def evaluation_groups_xlsx_data_transformer(data: dict) -> dict:
             ("TDM", bold),
             "",
         ]
-        + [""] * (data["columns"] - 1),
+        + [""] * (data["columns"] - 2),
         [
             "Interpretace",
         ]
@@ -1986,7 +2165,7 @@ def evaluation_groups_xlsx_data_transformer(data: dict) -> dict:
             ("Specifika", bold),
             "",
         ]
-        + [""] * (data["columns"] - 1),
+        + [""] * (data["columns"] - 2),
         [
             "Diagnostika nežádoucího účinku",
         ]
