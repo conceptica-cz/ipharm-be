@@ -33,3 +33,4 @@ class PharmacologicalPlanCommentFactory(factory.django.DjangoModelFactory):
     pharmacological_plan = factory.SubFactory(PharmacologicalPlanFactory)
     comment_type = factory.Iterator(["comment", "verification"])
     text = factory.Faker("text", locale="la")
+    verify = False

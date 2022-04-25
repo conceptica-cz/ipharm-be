@@ -12,7 +12,7 @@ class GenericReportTypeSerializer(ModelSerializer):
 class GenericReportFileSerializer(ModelSerializer):
     class Meta:
         model = GenericReportFile
-        fields = read_only_fields = ("file", "created_at", "updated_at")
+        fields = read_only_fields = ("file", "created_at")
 
 
 class ReportVariableSerializer(ModelSerializer):

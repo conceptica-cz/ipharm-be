@@ -8,6 +8,7 @@ from reports.generic_reports import statistical_reports
 from factories.ipharm import (
     CheckInFactory,
     PharmacologicalEvaluationFactory,
+    PharmacologicalPlanCommentFactory,
     PharmacologicalPlanFactory,
     RiskDrugHistoryFactory,
 )
@@ -34,30 +35,51 @@ class RiskLevelsLoadersTest(TestCase):
         self.department_2 = DepartmentFactory(clinic=self.clinic_1)
         self.department_3 = DepartmentFactory(clinic=self.clinic_2)
 
-        CheckInFactory(
+        check_in = CheckInFactory(
             risk_level=1,
             care__care_type="hospitalization",
             care__clinic=self.clinic_1,
             care__department=self.department_1,
         )
-        CheckInFactory(
+
+        plan = PharmacologicalPlanFactory(care=check_in.care)
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=plan, comment_type="comment"
+        )
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=plan, comment_type="verification", verify=True
+        )
+
+        check_in = CheckInFactory(
             risk_level=1,
             care__care_type="hospitalization",
             care__clinic=self.clinic_1,
             care__department=self.department_2,
         )
+
+        PharmacologicalPlanFactory(care=check_in.care)
+
         CheckInFactory(
             risk_level=1,
             care__care_type="hospitalization",
             care__clinic=self.clinic_2,
             care__department=self.department_3,
         )
-        CheckInFactory(
+        check_in = CheckInFactory(
             risk_level=2,
             care__care_type="hospitalization",
             care__clinic=self.clinic_2,
             care__department=self.department_3,
         )
+
+        plan = PharmacologicalPlanFactory(care=check_in.care)
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=plan, comment_type="verification", verify=True
+        )
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=plan, comment_type="verification", verify=False
+        )
+
         CheckInFactory(
             risk_level=2,
             care__care_type="hospitalization",
@@ -123,6 +145,16 @@ class RiskLevelsLoadersTest(TestCase):
         self.assertEqual(data["hospital_risk_level_1"], 6)
         self.assertEqual(data["hospital_risk_level_2"], 4)
         self.assertEqual(data["hospital_risk_level_3"], 3)
+
+        self.assertEqual(data["pharmacological_plan_hospital_risk_level_1"], 2)
+        self.assertEqual(data["pharmacological_plan_hospital_risk_level_2"], 1)
+
+        self.assertEqual(
+            data["pharmacological_plan_verification_hospital_risk_level_1"], 1
+        )
+        self.assertEqual(
+            data["pharmacological_plan_verification_hospital_risk_level_2"], 2
+        )
 
     def test_loader__2019(self):
         data = statistical_reports.risk_level_loader(time_range="year", year=2019)

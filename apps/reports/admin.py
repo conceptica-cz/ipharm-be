@@ -43,7 +43,7 @@ class GenericReportFileAdmin(admin.ModelAdmin):
         "month",
         "date_from",
         "date_to",
-        "updated_at",
+        "created_at",
     )
 
     list_filter = ("report_type",)
