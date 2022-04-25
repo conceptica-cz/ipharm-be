@@ -1,4 +1,4 @@
-from django.db.models import Count, F, Q
+from django.db.models import Count, F, Q, Sum
 from ipharm.models.cares import Care
 from ipharm.models.checkins import CheckIn
 from ipharm.models.pharmacological_evaluations import PharmacologicalEvaluation
@@ -1066,7 +1066,22 @@ def evaluation_drugs_loader(**kwargs) -> dict:
                 distinct=True,
             ),
         )
-        .filter(Q(deployment_count__gt=0) | Q(continuation_count__gt=0))
+        .filter(
+            Q(deployment_count__gt=0)
+            | Q(continuation_count__gt=0)
+            | Q(discontinuation_count__gt=0)
+            | Q(dose_change_count__gt=0)
+            | Q(recommended_investigation_by_specialist_count__gt=0)
+            | Q(recommended_investigation_by_laboratory_count__gt=0)
+            | Q(recommended_investigation_by_physical_count__gt=0)
+            | Q(tdm_interpretation_count__gt=0)
+            | Q(tdm_measure_level_recommendation_count__gt=0)
+            | Q(specific_adverse_effect_diagnosis_count__gt=0)
+            | Q(specific_adverse_effect_reporting_count__gt=0)
+            | Q(specific_consultation_count__gt=0)
+            | Q(dosage_determination_count__gt=0)
+            | Q(administration_method_optimization_count__gt=0)
+        )
         .order_by("name")
     )
 
@@ -1326,194 +1341,669 @@ def evaluation_drugs_xlsx_data_transformer(data: dict) -> dict:
     }
 
 
-def evaluation_atc_groups_summary_xlsx_data_transformer(data: dict) -> dict:
-    border = {"border": 1}
-    align_left = {"align": "left"}
-    default = border | align_left
-    merges = [
-        (0, 0, 0, 3),
-        (1, 1, 1, 3),
-        (6, 1, 6, 3),
-    ]
-    widths = [14, 14, 28, 24]
-    xlsx_data = [
-        [
-            (data["header"], default),
-            ("", default),
-            ("", default),
-            ("", default),
-        ],
-        [
-            ("", default),
-            ("Hospitalizovaní pacienti", default),
-            ("", default),
-            ("", default),
-        ],
-        [
-            ("", default),
-            ("Počet pacientů", default),
-            ("Počet stanovených FK plánů", default),
-            ("Počet ověřených FK plánů", default),
-        ],
-        [
-            ("Rizikovost 1", default),
-            (data["hospital_evaluation_atc_groups_summary_1"], default),
-            ("", default),
-            ("", default),
-        ],
-        [
-            ("Rizikovost 2", default),
-            (data["hospital_evaluation_atc_groups_summary_2"], default),
-            ("", default),
-            ("", default),
-        ],
-        [
-            ("Rizikovost 3", default),
-            (data["hospital_evaluation_atc_groups_summary_3"], default),
-            ("", default),
-            ("", default),
-        ],
-        [
-            ("", default),
-            ("Ambulantní pacienti", default),
-            ("", default),
-            ("", default),
-        ],
-        [
-            ("", default),
-            ("Počet pacientů", default),
-            ("Počet stanovených FK plánů", default),
-            ("Počet ověřených FK plánů", default),
-        ],
-        [
-            ("Rizikovost 1", default),
-            (data["ambulance_evaluation_atc_groups_summary_1"], default),
-            ("", default),
-            ("", default),
-        ],
-        [
-            ("Rizikovost 2", default),
-            (data["ambulance_evaluation_atc_groups_summary_2"], default),
-            ("", default),
-            ("", default),
-        ],
-        [
-            ("Rizikovost 3", default),
-            (data["ambulance_evaluation_atc_groups_summary_3"], default),
-            ("", default),
-            ("", default),
-        ],
-    ]
-    return {"data": xlsx_data, "widths": widths, "merges": merges}
+def evaluation_groups_loader(**kwargs) -> dict:
+    time_filter = get_time_filter(**kwargs, lookup_prefix="pharmacologicalevaluation__")
 
+    field_lookup = {
+        "clinic": "pharmacologicalevaluation__care__clinic_id",
+        "department": "pharmacologicalevaluation__care__department_id",
+        "atc_group_startswith": "atc_group__startswith",
+    }
 
-def evaluation_atc_groups_detail_loader(**kwargs) -> dict:
-    time_filter = get_time_filter(**kwargs)
+    entity_filter = get_entity_filter(
+        filters=kwargs.get("filters", {}), field_lookup=field_lookup
+    )
 
-    entity_filter = get_entity_filter(kwargs.get("filters", {}))
+    groups = (
+        Drug.objects.values("atc_group")
+        .annotate(
+            deployment_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__deployment=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            deployment_initial_diagnosis_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__deployment=True)
+                & Q(pharmacologicalevaluation__deployment_initial_diagnosis=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            deployment_during_diagnosis_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__deployment=True)
+                & Q(pharmacologicalevaluation__deployment_during_diagnosis=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            deployment_ft_approach_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__deployment=True)
+                & Q(pharmacologicalevaluation__deployment_ft_approach=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            deployment_other_reason_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__deployment=True)
+                & Q(pharmacologicalevaluation__deployment_other_reason__isnull=False)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            continuation_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__continuation=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            continuation_drug_reintroduction_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__continuation=True)
+                & Q(pharmacologicalevaluation__continuation_drug_reintroduction=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            continuation_medical_intervention_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__continuation=True)
+                & Q(pharmacologicalevaluation__continuation_medical_intervention=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            continuation_other_reason_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__continuation=True)
+                & Q(pharmacologicalevaluation__continuation_other_reason__isnull=False)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_contradiction_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_contradiction=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_adverse_effect_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_adverse_effect=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_adverse_effect_risk_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_adverse_effect_risk=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_missing_indication_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_missing_indication=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_allergies_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_allergies=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_drug_interaction_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_drug_interaction=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_duplicity_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_duplicity=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_renal_insufficiency_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_renal_insufficiency=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_hepatic_insufficiency_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(
+                    pharmacologicalevaluation__discontinuation_hepatic_insufficiency=True
+                )
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_medical_intervention_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(
+                    pharmacologicalevaluation__discontinuation_medical_intervention=True
+                )
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_underdosage_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_underdosage=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_underdosage_risk_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_underdosage_risk=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_overdosage_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_overdosage=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_overdosage_risk_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(pharmacologicalevaluation__discontinuation_overdosage_risk=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            discontinuation_other_reason_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__discontinuation=True)
+                & Q(
+                    pharmacologicalevaluation__discontinuation_other_reason__isnull=False
+                )
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_adverse_effect_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & Q(pharmacologicalevaluation__dose_change_adverse_effect=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_adverse_effect_risk_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & Q(pharmacologicalevaluation__dose_change_adverse_effect_risk=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_renal_insufficiency_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & Q(pharmacologicalevaluation__dose_change_renal_insufficiency=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_hepatic_insufficiency_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & Q(pharmacologicalevaluation__dose_change_hepatic_insufficiency=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_drug_interaction_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & Q(pharmacologicalevaluation__dose_change_drug_interaction=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_underdosage_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & Q(pharmacologicalevaluation__dose_change_underdosage=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_overdosage_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & Q(pharmacologicalevaluation__dose_change_overdosage=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_laboratory_findings_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & Q(pharmacologicalevaluation__dose_change_laboratory_findings=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_dosage_reduction_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & Q(pharmacologicalevaluation__dose_change_dosage_reduction=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_dosage_increase_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & Q(pharmacologicalevaluation__dose_change_dosage_increase=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dose_change_other_reason_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dose_change=True)
+                & Q(pharmacologicalevaluation__dose_change_other_reason__isnull=False)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            recommended_investigation_by_specialist_count=Count(
+                "pharmacologicalevaluation",
+                Q(
+                    pharmacologicalevaluation__recommended_investigation_by_specialist=True
+                )
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            recommended_investigation_by_laboratory_count=Count(
+                "pharmacologicalevaluation",
+                Q(
+                    pharmacologicalevaluation__recommended_investigation_by_laboratory=True
+                )
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            recommended_investigation_by_physical_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__recommended_investigation_by_physical=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            tdm_interpretation_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__tdm_interpretation=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            tdm_measure_level_recommendation_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__tdm_measure_level_recommendation=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            specific_adverse_effect_diagnosis_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__specific_adverse_effect_diagnosis=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            specific_adverse_effect_reporting_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__specific_adverse_effect_reporting=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            specific_consultation_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__specific_consultation=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            dosage_determination_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__dosage_determination=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+            administration_method_optimization_count=Count(
+                "pharmacologicalevaluation",
+                Q(pharmacologicalevaluation__administration_method_optimization=True)
+                & entity_filter
+                & time_filter,
+                distinct=True,
+            ),
+        )
+        .filter(
+            Q(deployment_count__gt=0)
+            | Q(continuation_count__gt=0)
+            | Q(discontinuation_count__gt=0)
+            | Q(dose_change_count__gt=0)
+            | Q(recommended_investigation_by_specialist_count__gt=0)
+            | Q(recommended_investigation_by_laboratory_count__gt=0)
+            | Q(recommended_investigation_by_physical_count__gt=0)
+            | Q(tdm_interpretation_count__gt=0)
+            | Q(tdm_measure_level_recommendation_count__gt=0)
+            | Q(specific_adverse_effect_diagnosis_count__gt=0)
+            | Q(specific_adverse_effect_reporting_count__gt=0)
+            | Q(specific_consultation_count__gt=0)
+            | Q(dosage_determination_count__gt=0)
+            | Q(administration_method_optimization_count__gt=0)
+        )
+        .order_by("atc_group")
+    )
 
-    query_set = CheckIn.objects.filter(time_filter & entity_filter)
+    counts = {}
+
+    for group in groups:
+        for counter, value in group.items():
+            if "_count" in counter:
+                counts.setdefault(counter, {})[group["atc_group"]] = value
 
     data = {
         "header": get_header(**kwargs),
-        "hospital_evaluation_atc_groups_detail_1": query_set.filter(
-            care__care_type=Care.HOSPITALIZATION, risk_level=1
-        ).count(),
-        "hospital_evaluation_atc_groups_detail_2": query_set.filter(
-            care__care_type=Care.HOSPITALIZATION, risk_level=2
-        ).count(),
-        "hospital_evaluation_atc_groups_detail_3": query_set.filter(
-            care__care_type=Care.HOSPITALIZATION, risk_level=3
-        ).count(),
-        "ambulance_evaluation_atc_groups_detail_1": query_set.filter(
-            care__care_type=Care.AMBULATION, risk_level=1
-        ).count(),
-        "ambulance_evaluation_atc_groups_detail_2": query_set.filter(
-            care__care_type=Care.AMBULATION, risk_level=2
-        ).count(),
-        "ambulance_evaluation_atc_groups_detail_3": query_set.filter(
-            care__care_type=Care.AMBULATION, risk_level=3
-        ).count(),
+        "groups": groups,
+        "counts": counts,
+        "columns": groups.count() + 1,
     }
     return data
 
 
-def evaluation_atc_groups_detail_xlsx_data_transformer(data: dict) -> dict:
+def _evaluation_groups_counters(data, counter_name):
+    counters = []
+    for group in data["groups"]:
+        counters.append(data["counts"][counter_name][group["atc_group"]])
+    return counters
+
+
+def evaluation_groups_xlsx_data_transformer(data: dict) -> dict:
     border = {"border": 1}
     align_left = {"align": "left"}
     default = border | align_left
+    bold = {"bold": True} | default
     merges = [
-        (0, 0, 0, 3),
-        (1, 1, 1, 3),
-        (6, 1, 6, 3),
+        (0, 0, 0, data["columns"] - 1),
     ]
-    widths = [14, 14, 28, 24]
+    widths = [32] * data["columns"]
     xlsx_data = [
         [
             (data["header"], default),
-            ("", default),
-            ("", default),
-            ("", default),
-        ],
+        ]
+        + [""] * (data["columns"] - 1),
+        [""] + [group["atc_group"] for group in data["groups"]],
         [
-            ("", default),
-            ("Hospitalizovaní pacienti", default),
-            ("", default),
-            ("", default),
-        ],
+            ("Nasazení léčiva", bold),
+        ]
+        + _evaluation_groups_counters(data, "deployment_count"),
         [
-            ("", default),
-            ("Počet pacientů", default),
-            ("Počet stanovených FK plánů", default),
-            ("Počet ověřených FK plánů", default),
-        ],
+            "Diagnóza ve vstupní kontrole",
+        ]
+        + _evaluation_groups_counters(data, "deployment_initial_diagnosis_count"),
         [
-            ("Rizikovost 1", default),
-            (data["hospital_evaluation_atc_groups_detail_1"], default),
-            ("", default),
-            ("", default),
-        ],
+            "Diagnóza v průběhu hospitalizace",
+        ]
+        + _evaluation_groups_counters(data, "deployment_during_diagnosis_count"),
         [
-            ("Rizikovost 2", default),
-            (data["hospital_evaluation_atc_groups_detail_2"], default),
-            ("", default),
-            ("", default),
-        ],
+            "Vhodnější FT postup",
+        ]
+        + _evaluation_groups_counters(data, "deployment_ft_approach_count"),
         [
-            ("Rizikovost 3", default),
-            (data["hospital_evaluation_atc_groups_detail_3"], default),
-            ("", default),
-            ("", default),
-        ],
+            "Jiný důvod",
+        ]
+        + _evaluation_groups_counters(data, "deployment_other_reason_count"),
         [
-            ("", default),
-            ("Ambulantní pacienti", default),
-            ("", default),
-            ("", default),
-        ],
+            ("Pokračování v terapii", bold),
+        ]
+        + _evaluation_groups_counters(data, "continuation_count"),
         [
-            ("", default),
-            ("Počet pacientů", default),
-            ("Počet stanovených FK plánů", default),
-            ("Počet ověřených FK plánů", default),
-        ],
+            "Znovunasazení léčiva",
+        ]
+        + _evaluation_groups_counters(data, "continuation_drug_reintroduction_count"),
         [
-            ("Rizikovost 1", default),
-            (data["ambulance_evaluation_atc_groups_detail_1"], default),
-            ("", default),
-            ("", default),
-        ],
+            "Po lékařské intervenci",
+        ]
+        + _evaluation_groups_counters(data, "continuation_medical_intervention_count"),
         [
-            ("Rizikovost 2", default),
-            (data["ambulance_evaluation_atc_groups_detail_2"], default),
-            ("", default),
-            ("", default),
-        ],
+            "Jiný důvod",
+        ]
+        + _evaluation_groups_counters(data, "continuation_other_reason_count"),
         [
-            ("Rizikovost 3", default),
-            (data["ambulance_evaluation_atc_groups_detail_3"], default),
-            ("", default),
-            ("", default),
-        ],
+            ("Vysazení léčiva", bold),
+        ]
+        + _evaluation_groups_counters(data, "discontinuation_count"),
+        [
+            "Kontraindikace",
+        ]
+        + _evaluation_groups_counters(data, "discontinuation_contradiction_count"),
+        [
+            "Projev nežádoucího účinku",
+        ]
+        + _evaluation_groups_counters(data, "discontinuation_adverse_effect_count"),
+        [
+            "Riziko nežádoucího účinku",
+        ]
+        + _evaluation_groups_counters(
+            data, "discontinuation_adverse_effect_risk_count"
+        ),
+        [
+            "Chybějící indikace",
+        ]
+        + _evaluation_groups_counters(data, "discontinuation_missing_indication_count"),
+        [
+            "Alergie",
+        ]
+        + _evaluation_groups_counters(data, "discontinuation_allergies_count"),
+        [
+            "Riziko poddávkování",
+        ]
+        + _evaluation_groups_counters(data, "discontinuation_underdosage_risk_count"),
+        [
+            "Poddávkování",
+        ]
+        + _evaluation_groups_counters(data, "discontinuation_underdosage_count"),
+        [
+            "Riziko předávkování",
+        ]
+        + _evaluation_groups_counters(data, "discontinuation_overdosage_risk_count"),
+        [
+            "Léková interakce",
+        ]
+        + _evaluation_groups_counters(data, "discontinuation_drug_interaction_count"),
+        [
+            "Duplicity",
+        ]
+        + _evaluation_groups_counters(data, "discontinuation_duplicity_count"),
+        [
+            "Renální insuficience",
+        ]
+        + _evaluation_groups_counters(
+            data, "discontinuation_renal_insufficiency_count"
+        ),
+        [
+            "Hepatální insuficience",
+        ]
+        + _evaluation_groups_counters(
+            data, "discontinuation_hepatic_insufficiency_count"
+        ),
+        [
+            "Lékařská intervence",
+        ]
+        + _evaluation_groups_counters(
+            data, "discontinuation_medical_intervention_count"
+        ),
+        [
+            "Jiný důvod",
+        ]
+        + _evaluation_groups_counters(data, "discontinuation_other_reason_count"),
+        [
+            "Změna dávky",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_count"),
+        [
+            "Projev nežádoucího účinku",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_adverse_effect_count"),
+        [
+            "Riziko nežádoucího účinku",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_adverse_effect_risk_count"),
+        [
+            "Hepatální insuficience",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_hepatic_insufficiency_count"),
+        [
+            "Renální insuficience",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_renal_insufficiency_count"),
+        [
+            "Léková interakce",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_drug_interaction_count"),
+        [
+            "Riziko poddávkování",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_underdosage_count"),
+        [
+            "Riziko předávkování",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_overdosage_count"),
+        [
+            "Na základě laboratorních výsledků",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_laboratory_findings_count"),
+        [
+            "Snížení dávky",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_dosage_reduction_count"),
+        [
+            "Zvýšení dávky",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_dosage_increase_count"),
+        [
+            "Jiný důvod",
+        ]
+        + _evaluation_groups_counters(data, "dose_change_other_reason_count"),
+        [
+            ("Doporučené vyšetření", bold),
+            "",
+        ]
+        + [""] * (data["columns"] - 1),
+        [
+            "Specialistou",
+        ]
+        + _evaluation_groups_counters(
+            data, "recommended_investigation_by_specialist_count"
+        ),
+        [
+            "Laboratoří",
+        ]
+        + _evaluation_groups_counters(
+            data, "recommended_investigation_by_laboratory_count"
+        ),
+        [
+            "Fyzikální",
+        ]
+        + _evaluation_groups_counters(
+            data, "recommended_investigation_by_physical_count"
+        ),
+        [
+            ("TDM", bold),
+            "",
+        ]
+        + [""] * (data["columns"] - 1),
+        [
+            "Interpretace",
+        ]
+        + _evaluation_groups_counters(data, "tdm_interpretation_count"),
+        [
+            "Doporučené změření hladiny",
+        ]
+        + _evaluation_groups_counters(data, "tdm_measure_level_recommendation_count"),
+        [
+            ("Specifika", bold),
+            "",
+        ]
+        + [""] * (data["columns"] - 1),
+        [
+            "Diagnostika nežádoucího účinku",
+        ]
+        + _evaluation_groups_counters(data, "specific_adverse_effect_diagnosis_count"),
+        [
+            "Hlášení NÚ",
+        ]
+        + _evaluation_groups_counters(data, "specific_adverse_effect_reporting_count"),
+        [
+            "Konzultace",
+        ]
+        + _evaluation_groups_counters(data, "specific_consultation_count"),
+        [
+            "Stanovení dávka",
+        ]
+        + _evaluation_groups_counters(data, "dosage_determination_count"),
+        [
+            "Optimalizace způsobu",
+        ]
+        + _evaluation_groups_counters(data, "administration_method_optimization_count"),
     ]
-    return {"data": xlsx_data, "widths": widths, "merges": merges}
+    return {
+        "data": xlsx_data,
+        "widths": widths,
+        "merges": merges,
+        "default_format": default,
+    }

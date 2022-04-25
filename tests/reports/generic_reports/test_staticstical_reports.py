@@ -240,7 +240,7 @@ class TestTagsLoader(TestCase):
         self.assertEqual(tag_1.evaluation_count, 1)
 
 
-class TestEvaluationLoader(TestCase):
+class TestEvaluationDrugsLoader(TestCase):
     @patch("django.utils.timezone.now")
     def setUp(self, mocked_now):
         now_2019_12 = timezone.datetime(2019, 12, 2, tzinfo=timezone.utc)
@@ -356,3 +356,91 @@ class TestEvaluationLoader(TestCase):
         self.assertEqual(deployment_count[0][0], "Nasazení léčiva")
         self.assertEqual(deployment_count[1], 3)
         self.assertEqual(deployment_count[2], 0)
+
+
+class TestEvaluationGroupsLoader(TestCase):
+    @patch("django.utils.timezone.now")
+    def setUp(self, mocked_now):
+        now_2019_12 = timezone.datetime(2019, 12, 2, tzinfo=timezone.utc)
+        now_2020_01 = timezone.datetime(2020, 1, 2, tzinfo=timezone.utc)
+
+        mocked_now.return_value = now_2019_12
+
+        self.clinic_1 = ClinicFactory()
+        self.clinic_2 = ClinicFactory()
+
+        self.drug_1 = DrugFactory(name="drug_1", atc_group="AA2")
+        self.drug_2 = DrugFactory(name="drug_2", atc_group="AA2")
+        self.drug_3 = DrugFactory(name="drug_3", atc_group="AA1")
+        self.drug_4 = DrugFactory(name="drug_4", atc_group="AB1")
+
+        PharmacologicalEvaluationFactory(
+            drug=self.drug_1,
+            care__clinic=self.clinic_1,
+            deployment=True,
+        )
+        PharmacologicalEvaluationFactory(
+            drug=self.drug_2,
+            care__clinic=self.clinic_2,
+            deployment=True,
+        )
+
+        PharmacologicalEvaluationFactory(
+            drug=self.drug_2,
+            care__clinic=self.clinic_2,
+            deployment=False,
+        )
+        PharmacologicalEvaluationFactory(
+            drug=self.drug_3,
+            care__clinic=self.clinic_2,
+            deployment=True,
+        )
+        PharmacologicalEvaluationFactory(
+            drug=self.drug_4,
+            care__clinic=self.clinic_2,
+            deployment=True,
+        )
+
+        mocked_now.return_value = now_2020_01
+
+        PharmacologicalEvaluationFactory(
+            drug=self.drug_1,
+            care__clinic=self.clinic_1,
+            deployment=True,
+        )
+
+    def test_loader__a_groups(self):
+        data = statistical_reports.evaluation_groups_loader(
+            time_range="custom", filters={"atc_group_startswith": "A"}
+        )
+
+        groups = data["groups"]
+
+        self.assertEqual(len(groups), 3)
+
+        self.assertEqual(groups[0]["atc_group"], "AA1")
+        self.assertEqual(groups[1]["atc_group"], "AA2")
+        self.assertEqual(groups[2]["atc_group"], "AB1")
+
+        counts = data["counts"]
+
+        self.assertEqual(counts["deployment_count"]["AA1"], 1)
+        self.assertEqual(counts["deployment_count"]["AA2"], 3)
+        self.assertEqual(counts["deployment_count"]["AB1"], 1)
+
+    def test_loader__aa_groups(self):
+        data = statistical_reports.evaluation_groups_loader(
+            time_range="custom", filters={"atc_group_startswith": "AA"}
+        )
+
+        groups = data["groups"]
+
+        self.assertEqual(len(groups), 2)
+
+        self.assertEqual(groups[0]["atc_group"], "AA1")
+        self.assertEqual(groups[1]["atc_group"], "AA2")
+
+        counts = data["counts"]
+
+        self.assertEqual(counts["deployment_count"]["AA1"], 1)
+        self.assertEqual(counts["deployment_count"]["AA2"], 3)
