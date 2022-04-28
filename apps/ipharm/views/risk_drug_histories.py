@@ -11,10 +11,21 @@ from .common import HistoryView
 
 
 class RiskDrugHistoryListView(generics.ListCreateAPIView):
-    queryset = RiskDrugHistory.objects.all()
+    queryset = (
+        RiskDrugHistory.objects.prefetch_related("comments")
+        .prefetch_related("risk_drugs")
+        .prefetch_related("risk_diagnoses")
+        .prefetch_related("tags")
+        .all()
+    )
     serializer_class = RiskDrugHistorySerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["care"]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return RiskDrugHistoryNestedSerializer
+        return RiskDrugHistorySerializer
 
 
 class RiskDrugHistoryDetailView(
