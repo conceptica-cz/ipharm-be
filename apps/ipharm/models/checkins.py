@@ -165,6 +165,7 @@ class CheckIn(BaseUpdatableModel):
         blank=True,
         null=True,
     )
+    toggle_diagnoses = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         if not self.medical_procedure and (
