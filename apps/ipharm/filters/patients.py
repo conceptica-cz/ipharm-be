@@ -33,6 +33,7 @@ class PatientFilter(django_filters.FilterSet):
         model = Patient
         fields = {
             "birth_number": ["exact", "icontains"],
+            "external_id": ["exact"],
             "name": ["exact", "icontains"],
             "first_name": ["exact", "icontains"],
             "last_name": ["exact", "icontains"],
