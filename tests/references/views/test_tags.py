@@ -16,7 +16,7 @@ class GetAllTagTest(APITestCase):
         TagFactory()
         user = UserFactory()
         self.client.force_login(user=user)
-        response = self.client.get(reverse("tag_list"))
+        response = self.client.get(reverse("references:tag_list"))
         tags = Tag.objects.all()
         serializer = TagSerializer(tags, many=True)
 
@@ -33,7 +33,9 @@ class GetSingleTagTest(APITestCase):
 
     def test_get_valid_single_tag(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("tag_detail", kwargs={"pk": self.tag_2.id}))
+        response = self.client.get(
+            reverse("references:tag_detail", kwargs={"pk": self.tag_2.id})
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         serializer = TagSerializer(self.tag_2)
@@ -42,6 +44,6 @@ class GetSingleTagTest(APITestCase):
     def test_get_invalid_single_tag(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("tag_detail", kwargs={"pk": self.tag_3.id + 1})
+            reverse("references:tag_detail", kwargs={"pk": self.tag_3.id + 1})
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

@@ -17,7 +17,7 @@ class GetAllDrugsTest(APITestCase):
         DrugFactory()
         user = UserFactory()
         self.client.force_login(user=user)
-        response = self.client.get(reverse("drug_list"))
+        response = self.client.get(reverse("references:drug_list"))
         drugs = Drug.objects.all()
         serializer = DrugSerializer(drugs, many=True)
 
@@ -35,7 +35,7 @@ class GetSingleDrugTest(APITestCase):
     def test_get_valid_single_drug(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("drug_detail", kwargs={"pk": self.drug_2.id})
+            reverse("references:drug_detail", kwargs={"pk": self.drug_2.id})
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -44,5 +44,5 @@ class GetSingleDrugTest(APITestCase):
 
     def test_get_invalid_single_drug(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("drug_detail", kwargs={"pk": 42}))
+        response = self.client.get(reverse("references:drug_detail", kwargs={"pk": 42}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

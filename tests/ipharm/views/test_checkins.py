@@ -28,7 +28,7 @@ class CreateCheckInTest(APITestCase):
             "polypharmacy_note": "polypharmacy_note",
         }
 
-        response = self.client.post(reverse("checkin_list"), data=data)
+        response = self.client.post(reverse("ipharm:checkin_list"), data=data)
 
         self.assertEqual(
             response.status_code, status.HTTP_201_CREATED, msg=response.data
@@ -49,7 +49,7 @@ class GetCheckInTest(APITestCase):
         self.client.force_login(user=self.user)
 
         response = self.client.get(
-            reverse("checkin_detail", kwargs={"pk": self.check_in.pk})
+            reverse("ipharm:checkin_detail", kwargs={"pk": self.check_in.pk})
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -92,7 +92,7 @@ class UpdateCheckInTest(APITestCase):
         }
 
         response = self.client.patch(
-            reverse("checkin_detail", kwargs={"pk": self.check_in.pk}), data=data
+            reverse("ipharm:checkin_detail", kwargs={"pk": self.check_in.pk}), data=data
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)

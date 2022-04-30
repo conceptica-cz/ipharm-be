@@ -17,7 +17,7 @@ class GetAllDiagnosisTest(APITestCase):
         DiagnosisFactory()
         user = UserFactory()
         self.client.force_login(user=user)
-        response = self.client.get(reverse("diagnosis_list"))
+        response = self.client.get(reverse("references:diagnosis_list"))
         diagnoses = Diagnosis.objects.all()
         serializer = DiagnosisSerializer(diagnoses, many=True)
 
@@ -35,7 +35,7 @@ class GetSingleDiagnosisTest(APITestCase):
     def test_get_valid_single_diagnosis(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("diagnosis_detail", kwargs={"pk": self.diagnosis_2.id})
+            reverse("references:diagnosis_detail", kwargs={"pk": self.diagnosis_2.id})
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -45,6 +45,8 @@ class GetSingleDiagnosisTest(APITestCase):
     def test_get_invalid_single_diagnosis(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("diagnosis_detail", kwargs={"pk": self.diagnosis_3.id + 1})
+            reverse(
+                "references:diagnosis_detail", kwargs={"pk": self.diagnosis_3.id + 1}
+            )
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

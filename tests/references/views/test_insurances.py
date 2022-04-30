@@ -17,7 +17,7 @@ class GetAllInsuranceCompanysTest(APITestCase):
         InsuranceCompanyFactory()
         user = UserFactory()
         self.client.force_login(user=user)
-        response = self.client.get(reverse("insurance_company_list"))
+        response = self.client.get(reverse("references:insurance_company_list"))
         insurances = InsuranceCompany.objects.all()
         serializer = InsuranceCompanySerializer(insurances, many=True)
 
@@ -36,7 +36,8 @@ class GetSingleInsuranceCompanyTest(APITestCase):
         self.client.force_login(user=self.user)
         response = self.client.get(
             reverse(
-                "insurance_company_detail", kwargs={"pk": self.insurance_company_2.id}
+                "references:insurance_company_detail",
+                kwargs={"pk": self.insurance_company_2.id},
             )
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -47,6 +48,6 @@ class GetSingleInsuranceCompanyTest(APITestCase):
     def test_get_invalid_single_insurance_company(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("insurance_company_detail", kwargs={"pk": 2042})
+            reverse("references:insurance_company_detail", kwargs={"pk": 2042})
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

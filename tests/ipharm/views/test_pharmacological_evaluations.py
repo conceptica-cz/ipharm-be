@@ -40,7 +40,7 @@ class CreatePharmacologicalEvaluationTest(APITestCase):
         }
 
         response = self.client.post(
-            reverse("pharmacological_evaluation_list"), data=data
+            reverse("ipharm:pharmacological_evaluation_list"), data=data
         )
 
         self.assertEqual(
@@ -82,7 +82,7 @@ class GetPharmacologicalEvaluationListTest(APITestCase):
         self.client.force_login(user=self.user)
 
         response = self.client.get(
-            reverse("pharmacological_evaluation_list"), {"care": self.care_1.pk}
+            reverse("ipharm:pharmacological_evaluation_list"), {"care": self.care_1.pk}
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK, msg=response.data)
@@ -99,7 +99,7 @@ class GetPharmacologicalEvaluationTest(APITestCase):
 
         response = self.client.get(
             reverse(
-                "pharmacological_evaluation_detail",
+                "ipharm:pharmacological_evaluation_detail",
                 kwargs={"pk": self.pharmacological_evaluation.pk},
             )
         )
@@ -135,7 +135,7 @@ class UpdatePharmacologicalEvaluationTest(APITestCase):
 
         response = self.client.patch(
             reverse(
-                "pharmacological_evaluation_detail",
+                "ipharm:pharmacological_evaluation_detail",
                 kwargs={"pk": self.pharmacological_evaluation.pk},
             ),
             data=data,
@@ -178,7 +178,7 @@ class GetPharmacologicalEvaluationHistoryTest(APITestCase):
         self.client.force_login(user=self.user_3)
         response = self.client.get(
             reverse(
-                "pharmacological_evaluation_history",
+                "ipharm:pharmacological_evaluation_history",
                 kwargs={"pk": self.pharmacological_evaluation.pk},
             ),
         )
@@ -219,7 +219,7 @@ class GetPharmacologicalEvaluationCommentListTest(APITestCase):
     def test_get_comment_list(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("pharmacological_evaluation_comment_list")
+            reverse("ipharm:pharmacological_evaluation_comment_list")
             + f"?pharmacological_evaluation={self.pharmacological_evaluation_2.pk}"
         )
 
@@ -248,7 +248,7 @@ class GetPharmacologicalEvaluationCommentTest(APITestCase):
 
         response = self.client.get(
             reverse(
-                "pharmacological_evaluation_comment_detail",
+                "ipharm:pharmacological_evaluation_comment_detail",
                 kwargs={"pk": self.pharmacological_evaluation_comment.pk},
             )
         )
@@ -279,7 +279,7 @@ class UpdatePharmacologicalEvaluationCommentTest(APITestCase):
 
         response = self.client.patch(
             reverse(
-                "pharmacological_evaluation_comment_detail",
+                "ipharm:pharmacological_evaluation_comment_detail",
                 kwargs={"pk": self.pharmacological_evaluation_comment.pk},
             ),
             data=data,

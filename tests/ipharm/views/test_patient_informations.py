@@ -21,7 +21,9 @@ class CreatePatientInformationTest(APITestCase):
             "text": "text",
         }
 
-        response = self.client.post(reverse("patient_information_list"), data=data)
+        response = self.client.post(
+            reverse("ipharm:patient_information_list"), data=data
+        )
 
         self.assertEqual(
             response.status_code, status.HTTP_201_CREATED, msg=response.data
@@ -48,7 +50,7 @@ class GetPatientInformationListTest(APITestCase):
         self.client.force_login(user=self.user)
 
         response = self.client.get(
-            reverse("patient_information_list"), {"care": self.care_1.pk}
+            reverse("ipharm:patient_information_list"), {"care": self.care_1.pk}
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK, msg=response.data)
@@ -65,7 +67,8 @@ class GetPatientInformationTest(APITestCase):
 
         response = self.client.get(
             reverse(
-                "patient_information_detail", kwargs={"pk": self.patient_information.pk}
+                "ipharm:patient_information_detail",
+                kwargs={"pk": self.patient_information.pk},
             )
         )
 
@@ -88,7 +91,8 @@ class UpdatePatientInformationTest(APITestCase):
 
         response = self.client.patch(
             reverse(
-                "patient_information_detail", kwargs={"pk": self.patient_information.pk}
+                "ipharm:patient_information_detail",
+                kwargs={"pk": self.patient_information.pk},
             ),
             data=data,
         )

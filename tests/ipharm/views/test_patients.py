@@ -71,7 +71,7 @@ class GetAllPatientsTest(APITestCase):
 
     def test_get_all_patients(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("patient_list"))
+        response = self.client.get(reverse("ipharm:patient_list"))
         patients = Patient.objects.all()
         serializer = PatientLiteNestedSerializer(patients, many=True)
 
@@ -81,7 +81,7 @@ class GetAllPatientsTest(APITestCase):
     def test_filtered_by_hospital(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("patient_list"), data={"hospital": self.clinic_1.pk}
+            reverse("ipharm:patient_list"), data={"hospital": self.clinic_1.pk}
         )
         patients = PatientFilter({"hospital": self.clinic_1.pk}).qs
         serializer = PatientLiteNestedSerializer(patients, many=True)
@@ -99,7 +99,7 @@ class CreatePatientTest(APITestCase):
         patient_data = factory.build(dict, FACTORY_CLASS=PatientFactory)
         patient_data["insurance_company"] = self.insurance_company.pk
         self.client.force_login(user=self.user)
-        response = self.client.post(reverse("patient_list"), data=patient_data)
+        response = self.client.post(reverse("ipharm:patient_list"), data=patient_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
@@ -111,7 +111,7 @@ class GetSinglePatientTest(APITestCase):
     def test_get_single_patient(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("patient_detail", kwargs={"pk": self.patient.pk})
+            reverse("ipharm:patient_detail", kwargs={"pk": self.patient.pk})
         )
         serializer = PatientLiteNestedSerializer(self.patient)
 
@@ -120,7 +120,7 @@ class GetSinglePatientTest(APITestCase):
 
     def test_get_single_patient_not_found(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("patient_detail", kwargs={"pk": 42}))
+        response = self.client.get(reverse("ipharm:patient_detail", kwargs={"pk": 42}))
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -129,7 +129,7 @@ class GetSinglePatientTest(APITestCase):
         new_insurance_company = InsuranceCompanyFactory()
         new_first_name = "John"
         response = self.client.patch(
-            reverse("patient_detail", kwargs={"pk": self.patient.pk}),
+            reverse("ipharm:patient_detail", kwargs={"pk": self.patient.pk}),
             data={
                 "insurance_company": new_insurance_company.pk,
                 "first_name": new_first_name,

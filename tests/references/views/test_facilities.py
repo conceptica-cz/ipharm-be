@@ -17,7 +17,7 @@ class GetAllMedicalFacilityTest(APITestCase):
         MedicalFacilityFactory()
         user = UserFactory()
         self.client.force_login(user=user)
-        response = self.client.get(reverse("medical_facility_list"))
+        response = self.client.get(reverse("references:medical_facility_list"))
         facilities = MedicalFacility.objects.all()
         serializer = MedicalFacilitySerializer(facilities, many=True)
 
@@ -36,7 +36,8 @@ class GetSingleMedicalFacilityTest(APITestCase):
         self.client.force_login(user=self.user)
         response = self.client.get(
             reverse(
-                "medical_facility_detail", kwargs={"pk": self.medical_facility_2.id}
+                "references:medical_facility_detail",
+                kwargs={"pk": self.medical_facility_2.id},
             )
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -47,6 +48,6 @@ class GetSingleMedicalFacilityTest(APITestCase):
     def test_get_invalid_single_medical_facility(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("medical_facility_detail", kwargs={"pk": 42})
+            reverse("references:medical_facility_detail", kwargs={"pk": 42})
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
