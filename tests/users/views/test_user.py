@@ -34,13 +34,13 @@ class UserViewTest(APITestCase):
         self.user.save()
 
     def test_get_unauthorized(self):
-        response = self.client.get(reverse("user"))
+        response = self.client.get(reverse("users:user"))
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("user"))
+        response = self.client.get(reverse("users:user"))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -64,7 +64,7 @@ class UserViewTest(APITestCase):
     def test_patch(self):
         self.client.force_login(user=self.user)
         response = self.client.patch(
-            reverse("user"),
+            reverse("users:user"),
             data={
                 "hospitals": [self.hospital_2.pk, self.both_1.pk],
             },
@@ -100,7 +100,7 @@ class UserViewTest(APITestCase):
     def test_put(self):
         self.client.force_login(user=self.user)
         response = self.client.put(
-            reverse("user"),
+            reverse("users:user"),
             data={
                 "hospitals": [self.hospital_2.pk, self.both_1.pk],
                 "ambulances": [self.ambulance_2.pk, self.both_1.pk],

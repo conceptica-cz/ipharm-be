@@ -17,7 +17,7 @@ class ReportsTest(APITestCase):
 
     def test_get_all_reports(self):
         self.client.force_authenticate(user=self.user)
-        response = self.client.get(reverse("report_list"))
+        response = self.client.get(reverse("reports:report_list"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), 2)
         self.assertEqual(response.data["results"][0]["name"], self.report_1.name)
@@ -57,7 +57,7 @@ class ReportVariablesTest(APITestCase):
     def test_get_all_report_variables(self):
         self.client.force_authenticate(user=self.user)
         response = self.client.get(
-            reverse("report_variable_list", kwargs={"pk": self.report_1.pk})
+            reverse("reports:report_variable_list", kwargs={"pk": self.report_1.pk})
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), 2)
@@ -70,7 +70,7 @@ class ReportVariablesTest(APITestCase):
         self.client.force_authenticate(user=self.user)
         response = self.client.get(
             reverse(
-                "report_variable_detail",
+                "reports:report_variable_detail",
                 kwargs={"pk": self.variable_1.pk},
             )
         )
@@ -82,7 +82,7 @@ class ReportVariablesTest(APITestCase):
         self.client.force_authenticate(user=self.user)
         response = self.client.patch(
             reverse(
-                "report_variable_detail",
+                "reports:report_variable_detail",
                 kwargs={"pk": self.variable_1.pk},
             ),
             data={"value": "new_value"},
@@ -97,7 +97,7 @@ class ReportVariablesTest(APITestCase):
         self.client.force_authenticate(user=self.user)
         response = self.client.patch(
             reverse(
-                "report_variable_detail",
+                "reports:report_variable_detail",
                 kwargs={"pk": self.variable_2.pk},
             ),
             data={"value": "not_a_number"},
@@ -120,7 +120,7 @@ class GenerateReportTest(APITestCase):
 
         self.client.force_authenticate(user=self.user)
         response = self.client.get(
-            reverse("report_generate", kwargs={"pk": self.report.pk}),
+            reverse("reports:report_generate", kwargs={"pk": self.report.pk}),
             data={"year": 2020},
         )
 
@@ -140,7 +140,7 @@ class GenerateReportTest(APITestCase):
 
         self.client.force_authenticate(user=self.user)
         response = self.client.get(
-            reverse("report_generate", kwargs={"pk": self.report.pk}),
+            reverse("reports:report_generate", kwargs={"pk": self.report.pk}),
             data={"year": 2020},
         )
 
@@ -153,7 +153,7 @@ class GenerateReportTest(APITestCase):
 
         self.client.force_authenticate(user=self.user)
         response = self.client.get(
-            reverse("report_generate", kwargs={"pk": self.report.pk}),
+            reverse("reports:report_generate", kwargs={"pk": self.report.pk}),
             data={"year": 2020},
         )
 

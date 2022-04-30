@@ -40,7 +40,9 @@ class CreatePharmacologicalPlanTest(APITestCase):
             "tags": [tag_1.pk, tag_3.pk],
         }
 
-        response = self.client.post(reverse("pharmacological_plan_list"), data=data)
+        response = self.client.post(
+            reverse("ipharm:pharmacological_plan_list"), data=data
+        )
 
         self.assertEqual(
             response.status_code, status.HTTP_201_CREATED, msg=response.data
@@ -61,7 +63,7 @@ class GetPharmacologicalPlanTest(APITestCase):
 
         response = self.client.get(
             reverse(
-                "pharmacological_plan_detail",
+                "ipharm:pharmacological_plan_detail",
                 kwargs={"pk": self.pharmacological_plan.pk},
             )
         )
@@ -99,7 +101,7 @@ class UpdatePharmacologicalPlanTest(APITestCase):
 
         response = self.client.patch(
             reverse(
-                "pharmacological_plan_detail",
+                "ipharm:pharmacological_plan_detail",
                 kwargs={"pk": self.pharmacological_plan.pk},
             ),
             data=data,
@@ -123,7 +125,7 @@ class CreatePharmacologicalPlanCommentTest(APITestCase):
             "text": "Test comment",
         }
         response = self.client.post(
-            reverse("pharmacological_plan_comment_list"), data=data
+            reverse("ipharm:pharmacological_plan_comment_list"), data=data
         )
 
         self.assertEqual(
@@ -145,7 +147,7 @@ class CreatePharmacologicalPlanCommentTest(APITestCase):
             "comment_type": "verification",
         }
         response = self.client.post(
-            reverse("pharmacological_plan_comment_list"), data=data
+            reverse("ipharm:pharmacological_plan_comment_list"), data=data
         )
 
         self.assertEqual(
@@ -178,7 +180,7 @@ class GetPharmacologicalPlanCommentListTest(APITestCase):
     def test_get_comment_list(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("pharmacological_plan_comment_list")
+            reverse("ipharm:pharmacological_plan_comment_list")
             + f"?pharmacological_plan={self.pharmacological_plan_2.pk}"
         )
 
@@ -205,7 +207,7 @@ class GetPharmacologicalPlanCommentTest(APITestCase):
 
         response = self.client.get(
             reverse(
-                "pharmacological_plan_comment_detail",
+                "ipharm:pharmacological_plan_comment_detail",
                 kwargs={"pk": self.pharmacological_plan_comment.pk},
             )
         )
@@ -236,7 +238,7 @@ class UpdatePharmacologicalPlanCommentTest(APITestCase):
 
         response = self.client.patch(
             reverse(
-                "pharmacological_plan_comment_detail",
+                "ipharm:pharmacological_plan_comment_detail",
                 kwargs={"pk": self.pharmacological_plan_comment.pk},
             ),
             data=data,

@@ -36,7 +36,7 @@ class CreateRiskDrugHistoryTest(APITestCase):
             "tags": [tag_1.pk, tag_3.pk],
         }
 
-        response = self.client.post(reverse("risk_drug_history_list"), data=data)
+        response = self.client.post(reverse("ipharm:risk_drug_history_list"), data=data)
 
         self.assertEqual(
             response.status_code, status.HTTP_201_CREATED, msg=response.data
@@ -58,7 +58,8 @@ class GetRiskDrugHistoryTest(APITestCase):
 
         response = self.client.get(
             reverse(
-                "risk_drug_history_detail", kwargs={"pk": self.risk_drug_history.pk}
+                "ipharm:risk_drug_history_detail",
+                kwargs={"pk": self.risk_drug_history.pk},
             )
         )
 
@@ -97,7 +98,8 @@ class UpdateRiskDrugHistoryTest(APITestCase):
 
         response = self.client.patch(
             reverse(
-                "risk_drug_history_detail", kwargs={"pk": self.risk_drug_history.pk}
+                "ipharm:risk_drug_history_detail",
+                kwargs={"pk": self.risk_drug_history.pk},
             ),
             data=data,
         )
@@ -120,7 +122,7 @@ class CreateRiskDrugHistoryCommentTest(APITestCase):
             "text": "Test comment",
         }
         response = self.client.post(
-            reverse("risk_drug_history_comment_list"), data=data
+            reverse("ipharm:risk_drug_history_comment_list"), data=data
         )
 
         self.assertEqual(
@@ -153,7 +155,7 @@ class GetRiskDrugHistoryCommentListTest(APITestCase):
     def test_get_comment_list(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("risk_drug_history_comment_list")
+            reverse("ipharm:risk_drug_history_comment_list")
             + f"?risk_drug_history={self.risk_drug_history_2.pk}"
         )
 
@@ -180,7 +182,7 @@ class GetRiskDrugHistoryCommenTest(APITestCase):
 
         response = self.client.get(
             reverse(
-                "risk_drug_history_comment_detail",
+                "ipharm:risk_drug_history_comment_detail",
                 kwargs={"pk": self.risk_drug_history_comment.pk},
             )
         )
@@ -209,7 +211,7 @@ class UpdateRiskDrugHistoryCommenTest(APITestCase):
 
         response = self.client.patch(
             reverse(
-                "risk_drug_history_comment_detail",
+                "ipharm:risk_drug_history_comment_detail",
                 kwargs={"pk": self.risk_drug_history_comment.pk},
             ),
             data=data,

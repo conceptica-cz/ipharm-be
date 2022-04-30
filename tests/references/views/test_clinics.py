@@ -24,7 +24,7 @@ class GetAllClinicsTest(APITestCase):
 
     def test_get_all_clinics(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("clinic_list"))
+        response = self.client.get(reverse("references:clinic_list"))
         clinics = Clinic.objects.get_with_counters()
         serializer = ClinicSerializer(clinics, many=True)
 
@@ -34,7 +34,7 @@ class GetAllClinicsTest(APITestCase):
     def test_get_ambulances_only(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("clinic_list"), data={"clinic_filter": "ambulances"}
+            reverse("references:clinic_list"), data={"clinic_filter": "ambulances"}
         )
         clinics = Clinic.objects.get_ambulances()
         serializer = ClinicSerializer(clinics, many=True)
@@ -45,7 +45,7 @@ class GetAllClinicsTest(APITestCase):
     def test_get_hospitals_only(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("clinic_list"), data={"clinic_filter": "hospitals"}
+            reverse("references:clinic_list"), data={"clinic_filter": "hospitals"}
         )
         clinics = Clinic.objects.get_hospitals()
         serializer = ClinicSerializer(clinics, many=True)
@@ -56,7 +56,7 @@ class GetAllClinicsTest(APITestCase):
     def test_my_hospitals_only(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("clinic_list"), data={"clinic_filter": "my_hospitals"}
+            reverse("references:clinic_list"), data={"clinic_filter": "my_hospitals"}
         )
         clinics = Clinic.objects.get_my_hospitals(self.user)
         serializer = ClinicSerializer(clinics, many=True)
@@ -67,7 +67,7 @@ class GetAllClinicsTest(APITestCase):
     def test_get_my_ambulances_only(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("clinic_list"), data={"clinic_filter": "my_ambulances"}
+            reverse("references:clinic_list"), data={"clinic_filter": "my_ambulances"}
         )
         clinics = Clinic.objects.get_my_ambulances(self.user)
         serializer = ClinicSerializer(clinics, many=True)
@@ -86,7 +86,7 @@ class GetSingleClinicsTest(APITestCase):
     def test_get_valid_single_clinic(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("clinic_detail", kwargs={"pk": self.clinic_2.id})
+            reverse("references:clinic_detail", kwargs={"pk": self.clinic_2.id})
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -98,7 +98,7 @@ class GetSingleClinicsTest(APITestCase):
     def test_get_invalid_single_clinic(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("clinic_detail", kwargs={"pk": self.clinic_3.id + 1})
+            reverse("references:clinic_detail", kwargs={"pk": self.clinic_3.id + 1})
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -109,7 +109,7 @@ class GetAllDepartmentsTest(APITestCase):
         DepartmentFactory()
         user = UserFactory()
         self.client.force_login(user=user)
-        response = self.client.get(reverse("department_list"))
+        response = self.client.get(reverse("references:department_list"))
         departments = Department.objects.all()
         serializer = DepartmentSerializer(departments, many=True)
 
@@ -127,7 +127,7 @@ class GetSingleDepartmentTest(APITestCase):
     def test_get_valid_single_department(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("department_detail", kwargs={"pk": self.department_2.id})
+            reverse("references:department_detail", kwargs={"pk": self.department_2.id})
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -137,6 +137,8 @@ class GetSingleDepartmentTest(APITestCase):
     def test_get_invalid_single_department(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("department_detail", kwargs={"pk": self.department_3.pk + 1})
+            reverse(
+                "references:department_detail", kwargs={"pk": self.department_3.pk + 1}
+            )
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

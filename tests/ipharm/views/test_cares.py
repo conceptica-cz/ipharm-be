@@ -16,7 +16,9 @@ class GetCareTest(APITestCase):
 
     def test_get_single_care(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("care_detail", kwargs={"pk": self.care.pk}))
+        response = self.client.get(
+            reverse("ipharm:care_detail", kwargs={"pk": self.care.pk})
+        )
         serializer = CareNestedSerializer(self.care)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -25,7 +27,7 @@ class GetCareTest(APITestCase):
     def test_get_single_care_not_found(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("care_detail", kwargs={"pk": self.care.pk + 1})
+            reverse("ipharm:care_detail", kwargs={"pk": self.care.pk + 1})
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -39,14 +41,14 @@ class DeleteCareTest(APITestCase):
     def test_delete(self):
         self.client.force_login(user=self.user)
         response = self.client.delete(
-            reverse("care_detail", kwargs={"pk": self.care.pk})
+            reverse("ipharm:care_detail", kwargs={"pk": self.care.pk})
         )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Care.objects.count(), 0)
 
     def test_delete_care_not_found(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("care_detail", kwargs={"pk": 42}))
+        response = self.client.get(reverse("ipharm:care_detail", kwargs={"pk": 42}))
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -61,7 +63,7 @@ class UpdateCareTest(APITestCase):
         new_diagnosis_1 = DiagnosisFactory()
         new_diagnosis_2 = DiagnosisFactory()
         response = self.client.patch(
-            reverse("care_detail", kwargs={"pk": self.care.pk}),
+            reverse("ipharm:care_detail", kwargs={"pk": self.care.pk}),
             data={"diagnoses": [new_diagnosis_1.pk, new_diagnosis_2.pk]},
         )
 

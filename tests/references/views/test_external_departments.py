@@ -17,7 +17,7 @@ class GetAllExternalDepartmentsTest(APITestCase):
         ExternalDepartmentFactory()
         user = UserFactory()
         self.client.force_login(user=user)
-        response = self.client.get(reverse("external_department_list"))
+        response = self.client.get(reverse("references:external_department_list"))
         external_departments = ExternalDepartment.objects.all()
         serializer = ExternalDepartmentSerializer(external_departments, many=True)
 
@@ -36,7 +36,7 @@ class GetSingleExternalDepartmentTest(APITestCase):
         self.client.force_login(user=self.user)
         response = self.client.get(
             reverse(
-                "external_department_detail",
+                "references:external_department_detail",
                 kwargs={"pk": self.external_department_2.id},
             )
         )
@@ -48,6 +48,6 @@ class GetSingleExternalDepartmentTest(APITestCase):
     def test_get_invalid_single_external_department(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("external_department_detail", kwargs={"pk": 42})
+            reverse("references:external_department_detail", kwargs={"pk": 42})
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
