@@ -39,7 +39,7 @@ class CheckInSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckIn
         exclude = ["is_deleted"]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "medical_procedure"]
 
 
 class CheckInNestedSerializer(serializers.ModelSerializer):
@@ -52,4 +52,4 @@ class CheckInNestedSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckIn
         exclude = ["is_deleted"]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "medical_procedure"]
