@@ -18,7 +18,7 @@ urlpatterns = [
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "schema/swagger-ui/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
+        SpectacularSwaggerView.as_view(url_name="ipharm:schema"),
         name="swagger-ui",
     ),
     path("patients/", patients.PatientListView.as_view(), name="patient_list"),

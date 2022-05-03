@@ -1,14 +1,14 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics
-from rest_framework.permissions import SAFE_METHODS
-
-from ..filters import PatientFilter
-from ..models.patients import Patient
-from ..serializers.patients import (
+from ipharm.filters.patients import PatientFilter
+from ipharm.models.patients import Patient
+from ipharm.serializers.patients import (
     PatientLiteNestedSerializer,
     PatientNestedSerializer,
     PatientSerializer,
 )
+from rest_framework import filters, generics
+from rest_framework.permissions import SAFE_METHODS
+
 from .common import HistoryView
 
 
