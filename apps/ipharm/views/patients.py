@@ -1,4 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import filters, generics
 from rest_framework.permissions import SAFE_METHODS
 
@@ -12,6 +14,30 @@ from ..serializers.patients import (
 from .common import HistoryView
 
 
+@extend_schema_view(
+    get=extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="age",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                description="Age of the patient",
+            ),
+            OpenApiParameter(
+                name="age_min",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                description="Minimum age of the patient",
+            ),
+            OpenApiParameter(
+                name="age_max",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                description="Maximum age of the patient",
+            ),
+        ]
+    )
+)
 class PatientListView(generics.ListCreateAPIView):
     queryset = (
         Patient.objects.select_related("current_care")
