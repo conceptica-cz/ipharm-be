@@ -17,7 +17,7 @@ class Patient(BaseUpdatableModel):
     name = models.CharField(max_length=255, blank=True, null=True)
     first_name = models.CharField(max_length=100, blank=True, null=True)
     last_name = models.CharField(max_length=100, blank=True, null=True)
-    birth_date = models.DateField()
+    birth_date = models.DateField(db_index=True)
     birth_number = models.CharField(unique=True, max_length=10)
     insurance_company = models.ForeignKey(
         "references.InsuranceCompany", on_delete=models.SET_NULL, null=True, blank=True

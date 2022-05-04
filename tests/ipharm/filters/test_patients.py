@@ -1,4 +1,8 @@
+from unittest.mock import patch
+
 from django.test import TestCase
+from django.utils import timezone
+from django.utils.datetime_safe import date
 from ipharm.filters import PatientFilter
 from ipharm.models.cares import Care
 
@@ -196,6 +200,67 @@ class PatientFilterByCheckInTest(TestCase):
             queryset,
             [
                 self.patient_with_notification_datetime,
+            ],
+            transform=lambda x: x,
+            ordered=False,
+        )
+
+
+class PatientFilterByAgeInTest(TestCase):
+    def setUp(self) -> None:
+        self.now = timezone.datetime(2020, 2, 1)
+        self.patient_20 = PatientFactory(birth_date=date(2000, 1, 1))
+        self.patient_19_1 = PatientFactory(birth_date=date(2001, 3, 1))
+        self.patient_19_2 = PatientFactory(birth_date=date(2002, 1, 1))
+        self.patient_18_1 = PatientFactory(birth_date=date(2003, 3, 1))
+        self.patient_18_2 = PatientFactory(birth_date=date(2004, 1, 1))
+
+    @patch("ipharm.filters.patients.timezone.now")
+    def test_age(self, mocked_now):
+        mocked_now.return_value = self.now
+        f = PatientFilter(data={"age": 19})
+        queryset = f.qs
+        self.assertEqual(queryset.count(), 2)
+        self.assertQuerysetEqual(
+            queryset,
+            [
+                self.patient_19_1,
+                self.patient_19_2,
+            ],
+            transform=lambda x: x,
+            ordered=False,
+        )
+
+    @patch("ipharm.filters.patients.timezone.now")
+    def test_age_min(self, mocked_now):
+        mocked_now.return_value = self.now
+        f = PatientFilter(data={"age_min": 19})
+        queryset = f.qs
+        self.assertEqual(queryset.count(), 3)
+        self.assertQuerysetEqual(
+            queryset,
+            [
+                self.patient_19_1,
+                self.patient_19_2,
+                self.patient_20,
+            ],
+            transform=lambda x: x,
+            ordered=False,
+        )
+
+    @patch("ipharm.filters.patients.timezone.now")
+    def test_age_max(self, mocked_now):
+        mocked_now.return_value = self.now
+        f = PatientFilter(data={"age_max": 19})
+        queryset = f.qs
+        self.assertEqual(queryset.count(), 4)
+        self.assertQuerysetEqual(
+            queryset,
+            [
+                self.patient_19_1,
+                self.patient_19_2,
+                self.patient_18_1,
+                self.patient_18_2,
             ],
             transform=lambda x: x,
             ordered=False,
