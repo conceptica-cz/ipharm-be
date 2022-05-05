@@ -37,7 +37,7 @@ class GenericReportFileFactory(factory.django.DjangoModelFactory):
     file = None
     year = 2020
     month = 1
-    format = "pdf"
+    report_format = ["pdf", "txt"]
 
 
 class ReportVariableFactory(factory.django.DjangoModelFactory):

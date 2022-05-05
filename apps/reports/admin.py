@@ -36,6 +36,7 @@ class GenericReportTypeAdmin(admin.ModelAdmin):
 @admin.register(models.GenericReportFile)
 class GenericReportFileAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "report_type",
         "report_format",
         "time_range",

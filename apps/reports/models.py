@@ -8,7 +8,11 @@ from django.db import models
 from django.utils import timezone
 from references.models import InsuranceCompany
 from reports.generic_reports.generic_report import GenericReportFactory
-from reports.managers import ReportVariableManager
+from reports.managers import (
+    GenericReportFileManager,
+    GenericReportFileQuerySet,
+    ReportVariableManager,
+)
 from updates.models import BaseUpdatableModel
 
 DOSAGE_PREFIX = "KDAVKA"
@@ -155,6 +159,8 @@ class GenericReportFile(models.Model):
     date_to = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     report_format = models.CharField(max_length=255, default="pdf")
+
+    objects = GenericReportFileManager.from_queryset(GenericReportFileQuerySet)()
 
     class Meta:
         ordering = ["-created_at"]

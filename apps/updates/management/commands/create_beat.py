@@ -28,6 +28,7 @@ class Command(BaseCommand):
                 if not options["only_patient"]:
                     self._create_reference_beat(name)
         self._create_insurance_report_beat()
+        self._create_delete_old_report_files_beat()
         print("Done.")
 
     @staticmethod
@@ -128,6 +129,21 @@ class Command(BaseCommand):
             name=task_name,
             defaults={
                 "task": "reports.tasks.generate_insurance_report",
+                "interval": interval_schedule,
+            },
+        )
+
+    @staticmethod
+    def _create_delete_old_report_files_beat():
+        interval_schedule, _ = IntervalSchedule.objects.get_or_create(
+            every=60,
+            period=IntervalSchedule.MINUTES,
+        )
+        task_name = f"Delete old report files"
+        PeriodicTask.objects.update_or_create(
+            name=task_name,
+            defaults={
+                "task": "reports.tasks.delete_old_report_files",
                 "interval": interval_schedule,
             },
         )
