@@ -20,6 +20,7 @@ def risk_level_loader(**kwargs) -> dict:
     field_lookup = {
         "clinic": "care__clinic_id",
         "department": "care__department_id",
+        "care_type": "care__care_type",
     }
 
     entity_filter = get_entity_filter(
@@ -121,6 +122,7 @@ def risk_level_loader(**kwargs) -> dict:
     field_lookup = {
         "clinic": "pharmacological_plan__care__clinic_id",
         "department": "pharmacological_plan__care__department_id",
+        "care_type": "pharmacological_plan__care__care_type",
     }
 
     entity_filter = get_entity_filter(
@@ -314,6 +316,7 @@ def evaluation_patients_loader(**kwargs) -> dict:
     field_lookup = {
         "clinic": "care__clinic_id",
         "department": "care__department_id",
+        "care_type": "care__care_type",
     }
 
     entity_filter = get_entity_filter(
@@ -780,6 +783,7 @@ def tags_loader(**kwargs) -> dict:
     field_lookup = {
         "clinic": "pharmacologicalevaluation__care__clinic_id",
         "department": "pharmacologicalevaluation__care__department_id",
+        "care_type": "pharmacologicalevaluation__care__care_type",
     }
     evaluation_filter = get_entity_filter(
         filters=kwargs.get("filters", {}),
@@ -791,6 +795,7 @@ def tags_loader(**kwargs) -> dict:
     field_lookup = {
         "clinic": "pharmacologicalplan__care__clinic_id",
         "department": "pharmacologicalplan__care__department_id",
+        "care_type": "pharmacologicalplan__care__care_type",
     }
     plan_filter = get_entity_filter(
         filters=kwargs.get("filters", {}),
@@ -804,6 +809,7 @@ def tags_loader(**kwargs) -> dict:
     field_lookup = {
         "clinic": "riskdrughistory__care__clinic_id",
         "department": "riskdrughistory__care__department_id",
+        "care_type": "riskdrughistory__care__care_type",
     }
     risk_drug_history_filter = get_entity_filter(
         filters=kwargs.get("filters", {}),

@@ -108,7 +108,7 @@ class RiskLevelsLoadersTest(TestCase):
         )
         CheckInFactory(
             risk_level=3,
-            care__care_type="hospitalization",
+            care__care_type="ambulation",
             care__clinic=self.clinic_2,
             care__department=self.department_3,
         )
@@ -144,7 +144,8 @@ class RiskLevelsLoadersTest(TestCase):
 
         self.assertEqual(data["hospital_risk_level_1"], 6)
         self.assertEqual(data["hospital_risk_level_2"], 4)
-        self.assertEqual(data["hospital_risk_level_3"], 3)
+        self.assertEqual(data["hospital_risk_level_3"], 2)
+        self.assertEqual(data["ambulance_risk_level_3"], 1)
 
         self.assertEqual(data["pharmacological_plan_hospital_risk_level_1"], 2)
         self.assertEqual(data["pharmacological_plan_hospital_risk_level_2"], 1)
@@ -155,6 +156,16 @@ class RiskLevelsLoadersTest(TestCase):
         self.assertEqual(
             data["pharmacological_plan_verification_hospital_risk_level_2"], 2
         )
+
+    def test_loader__patient_type_hospitalization(self):
+        data = statistical_reports.risk_level_loader(
+            time_range="custom", filters={"care_type": "hospitalization"}
+        )
+
+        self.assertEqual(data["hospital_risk_level_1"], 6)
+        self.assertEqual(data["hospital_risk_level_2"], 4)
+        self.assertEqual(data["hospital_risk_level_3"], 2)
+        self.assertEqual(data["ambulance_risk_level_3"], 0)
 
     def test_loader__2019(self):
         data = statistical_reports.risk_level_loader(time_range="year", year=2019)

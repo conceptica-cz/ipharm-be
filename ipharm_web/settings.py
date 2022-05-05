@@ -543,7 +543,7 @@ GENERIC_REPORTS = {
         "description": "Rizikovost",
         "file_name": "Rizikovost",
         "time_ranges": ["year", "month", "custom"],
-        "filters": ["clinic", "department"],
+        "filters": ["clinic", "department", "care_type"],
         "data_loader": "reports.generic_reports.statistical_reports.risk_level_loader",
         "renderers": {
             "pdf": {
@@ -565,7 +565,7 @@ GENERIC_REPORTS = {
         "description": "FTD hodnocení – pacienti",
         "file_name": "FTD hodnocení – pacienti",
         "time_ranges": ["year", "month", "custom"],
-        "filters": ["clinic", "department"],
+        "filters": ["clinic", "department", "care_type"],
         "data_loader": "reports.generic_reports.statistical_reports.evaluation_patients_loader",  # noqa
         "renderers": {
             "pdf": {
@@ -586,7 +586,7 @@ GENERIC_REPORTS = {
     "tags": {
         "description": "Štítky",
         "file_name": "Štítky",
-        "time_ranges": ["year", "month", "custom"],
+        "time_ranges": ["year", "month", "custom", "care_type"],
         "filters": ["clinic", "department"],
         "data_loader": "reports.generic_reports.statistical_reports.tags_loader",
         "renderers": {

@@ -7,11 +7,18 @@ FILTER_NAMES = {
     "department": "Oddělení",
     "atc_group_exact": "ATC skupina",
     "atc_group_startswith": "ATC skupina začíná písmeny",
+    "care_type": "Typ pacienta",
 }
 
 FILTER_MODELS = {
     "clinic": Clinic,
     "department": Department,
+}
+
+FILTER_VALUES = {
+    "hospitalization": "hospitalizované",
+    "ambulation": "ambulantní",
+    "external": "externí",
 }
 
 
@@ -64,9 +71,11 @@ def get_header(**kwargs) -> str:
         )
     for f, value in kwargs.get("filters", {}).items():
         if f in FILTER_MODELS.keys():
-            header += f" {FILTER_NAMES[f]}: {FILTER_MODELS[f].objects.get(pk=value)}"
+            header += f"; {FILTER_NAMES[f]}: {FILTER_MODELS[f].objects.get(pk=value)}"
         else:
-            header += f" {FILTER_NAMES[f]}: {value}"
+            if value in FILTER_VALUES.keys():
+                value = FILTER_VALUES[value]
+            header += f"; {FILTER_NAMES[f]}: {value}"
     return header
 
 
