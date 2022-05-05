@@ -1,6 +1,7 @@
 from django.utils import dateparse
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
+from ipharm.models.cares import Care
 from references.managers.departments import DepartmentForReportNotFound
 from references.managers.identifications import IdentificationForReportNotFound
 from reports.models import GenericReportType, ReportVariable
@@ -96,6 +97,13 @@ class ReportVariableDetailView(generics.RetrieveUpdateAPIView):
                 location=OpenApiParameter.QUERY,
                 description="The beginning part of the ATC group name used as filter. Not all filters available for every report. **atc_group_startswith** must be in the report's field ``filters``",  # noqa
             ),
+            OpenApiParameter(
+                name="care_type",
+                type=OpenApiTypes.STR,
+                enum=[Care.HOSPITALIZATION, Care.AMBULATION, Care.EXTERNAL],
+                location=OpenApiParameter.QUERY,
+                description="Care type. Not all filters available for every report. **care_type** must be in the report's field ``filters``",  # noqa
+            ),
         ]
     )
 )
@@ -121,6 +129,19 @@ class ReportGenerateView(APIView):
             for k, v in self.request.query_params.items()
             if k not in NO_FILTER_PARAMS
         }
+        if "care_type" in filters:
+            if filters["care_type"] not in [
+                Care.HOSPITALIZATION,
+                Care.AMBULATION,
+                Care.EXTERNAL,
+            ]:
+                return Response(
+                    {
+                        "error": "Invalid care_type. Must be one of 'hospitalization', 'ambulation', 'external'"
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
         if year is not None:
             try:
                 year = int(year)
