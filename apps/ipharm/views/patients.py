@@ -35,6 +35,12 @@ from .common import HistoryView
                 location=OpenApiParameter.QUERY,
                 description="Maximum age of the patient",
             ),
+            OpenApiParameter(
+                name="tag",
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY,
+                description="Tag ID of the patient",
+            ),
         ]
     )
 )

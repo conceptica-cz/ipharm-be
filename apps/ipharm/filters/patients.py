@@ -1,6 +1,7 @@
 from datetime import date
 
 import django_filters
+from django.db.models import Q
 from django.utils import timezone
 from ipharm.models.patients import Patient
 
@@ -51,6 +52,17 @@ class PatientFilter(django_filters.FilterSet):
     age = django_filters.NumberFilter(method="filter_age")
     age_min = django_filters.NumberFilter(method="filter_age_min")
     age_max = django_filters.NumberFilter(method="filter_age_max")
+
+    def filter_tag(self, queryset, name, value):
+        q = (
+            Q(current_care__pharmacologicalplan__tags__id=value)
+            | Q(current_care__riskdrughistory__tags__id=value)
+            | Q(current_care__pharmacological_evaluations__tags__id=value)
+        )
+        queryset = queryset.filter(q).distinct()
+        return queryset
+
+    tag = django_filters.CharFilter(method="filter_tag")
 
     class Meta:
         model = Patient
