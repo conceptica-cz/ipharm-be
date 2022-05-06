@@ -10,9 +10,12 @@ from factories.ipharm import (
     CareFactory,
     CheckInFactory,
     PatientFactory,
+    PatientInformationFactory,
+    PharmacologicalEvaluationFactory,
     PharmacologicalPlanFactory,
+    RiskDrugHistoryFactory,
 )
-from factories.references import ClinicFactory
+from factories.references import ClinicFactory, TagFactory
 
 
 class PatientFilterByClinicTest(TestCase):
@@ -265,3 +268,102 @@ class PatientFilterByAgeInTest(TestCase):
             transform=lambda x: x,
             ordered=False,
         )
+
+
+class PatientFilterByTags(TestCase):
+    def setUp(self) -> None:
+        self.tag_1 = TagFactory()
+        self.tag_2 = TagFactory()
+        self.tag_3 = TagFactory()
+        self.tag_4 = TagFactory()
+        self.tag_5 = TagFactory()
+        self.tag_6 = TagFactory()
+        self.tag_7 = TagFactory()
+        self.patient_1 = PatientFactory()
+        self.patient_2 = PatientFactory()
+        self.patient_3 = PatientFactory()
+        self.patient_4 = PatientFactory()
+        self.patient_5 = PatientFactory()
+        self.patient_6 = PatientFactory()
+
+        care_1 = CareFactory(patient=self.patient_1)
+        care_2 = CareFactory(patient=self.patient_2)
+        care_3 = CareFactory(patient=self.patient_3)
+        care_4 = CareFactory(patient=self.patient_4)
+        care_5 = CareFactory(patient=self.patient_5)
+        care_6 = CareFactory(patient=self.patient_6)
+
+        pharmacological_plan_1 = PharmacologicalPlanFactory(care=care_1)
+        pharmacological_plan_2 = PharmacologicalPlanFactory(care=care_2)
+        pharmacological_plan_3 = PharmacologicalPlanFactory(care=care_3)
+        pharmacological_plan_4 = PharmacologicalPlanFactory(care=care_4)
+        pharmacological_plan_5 = PharmacologicalPlanFactory(care=care_5)
+        pharmacological_plan_6 = PharmacologicalPlanFactory(care=care_6)
+
+        pharmacological_plan_1.tags.set([self.tag_1, self.tag_2, self.tag_7])
+        pharmacological_plan_2.tags.set([self.tag_1, self.tag_7])
+
+        pharmacological_evaluation_1_1 = PharmacologicalEvaluationFactory(care=care_1)
+        pharmacological_evaluation_1_2 = PharmacologicalEvaluationFactory(care=care_1)
+        pharmacological_evaluation_2_1 = PharmacologicalEvaluationFactory(care=care_2)
+        pharmacological_evaluation_3_1 = PharmacologicalEvaluationFactory(care=care_3)
+        pharmacological_evaluation_4_1 = PharmacologicalEvaluationFactory(care=care_4)
+        pharmacological_evaluation_5_1 = PharmacologicalEvaluationFactory(care=care_5)
+
+        pharmacological_evaluation_1_1.tags.set([self.tag_3, self.tag_4, self.tag_7])
+        pharmacological_evaluation_1_2.tags.set([self.tag_3, self.tag_7])
+        pharmacological_evaluation_2_1.tags.set([self.tag_4, self.tag_7])
+        pharmacological_evaluation_3_1.tags.set([self.tag_7])
+
+        risk_drug_history_1 = RiskDrugHistoryFactory(care=care_1)
+        risk_drug_history_2 = RiskDrugHistoryFactory(care=care_2)
+        risk_drug_history_3 = RiskDrugHistoryFactory(care=care_3)
+        risk_drug_history_4 = RiskDrugHistoryFactory(care=care_4)
+        risk_drug_history_5 = RiskDrugHistoryFactory(care=care_5)
+        risk_drug_history_6 = RiskDrugHistoryFactory(care=care_6)
+
+        risk_drug_history_1.tags.set([self.tag_5, self.tag_6, self.tag_7])
+        risk_drug_history_2.tags.set([self.tag_5, self.tag_7])
+
+    def test_pharmacological_plan_tags(self):
+        f = PatientFilter(data={"tag": self.tag_1.id})
+        queryset = f.qs
+        self.assertEqual(queryset.count(), 2)
+        self.assertIn(self.patient_1, queryset)
+        self.assertIn(self.patient_2, queryset)
+
+        f = PatientFilter(data={"tag": self.tag_2.id})
+        queryset = f.qs
+        self.assertEqual(queryset.count(), 1)
+        self.assertIn(self.patient_1, queryset)
+
+    def test_pharmacological_evaluation_tags(self):
+        f = PatientFilter(data={"tag": self.tag_3.id})
+        queryset = f.qs
+        self.assertEqual(queryset.count(), 1)
+        self.assertIn(self.patient_1, queryset)
+
+        f = PatientFilter(data={"tag": self.tag_4.id})
+        queryset = f.qs
+        self.assertEqual(queryset.count(), 2)
+        self.assertIn(self.patient_1, queryset)
+        self.assertIn(self.patient_2, queryset)
+
+        f = PatientFilter(data={"tag": self.tag_7.id})
+        queryset = f.qs
+        self.assertEqual(queryset.count(), 3)
+        self.assertIn(self.patient_1, queryset)
+        self.assertIn(self.patient_2, queryset)
+        self.assertIn(self.patient_3, queryset)
+
+    def test_risk_drug_history_tags(self):
+        f = PatientFilter(data={"tag": self.tag_5.id})
+        queryset = f.qs
+        self.assertEqual(queryset.count(), 2)
+        self.assertIn(self.patient_1, queryset)
+        self.assertIn(self.patient_2, queryset)
+
+        f = PatientFilter(data={"tag": self.tag_6.id})
+        queryset = f.qs
+        self.assertEqual(queryset.count(), 1)
+        self.assertIn(self.patient_1, queryset)
