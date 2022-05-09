@@ -59,6 +59,21 @@ urlpatterns = [
         name="checkin_history",
     ),
     path(
+        "checkin-diagnosis/",
+        checkins.CheckInDiagnosisListView.as_view(),
+        name="checkin_diagnosis_list",
+    ),
+    path(
+        "checkin-diagnosis/<int:pk>/",
+        checkins.CheckInDiagnosisDetailView.as_view(),
+        name="checkin_diagnosis_detail",
+    ),
+    path(
+        "checkin-diagnosis/<int:pk>/history/",
+        checkins.CheckInDiagnosisHistoryView.as_view(),
+        name="checkin_diagnosis_history",
+    ),
+    path(
         "risk-drug-histories/",
         risk_drug_histories.RiskDrugHistoryListView.as_view(),
         name="risk_drug_history_list",
@@ -87,6 +102,21 @@ urlpatterns = [
         "risk-drug-history-comments/<int:pk>/history/",
         risk_drug_histories.RiskDrugHistoryCommentHistoryView.as_view(),
         name="risk_drug_history_comment_history",
+    ),
+    path(
+        "risk-drug-history-diagnosis/",
+        risk_drug_histories.RiskDrugHistoryDiagnosisListView.as_view(),
+        name="risk_drug_history_diagnosis_list",
+    ),
+    path(
+        "risk-drug-history-diagnosis/<int:pk>/",
+        risk_drug_histories.RiskDrugHistoryDiagnosisDetailView.as_view(),
+        name="risk_drug_history_diagnosis_detail",
+    ),
+    path(
+        "risk-drug-history-diagnosis/<int:pk>/history/",
+        risk_drug_histories.RiskDrugHistoryDiagnosisHistoryView.as_view(),
+        name="risk_drug_history_diagnosis_history",
     ),
     path(
         "patient-informations/",

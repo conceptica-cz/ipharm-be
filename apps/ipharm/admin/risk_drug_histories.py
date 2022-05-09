@@ -3,31 +3,11 @@ from django.contrib import admin
 
 from ..models.risk_drug_histories import (
     RiskDrugHistory,
-    RiskDrugHistory_risk_diagnoses,
-    RiskDrugHistory_risk_drugs,
     RiskDrugHistory_tags,
     RiskDrugHistoryComment,
+    RiskDrugHistoryDiagnosis,
+    RiskDrugHistoryDiagnosisDrug,
 )
-
-
-class RiskDrugHistory_risk_drugsInline(admin.TabularInline):
-    model = RiskDrugHistory_risk_drugs
-    extra = 0
-    exclude = ["is_deleted"]
-    autocomplete_fields = ["drug"]
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-
-class RiskDrugHistory_risk_diagnosesInline(admin.TabularInline):
-    model = RiskDrugHistory_risk_diagnoses
-    extra = 0
-    exclude = ["is_deleted"]
-    autocomplete_fields = ["diagnosis"]
-
-    def has_delete_permission(self, request, obj=None):
-        return False
 
 
 class RiskDrugHistory_tagsInline(admin.TabularInline):
@@ -57,12 +37,30 @@ class RiskDrugHistoryAdmin(BaseHistoryAdmin):
     )
     list_select_related = ("care", "care__patient")
     list_filter = ("care__patient",)
+    search_fields = ("care__patient__birth_number", "care__patient__last_name")
     inlines = (
-        RiskDrugHistory_risk_drugsInline,
-        RiskDrugHistory_risk_diagnosesInline,
         RiskDrugHistory_tagsInline,
         RiskDrugHistoryCommentInline,
     )
 
     def patient(self, obj):
         return obj.care.patient
+
+
+class RiskDrugHistoryDiagnosisDrugInline(admin.TabularInline):
+    model = RiskDrugHistoryDiagnosisDrug
+    extra = 0
+    exclude = ["is_deleted"]
+    autocomplete_fields = ["drug"]
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(RiskDrugHistoryDiagnosis)
+class RiskDrugHistoryDiagnosisAdmin(BaseHistoryAdmin):
+    list_display = ("id", "risk_drug_history", "diagnosis", "created_at", "updated_at")
+    list_select_related = ("risk_drug_history", "diagnosis")
+    autocomplete_fields = ["risk_drug_history", "diagnosis"]
+
+    inlines = [RiskDrugHistoryDiagnosisDrugInline]
