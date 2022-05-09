@@ -42,6 +42,11 @@ urlpatterns = [
         cares.CareHistoryView.as_view(),
         name="care_history",
     ),
+    path(
+        "cares/<int:pk>/procedures/",
+        cares.CareProceduresView.as_view(),
+        name="care_procedures",
+    ),
     path("checkins/", checkins.CheckInListView.as_view(), name="checkin_list"),
     path(
         "checkins/<int:pk>/",
