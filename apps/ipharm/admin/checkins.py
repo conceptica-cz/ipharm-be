@@ -22,21 +22,11 @@ class CheckIn_high_interaction_potential_drugsInline(admin.TabularInline):
         return False
 
 
-class CheckIn_diagnosesInline(admin.TabularInline):
-    model = checkins.CheckIn_diagnoses
+class CheckInDiagnosisInline(admin.TabularInline):
+    model = checkins.CheckInDiagnosis
     extra = 0
     exclude = ["is_deleted"]
     autocomplete_fields = ["diagnosis"]
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-
-class CheckIn_diagnoses_drugsInline(admin.TabularInline):
-    model = checkins.CheckIn_diagnoses_drugs
-    extra = 0
-    exclude = ["is_deleted"]
-    autocomplete_fields = ["drug"]
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -66,10 +56,28 @@ class CheckInAdmin(BaseHistoryAdmin):
     inlines = [
         CheckIn_drugsInline,
         CheckIn_high_interaction_potential_drugsInline,
-        CheckIn_diagnosesInline,
-        CheckIn_diagnoses_drugsInline,
+        CheckInDiagnosisInline,
         CheckIn_narrow_therapeutic_window_drugsInline,
     ]
 
     def patient(self, obj):
         return obj.care.patient
+
+
+class CheckInDiagnosisDrugInline(admin.TabularInline):
+    model = checkins.CheckInDiagnosisDrug
+    extra = 0
+    exclude = ["is_deleted"]
+    autocomplete_fields = ["drug"]
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(checkins.CheckInDiagnosis)
+class CheckInDiagnosisAdmin(BaseHistoryAdmin):
+    list_display = ("id", "check_in", "diagnosis", "created_at", "updated_at")
+    list_select_related = ("check_in", "diagnosis")
+    autocomplete_fields = ["check_in", "diagnosis"]
+
+    inlines = [CheckInDiagnosisDrugInline]

@@ -93,6 +93,7 @@ class Command(BaseCommand):
                     RiskDrugHistoryFactory(
                         care=care,
                         tags__add=True,
+                        diagnoses__add=True,
                     )
                     for _ in range(random.randint(1, 4)):
                         patient_information = PatientInformationFactory(care=care)

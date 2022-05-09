@@ -16,14 +16,14 @@ class CheckIn_high_interaction_potential_drugs(BaseUpdatableModel):
     drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
 
 
-class CheckIn_diagnoses(BaseUpdatableModel):
-    checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
-    diagnosis = models.ForeignKey("references.Diagnosis", on_delete=models.CASCADE)
-
-
-class CheckIn_diagnoses_drugs(BaseUpdatableModel):
-    checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
-    drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
+# class CheckIn_diagnoses(BaseUpdatableModel):
+#     checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
+#     diagnosis = models.ForeignKey("references.Diagnosis", on_delete=models.CASCADE)
+#
+#
+# class CheckIn_diagnoses_drugs(BaseUpdatableModel):
+#     checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
+#     drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
 
 
 class CheckIn_narrow_therapeutic_window_drugs(BaseUpdatableModel):
@@ -68,19 +68,6 @@ class CheckIn(BaseUpdatableModel):
     high_interaction_potential_note = models.TextField(
         blank=True,
         help_text="Poznámka k léčivám s vysokým interakčním potenciálem",
-    )
-    diagnoses = models.ManyToManyField(
-        "references.Diagnosis",
-        through=CheckIn_diagnoses,
-        blank=True,
-        help_text="Diagnóza",
-    )
-    diagnoses_drugs = models.ManyToManyField(
-        Drug,
-        through=CheckIn_diagnoses_drugs,
-        blank=True,
-        related_name="drugs_checkins",
-        help_text="Seznam léčiv",
     )
     diagnoses_note = models.TextField(
         blank=True,
@@ -175,3 +162,32 @@ class CheckIn(BaseUpdatableModel):
             medical_procedure, _ = MedicalProcedure.objects.get_or_create(code="05751")
             self.medical_procedure = medical_procedure
         super(CheckIn, self).save()
+
+
+class CheckInDiagnosisDrug(BaseUpdatableModel):
+    check_in_diagnosis = models.ForeignKey(
+        "ipharm.CheckInDiagnosis", on_delete=models.CASCADE
+    )
+    drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
+
+
+class CheckInDiagnosis(BaseUpdatableModel):
+    check_in = models.ForeignKey(
+        CheckIn, on_delete=models.CASCADE, related_name="diagnoses"
+    )
+    diagnosis = models.ForeignKey(
+        "references.Diagnosis", on_delete=models.CASCADE, help_text="Diagnóza"
+    )
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    drugs = models.ManyToManyField(
+        Drug,
+        through=CheckInDiagnosisDrug,
+        blank=True,
+        related_name="check_in_diagnoses",
+        help_text="Seznam léčiv diagnózy",
+    )
+
+    class Meta:
+        unique_together = ("check_in", "diagnosis")
+        verbose_name_plural = "CheckInDiagnoses"

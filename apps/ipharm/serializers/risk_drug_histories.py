@@ -1,6 +1,32 @@
-from ipharm.models.risk_drug_histories import RiskDrugHistory, RiskDrugHistoryComment
+from ipharm.models.risk_drug_histories import (
+    RiskDrugHistory,
+    RiskDrugHistoryComment,
+    RiskDrugHistoryDiagnosis,
+)
 from references.serializers import DiagnosisSerializer, DrugSerializer, TagSerializer
 from rest_framework import serializers
+
+
+class RiskDrugHistoryDiagnosisNestedSerializer(serializers.ModelSerializer):
+    drugs = DrugSerializer(many=True, read_only=True)
+    diagnosis = DiagnosisSerializer()
+
+    class Meta:
+        model = RiskDrugHistoryDiagnosis
+        exclude = ("is_deleted",)
+
+
+class RiskDrugHistoryDiagnosisSerializer(serializers.ModelSerializer):
+    drugs = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=DrugSerializer.Meta.model.objects.all(),
+        allow_empty=True,
+        required=False,
+    )
+
+    class Meta:
+        model = RiskDrugHistoryDiagnosis
+        exclude = ("is_deleted",)
 
 
 class RiskDrugHistoryCommentSerializer(serializers.ModelSerializer):
@@ -11,18 +37,6 @@ class RiskDrugHistoryCommentSerializer(serializers.ModelSerializer):
 
 
 class RiskDrugHistorySerializer(serializers.ModelSerializer):
-    risk_drugs = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=DrugSerializer.Meta.model.objects.all(),
-        allow_empty=True,
-        required=False,
-    )
-    risk_diagnoses = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=DiagnosisSerializer.Meta.model.objects.all(),
-        allow_empty=True,
-        required=False,
-    )
     tags = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=TagSerializer.Meta.model.objects.all(),
@@ -37,8 +51,7 @@ class RiskDrugHistorySerializer(serializers.ModelSerializer):
 
 
 class RiskDrugHistoryNestedSerializer(serializers.ModelSerializer):
-    risk_drugs = DrugSerializer(many=True, read_only=True)
-    risk_diagnoses = DiagnosisSerializer(many=True, read_only=True)
+    diagnoses = RiskDrugHistoryDiagnosisNestedSerializer(many=True, read_only=True)
     tags = TagSerializer(many=True, read_only=True)
     comments = RiskDrugHistoryCommentSerializer(many=True, read_only=True)
 

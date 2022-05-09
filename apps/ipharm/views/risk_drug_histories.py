@@ -2,9 +2,14 @@ from common.views import HistoryView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
-from ..models.risk_drug_histories import RiskDrugHistory, RiskDrugHistoryComment
+from ..models.risk_drug_histories import (
+    RiskDrugHistory,
+    RiskDrugHistoryComment,
+    RiskDrugHistoryDiagnosis,
+)
 from ..serializers.risk_drug_histories import (
     RiskDrugHistoryCommentSerializer,
+    RiskDrugHistoryDiagnosisSerializer,
     RiskDrugHistoryNestedSerializer,
     RiskDrugHistorySerializer,
 )
@@ -13,8 +18,7 @@ from ..serializers.risk_drug_histories import (
 class RiskDrugHistoryListView(generics.ListCreateAPIView):
     queryset = (
         RiskDrugHistory.objects.prefetch_related("comments")
-        .prefetch_related("risk_drugs")
-        .prefetch_related("risk_diagnoses")
+        .select_related("risk_drug_history_diagnosis")
         .prefetch_related("tags")
         .all()
     )
@@ -58,3 +62,19 @@ class RiskDrugHistoryCommentDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class RiskDrugHistoryCommentHistoryView(HistoryView):
     queryset = RiskDrugHistoryComment.objects.all()
+
+
+class RiskDrugHistoryDiagnosisListView(generics.ListCreateAPIView):
+    queryset = RiskDrugHistoryDiagnosis.objects.all()
+    serializer_class = RiskDrugHistoryDiagnosisSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["risk_drug_history"]
+
+
+class RiskDrugHistoryDiagnosisDetailView(generics.RetrieveUpdateAPIView):
+    queryset = RiskDrugHistoryDiagnosis.objects.all()
+    serializer_class = RiskDrugHistoryDiagnosisSerializer
+
+
+class RiskDrugHistoryDiagnosisHistoryView(HistoryView):
+    queryset = RiskDrugHistoryDiagnosis.objects.all()

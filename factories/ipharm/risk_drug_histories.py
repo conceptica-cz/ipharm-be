@@ -15,16 +15,10 @@ class RiskDrugHistoryFactory(factory.django.DjangoModelFactory):
     has_risk_diagnosis = factory.Faker("boolean", chance_of_getting_true=50)
 
     @factory.post_generation
-    def risk_drugs(self, create, extracted, **kwargs):
-        if create:
+    def diagnoses(self, create, extracted, **kwargs):
+        if kwargs.get("add", False):
             for _ in range(random.randint(1, 4)):
-                self.risk_drugs.add(DrugFactory())
-
-    @factory.post_generation
-    def risk_diagnoses(self, create, extracted, **kwargs):
-        if create:
-            for _ in range(random.randint(1, 4)):
-                self.risk_diagnoses.add(DiagnosisFactory())
+                RiskDrugHistoryDiagnosisFactory(risk_drug_history=self, drugs__add=True)
 
     @factory.post_generation
     def tags(self, create, extracted, **kwargs):
@@ -38,6 +32,21 @@ class RiskDrugHistoryFactory(factory.django.DjangoModelFactory):
             RiskDrugHistoryCommentFactory(risk_drug_history=self)
             for i in range(random.randint(1, 3))
         ]
+
+
+class RiskDrugHistoryDiagnosisFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "ipharm.RiskDrugHistoryDiagnosis"
+        django_get_or_create = ["risk_drug_history", "diagnosis"]
+
+    risk_drug_history = factory.SubFactory("factories.ipharm.RiskDrugHistoryFactory")
+    diagnosis = factory.SubFactory("factories.references.DiagnosisFactory")
+
+    @factory.post_generation
+    def drugs(self, create, extracted, **kwargs):
+        if kwargs.get("add", False):
+            for _ in range(random.randint(1, 4)):
+                self.drugs.add(DrugFactory())
 
 
 class RiskDrugHistoryCommentFactory(factory.django.DjangoModelFactory):

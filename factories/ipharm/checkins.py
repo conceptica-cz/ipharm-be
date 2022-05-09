@@ -86,7 +86,7 @@ class CheckInFactory(factory.django.DjangoModelFactory):
     def diagnoses(self, create, extracted, **kwargs):
         if kwargs.get("add", False):
             for _ in range(random.randint(1, 4)):
-                self.diagnoses.add(DiagnosisFactory())
+                CheckInDiagnosisFactory(check_in=self, drugs__add=True)
 
     @factory.post_generation
     def high_interaction_potential_drugs(self, create, extracted, **kwargs):
@@ -99,3 +99,18 @@ class CheckInFactory(factory.django.DjangoModelFactory):
         if kwargs.get("add", False):
             for _ in range(random.randint(1, 3)):
                 self.narrow_therapeutic_window_drugs.add(DrugFactory())
+
+
+class CheckInDiagnosisFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "ipharm.CheckInDiagnosis"
+        django_get_or_create = ["check_in", "diagnosis"]
+
+    check_in = factory.SubFactory("factories.ipharm.CheckInFactory")
+    diagnosis = factory.SubFactory("factories.references.DiagnosisFactory")
+
+    @factory.post_generation
+    def drugs(self, create, extracted, **kwargs):
+        if kwargs.get("add", False):
+            for _ in range(random.randint(1, 4)):
+                self.drugs.add(DrugFactory())
