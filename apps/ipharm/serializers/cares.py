@@ -99,3 +99,9 @@ class CareNestedSerializer(serializers.ModelSerializer):
         exclude = ["is_deleted"]
         read_only_fields = ["id"]
         model = Care
+
+
+class CareProceduresSerializer(serializers.Serializer):
+    procedure_05751_count = serializers.IntegerField(required=False)
+    procedure_05753_count = serializers.IntegerField(required=False)
+    procedure_05755_count = serializers.IntegerField(required=False)

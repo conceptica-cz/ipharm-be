@@ -5,12 +5,14 @@ from ipharm.models.pharmacological_evaluations import PharmacologicalEvaluation
 from ipharm.models.pharmacological_plans import PharmacologicalPlan
 from ipharm.models.risk_drug_histories import RiskDrugHistory
 from ipharm.services import cares
+from ipharm.services.cares import CareProcedures
 
 from factories.ipharm import (
     CareFactory,
     CheckInFactory,
     PatientInformationFactory,
     PharmacologicalEvaluationFactory,
+    PharmacologicalPlanCommentFactory,
     PharmacologicalPlanFactory,
     RiskDrugHistoryFactory,
 )
@@ -93,3 +95,44 @@ class MigrateRelatedTest(TestCase):
         self.assertEqual(pharmacological_evaluation_1.care, new_care)
         self.assertEqual(pharmacological_evaluation_2.care, new_care)
         self.assertEqual(pharmacological_evaluation_3.care, new_care)
+
+
+class CareProceduresTest(TestCase):
+    def setUp(self) -> None:
+        self.care_1 = CareFactory()
+        self.care_2 = CareFactory()
+
+        CheckInFactory(care=self.care_1, risk_level="3")
+        CheckInFactory(care=self.care_2, risk_level="3")
+
+        pharmacological_plan = PharmacologicalPlanFactory(care=self.care_1)
+
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=pharmacological_plan,
+            comment_type="verification",
+            verify=True,
+        )
+
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=pharmacological_plan,
+            comment_type="verification",
+            verify=True,
+        )
+
+    def test_05751_migrates_procedures(self):
+        care_procedures = CareProcedures(care=self.care_1)
+        care_procedures.count()
+
+        self.assertEqual(care_procedures.procedure_05751_count, 1)
+
+    def test_05753_migrates_procedures(self):
+        care_procedures = CareProcedures(care=self.care_1)
+        care_procedures.count()
+
+        self.assertEqual(care_procedures.procedure_05753_count, 1)
+
+    def test_05755_migrates_procedures(self):
+        care_procedures = CareProcedures(care=self.care_1)
+        care_procedures.count()
+
+        self.assertEqual(care_procedures.procedure_05755_count, 2)

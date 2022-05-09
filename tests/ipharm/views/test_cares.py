@@ -4,7 +4,12 @@ from ipharm.serializers.cares import CareNestedSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from factories.ipharm import CareFactory
+from factories.ipharm import (
+    CareFactory,
+    CheckInFactory,
+    PharmacologicalPlanCommentFactory,
+    PharmacologicalPlanFactory,
+)
 from factories.references.diagnoses import DiagnosisFactory
 from factories.users.models import UserFactory
 
@@ -68,3 +73,38 @@ class UpdateCareTest(APITestCase):
         )
 
         self.care.refresh_from_db()
+
+
+class CareProceduresViewTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+        self.care_1 = CareFactory()
+        self.care_2 = CareFactory()
+
+        CheckInFactory(care=self.care_1, risk_level="3")
+        CheckInFactory(care=self.care_2, risk_level="3")
+
+        pharmacological_plan = PharmacologicalPlanFactory(care=self.care_1)
+
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=pharmacological_plan,
+            comment_type="verification",
+            verify=True,
+        )
+
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=pharmacological_plan,
+            comment_type="verification",
+            verify=True,
+        )
+
+    def test_get(self):
+        self.client.force_login(user=self.user)
+        response = self.client.get(
+            reverse("ipharm:care_procedures", kwargs={"pk": self.care_1.id})
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK, msg=response.data)
+        self.assertEqual(response.data["procedure_05751_count"], 1)
+        self.assertEqual(response.data["procedure_05753_count"], 1)
+        self.assertEqual(response.data["procedure_05755_count"], 2)
