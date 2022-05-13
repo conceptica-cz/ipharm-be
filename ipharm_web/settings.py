@@ -196,12 +196,12 @@ CHANGE_HISTORY_MAX_INTERVAL = int(os.environ.get("CHANGE_HISTORY_MAX_INTERVAL", 
 
 # REFERENCES AND UPDATES
 
-BASE_IPHARM_REFERENCES_URL = os.environ.get(
-    "BASE_IPHARM_REFERENCES_URL", "http://iciselniky-app:8000/api/v1"
+BASE_ICISELNIKY_URL = os.environ.get(
+    "BASE_ICISELNIKY_URL", "http://iciselniky-app:8000/api/v1"
 )
-IPHARM_REFERENCES_TOKEN = os.environ["IPHARM_REFERENCES_TOKEN"]
-BASE_REFERENCES_URL = os.environ["BASE_REFERENCES_URL"]
-REFERENCES_TOKEN = os.environ["REFERENCES_TOKEN"]
+ICISELNIKY_TOKEN = os.environ.get("ICISELNIKY_TOKEN", "")
+BASE_UNIS_URL = os.environ.get("BASE_UNIS_URL", "")
+UNIS_TOKEN = os.environ.get("UNIS_TOKEN", "")
 DEFAULT_DATA_LOADER = "updates.common.loaders.references_loader"
 DEFAULT_MODEL_UPDATER = "updates.common.updaters.simple_model_updater"
 DEFAULT_INCREMENTAL_UPDATE_INTERVAL = os.environ.get(
@@ -218,7 +218,7 @@ MIGRATE_RELATED_TIME_GAP = os.environ.get("MIGRATE_RELATED_TIME_GAP", 36)
 
 UPDATE_SOURCES = {
     "Clinic": {
-        "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/clinics/"},
+        "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/clinics/"},
         "model_updater_kwargs": {
             "model": "references.Clinic",
             "identifiers": ["reference_id"],
@@ -226,7 +226,7 @@ UPDATE_SOURCES = {
         "transformers": ["updates.common.transformers.id_to_reference_id"],
     },
     "Department": {
-        "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/departments/"},
+        "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/departments/"},
         "model_updater_kwargs": {
             "model": "references.Department",
             "identifiers": ["external_id"],
@@ -241,7 +241,7 @@ UPDATE_SOURCES = {
         "transformers": ["updates.common.transformers.delete_id"],
     },
     "Diagnosis": {
-        "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/diagnoses/"},
+        "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/diagnoses/"},
         "model_updater_kwargs": {
             "model": "references.Diagnosis",
             "identifiers": ["code"],
@@ -250,7 +250,7 @@ UPDATE_SOURCES = {
         "transformers": ["updates.common.transformers.delete_id"],
     },
     "Drug": {
-        "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/drugs/"},
+        "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/drugs/"},
         "model_updater_kwargs": {
             "model": "references.Drug",
             "identifiers": ["code_sukl"],
@@ -259,9 +259,7 @@ UPDATE_SOURCES = {
         "transformers": ["updates.common.transformers.delete_id"],
     },
     "ExternalDepartment": {
-        "data_loader_kwargs": {
-            "url": BASE_IPHARM_REFERENCES_URL + "/external-departments/"
-        },
+        "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/external-departments/"},
         "model_updater_kwargs": {
             "model": "references.ExternalDepartment",
             "identifiers": ["icp"],
@@ -270,7 +268,7 @@ UPDATE_SOURCES = {
         "transformers": ["updates.common.transformers.delete_id"],
     },
     "Identification": {
-        "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/identifications/"},
+        "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/identifications/"},
         "model_updater_kwargs": {
             "model": "references.Identification",
             "identifiers": ["identifier"],
@@ -278,7 +276,7 @@ UPDATE_SOURCES = {
         "transformers": ["updates.common.transformers.delete_id"],
     },
     "InsuranceCompany": {
-        "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/insurances/"},
+        "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/insurances/"},
         "model_updater_kwargs": {
             "model": "references.InsuranceCompany",
             "identifiers": ["code"],
@@ -286,7 +284,7 @@ UPDATE_SOURCES = {
         "transformers": ["updates.common.transformers.delete_id"],
     },
     "MedicalFacility": {
-        "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/facilities/"},
+        "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/facilities/"},
         "model_updater_kwargs": {
             "model": "references.MedicalFacility",
             "identifiers": ["facility_id"],
@@ -295,7 +293,7 @@ UPDATE_SOURCES = {
         "transformers": ["updates.common.transformers.delete_id"],
     },
     "Person": {
-        "data_loader_kwargs": {"url": BASE_IPHARM_REFERENCES_URL + "/persons/"},
+        "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/persons/"},
         "model_updater_kwargs": {
             "model": "references.Person",
             "identifiers": ["person_number"],
@@ -305,7 +303,7 @@ UPDATE_SOURCES = {
     "Patient": {
         "data_loader": "updates.bulovka.loaders.patient_loader",
         "data_loader_kwargs": {
-            "url": BASE_REFERENCES_URL
+            "url": BASE_UNIS_URL
             + os.environ.get("PATIENT_URL_PATH", "/patient/hospitalized/"),
             "use_token": True,
         },

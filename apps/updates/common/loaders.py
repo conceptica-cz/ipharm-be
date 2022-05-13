@@ -27,7 +27,7 @@ def references_loader(url, **kwargs) -> Generator[dict, None, None]:
             .replace(tzinfo=None)
             .isoformat()
         )
-    headers = {"Authorization": f"Bearer {settings.IPHARM_REFERENCES_TOKEN}"}
+    headers = {"Authorization": f"Bearer {settings.ICISELNIKY_TOKEN}"}
     logger.debug(f"Getting url {url}")
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
