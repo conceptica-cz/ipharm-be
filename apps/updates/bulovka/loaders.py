@@ -24,9 +24,9 @@ def patient_loader(url, **kwargs) -> Generator[dict, None, None]:
 
     if use_token := kwargs.get("url_parameters"):
         if "?" in url:
-            url += f"&token={settings.REFERENCES_TOKEN}"
+            url += f"&token={settings.UNIS_TOKEN}"
         else:
-            url += f"?token={settings.REFERENCES_TOKEN}"
+            url += f"?token={settings.UNIS_TOKEN}"
 
     logger.debug(f"Getting url {url}")
     response = requests.get(url)
