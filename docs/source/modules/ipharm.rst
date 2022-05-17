@@ -26,6 +26,14 @@ ipharm.apps module
    :undoc-members:
    :show-inheritance:
 
+ipharm.signals module
+---------------------
+
+.. automodule:: ipharm.signals
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 ipharm.urls module
 ------------------
 

@@ -7,6 +7,11 @@ For example, to run the `create_sources` command:
 $ docker-compose exec ipharm-app python manage.py create_sources
 ```
 
+## create_app_users
+
+Create the consumer app's (iZadanky) users and tokens.
+
+
 ## create_sources
 
 Create the sources for update ({meth}`updates.models.Source` instances). Sources are created from the `settings.UPDATE_SOURCES` list.

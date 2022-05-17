@@ -71,9 +71,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for updates.models</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="kn">from</span> <span class="nn">common.models</span> <span class="kn">import</span> <span class="n">BaseHistoricalModel</span><span class="p">,</span> <span class="n">BaseSoftDeletableModel</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
 <span class="kn">from</span> <span class="nn">simple_history.models</span> <span class="kn">import</span> <span class="n">HistoricalRecords</span>
@@ -162,11 +164,39 @@
         <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span></div></div>
 
 
-<div class="viewcode-block" id="ModelChange"><a class="viewcode-back" href="../../modules/updates.html#updates.models.ModelChange">[docs]</a><span class="k">class</span> <span class="nc">ModelChange</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">field_changes</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">date</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">field_changes</span> <span class="o">=</span> <span class="n">field_changes</span></div>
+<div class="viewcode-block" id="FieldChange"><a class="viewcode-back" href="../../modules/updates.html#updates.models.FieldChange">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">FieldChange</span><span class="p">:</span>
+    <span class="n">field</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">old</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">new</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">many_to_many_entity</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="ModelChange"><a class="viewcode-back" href="../../modules/updates.html#updates.models.ModelChange">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">ModelChange</span><span class="p">:</span>
+    <span class="n">date</span><span class="p">:</span> <span class="n">timezone</span><span class="o">.</span><span class="n">datetime</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">User</span>
+    <span class="n">entity_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">entity_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">field_changes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FieldChange</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">date</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;change_1 must be older than change_2&quot;</span><span class="p">)</span>
+        <span class="c1"># user must be the same</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;change_1 and change_2 must have the same user&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">field_change</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">field_changes</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">source_field_change</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+                    <span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_changes</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">field</span> <span class="o">==</span> <span class="n">field_change</span><span class="o">.</span><span class="n">field</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">field_changes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">field_change</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">source_field_change</span><span class="o">.</span><span class="n">new</span> <span class="o">=</span> <span class="n">field_change</span><span class="o">.</span><span class="n">new</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
 
 
 <div class="viewcode-block" id="BaseUpdatableModel"><a class="viewcode-back" href="../../modules/updates.html#updates.models.BaseUpdatableModel">[docs]</a><span class="k">class</span> <span class="nc">BaseUpdatableModel</span><span class="p">(</span><span class="n">BaseSoftDeletableModel</span><span class="p">):</span>
@@ -193,16 +223,154 @@
         <span class="n">history</span><span class="o">.</span><span class="n">update</span> <span class="o">=</span> <span class="n">update</span>
         <span class="n">history</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="BaseUpdatableModel.get_changes"><a class="viewcode-back" href="../../modules/updates.html#updates.models.BaseUpdatableModel.get_changes">[docs]</a>    <span class="k">def</span> <span class="nf">get_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseUpdatableModel.set_history_user"><a class="viewcode-back" href="../../modules/updates.html#updates.models.BaseUpdatableModel.set_history_user">[docs]</a>    <span class="k">def</span> <span class="nf">set_history_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="n">history</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">history_user</span> <span class="o">=</span> <span class="n">user</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BaseUpdatableModel.get_changes"><a class="viewcode-back" href="../../modules/updates.html#updates.models.BaseUpdatableModel.get_changes">[docs]</a>    <span class="k">def</span> <span class="nf">get_changes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">datetime_from</span><span class="p">:</span> <span class="n">timezone</span><span class="o">.</span><span class="n">datetime</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">datetime_to</span><span class="p">:</span> <span class="n">timezone</span><span class="o">.</span><span class="n">datetime</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ModelChange</span><span class="p">]:</span>
+        <span class="n">change_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
         <span class="k">while</span> <span class="n">current</span><span class="o">.</span><span class="n">prev_record</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">changes</span> <span class="o">:=</span> <span class="n">current</span><span class="o">.</span><span class="n">diff_against</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">prev_record</span><span class="p">)</span><span class="o">.</span><span class="n">changes</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="n">ModelChange</span><span class="p">(</span>
-                    <span class="n">date</span><span class="o">=</span><span class="n">current</span><span class="o">.</span><span class="n">history_date</span><span class="p">,</span>
-                    <span class="n">user</span><span class="o">=</span><span class="n">current</span><span class="o">.</span><span class="n">history_user</span><span class="p">,</span>
-                    <span class="n">field_changes</span><span class="o">=</span><span class="n">changes</span><span class="p">,</span>
+                <span class="n">change_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">ModelChange</span><span class="p">(</span>
+                        <span class="n">date</span><span class="o">=</span><span class="n">current</span><span class="o">.</span><span class="n">history_date</span><span class="p">,</span>
+                        <span class="n">user</span><span class="o">=</span><span class="n">current</span><span class="o">.</span><span class="n">history_user</span><span class="p">,</span>
+                        <span class="n">field_changes</span><span class="o">=</span><span class="n">changes</span><span class="p">,</span>
+                        <span class="n">entity_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                        <span class="n">entity_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
-            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">prev_record</span></div></div>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">prev_record</span>
+        <span class="n">change_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_m2m_changes</span><span class="p">())</span>
+        <span class="n">change_list</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">datetime_filter</span><span class="p">(</span><span class="n">model_change</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">datetime_from</span> <span class="ow">and</span> <span class="n">model_change</span><span class="o">.</span><span class="n">date</span> <span class="o">&lt;</span> <span class="n">datetime_from</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">datetime_to</span> <span class="ow">and</span> <span class="n">model_change</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;</span> <span class="n">datetime_to</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="n">change_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">datetime_filter</span><span class="p">,</span> <span class="n">change_list</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">change_list</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_m2m_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">changes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">many_to_many</span><span class="p">:</span>
+            <span class="n">through</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">through</span>
+            <span class="n">history</span> <span class="o">=</span> <span class="n">through</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">})</span>
+            <span class="n">field_changes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m2m_history_to_value_changes</span><span class="p">(</span>
+                <span class="n">history</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">m2m_reverse_field_name</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">field_changes</span><span class="p">:</span>
+                <span class="n">changes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">ModelChange</span><span class="p">(</span>
+                        <span class="n">date</span><span class="o">=</span><span class="n">change</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span>
+                        <span class="n">user</span><span class="o">=</span><span class="n">change</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">],</span>
+                        <span class="n">entity_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                        <span class="n">entity_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="n">field_changes</span><span class="o">=</span><span class="p">[</span>
+                            <span class="n">FieldChange</span><span class="p">(</span>
+                                <span class="n">field</span><span class="o">=</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                <span class="n">old</span><span class="o">=</span><span class="n">change</span><span class="p">[</span><span class="s2">&quot;old&quot;</span><span class="p">],</span>
+                                <span class="n">new</span><span class="o">=</span><span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">],</span>
+                                <span class="n">many_to_many_entity</span><span class="o">=</span><span class="n">field</span><span class="o">.</span><span class="n">related_model</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">object_name</span><span class="p">,</span>
+                            <span class="p">)</span>
+                        <span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">changes</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_m2m_history_to_value_changes</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">reverse_field_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert m2m history to value changes</span>
+<span class="sd">        :param history: QuerySet of HistoryRecord for many-to-many field</span>
+<span class="sd">        :return: dictionary of value changes in format::</span>
+
+<span class="sd">        {</span>
+<span class="sd">            &quot;date&quot;: change datetime,</span>
+<span class="sd">            &quot;user&quot;: change user,</span>
+<span class="sd">            &quot;old&quot;: list of old many-to-many values,</span>
+<span class="sd">            &quot;new&quot;: list of new many-to-many values,</span>
+<span class="sd">        }</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">changes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">through_values</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">history_record</span> <span class="ow">in</span> <span class="n">history</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;history_id&quot;</span><span class="p">):</span>
+            <span class="n">old_values</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">history_record</span><span class="p">,</span> <span class="n">reverse_field_name</span><span class="p">)</span>
+            <span class="n">through_id</span> <span class="o">=</span> <span class="n">history_record</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">history_type</span> <span class="o">=</span> <span class="n">history_record</span><span class="o">.</span><span class="n">history_type</span>
+
+            <span class="k">if</span> <span class="n">history_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;~&quot;</span><span class="p">,</span> <span class="s2">&quot;+&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">through_id</span> <span class="ow">in</span> <span class="n">through_values</span> <span class="ow">and</span> <span class="n">history_type</span> <span class="o">==</span> <span class="s2">&quot;~&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">through_values</span><span class="p">[</span><span class="n">through_id</span><span class="p">]:</span>
+                        <span class="n">values</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">through_values</span><span class="p">[</span><span class="n">through_id</span><span class="p">])</span>
+                <span class="n">through_values</span><span class="p">[</span><span class="n">through_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">history_type</span> <span class="o">==</span> <span class="s2">&quot;-&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+                    <span class="n">values</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+            <span class="n">new_values</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">old_values</span> <span class="o">!=</span> <span class="n">new_values</span><span class="p">:</span>
+                <span class="n">changes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">history_record</span><span class="o">.</span><span class="n">history_date</span><span class="p">,</span>
+                        <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">history_record</span><span class="o">.</span><span class="n">history_user</span><span class="p">,</span>
+                        <span class="s2">&quot;old&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">old_values</span><span class="p">],</span>
+                        <span class="s2">&quot;new&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">new_values</span><span class="p">],</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">changes</span>
+
+<div class="viewcode-block" id="BaseUpdatableModel.get_merged_changes"><a class="viewcode-back" href="../../modules/updates.html#updates.models.BaseUpdatableModel.get_merged_changes">[docs]</a>    <span class="k">def</span> <span class="nf">get_merged_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datetime_from</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">datetime_to</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_changes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_changes</span><span class="p">(</span><span class="n">datetime_from</span><span class="p">,</span> <span class="n">datetime_to</span><span class="p">))</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_merge_changes</span><span class="p">(</span><span class="n">changes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ModelChange</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Merge changes if interval between changes</span>
+<span class="sd">        is less than settings.CHANGE_HISTORY_MAX_INTERVAL minute</span>
+
+<span class="sd">        :param changes: list of ModelChange</span>
+<span class="sd">        :return: list of merged changes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">changes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">changes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
+
+        <span class="n">merged_changes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">by_user</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">changes</span><span class="p">:</span>
+            <span class="n">by_user</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">change</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">change</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">user_changes</span> <span class="ow">in</span> <span class="n">by_user</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+
+            <span class="n">user_merged_changes</span> <span class="o">=</span> <span class="p">[</span><span class="n">user_changes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+            <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">user_changes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="k">if</span> <span class="n">change</span><span class="o">.</span><span class="n">date</span> <span class="o">-</span> <span class="n">user_merged_changes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">date</span> <span class="o">&lt;=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span>
+                    <span class="n">milliseconds</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">CHANGE_HISTORY_MAX_INTERVAL</span>
+                <span class="p">):</span>
+                    <span class="n">user_merged_changes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">change</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">user_merged_changes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">change</span><span class="p">)</span>
+
+            <span class="n">merged_changes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">user_merged_changes</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">merged_changes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

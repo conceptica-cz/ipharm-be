@@ -97,9 +97,9 @@
 
     <span class="k">if</span> <span class="n">use_token</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;url_parameters&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="s2">&quot;?&quot;</span> <span class="ow">in</span> <span class="n">url</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&amp;token=</span><span class="si">{</span><span class="n">settings</span><span class="o">.</span><span class="n">REFERENCES_TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&amp;token=</span><span class="si">{</span><span class="n">settings</span><span class="o">.</span><span class="n">UNIS_TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;?token=</span><span class="si">{</span><span class="n">settings</span><span class="o">.</span><span class="n">REFERENCES_TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;?token=</span><span class="si">{</span><span class="n">settings</span><span class="o">.</span><span class="n">UNIS_TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting url </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>

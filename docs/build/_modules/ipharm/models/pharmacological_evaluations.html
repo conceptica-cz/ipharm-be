@@ -76,6 +76,13 @@
 <span class="kn">from</span> <span class="nn">updates.models</span> <span class="kn">import</span> <span class="n">BaseUpdatableModel</span>
 
 
+<div class="viewcode-block" id="PharmacologicalEvaluation_tags"><a class="viewcode-back" href="../../../modules/ipharm.models.html#ipharm.models.pharmacological_evaluations.PharmacologicalEvaluation_tags">[docs]</a><span class="k">class</span> <span class="nc">PharmacologicalEvaluation_tags</span><span class="p">(</span><span class="n">BaseUpdatableModel</span><span class="p">):</span>
+    <span class="n">pharmacologicalevaluation</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="s2">&quot;ipharm.PharmacologicalEvaluation&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span>
+    <span class="p">)</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;references.Tag&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="PharmacologicalEvaluation"><a class="viewcode-back" href="../../../modules/ipharm.models.html#ipharm.models.pharmacological_evaluations.PharmacologicalEvaluation">[docs]</a><span class="k">class</span> <span class="nc">PharmacologicalEvaluation</span><span class="p">(</span><span class="n">BaseUpdatableModel</span><span class="p">):</span>
     <span class="n">care</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
         <span class="s2">&quot;ipharm.Care&quot;</span><span class="p">,</span>
@@ -222,7 +229,12 @@
     <span class="n">administration_method_optimization</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span>
         <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Optimalizace způsobu poddání&quot;</span>
     <span class="p">)</span>
-    <span class="n">tags</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s2">&quot;references.Tag&quot;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Štítky&quot;</span><span class="p">)</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="s2">&quot;references.Tag&quot;</span><span class="p">,</span>
+        <span class="n">through</span><span class="o">=</span><span class="n">PharmacologicalEvaluation_tags</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Štítky&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">updated_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 

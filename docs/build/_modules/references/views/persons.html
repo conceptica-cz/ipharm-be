@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ipharm.views.tags &mdash; iPharm  documentation</title>
+  <title>references.views.persons &mdash; iPharm  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -61,7 +61,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>ipharm.views.tags</li>
+      <li>references.views.persons</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -70,26 +70,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for ipharm.views.tags</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">references.models</span> <span class="kn">import</span> <span class="n">Tag</span>
-<span class="kn">from</span> <span class="nn">references.serializers</span> <span class="kn">import</span> <span class="n">TagSerializer</span>
+  <h1>Source code for references.views.persons</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">references.models.persons</span> <span class="kn">import</span> <span class="n">Person</span>
+<span class="kn">from</span> <span class="nn">references.serializers.persons</span> <span class="kn">import</span> <span class="n">PersonSerializer</span>
 <span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">filters</span><span class="p">,</span> <span class="n">generics</span>
 
 
-<div class="viewcode-block" id="TagListView"><a class="viewcode-back" href="../../../modules/ipharm.views.html#ipharm.views.tags.TagListView">[docs]</a><span class="k">class</span> <span class="nc">TagListView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Tag list&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="PersonListView"><a class="viewcode-back" href="../../../modules/references.views.html#references.views.persons.PersonListView">[docs]</a><span class="k">class</span> <span class="nc">PersonListView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Person list&quot;&quot;&quot;</span>
 
-    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">TagSerializer</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Person</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">PersonSerializer</span>
     <span class="n">filter_backends</span> <span class="o">=</span> <span class="p">[</span><span class="n">filters</span><span class="o">.</span><span class="n">SearchFilter</span><span class="p">]</span>
-    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span></div>
+    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;person_number&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="TagDetailView"><a class="viewcode-back" href="../../../modules/ipharm.views.html#ipharm.views.tags.TagDetailView">[docs]</a><span class="k">class</span> <span class="nc">TagDetailView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">RetrieveAPIView</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Tag detail&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="PersonDetailView"><a class="viewcode-back" href="../../../modules/references.views.html#references.views.persons.PersonDetailView">[docs]</a><span class="k">class</span> <span class="nc">PersonDetailView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">RetrieveAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Person detail&quot;&quot;&quot;</span>
 
-    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">TagSerializer</span></div>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Person</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">PersonSerializer</span></div>
 </pre></div>
 
            </div>

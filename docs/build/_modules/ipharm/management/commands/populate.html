@@ -75,6 +75,7 @@
 
 <span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
 <span class="kn">from</span> <span class="nn">django.core.management.base</span> <span class="kn">import</span> <span class="n">BaseCommand</span>
+<span class="kn">from</span> <span class="nn">references.models</span> <span class="kn">import</span> <span class="n">Department</span>
 
 <span class="kn">from</span> <span class="nn">factories.ipharm</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">CareFactory</span><span class="p">,</span>
@@ -91,6 +92,7 @@
     <span class="n">IdentificationFactory</span><span class="p">,</span>
     <span class="n">TagFactory</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">factories.users</span> <span class="kn">import</span> <span class="n">UserFactory</span>
 
 
 <div class="viewcode-block" id="Command"><a class="viewcode-back" href="../../../../modules/ipharm.management.commands.html#ipharm.management.commands.populate.Command">[docs]</a><span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">):</span>
@@ -105,15 +107,34 @@
             <span class="p">)</span>
             <span class="k">return</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Populating database. Please wait...&quot;</span><span class="p">)</span>
+
+        <span class="n">users</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">UserFactory</span><span class="p">(),</span>
+            <span class="n">UserFactory</span><span class="p">(),</span>
+            <span class="n">UserFactory</span><span class="p">(),</span>
+            <span class="n">UserFactory</span><span class="p">(),</span>
+            <span class="n">UserFactory</span><span class="p">(),</span>
+        <span class="p">]</span>
+
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
             <span class="n">TagFactory</span><span class="p">()</span>
             <span class="n">AdverseEffectFactory</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">800</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">):</span>
             <span class="n">care</span> <span class="o">=</span> <span class="n">CareFactory</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Patient </span><span class="si">{</span><span class="n">care</span><span class="o">.</span><span class="n">patient</span><span class="si">}</span><span class="s2"> created&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-                <span class="n">CheckInFactory</span><span class="p">(</span><span class="n">care</span><span class="o">=</span><span class="n">care</span><span class="p">)</span>
+                <span class="n">CheckInFactory</span><span class="p">(</span>
+                    <span class="n">care</span><span class="o">=</span><span class="n">care</span><span class="p">,</span>
+                    <span class="n">drugs__add</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">diagnoses__add</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">high_interaction_potential_drugs__add</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">narrow_therapeutic_window_drugs__add</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-                    <span class="n">pharmacological_plan</span> <span class="o">=</span> <span class="n">PharmacologicalPlanFactory</span><span class="p">(</span><span class="n">care</span><span class="o">=</span><span class="n">care</span><span class="p">)</span>
+                    <span class="n">pharmacological_plan</span> <span class="o">=</span> <span class="n">PharmacologicalPlanFactory</span><span class="p">(</span>
+                        <span class="n">care</span><span class="o">=</span><span class="n">care</span><span class="p">,</span>
+                        <span class="n">tags__add</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
                     <span class="p">[</span>
                         <span class="n">PharmacologicalPlanCommentFactory</span><span class="p">(</span>
                             <span class="n">pharmacological_plan</span><span class="o">=</span><span class="n">pharmacological_plan</span><span class="p">,</span>
@@ -128,19 +149,28 @@
                         <span class="p">)</span>
                         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
                     <span class="p">]</span>
-                    <span class="n">RiskDrugHistoryFactory</span><span class="p">(</span><span class="n">care</span><span class="o">=</span><span class="n">care</span><span class="p">)</span>
+                    <span class="n">RiskDrugHistoryFactory</span><span class="p">(</span>
+                        <span class="n">care</span><span class="o">=</span><span class="n">care</span><span class="p">,</span>
+                        <span class="n">tags__add</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)):</span>
+                        <span class="n">patient_information</span> <span class="o">=</span> <span class="n">PatientInformationFactory</span><span class="p">(</span><span class="n">care</span><span class="o">=</span><span class="n">care</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)):</span>
+                            <span class="n">patient_information</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">i</span>
+                            <span class="n">patient_information</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                            <span class="n">patient_information</span><span class="o">.</span><span class="n">set_history_user</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">users</span><span class="p">))</span>
+
                     <span class="p">[</span>
-                        <span class="n">PatientInformationFactory</span><span class="p">(</span><span class="n">care</span><span class="o">=</span><span class="n">care</span><span class="p">)</span>
-                        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-                    <span class="p">]</span>
-                    <span class="p">[</span>
-                        <span class="n">PharmacologicalEvaluationFactory</span><span class="p">(</span><span class="n">care</span><span class="o">=</span><span class="n">care</span><span class="p">)</span>
+                        <span class="n">PharmacologicalEvaluationFactory</span><span class="p">(</span><span class="n">care</span><span class="o">=</span><span class="n">care</span><span class="p">,</span> <span class="n">tags__add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
                     <span class="p">]</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
             <span class="n">ExternalDepartmentFactory</span><span class="p">()</span>
-        <span class="n">IdentificationFactory</span><span class="p">()</span>
+        <span class="n">department</span> <span class="o">=</span> <span class="n">Department</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">department</span><span class="o">.</span><span class="n">for_insurance</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">department</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">IdentificationFactory</span><span class="p">(</span><span class="n">for_insurance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Database was populated.&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 

@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>references.views package &mdash; iPharm  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="reports package" href="reports.html" />
+    <link rel="prev" title="references.serializers package" href="references.serializers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> iPharm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variables.html">Environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../celery.html">Celery tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../updates.html">Model updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rest_api.html">Rest API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="common.html">common package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipharm.html">ipharm package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="references.html">references package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="references.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="references.filters.html">references.filters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.management.html">references.management package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.managers.html">references.managers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.models.html">references.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.serializers.html">references.serializers package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">references.views package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="references.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="references.html#module-references.apps">references.apps module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="references.html#module-references.urls">references.urls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="references.html#module-references">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reports.html">reports package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updates.html">updates package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users.html">users package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">iPharm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">API reference</a> &raquo;</li>
+          <li><a href="references.html">references package</a> &raquo;</li>
+      <li>references.views package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/references.views.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="references-views-package">
+<h1>references.views package<a class="headerlink" href="#references-views-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="references-views-cares-module">
+<h2>references.views.cares module<a class="headerlink" href="#references-views-cares-module" title="Permalink to this headline"></a></h2>
+</section>
+<section id="references-views-checkins-module">
+<h2>references.views.checkins module<a class="headerlink" href="#references-views-checkins-module" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-references.views.clinics">
+<span id="references-views-clinics-module"></span><h2>references.views.clinics module<a class="headerlink" href="#module-references.views.clinics" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.clinics.ClinicDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.clinics.</span></span><span class="sig-name descname"><span class="pre">ClinicDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/clinics.html#ClinicDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.clinics.ClinicDetailView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.clinics.ClinicDetailView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.clinics.ClinicDetailView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.clinics.ClinicDetailView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.clinics.ClinicDetailView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.clinics.ClinicSerializer" title="references.serializers.clinics.ClinicSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.clinics.ClinicSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.clinics.ClinicListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.clinics.</span></span><span class="sig-name descname"><span class="pre">ClinicListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/clinics.html#ClinicListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.clinics.ClinicListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="references.views.clinics.ClinicListView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#references.views.clinics.ClinicListView.get" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.views.clinics.ClinicListView.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/clinics.html#ClinicListView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.clinics.ClinicListView.get_queryset" title="Permalink to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.clinics.ClinicListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.clinics.ClinicListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.clinics.ClinicSerializer" title="references.serializers.clinics.ClinicSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.clinics.ClinicSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.clinics.DepartmentDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.clinics.</span></span><span class="sig-name descname"><span class="pre">DepartmentDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/clinics.html#DepartmentDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.clinics.DepartmentDetailView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
+<p>Department detail</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.clinics.DepartmentDetailView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.clinics.DepartmentDetailView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.clinics.DepartmentDetailView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.clinics.DepartmentDetailView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.clinics.DepartmentSerializer" title="references.serializers.clinics.DepartmentSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.clinics.DepartmentSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.clinics.DepartmentListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.clinics.</span></span><span class="sig-name descname"><span class="pre">DepartmentListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/clinics.html#DepartmentListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.clinics.DepartmentListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
+<p>Department list</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.clinics.DepartmentListView.filter_backends">
+<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'django_filters.rest_framework.backends.DjangoFilterBackend'&gt;]</span></em><a class="headerlink" href="#references.views.clinics.DepartmentListView.filter_backends" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.clinics.DepartmentListView.filterset_fields">
+<span class="sig-name descname"><span class="pre">filterset_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['clinic']</span></em><a class="headerlink" href="#references.views.clinics.DepartmentListView.filterset_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.clinics.DepartmentListView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.clinics.DepartmentListView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.clinics.DepartmentListView.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['abbreviation',</span> <span class="pre">'description']</span></em><a class="headerlink" href="#references.views.clinics.DepartmentListView.search_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.clinics.DepartmentListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.clinics.DepartmentListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.clinics.DepartmentSerializer" title="references.serializers.clinics.DepartmentSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.clinics.DepartmentSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.views.common">
+<span id="references-views-common-module"></span><h2>references.views.common module<a class="headerlink" href="#module-references.views.common" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.common.HistoryView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.common.</span></span><span class="sig-name descname"><span class="pre">HistoryView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/common.html#HistoryView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.common.HistoryView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.views.APIView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="references.views.common.HistoryView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/common.html#HistoryView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.common.HistoryView.get" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.common.HistoryView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#references.views.common.HistoryView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.views.diagnoses">
+<span id="references-views-diagnoses-module"></span><h2>references.views.diagnoses module<a class="headerlink" href="#module-references.views.diagnoses" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.diagnoses.DiagnosisDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.diagnoses.</span></span><span class="sig-name descname"><span class="pre">DiagnosisDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/diagnoses.html#DiagnosisDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.diagnoses.DiagnosisDetailView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
+<p>Diagnosis detail</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.diagnoses.DiagnosisDetailView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.diagnoses.DiagnosisDetailView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.diagnoses.DiagnosisDetailView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.diagnoses.DiagnosisDetailView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.diagnoses.DiagnosisSerializer" title="references.serializers.diagnoses.DiagnosisSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.diagnoses.DiagnosisSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.diagnoses.DiagnosisListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.diagnoses.</span></span><span class="sig-name descname"><span class="pre">DiagnosisListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/diagnoses.html#DiagnosisListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.diagnoses.DiagnosisListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
+<p>Diagnosis list</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.diagnoses.DiagnosisListView.filter_backends">
+<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'django_filters.rest_framework.backends.DjangoFilterBackend'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#references.views.diagnoses.DiagnosisListView.filter_backends" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.diagnoses.DiagnosisListView.filterset_class">
+<span class="sig-name descname"><span class="pre">filterset_class</span></span><a class="headerlink" href="#references.views.diagnoses.DiagnosisListView.filterset_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.filters.html#references.filters.diagnoses.DiagnosisFilter" title="references.filters.diagnoses.DiagnosisFilter"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.filters.diagnoses.DiagnosisFilter</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.views.diagnoses.DiagnosisListView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#references.views.diagnoses.DiagnosisListView.get" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.diagnoses.DiagnosisListView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.diagnoses.DiagnosisListView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.diagnoses.DiagnosisListView.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['code',</span> <span class="pre">'name']</span></em><a class="headerlink" href="#references.views.diagnoses.DiagnosisListView.search_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.diagnoses.DiagnosisListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.diagnoses.DiagnosisListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.diagnoses.DiagnosisSerializer" title="references.serializers.diagnoses.DiagnosisSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.diagnoses.DiagnosisSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.views.drugs">
+<span id="references-views-drugs-module"></span><h2>references.views.drugs module<a class="headerlink" href="#module-references.views.drugs" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.drugs.DrugDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.drugs.</span></span><span class="sig-name descname"><span class="pre">DrugDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/drugs.html#DrugDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.drugs.DrugDetailView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
+<p>Drug detail</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.drugs.DrugDetailView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.drugs.DrugDetailView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.drugs.DrugDetailView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.drugs.DrugDetailView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.drugs.DrugSerializer" title="references.serializers.drugs.DrugSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.drugs.DrugSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.drugs.DrugListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.drugs.</span></span><span class="sig-name descname"><span class="pre">DrugListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/drugs.html#DrugListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.drugs.DrugListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
+<p>Drug list</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.drugs.DrugListView.filter_backends">
+<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#references.views.drugs.DrugListView.filter_backends" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.drugs.DrugListView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.drugs.DrugListView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.drugs.DrugListView.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['code_sukl',</span> <span class="pre">'name']</span></em><a class="headerlink" href="#references.views.drugs.DrugListView.search_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.drugs.DrugListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.drugs.DrugListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.drugs.DrugSerializer" title="references.serializers.drugs.DrugSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.drugs.DrugSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.views.external_departments">
+<span id="references-views-external-departments-module"></span><h2>references.views.external_departments module<a class="headerlink" href="#module-references.views.external_departments" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.external_departments.ExternalDepartmentDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.external_departments.</span></span><span class="sig-name descname"><span class="pre">ExternalDepartmentDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/external_departments.html#ExternalDepartmentDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.external_departments.ExternalDepartmentDetailView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
+<p>ExternalDepartment detail</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.external_departments.ExternalDepartmentDetailView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.external_departments.ExternalDepartmentDetailView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.external_departments.ExternalDepartmentDetailView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.external_departments.ExternalDepartmentDetailView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.external_departments.ExternalDepartmentSerializer" title="references.serializers.external_departments.ExternalDepartmentSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.external_departments.ExternalDepartmentSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.external_departments.ExternalDepartmentListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.external_departments.</span></span><span class="sig-name descname"><span class="pre">ExternalDepartmentListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/external_departments.html#ExternalDepartmentListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.external_departments.ExternalDepartmentListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
+<p>ExternalDepartment list</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.external_departments.ExternalDepartmentListView.filter_backends">
+<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#references.views.external_departments.ExternalDepartmentListView.filter_backends" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.external_departments.ExternalDepartmentListView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.external_departments.ExternalDepartmentListView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.external_departments.ExternalDepartmentListView.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['icp',</span> <span class="pre">'organization',</span> <span class="pre">'department']</span></em><a class="headerlink" href="#references.views.external_departments.ExternalDepartmentListView.search_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.external_departments.ExternalDepartmentListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.external_departments.ExternalDepartmentListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.external_departments.ExternalDepartmentSerializer" title="references.serializers.external_departments.ExternalDepartmentSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.external_departments.ExternalDepartmentSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.views.facilities">
+<span id="references-views-facilities-module"></span><h2>references.views.facilities module<a class="headerlink" href="#module-references.views.facilities" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.facilities.MedicalFacilityDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.facilities.</span></span><span class="sig-name descname"><span class="pre">MedicalFacilityDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/facilities.html#MedicalFacilityDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.facilities.MedicalFacilityDetailView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
+<p>MedicalFacility detail</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.facilities.MedicalFacilityDetailView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.facilities.MedicalFacilityDetailView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.facilities.MedicalFacilityDetailView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.facilities.MedicalFacilityDetailView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.facilities.MedicalFacilitySerializer" title="references.serializers.facilities.MedicalFacilitySerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.facilities.MedicalFacilitySerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.facilities.MedicalFacilityListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.facilities.</span></span><span class="sig-name descname"><span class="pre">MedicalFacilityListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/facilities.html#MedicalFacilityListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.facilities.MedicalFacilityListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
+<p>MedicalFacility list</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.facilities.MedicalFacilityListView.filter_backends">
+<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#references.views.facilities.MedicalFacilityListView.filter_backends" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.facilities.MedicalFacilityListView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.facilities.MedicalFacilityListView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.facilities.MedicalFacilityListView.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['facility_id',</span> <span class="pre">'code',</span> <span class="pre">'name']</span></em><a class="headerlink" href="#references.views.facilities.MedicalFacilityListView.search_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.facilities.MedicalFacilityListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.facilities.MedicalFacilityListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.facilities.MedicalFacilitySerializer" title="references.serializers.facilities.MedicalFacilitySerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.facilities.MedicalFacilitySerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.views.insurances">
+<span id="references-views-insurances-module"></span><h2>references.views.insurances module<a class="headerlink" href="#module-references.views.insurances" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.insurances.InsuranceCompanyDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.insurances.</span></span><span class="sig-name descname"><span class="pre">InsuranceCompanyDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/insurances.html#InsuranceCompanyDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.insurances.InsuranceCompanyDetailView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
+<p>InsuranceCompany detail</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.insurances.InsuranceCompanyDetailView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.insurances.InsuranceCompanyDetailView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.insurances.InsuranceCompanyDetailView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.insurances.InsuranceCompanyDetailView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.insurances.InsuranceCompanySerializer" title="references.serializers.insurances.InsuranceCompanySerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.insurances.InsuranceCompanySerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.insurances.InsuranceCompanyListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.insurances.</span></span><span class="sig-name descname"><span class="pre">InsuranceCompanyListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/insurances.html#InsuranceCompanyListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.insurances.InsuranceCompanyListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
+<p>InsuranceCompany list</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.insurances.InsuranceCompanyListView.filter_backends">
+<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#references.views.insurances.InsuranceCompanyListView.filter_backends" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.insurances.InsuranceCompanyListView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.insurances.InsuranceCompanyListView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.insurances.InsuranceCompanyListView.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['code',</span> <span class="pre">'name',</span> <span class="pre">'shortcut']</span></em><a class="headerlink" href="#references.views.insurances.InsuranceCompanyListView.search_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.insurances.InsuranceCompanyListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.insurances.InsuranceCompanyListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.insurances.InsuranceCompanySerializer" title="references.serializers.insurances.InsuranceCompanySerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.insurances.InsuranceCompanySerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="references-views-patient-informations-module">
+<h2>references.views.patient_informations module<a class="headerlink" href="#references-views-patient-informations-module" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-references.views.patients">
+<span id="references-views-patients-module"></span><h2>references.views.patients module<a class="headerlink" href="#module-references.views.patients" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.patients.PatientDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.patients.</span></span><span class="sig-name descname"><span class="pre">PatientDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/patients.html#PatientDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.patients.PatientDetailView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveUpdateDestroyAPIView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="references.views.patients.PatientDetailView.get_serializer_class">
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/patients.html#PatientDetailView.get_serializer_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.patients.PatientDetailView.get_serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>Return the class to use for the serializer.
+Defaults to using <cite>self.serializer_class</cite>.</p>
+<p>You may want to override this if you need to provide different
+serializations depending on the incoming request.</p>
+<p>(Eg. admins get full serialization, others get basic serialization)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.patients.PatientDetailView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.patients.PatientDetailView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.patients.PatientDetailView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.patients.PatientDetailView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.serializers.html#ipharm.serializers.patients.PatientNestedSerializer" title="ipharm.serializers.patients.PatientNestedSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.serializers.patients.PatientNestedSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.patients.PatientHistoryView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.patients.</span></span><span class="sig-name descname"><span class="pre">PatientHistoryView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/patients.html#PatientHistoryView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.patients.PatientHistoryView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#references.views.common.HistoryView" title="references.views.common.HistoryView"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.views.common.HistoryView</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.patients.PatientHistoryView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.patients.PatientHistoryView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.patients.PatientListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.patients.</span></span><span class="sig-name descname"><span class="pre">PatientListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/patients.html#PatientListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.patients.PatientListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListCreateAPIView</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.patients.PatientListView.filter_backends">
+<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'django_filters.rest_framework.backends.DjangoFilterBackend'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#references.views.patients.PatientListView.filter_backends" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.patients.PatientListView.filterset_class">
+<span class="sig-name descname"><span class="pre">filterset_class</span></span><a class="headerlink" href="#references.views.patients.PatientListView.filterset_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.filters.html#ipharm.filters.patients.PatientFilter" title="ipharm.filters.patients.PatientFilter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.filters.patients.PatientFilter</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.views.patients.PatientListView.get_serializer_class">
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/patients.html#PatientListView.get_serializer_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.patients.PatientListView.get_serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>Return the class to use for the serializer.
+Defaults to using <cite>self.serializer_class</cite>.</p>
+<p>You may want to override this if you need to provide different
+serializations depending on the incoming request.</p>
+<p>(Eg. admins get full serialization, others get basic serialization)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.patients.PatientListView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.patients.PatientListView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.patients.PatientListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.patients.PatientListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="ipharm.serializers.html#ipharm.serializers.patients.PatientLiteNestedSerializer" title="ipharm.serializers.patients.PatientLiteNestedSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.serializers.patients.PatientLiteNestedSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.views.persons">
+<span id="references-views-persons-module"></span><h2>references.views.persons module<a class="headerlink" href="#module-references.views.persons" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.persons.PersonDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.persons.</span></span><span class="sig-name descname"><span class="pre">PersonDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/persons.html#PersonDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.persons.PersonDetailView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
+<p>Person detail</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.persons.PersonDetailView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.persons.PersonDetailView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.persons.PersonDetailView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.persons.PersonDetailView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.persons.PersonSerializer" title="references.serializers.persons.PersonSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.persons.PersonSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.persons.PersonListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.persons.</span></span><span class="sig-name descname"><span class="pre">PersonListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/persons.html#PersonListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.persons.PersonListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
+<p>Person list</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.persons.PersonListView.filter_backends">
+<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#references.views.persons.PersonListView.filter_backends" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.persons.PersonListView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.persons.PersonListView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.persons.PersonListView.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['person_number',</span> <span class="pre">'name']</span></em><a class="headerlink" href="#references.views.persons.PersonListView.search_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.persons.PersonListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.persons.PersonListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.persons.PersonSerializer" title="references.serializers.persons.PersonSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.persons.PersonSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="references-views-pharmacological-evaluations-module">
+<h2>references.views.pharmacological_evaluations module<a class="headerlink" href="#references-views-pharmacological-evaluations-module" title="Permalink to this headline"></a></h2>
+</section>
+<section id="references-views-pharmacological-plans-module">
+<h2>references.views.pharmacological_plans module<a class="headerlink" href="#references-views-pharmacological-plans-module" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-references.views.reports">
+<span id="references-views-reports-module"></span><h2>references.views.reports module<a class="headerlink" href="#module-references.views.reports" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.reports.GenericReportTypeListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.reports.</span></span><span class="sig-name descname"><span class="pre">GenericReportTypeListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/reports.html#GenericReportTypeListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.reports.GenericReportTypeListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.reports.GenericReportTypeListView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.reports.GenericReportTypeListView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.reports.GenericReportTypeListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.reports.GenericReportTypeListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="reports.html#reports.serializers.GenericReportTypeSerializer" title="reports.serializers.GenericReportTypeSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.serializers.GenericReportTypeSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.reports.ReportGenerateView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.reports.</span></span><span class="sig-name descname"><span class="pre">ReportGenerateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/reports.html#ReportGenerateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.reports.ReportGenerateView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.views.APIView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="references.views.reports.ReportGenerateView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/reports.html#ReportGenerateView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.reports.ReportGenerateView.get" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.reports.ReportVariableDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.reports.</span></span><span class="sig-name descname"><span class="pre">ReportVariableDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/reports.html#ReportVariableDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.reports.ReportVariableDetailView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveUpdateAPIView</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.reports.ReportVariableDetailView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.reports.ReportVariableDetailView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.reports.ReportVariableDetailView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.reports.ReportVariableDetailView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="reports.html#reports.serializers.ReportVariableSerializer" title="reports.serializers.ReportVariableSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.serializers.ReportVariableSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.reports.ReportVariableListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.reports.</span></span><span class="sig-name descname"><span class="pre">ReportVariableListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/reports.html#ReportVariableListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.reports.ReportVariableListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="references.views.reports.ReportVariableListView.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/reports.html#ReportVariableListView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.reports.ReportVariableListView.get_queryset" title="Permalink to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.reports.ReportVariableListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.reports.ReportVariableListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="reports.html#reports.serializers.ReportVariableSerializer" title="reports.serializers.ReportVariableSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.serializers.ReportVariableSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="references-views-risk-drug-histories-module">
+<h2>references.views.risk_drug_histories module<a class="headerlink" href="#references-views-risk-drug-histories-module" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-references.views.tags">
+<span id="references-views-tags-module"></span><h2>references.views.tags module<a class="headerlink" href="#module-references.views.tags" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.tags.TagDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.tags.</span></span><span class="sig-name descname"><span class="pre">TagDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/tags.html#TagDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.tags.TagDetailView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
+<p>Tag detail</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.tags.TagDetailView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.tags.TagDetailView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.tags.TagDetailView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.tags.TagDetailView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.tags.TagSerializer" title="references.serializers.tags.TagSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.tags.TagSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.tags.TagListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.tags.</span></span><span class="sig-name descname"><span class="pre">TagListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/tags.html#TagListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.tags.TagListView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
+<p>Tag list</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.tags.TagListView.filter_backends">
+<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#references.views.tags.TagListView.filter_backends" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.tags.TagListView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.tags.TagListView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.tags.TagListView.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['name']</span></em><a class="headerlink" href="#references.views.tags.TagListView.search_fields" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.tags.TagListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#references.views.tags.TagListView.serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.tags.TagSerializer" title="references.serializers.tags.TagSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.tags.TagSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.views.user">
+<span id="references-views-user-module"></span><h2>references.views.user module<a class="headerlink" href="#module-references.views.user" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="references.views.user.UserView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">references.views.user.</span></span><span class="sig-name descname"><span class="pre">UserView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/user.html#UserView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.user.UserView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveUpdateAPIView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="references.views.user.UserView.get_object">
+<span class="sig-name descname"><span class="pre">get_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/user.html#UserView.get_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.user.UserView.get_object" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the object the view is displaying.</p>
+<p>You may want to override this if you need to provide non-standard
+queryset lookups.  Eg if objects are referenced using multiple
+keyword arguments in the url conf.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.views.user.UserView.get_serializer_class">
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/views/user.html#UserView.get_serializer_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.views.user.UserView.get_serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>Return the class to use for the serializer.
+Defaults to using <cite>self.serializer_class</cite>.</p>
+<p>You may want to override this if you need to provide different
+serializations depending on the incoming request.</p>
+<p>(Eg. admins get full serialization, others get basic serialization)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.views.user.UserView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#references.views.user.UserView.queryset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-references.views">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-references.views" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="references.serializers.html" class="btn btn-neutral float-left" title="references.serializers package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reports.html" class="btn btn-neutral float-right" title="reports package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Conceptica s.r.o.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

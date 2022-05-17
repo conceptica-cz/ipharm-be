@@ -51,14 +51,17 @@
 <li class="toctree-l2"><a class="reference internal" href="ipharm.html">ipharm package</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="references.html">references package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="references.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="references.filters.html">references.filters package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="references.management.html">references.management package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="references.managers.html">references.managers package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">references.models package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="references.serializers.html">references.serializers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html">references.views package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="references.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="references.html#module-references.apps">references.apps module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="references.html#module-references.urls">references.urls module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="references.html#module-references">Module contents</a></li>
 </ul>
 </li>
@@ -1163,6 +1166,21 @@ object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="references.models.diagnoses.Diagnosis.checkin_diagnoses_set">
+<span class="sig-name descname"><span class="pre">checkin_diagnoses_set</span></span><a class="headerlink" href="#references.models.diagnoses.Diagnosis.checkin_diagnoses_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="references.models.diagnoses.Diagnosis.checkin_set">
 <span class="sig-name descname"><span class="pre">checkin_set</span></span><a class="headerlink" href="#references.models.diagnoses.Diagnosis.checkin_set" title="Permalink to this definition"></a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
@@ -1289,6 +1307,21 @@ object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="references.models.diagnoses.Diagnosis.riskdrughistory_risk_diagnoses_set">
+<span class="sig-name descname"><span class="pre">riskdrughistory_risk_diagnoses_set</span></span><a class="headerlink" href="#references.models.diagnoses.Diagnosis.riskdrughistory_risk_diagnoses_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="references.models.diagnoses.Diagnosis.riskdrughistory_set">
 <span class="sig-name descname"><span class="pre">riskdrughistory_set</span></span><a class="headerlink" href="#references.models.diagnoses.Diagnosis.riskdrughistory_set" title="Permalink to this definition"></a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
@@ -1303,6 +1336,11 @@ instances.</p>
 <p>Most of the implementation is delegated to a dynamically defined manager
 class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.models.diagnoses.Diagnosis.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/models/diagnoses.html#Diagnosis.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.models.diagnoses.Diagnosis.serialize" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="references.models.diagnoses.Diagnosis.skupla_1">
@@ -1825,6 +1863,66 @@ object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="references.models.drugs.Drug.checkin_diagnoses_drugs_set">
+<span class="sig-name descname"><span class="pre">checkin_diagnoses_drugs_set</span></span><a class="headerlink" href="#references.models.drugs.Drug.checkin_diagnoses_drugs_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.models.drugs.Drug.checkin_drugs_set">
+<span class="sig-name descname"><span class="pre">checkin_drugs_set</span></span><a class="headerlink" href="#references.models.drugs.Drug.checkin_drugs_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.models.drugs.Drug.checkin_high_interaction_potential_drugs_set">
+<span class="sig-name descname"><span class="pre">checkin_high_interaction_potential_drugs_set</span></span><a class="headerlink" href="#references.models.drugs.Drug.checkin_high_interaction_potential_drugs_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.models.drugs.Drug.checkin_narrow_therapeutic_window_drugs_set">
+<span class="sig-name descname"><span class="pre">checkin_narrow_therapeutic_window_drugs_set</span></span><a class="headerlink" href="#references.models.drugs.Drug.checkin_narrow_therapeutic_window_drugs_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="references.models.drugs.Drug.code_sukl">
 <span class="sig-name descname"><span class="pre">code_sukl</span></span><a class="headerlink" href="#references.models.drugs.Drug.code_sukl" title="Permalink to this definition"></a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
@@ -1952,6 +2050,21 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="references.models.drugs.Drug.riskdrughistory_risk_drugs_set">
+<span class="sig-name descname"><span class="pre">riskdrughistory_risk_drugs_set</span></span><a class="headerlink" href="#references.models.drugs.Drug.riskdrughistory_risk_drugs_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="references.models.drugs.Drug.riskdrughistory_set">
 <span class="sig-name descname"><span class="pre">riskdrughistory_set</span></span><a class="headerlink" href="#references.models.drugs.Drug.riskdrughistory_set" title="Permalink to this definition"></a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
@@ -1966,6 +2079,11 @@ instances.</p>
 <p>Most of the implementation is delegated to a dynamically defined manager
 class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.models.drugs.Drug.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/models/drugs.html#Drug.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.models.drugs.Drug.serialize" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -4753,6 +4871,21 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="references.models.tags.Tag.pharmacologicalevaluation_tags_set">
+<span class="sig-name descname"><span class="pre">pharmacologicalevaluation_tags_set</span></span><a class="headerlink" href="#references.models.tags.Tag.pharmacologicalevaluation_tags_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="references.models.tags.Tag.pharmacologicalplan_set">
 <span class="sig-name descname"><span class="pre">pharmacologicalplan_set</span></span><a class="headerlink" href="#references.models.tags.Tag.pharmacologicalplan_set" title="Permalink to this definition"></a></dt>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
@@ -4764,6 +4897,21 @@ a many-to-many relation.</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
 instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.models.tags.Tag.pharmacologicalplan_tags_set">
+<span class="sig-name descname"><span class="pre">pharmacologicalplan_tags_set</span></span><a class="headerlink" href="#references.models.tags.Tag.pharmacologicalplan_tags_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
 <p>Most of the implementation is delegated to a dynamically defined manager
 class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
@@ -4783,6 +4931,26 @@ instances.</p>
 <p>Most of the implementation is delegated to a dynamically defined manager
 class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="references.models.tags.Tag.riskdrughistory_tags_set">
+<span class="sig-name descname"><span class="pre">riskdrughistory_tags_set</span></span><a class="headerlink" href="#references.models.tags.Tag.riskdrughistory_tags_set" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="references.models.tags.Tag.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/references/models/tags.html#Tag.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#references.models.tags.Tag.serialize" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

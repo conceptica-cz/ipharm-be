@@ -76,19 +76,48 @@
 <span class="kn">from</span> <span class="nn">updates.models</span> <span class="kn">import</span> <span class="n">BaseUpdatableModel</span>
 
 
+<div class="viewcode-block" id="RiskDrugHistory_risk_drugs"><a class="viewcode-back" href="../../../modules/ipharm.models.html#ipharm.models.risk_drug_histories.RiskDrugHistory_risk_drugs">[docs]</a><span class="k">class</span> <span class="nc">RiskDrugHistory_risk_drugs</span><span class="p">(</span><span class="n">BaseUpdatableModel</span><span class="p">):</span>
+    <span class="n">riskdrughistory</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="s2">&quot;ipharm.RiskDrugHistory&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span>
+    <span class="p">)</span>
+    <span class="n">drug</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;references.Drug&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RiskDrugHistory_risk_diagnoses"><a class="viewcode-back" href="../../../modules/ipharm.models.html#ipharm.models.risk_drug_histories.RiskDrugHistory_risk_diagnoses">[docs]</a><span class="k">class</span> <span class="nc">RiskDrugHistory_risk_diagnoses</span><span class="p">(</span><span class="n">BaseUpdatableModel</span><span class="p">):</span>
+    <span class="n">riskdrughistory</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="s2">&quot;ipharm.RiskDrugHistory&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span>
+    <span class="p">)</span>
+    <span class="n">diagnosis</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;references.Diagnosis&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RiskDrugHistory_tags"><a class="viewcode-back" href="../../../modules/ipharm.models.html#ipharm.models.risk_drug_histories.RiskDrugHistory_tags">[docs]</a><span class="k">class</span> <span class="nc">RiskDrugHistory_tags</span><span class="p">(</span><span class="n">BaseUpdatableModel</span><span class="p">):</span>
+    <span class="n">riskdrughistory</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="s2">&quot;ipharm.RiskDrugHistory&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span>
+    <span class="p">)</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;references.Tag&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="RiskDrugHistory"><a class="viewcode-back" href="../../../modules/ipharm.models.html#ipharm.models.risk_drug_histories.RiskDrugHistory">[docs]</a><span class="k">class</span> <span class="nc">RiskDrugHistory</span><span class="p">(</span><span class="n">BaseUpdatableModel</span><span class="p">):</span>
     <span class="n">care</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="s2">&quot;ipharm.Care&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
     <span class="n">has_risk_drug</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Rizikové léčivo&quot;</span><span class="p">)</span>
     <span class="n">risk_drugs</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
-        <span class="s2">&quot;references.Drug&quot;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Seznam léčiv&quot;</span>
+        <span class="s2">&quot;references.Drug&quot;</span><span class="p">,</span>
+        <span class="n">through</span><span class="o">=</span><span class="n">RiskDrugHistory_risk_drugs</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Seznam léčiv&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">has_risk_diagnosis</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Riziková diagnóza&quot;</span>
     <span class="p">)</span>
     <span class="n">risk_diagnoses</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
-        <span class="s2">&quot;references.Diagnosis&quot;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Seznam diagnóz&quot;</span>
+        <span class="s2">&quot;references.Diagnosis&quot;</span><span class="p">,</span>
+        <span class="n">through</span><span class="o">=</span><span class="n">RiskDrugHistory_risk_diagnoses</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Seznam diagnóz&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">tags</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s2">&quot;references.Tag&quot;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Štítky&quot;</span><span class="p">)</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="s2">&quot;references.Tag&quot;</span><span class="p">,</span> <span class="n">through</span><span class="o">=</span><span class="n">RiskDrugHistory_tags</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Štítky&quot;</span>
+    <span class="p">)</span>
     <span class="n">note</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Poznámka&quot;</span><span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>

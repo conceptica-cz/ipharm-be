@@ -79,7 +79,13 @@
 
 
 <div class="viewcode-block" id="CheckInListView"><a class="viewcode-back" href="../../../modules/ipharm.views.html#ipharm.views.checkins.CheckInListView">[docs]</a><span class="k">class</span> <span class="nc">CheckInListView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListCreateAPIView</span><span class="p">):</span>
-    <span class="n">queryset</span> <span class="o">=</span> <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">CheckIn</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">prefetch_related</span><span class="p">(</span><span class="s2">&quot;drugs&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">prefetch_related</span><span class="p">(</span><span class="s2">&quot;high_interaction_potential_drugs&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">prefetch_related</span><span class="p">(</span><span class="s2">&quot;diagnoses_drugs&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">prefetch_related</span><span class="p">(</span><span class="s2">&quot;diagnoses&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="p">)</span>
     <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">CheckInSerializer</span></div>
 
 

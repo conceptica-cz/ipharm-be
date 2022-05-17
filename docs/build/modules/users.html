@@ -18,6 +18,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="users.management package" href="users.management.html" />
     <link rel="prev" title="updates.uzis package" href="updates.uzis.html" /> 
 </head>
 
@@ -52,12 +53,18 @@
 <li class="toctree-l2"><a class="reference internal" href="reports.html">reports package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="updates.html">updates package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">users package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="users.management.html">users.management package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="users.views.html">users.views package</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-users.apps">users.apps module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-users.forms">users.forms module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-users.managers">users.managers module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-users.models">users.models module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-users.serializers">users.serializers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-users.urls">users.urls module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-users.views">users.views module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-users">Module contents</a></li>
 </ul>
@@ -93,6 +100,32 @@
              
   <section id="users-package">
 <h1>users package<a class="headerlink" href="#users-package" title="Permalink to this headline"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="users.management.html">users.management package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="users.management.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="users.management.commands.html">users.management.commands package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="users.management.commands.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="users.management.commands.html#module-users.management.commands.create_app_users">users.management.commands.create_app_users module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="users.management.commands.html#module-users.management.commands">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="users.management.html#module-users.management">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="users.views.html">users.views package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="users.views.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users.views.html#module-users.views.user">users.views.user module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users.views.html#module-users.views">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
 </section>
@@ -489,6 +522,19 @@ instances.</p>
 class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="users.models.User.auth_token">
+<span class="sig-name descname"><span class="pre">auth_token</span></span><a class="headerlink" href="#users.models.User.auth_token" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="users.models.User.get_next_by_date_joined">
 <span class="sig-name descname"><span class="pre">get_next_by_date_joined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">date_joined&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.models.User.get_next_by_date_joined" title="Permalink to this definition"></a></dt>
@@ -691,6 +737,9 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 </dd></dl>
 
 </section>
+<section id="module-users.urls">
+<span id="users-urls-module"></span><h2>users.urls module<a class="headerlink" href="#module-users.urls" title="Permalink to this headline"></a></h2>
+</section>
 <section id="module-users.views">
 <span id="users-views-module"></span><h2>users.views module<a class="headerlink" href="#module-users.views" title="Permalink to this headline"></a></h2>
 </section>
@@ -704,6 +753,7 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="updates.uzis.html" class="btn btn-neutral float-left" title="updates.uzis package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="users.management.html" class="btn btn-neutral float-right" title="users.management package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

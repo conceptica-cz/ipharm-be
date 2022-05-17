@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="common.html">common package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="common.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="common.html#module-common.apps">common.apps module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#module-common.authentication">common.authentication module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="common.html#module-common.managers">common.managers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="common.html#module-common.models">common.models module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="common.html#module-common">Module contents</a></li>
@@ -146,22 +147,13 @@
 <li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.cares">ipharm.views.cares module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.checkins">ipharm.views.checkins module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.clinics">ipharm.views.clinics module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.common">ipharm.views.common module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.diagnoses">ipharm.views.diagnoses module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.drugs">ipharm.views.drugs module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.external_departments">ipharm.views.external_departments module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.facilities">ipharm.views.facilities module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.insurances">ipharm.views.insurances module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.patient_informations">ipharm.views.patient_informations module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.patients">ipharm.views.patients module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.persons">ipharm.views.persons module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.pharmacological_evaluations">ipharm.views.pharmacological_evaluations module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.pharmacological_plans">ipharm.views.pharmacological_plans module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.reports">ipharm.views.reports module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.risk_drug_histories">ipharm.views.risk_drug_histories module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.tags">ipharm.views.tags module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.user">ipharm.views.user module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ipharm.views.html#module-ipharm.views">Module contents</a></li>
 </ul>
 </li>
@@ -169,12 +161,19 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.html#module-ipharm.apps">ipharm.apps module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipharm.html#module-ipharm.signals">ipharm.signals module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.html#module-ipharm.urls">ipharm.urls module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.html#module-ipharm">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">references package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="references.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="references.filters.html">references.filters package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="references.filters.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.filters.html#module-references.filters.diagnoses">references.filters.diagnoses module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.filters.html#module-references.filters">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="references.management.html">references.management package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="references.management.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="references.management.html#module-references.management">Module contents</a></li>
@@ -221,18 +220,65 @@
 <li class="toctree-l4"><a class="reference internal" href="references.serializers.html#module-references.serializers">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="references.views.html">references.views package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#references-views-cares-module">references.views.cares module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#references-views-checkins-module">references.views.checkins module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.clinics">references.views.clinics module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.common">references.views.common module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.diagnoses">references.views.diagnoses module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.drugs">references.views.drugs module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.external_departments">references.views.external_departments module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.facilities">references.views.facilities module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.insurances">references.views.insurances module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#references-views-patient-informations-module">references.views.patient_informations module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.patients">references.views.patients module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.persons">references.views.persons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#references-views-pharmacological-evaluations-module">references.views.pharmacological_evaluations module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#references-views-pharmacological-plans-module">references.views.pharmacological_plans module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.reports">references.views.reports module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#references-views-risk-drug-histories-module">references.views.risk_drug_histories module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.tags">references.views.tags module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views.user">references.views.user module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="references.views.html#module-references.views">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="references.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="references.html#module-references.apps">references.apps module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#module-references.urls">references.urls module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="references.html#module-references">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reports.html">reports package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="reports.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reports.generic_reports.html">reports.generic_reports package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reports.generic_reports.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.generic_reports.html#module-reports.generic_reports.common">reports.generic_reports.common module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.generic_reports.html#module-reports.generic_reports.generic_report">reports.generic_reports.generic_report module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.generic_reports.html#module-reports.generic_reports.pdf">reports.generic_reports.pdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.generic_reports.html#module-reports.generic_reports.statistical_reports">reports.generic_reports.statistical_reports module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.generic_reports.html#module-reports.generic_reports.uzis">reports.generic_reports.uzis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.generic_reports.html#module-reports.generic_reports.xlsx">reports.generic_reports.xlsx module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.generic_reports.html#module-reports.generic_reports">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="reports.management.html">reports.management package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="reports.management.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reports.management.html#module-reports.management">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reports.templatetags.html">reports.templatetags package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reports.templatetags.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.templatetags.html#module-reports.templatetags.reports">reports.templatetags.reports module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.templatetags.html#module-reports.templatetags">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reports.views.html">reports.views package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reports.views.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.views.html#module-reports.views.reports">reports.views.reports module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reports.views.html#module-reports.views">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -240,15 +286,12 @@
 <li class="toctree-l2"><a class="reference internal" href="reports.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.apps">reports.apps module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.common">reports.common module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.generic_report">reports.generic_report module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.insurance_report">reports.insurance_report module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.managers">reports.managers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.models">reports.models module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.serializers">reports.serializers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.tasks">reports.tasks module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.tests">reports.tests module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.uzis">reports.uzis module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.views">reports.views module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports.urls">reports.urls module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reports.html#module-reports">Module contents</a></li>
 </ul>
 </li>
@@ -293,12 +336,27 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">users package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="users.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="users.management.html">users.management package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="users.management.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="users.management.html#module-users.management">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="users.views.html">users.views package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="users.views.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="users.views.html#module-users.views.user">users.views.user module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="users.views.html#module-users.views">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="users.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="users.html#module-users.apps">users.apps module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="users.html#module-users.forms">users.forms module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="users.html#module-users.managers">users.managers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="users.html#module-users.models">users.models module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="users.html#module-users.serializers">users.serializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users.html#module-users.urls">users.urls module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="users.html#module-users.views">users.views module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="users.html#module-users">Module contents</a></li>
 </ul>

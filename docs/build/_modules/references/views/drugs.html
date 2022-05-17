@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ipharm.views.user &mdash; iPharm  documentation</title>
+  <title>references.views.drugs &mdash; iPharm  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -61,7 +61,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>ipharm.views.user</li>
+      <li>references.views.drugs</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -70,24 +70,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for ipharm.views.user</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rest_framework.generics</span> <span class="kn">import</span> <span class="n">RetrieveUpdateAPIView</span>
-<span class="kn">from</span> <span class="nn">rest_framework.permissions</span> <span class="kn">import</span> <span class="n">SAFE_METHODS</span>
-<span class="kn">from</span> <span class="nn">users.models</span> <span class="kn">import</span> <span class="n">User</span>
-<span class="kn">from</span> <span class="nn">users.serializers</span> <span class="kn">import</span> <span class="n">UserSerializer</span><span class="p">,</span> <span class="n">UserWriteSerializer</span>
+  <h1>Source code for references.views.drugs</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">references.models</span> <span class="kn">import</span> <span class="n">Drug</span>
+<span class="kn">from</span> <span class="nn">references.serializers</span> <span class="kn">import</span> <span class="n">DrugSerializer</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">filters</span><span class="p">,</span> <span class="n">generics</span>
 
 
-<div class="viewcode-block" id="UserView"><a class="viewcode-back" href="../../../modules/ipharm.views.html#ipharm.views.user.UserView">[docs]</a><span class="k">class</span> <span class="nc">UserView</span><span class="p">(</span><span class="n">RetrieveUpdateAPIView</span><span class="p">):</span>
-    <span class="n">queryset</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<div class="viewcode-block" id="DrugListView"><a class="viewcode-back" href="../../../modules/references.views.html#references.views.drugs.DrugListView">[docs]</a><span class="k">class</span> <span class="nc">DrugListView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Drug list&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="UserView.get_serializer_class"><a class="viewcode-back" href="../../../modules/ipharm.views.html#ipharm.views.user.UserView.get_serializer_class">[docs]</a>    <span class="k">def</span> <span class="nf">get_serializer_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="ow">in</span> <span class="n">SAFE_METHODS</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">UserSerializer</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">UserWriteSerializer</span></div>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Drug</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">DrugSerializer</span>
+    <span class="n">filter_backends</span> <span class="o">=</span> <span class="p">[</span><span class="n">filters</span><span class="o">.</span><span class="n">SearchFilter</span><span class="p">]</span>
+    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;code_sukl&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="UserView.get_object"><a class="viewcode-back" href="../../../modules/ipharm.views.html#ipharm.views.user.UserView.get_object">[docs]</a>    <span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span></div></div>
+
+<div class="viewcode-block" id="DrugDetailView"><a class="viewcode-back" href="../../../modules/references.views.html#references.views.drugs.DrugDetailView">[docs]</a><span class="k">class</span> <span class="nc">DrugDetailView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">RetrieveAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Drug detail&quot;&quot;&quot;</span>
+
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Drug</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">DrugSerializer</span></div>
 </pre></div>
 
            </div>

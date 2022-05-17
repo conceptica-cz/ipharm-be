@@ -71,7 +71,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for reports.managers</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">updates.managers</span> <span class="kn">import</span> <span class="n">BaseUpdatableManager</span>
+<span></span><span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Manager</span><span class="p">,</span> <span class="n">QuerySet</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">updates.managers</span> <span class="kn">import</span> <span class="n">BaseUpdatableManager</span>
 
 
 <div class="viewcode-block" id="ReportVariableManager"><a class="viewcode-back" href="../../modules/reports.html#reports.managers.ReportVariableManager">[docs]</a><span class="k">class</span> <span class="nc">ReportVariableManager</span><span class="p">(</span><span class="n">BaseUpdatableManager</span><span class="p">):</span>
@@ -88,6 +90,29 @@
             <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">report_type</span><span class="o">=</span><span class="n">report_type</span><span class="p">)</span>
         <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">variable</span><span class="o">.</span><span class="n">casted_value</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">queryset</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">variables</span></div></div>
+
+
+<div class="viewcode-block" id="GenericReportFileQuerySet"><a class="viewcode-back" href="../../modules/reports.html#reports.managers.GenericReportFileQuerySet">[docs]</a><span class="k">class</span> <span class="nc">GenericReportFileQuerySet</span><span class="p">(</span><span class="n">QuerySet</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    QuerySet for the GenericReportFile model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GenericReportFileQuerySet.old_files"><a class="viewcode-back" href="../../modules/reports.html#reports.managers.GenericReportFileQuerySet.old_files">[docs]</a>    <span class="k">def</span> <span class="nf">old_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a queryset of files that are older than the one day.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">min_date</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timezone</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">created_at__lt</span><span class="o">=</span><span class="n">min_date</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GenericReportFileManager"><a class="viewcode-back" href="../../modules/reports.html#reports.managers.GenericReportFileManager">[docs]</a><span class="k">class</span> <span class="nc">GenericReportFileManager</span><span class="p">(</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manager for the GenericReportFile model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GenericReportFileManager.delete_old_files"><a class="viewcode-back" href="../../modules/reports.html#reports.managers.GenericReportFileManager.delete_old_files">[docs]</a>    <span class="k">def</span> <span class="nf">delete_old_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">old_files</span><span class="p">():</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div></div>
 </pre></div>
 
            </div>
