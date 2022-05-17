@@ -7,7 +7,10 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   reports.generic_reports
    reports.management
+   reports.templatetags
+   reports.views
 
 Submodules
 ----------
@@ -24,14 +27,6 @@ reports.common module
 ---------------------
 
 .. automodule:: reports.common
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-reports.generic\_report module
-------------------------------
-
-.. automodule:: reports.generic_report
    :members:
    :undoc-members:
    :show-inheritance:
@@ -76,26 +71,10 @@ reports.tasks module
    :undoc-members:
    :show-inheritance:
 
-reports.tests module
---------------------
-
-.. automodule:: reports.tests
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-reports.uzis module
+reports.urls module
 -------------------
 
-.. automodule:: reports.uzis
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-reports.views module
---------------------
-
-.. automodule:: reports.views
+.. automodule:: reports.urls
    :members:
    :undoc-members:
    :show-inheritance:

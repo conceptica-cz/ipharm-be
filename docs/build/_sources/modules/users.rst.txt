@@ -1,6 +1,15 @@
 users package
 =============
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   users.management
+   users.views
+
 Submodules
 ----------
 
@@ -40,6 +49,14 @@ users.serializers module
 ------------------------
 
 .. automodule:: users.serializers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+users.urls module
+-----------------
+
+.. automodule:: users.urls
    :members:
    :undoc-members:
    :show-inheritance:

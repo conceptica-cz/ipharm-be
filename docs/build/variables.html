@@ -43,13 +43,13 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Environment variables</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#ipharm-variables">iPharm variables</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#allowed-hosts">ALLOWED_HOSTS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#base-ipharm-references-url">BASE_IPHARM_REFERENCES_URL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#base-references-url">BASE_REFERENCES_URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#base-iciselniky-url">BASE_ICISELNIKY_URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iciselniky-token">ICISELNIKY_TOKEN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#base-unis-url">BASE_UNIS_URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unis-token">UNIS_TOKEN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#debug">DEBUG</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#environment">ENVIRONMENT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ipharm-references-token">IPHARM_REFERENCES_TOKEN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#log-level">LOG_LEVEL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#references-token">REFERENCES_TOKEN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#secret-key">SECRET_KEY</a></li>
 </ul>
 </li>
@@ -112,15 +112,25 @@
 <p>No default value (must be set).</p>
 <p>Django <code class="docutils literal notranslate"><span class="pre">ALLOWED_HOSTS</span></code> - list of hosts separated by comma (or just <code class="docutils literal notranslate"><span class="pre">*</span></code>).</p>
 </section>
-<section id="base-ipharm-references-url">
-<h3>BASE_IPHARM_REFERENCES_URL<a class="headerlink" href="#base-ipharm-references-url" title="Permalink to this headline"></a></h3>
+<section id="base-iciselniky-url">
+<h3>BASE_ICISELNIKY_URL<a class="headerlink" href="#base-iciselniky-url" title="Permalink to this headline"></a></h3>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">http://iciselniky-app:8000/api/v1</span></code></p>
-<p>Base references API (iciselniky app) url.</p>
+<p>Base iCiselniky API url.</p>
 </section>
-<section id="base-references-url">
-<h3>BASE_REFERENCES_URL<a class="headerlink" href="#base-references-url" title="Permalink to this headline"></a></h3>
-<p>No default value (must be set).</p>
-<p>External API (patient) url.</p>
+<section id="iciselniky-token">
+<h3>ICISELNIKY_TOKEN<a class="headerlink" href="#iciselniky-token" title="Permalink to this headline"></a></h3>
+<p>Default: emtpy value.</p>
+<p>iCiselniky API token.</p>
+</section>
+<section id="base-unis-url">
+<h3>BASE_UNIS_URL<a class="headerlink" href="#base-unis-url" title="Permalink to this headline"></a></h3>
+<p>Default: emtpy value.</p>
+<p>Base UNIS API (patient API) url.</p>
+</section>
+<section id="unis-token">
+<h3>UNIS_TOKEN<a class="headerlink" href="#unis-token" title="Permalink to this headline"></a></h3>
+<p>Default: emtpy value.</p>
+<p>Unis API (patient API) token.</p>
 </section>
 <section id="debug">
 <h3>DEBUG<a class="headerlink" href="#debug" title="Permalink to this headline"></a></h3>
@@ -131,20 +141,10 @@
 <p>Default: <code class="docutils literal notranslate"><span class="pre">production</span></code></p>
 <p>App’s environment.</p>
 </section>
-<section id="ipharm-references-token">
-<h3>IPHARM_REFERENCES_TOKEN<a class="headerlink" href="#ipharm-references-token" title="Permalink to this headline"></a></h3>
-<p>No default value (must be set).</p>
-<p>References API (iciselniky app) token.</p>
-</section>
 <section id="log-level">
 <h3>LOG_LEVEL<a class="headerlink" href="#log-level" title="Permalink to this headline"></a></h3>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">INFO</span></code></p>
 <p>Logging level.</p>
-</section>
-<section id="references-token">
-<h3>REFERENCES_TOKEN<a class="headerlink" href="#references-token" title="Permalink to this headline"></a></h3>
-<p>No default value (must be set).</p>
-<p>External API (patient) token.</p>
 </section>
 <section id="secret-key">
 <h3>SECRET_KEY<a class="headerlink" href="#secret-key" title="Permalink to this headline"></a></h3>

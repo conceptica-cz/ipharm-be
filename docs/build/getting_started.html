@@ -43,6 +43,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation-and-configuration">Installation and configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#clone-the-repository">Clone the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-iciselniky-environment-variable-files">Add iCiselniky environment variable files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-iciselniky-app">Run iCiselniky app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-iciselniky-superuser">Create iCiselniky superuser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#populate-iciselniky-database-with-fake-data-optional-development-only">Populate iCiselniky database with fake data (optional, development only)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-ipharm-user-and-token-to-iciselniky">Add <code class="docutils literal notranslate"><span class="pre">ipharm</span></code> user and token to iCiselniky</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#add-environment-variable-files">Add environment variable files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#run-the-app">Run the app</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-superuser">Create superuser</a></li>
@@ -96,8 +101,50 @@
 <section id="clone-the-repository">
 <h3>Clone the repository<a class="headerlink" href="#clone-the-repository" title="Permalink to this headline"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/conceptica-cz/ipharm-be.git
+$ cd ipharm-be
 </pre></div>
 </div>
+</section>
+<section id="add-iciselniky-environment-variable-files">
+<h3>Add iCiselniky environment variable files<a class="headerlink" href="#add-iciselniky-environment-variable-files" title="Permalink to this headline"></a></h3>
+<p>The app depends on the <a class="reference external" href="https://github.com/conceptica-cz/iciselniky-be">iCiselniky app</a>.</p>
+<p>Create a environment variable files for iCiselniky app:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">./.envs/.development/.iciselniky_app</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./.envs/.development/.iciselniky_postgres</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./.envs/.development/.iciselniky_redis</span></code></p></li>
+</ul>
+<p>See the <a class="reference external" href="https://github.com/conceptica-cz/iciselniky-be">iCiselniky app</a> for more information about variables.</p>
+</section>
+<section id="run-iciselniky-app">
+<h3>Run iCiselniky app<a class="headerlink" href="#run-iciselniky-app" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker-compose up -d iciselniky-app
+</pre></div>
+</div>
+</section>
+<section id="create-iciselniky-superuser">
+<h3>Create iCiselniky superuser<a class="headerlink" href="#create-iciselniky-superuser" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker-compose exec iciselniky-app python manage.py createsuperuser
+</pre></div>
+</div>
+<p>Now you can login to the iCiselniky app’s admin on http://localhost:8001/admin/</p>
+</section>
+<section id="populate-iciselniky-database-with-fake-data-optional-development-only">
+<h3>Populate iCiselniky database with fake data (optional, development only)<a class="headerlink" href="#populate-iciselniky-database-with-fake-data-optional-development-only" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker-compose exec iciselniky-app python manage.py populate
+</pre></div>
+</div>
+</section>
+<section id="add-ipharm-user-and-token-to-iciselniky">
+<h3>Add <code class="docutils literal notranslate"><span class="pre">ipharm</span></code> user and token to iCiselniky<a class="headerlink" href="#add-ipharm-user-and-token-to-iciselniky" title="Permalink to this headline"></a></h3>
+<p>To use <a class="reference external" href="https://github.com/conceptica-cz/iciselniky-be">iCiselniky</a> API you have to get a token.</p>
+<p>Create user and token:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker-compose exec iciselniky-app python manage.py create_app_users
+</pre></div>
+</div>
+<p>The command creates application users and tokens. The response shows the token for the <code class="docutils literal notranslate"><span class="pre">ipharm</span></code> user.</p>
+<p>Note: you can also find the token in the <a class="reference external" href="http://localhost:8001/admin/authtoken/tokenproxy/">iCiselniky admin</a> .</p>
+<p>You have to add the <code class="docutils literal notranslate"><span class="pre">ipharm</span></code> token to the <code class="docutils literal notranslate"><span class="pre">.envs/.development/.ipharm_app</span></code> file (<code class="docutils literal notranslate"><span class="pre">ICISELNIKY_TOKEN</span></code> variable).</p>
 </section>
 <section id="add-environment-variable-files">
 <h3>Add environment variable files<a class="headerlink" href="#add-environment-variable-files" title="Permalink to this headline"></a></h3>

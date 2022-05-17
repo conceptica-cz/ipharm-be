@@ -61,6 +61,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-ipharm.apps">ipharm.apps module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ipharm.signals">ipharm.signals module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-ipharm.urls">ipharm.urls module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-ipharm">Module contents</a></li>
 </ul>
@@ -163,22 +164,13 @@
 <li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.cares">ipharm.views.cares module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.checkins">ipharm.views.checkins module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.clinics">ipharm.views.clinics module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.common">ipharm.views.common module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.diagnoses">ipharm.views.diagnoses module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.drugs">ipharm.views.drugs module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.external_departments">ipharm.views.external_departments module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.facilities">ipharm.views.facilities module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.insurances">ipharm.views.insurances module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.patient_informations">ipharm.views.patient_informations module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.patients">ipharm.views.patients module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.persons">ipharm.views.persons module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.pharmacological_evaluations">ipharm.views.pharmacological_evaluations module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.pharmacological_plans">ipharm.views.pharmacological_plans module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.reports">ipharm.views.reports module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.risk_drug_histories">ipharm.views.risk_drug_histories module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.tags">ipharm.views.tags module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views.user">ipharm.views.user module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipharm.views.html#module-ipharm.views">Module contents</a></li>
 </ul>
 </li>
@@ -204,6 +196,21 @@
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ipharm'</span></em><a class="headerlink" href="#ipharm.apps.IpharmConfig.name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="ipharm.apps.IpharmConfig.ready">
+<span class="sig-name descname"><span class="pre">ready</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/apps.html#IpharmConfig.ready"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.apps.IpharmConfig.ready" title="Permalink to this definition"></a></dt>
+<dd><p>Override this method in subclasses to run code when Django starts.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ipharm.signals">
+<span id="ipharm-signals-module"></span><h2>ipharm.signals module<a class="headerlink" href="#module-ipharm.signals" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="ipharm.signals.save_m2m">
+<span class="sig-prename descclassname"><span class="pre">ipharm.signals.</span></span><span class="sig-name descname"><span class="pre">save_m2m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk_set</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/signals.html#save_m2m"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.signals.save_m2m" title="Permalink to this definition"></a></dt>
+<dd><p>Explicitly save m2m relations to keep history records.</p>
 </dd></dl>
 
 </section>

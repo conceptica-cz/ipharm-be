@@ -12,7 +12,56 @@ You need `docker` and `docker-compose` to run the app.
 
 ```
 $ git clone https://github.com/conceptica-cz/ipharm-be.git
+$ cd ipharm-be
 ```
+### Add iCiselniky environment variable files
+
+The app depends on the [iCiselniky app](https://github.com/conceptica-cz/iciselniky-be).
+
+Create a environment variable files for iCiselniky app:
+
+- `./.envs/.development/.iciselniky_app`
+- `./.envs/.development/.iciselniky_postgres`
+- `./.envs/.development/.iciselniky_redis`
+
+See the [iCiselniky app](https://github.com/conceptica-cz/iciselniky-be) for more information about variables.
+
+### Run iCiselniky app
+
+```
+$ docker-compose up -d iciselniky-app
+```
+
+### Create iCiselniky superuser
+
+```
+$ docker-compose exec iciselniky-app python manage.py createsuperuser
+```
+
+Now you can login to the iCiselniky app's admin on http://localhost:8001/admin/
+
+### Populate iCiselniky database with fake data (optional, development only)
+
+```
+$ docker-compose exec iciselniky-app python manage.py populate
+```
+
+### Add `ipharm` user and token to iCiselniky
+
+To use [iCiselniky](https://github.com/conceptica-cz/iciselniky-be) API you have to get a token.
+
+Create user and token:
+
+```
+$ docker-compose exec iciselniky-app python manage.py create_app_users
+```
+
+The command creates application users and tokens. The response shows the token for the `ipharm` user.
+
+Note: you can also find the token in the [iCiselniky admin](http://localhost:8001/admin/authtoken/tokenproxy/) .
+
+You have to add the `ipharm` token to the `.envs/.development/.ipharm_app` file (`ICISELNIKY_TOKEN` variable).
+
 
 ### Add environment variable files
 

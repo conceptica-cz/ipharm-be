@@ -166,11 +166,18 @@
     <span class="n">pharmacological_evaluations</span> <span class="o">=</span> <span class="n">PharmacologicalEvaluationNestedSerializer</span><span class="p">(</span>
         <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
+    <span class="n">patient_informations</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">PrimaryKeyRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CareNestedSerializer.Meta"><a class="viewcode-back" href="../../../modules/ipharm.serializers.html#ipharm.serializers.cares.CareNestedSerializer.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">exclude</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;is_deleted&quot;</span><span class="p">]</span>
         <span class="n">read_only_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">Care</span></div></div>
+
+
+<div class="viewcode-block" id="CareProceduresSerializer"><a class="viewcode-back" href="../../../modules/ipharm.serializers.html#ipharm.serializers.cares.CareProceduresSerializer">[docs]</a><span class="k">class</span> <span class="nc">CareProceduresSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Serializer</span><span class="p">):</span>
+    <span class="n">procedure_05751_count</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">procedure_05753_count</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">procedure_05755_count</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

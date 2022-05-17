@@ -101,6 +101,7 @@
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;only_patient&quot;</span><span class="p">]:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_create_reference_beat</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_create_insurance_report_beat</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_delete_old_report_files_beat</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done.&quot;</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
@@ -201,6 +202,21 @@
             <span class="n">name</span><span class="o">=</span><span class="n">task_name</span><span class="p">,</span>
             <span class="n">defaults</span><span class="o">=</span><span class="p">{</span>
                 <span class="s2">&quot;task&quot;</span><span class="p">:</span> <span class="s2">&quot;reports.tasks.generate_insurance_report&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;interval&quot;</span><span class="p">:</span> <span class="n">interval_schedule</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_create_delete_old_report_files_beat</span><span class="p">():</span>
+        <span class="n">interval_schedule</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">IntervalSchedule</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
+            <span class="n">every</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+            <span class="n">period</span><span class="o">=</span><span class="n">IntervalSchedule</span><span class="o">.</span><span class="n">MINUTES</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">task_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Delete old report files&quot;</span>
+        <span class="n">PeriodicTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">update_or_create</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">task_name</span><span class="p">,</span>
+            <span class="n">defaults</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;task&quot;</span><span class="p">:</span> <span class="s2">&quot;reports.tasks.delete_old_report_files&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;interval&quot;</span><span class="p">:</span> <span class="n">interval_schedule</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span></div>

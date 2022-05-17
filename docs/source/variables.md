@@ -14,17 +14,29 @@ No default value (must be set).
 
 Django `ALLOWED_HOSTS` - list of hosts separated by comma (or just `*`).
 
-### BASE_IPHARM_REFERENCES_URL
+### BASE_ICISELNIKY_URL
 
 Default: `http://iciselniky-app:8000/api/v1`
 
-Base references API (iciselniky app) url.
+Base iCiselniky API url.
 
-### BASE_REFERENCES_URL
+### ICISELNIKY_TOKEN
 
-No default value (must be set).
+Default: emtpy value.
 
-External API (patient) url.
+iCiselniky API token.
+
+### BASE_UNIS_URL
+
+Default: emtpy value.
+
+Base UNIS API (patient API) url.
+
+### UNIS_TOKEN
+
+Default: emtpy value.
+
+Unis API (patient API) token.
 
 ### DEBUG
 
@@ -36,23 +48,11 @@ Default: `production`
 
 App's environment.
 
-### IPHARM_REFERENCES_TOKEN
-
-No default value (must be set).
-
-References API (iciselniky app) token.
-
 ### LOG_LEVEL
 
 Default: `INFO`
 
 Logging level.
-
-### REFERENCES_TOKEN
-
-No default value (must be set).
-
-External API (patient) token.
 
 ### SECRET_KEY
 

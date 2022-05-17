@@ -12,6 +12,14 @@ common.apps module
    :undoc-members:
    :show-inheritance:
 
+common.authentication module
+----------------------------
+
+.. automodule:: common.authentication
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 common.managers module
 ----------------------
 

@@ -75,15 +75,26 @@
 <span class="kn">from</span> <span class="nn">users.serializers</span> <span class="kn">import</span> <span class="n">UserLightSerializer</span>
 
 
+<div class="viewcode-block" id="ValueField"><a class="viewcode-back" href="../../modules/updates.html#updates.serializers.ValueField">[docs]</a><span class="k">class</span> <span class="nc">ValueField</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Field</span><span class="p">):</span>
+<div class="viewcode-block" id="ValueField.to_representation"><a class="viewcode-back" href="../../modules/updates.html#updates.serializers.ValueField.to_representation">[docs]</a>    <span class="k">def</span> <span class="nf">to_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span></div>
+
+<div class="viewcode-block" id="ValueField.to_internal_value"><a class="viewcode-back" href="../../modules/updates.html#updates.serializers.ValueField.to_internal_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_internal_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">data</span></div></div>
+
+
 <div class="viewcode-block" id="FieldChangeSerializer"><a class="viewcode-back" href="../../modules/updates.html#updates.serializers.FieldChangeSerializer">[docs]</a><span class="k">class</span> <span class="nc">FieldChangeSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Serializer</span><span class="p">):</span>
     <span class="n">field</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
-    <span class="n">old_value</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;old&quot;</span><span class="p">)</span>
-    <span class="n">new_value</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;new&quot;</span><span class="p">)</span></div>
+    <span class="n">old_value</span> <span class="o">=</span> <span class="n">ValueField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;old&quot;</span><span class="p">)</span>
+    <span class="n">new_value</span> <span class="o">=</span> <span class="n">ValueField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;new&quot;</span><span class="p">)</span>
+    <span class="n">many_to_many_entity</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ModelChangeSerializer"><a class="viewcode-back" href="../../modules/updates.html#updates.serializers.ModelChangeSerializer">[docs]</a><span class="k">class</span> <span class="nc">ModelChangeSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Serializer</span><span class="p">):</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">UserLightSerializer</span><span class="p">()</span>
     <span class="n">date</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+    <span class="n">entity_name</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">entity_id</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
     <span class="n">field_changes</span> <span class="o">=</span> <span class="n">FieldChangeSerializer</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 </pre></div>
 

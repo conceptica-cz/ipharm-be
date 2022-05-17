@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>references.filters.diagnoses &mdash; iPharm  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> iPharm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../variables.html">Environment variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Django commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../celery.html">Celery tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../updates.html">Model updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rest_api.html">Rest API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/modules.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">iPharm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>references.filters.diagnoses</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for references.filters.diagnoses</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">django_filters</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Q</span>
+<span class="kn">from</span> <span class="nn">references.models.diagnoses</span> <span class="kn">import</span> <span class="n">Diagnosis</span>
+
+
+<div class="viewcode-block" id="DiagnosisFilter"><a class="viewcode-back" href="../../../modules/references.filters.html#references.filters.diagnoses.DiagnosisFilter">[docs]</a><span class="k">class</span> <span class="nc">DiagnosisFilter</span><span class="p">(</span><span class="n">django_filters</span><span class="o">.</span><span class="n">FilterSet</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_codes</span><span class="p">():</span>
+        <span class="n">codes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;E10&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;E11&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;E12&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;E13&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;E14&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;G40&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;G41&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;I48&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;G20&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;G21&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;C0</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)])</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">98</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="n">codes</span>
+
+<div class="viewcode-block" id="DiagnosisFilter.filter_clinical_pharmacology"><a class="viewcode-back" href="../../../modules/references.filters.html#references.filters.diagnoses.DiagnosisFilter.filter_clinical_pharmacology">[docs]</a>    <span class="k">def</span> <span class="nf">filter_clinical_pharmacology</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_codes</span><span class="p">()</span>
+            <span class="n">filters</span> <span class="o">=</span> <span class="n">Q</span><span class="p">(</span><span class="n">code__startswith</span><span class="o">=</span><span class="n">codes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">codes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="n">filters</span> <span class="o">|=</span> <span class="n">Q</span><span class="p">(</span><span class="n">code__startswith</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+    <span class="n">clinical_pharmacology</span> <span class="o">=</span> <span class="n">django_filters</span><span class="o">.</span><span class="n">BooleanFilter</span><span class="p">(</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;filter_clinical_pharmacology&quot;</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="DiagnosisFilter.Meta"><a class="viewcode-back" href="../../../modules/references.filters.html#references.filters.diagnoses.DiagnosisFilter.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Diagnosis</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Conceptica s.r.o.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

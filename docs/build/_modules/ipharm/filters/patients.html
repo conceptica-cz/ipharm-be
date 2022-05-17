@@ -71,7 +71,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for ipharm.filters.patients</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">django_filters</span>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+
+<span class="kn">import</span> <span class="nn">django_filters</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Q</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
 <span class="kn">from</span> <span class="nn">ipharm.models.patients</span> <span class="kn">import</span> <span class="n">Patient</span>
 
 
@@ -102,10 +106,42 @@
         <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
+<div class="viewcode-block" id="PatientFilter.filter_age"><a class="viewcode-back" href="../../../modules/ipharm.filters.html#ipharm.filters.patients.PatientFilter.filter_age">[docs]</a>    <span class="k">def</span> <span class="nf">filter_age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">birth_date_min</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">now</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="n">value</span><span class="p">,</span> <span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">now</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+        <span class="n">birth_date_max</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">now</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">now</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">birth_date__range</span><span class="o">=</span><span class="p">(</span><span class="n">birth_date_min</span><span class="p">,</span> <span class="n">birth_date_max</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="PatientFilter.filter_age_min"><a class="viewcode-back" href="../../../modules/ipharm.filters.html#ipharm.filters.patients.PatientFilter.filter_age_min">[docs]</a>    <span class="k">def</span> <span class="nf">filter_age_min</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">birth_date_max</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">now</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">now</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">birth_date__lte</span><span class="o">=</span><span class="n">birth_date_max</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PatientFilter.filter_age_max"><a class="viewcode-back" href="../../../modules/ipharm.filters.html#ipharm.filters.patients.PatientFilter.filter_age_max">[docs]</a>    <span class="k">def</span> <span class="nf">filter_age_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">birth_date_min</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">now</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="n">value</span><span class="p">,</span> <span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">now</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">birth_date__gte</span><span class="o">=</span><span class="n">birth_date_min</span><span class="p">)</span></div>
+
+    <span class="n">age</span> <span class="o">=</span> <span class="n">django_filters</span><span class="o">.</span><span class="n">NumberFilter</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;filter_age&quot;</span><span class="p">)</span>
+    <span class="n">age_min</span> <span class="o">=</span> <span class="n">django_filters</span><span class="o">.</span><span class="n">NumberFilter</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;filter_age_min&quot;</span><span class="p">)</span>
+    <span class="n">age_max</span> <span class="o">=</span> <span class="n">django_filters</span><span class="o">.</span><span class="n">NumberFilter</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;filter_age_max&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PatientFilter.filter_tag"><a class="viewcode-back" href="../../../modules/ipharm.filters.html#ipharm.filters.patients.PatientFilter.filter_tag">[docs]</a>    <span class="k">def</span> <span class="nf">filter_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Q</span><span class="p">(</span><span class="n">current_care__pharmacologicalplan__tags__id</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+            <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">current_care__riskdrughistory__tags__id</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+            <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">current_care__pharmacological_evaluations__tags__id</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">django_filters</span><span class="o">.</span><span class="n">CharFilter</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;filter_tag&quot;</span><span class="p">)</span>
+
 <div class="viewcode-block" id="PatientFilter.Meta"><a class="viewcode-back" href="../../../modules/ipharm.filters.html#ipharm.filters.patients.PatientFilter.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">Patient</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;birth_number&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="s2">&quot;icontains&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;external_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;exact&quot;</span><span class="p">],</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="s2">&quot;icontains&quot;</span><span class="p">],</span>
             <span class="s2">&quot;first_name&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="s2">&quot;icontains&quot;</span><span class="p">],</span>
             <span class="s2">&quot;last_name&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="s2">&quot;icontains&quot;</span><span class="p">],</span>

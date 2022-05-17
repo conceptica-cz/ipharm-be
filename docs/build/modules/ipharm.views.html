@@ -61,6 +61,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="ipharm.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipharm.html#module-ipharm.apps">ipharm.apps module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipharm.html#module-ipharm.signals">ipharm.signals module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipharm.html#module-ipharm.urls">ipharm.urls module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipharm.html#module-ipharm">Module contents</a></li>
 </ul>
@@ -144,6 +145,17 @@ serializations depending on the incoming request.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="ipharm.views.cares.CareProceduresView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.cares.</span></span><span class="sig-name descname"><span class="pre">CareProceduresView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/cares.html#CareProceduresView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.cares.CareProceduresView" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.views.APIView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ipharm.views.cares.CareProceduresView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/cares.html#CareProceduresView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.cares.CareProceduresView.get" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-ipharm.views.checkins">
 <span id="ipharm-views-checkins-module"></span><h2>ipharm.views.checkins module<a class="headerlink" href="#module-ipharm.views.checkins" title="Permalink to this headline"></a></h2>
@@ -203,108 +215,6 @@ serializations depending on the incoming request.</p>
 </dd></dl>
 
 </section>
-<section id="module-ipharm.views.clinics">
-<span id="ipharm-views-clinics-module"></span><h2>ipharm.views.clinics module<a class="headerlink" href="#module-ipharm.views.clinics" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.clinics.ClinicDetailView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.clinics.</span></span><span class="sig-name descname"><span class="pre">ClinicDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/clinics.html#ClinicDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.clinics.ClinicDetailView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.clinics.ClinicDetailView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.clinics.ClinicDetailView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.clinics.ClinicDetailView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.clinics.ClinicDetailView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.clinics.ClinicSerializer" title="references.serializers.clinics.ClinicSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.clinics.ClinicSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.clinics.ClinicListView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.clinics.</span></span><span class="sig-name descname"><span class="pre">ClinicListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/clinics.html#ClinicListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.clinics.ClinicListView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="ipharm.views.clinics.ClinicListView.get">
-<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipharm.views.clinics.ClinicListView.get" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ipharm.views.clinics.ClinicListView.get_queryset">
-<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/clinics.html#ClinicListView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.clinics.ClinicListView.get_queryset" title="Permalink to this definition"></a></dt>
-<dd><p>Get the list of items for this view.
-This must be an iterable, and may be a queryset.
-Defaults to using <cite>self.queryset</cite>.</p>
-<p>This method should always be used rather than accessing <cite>self.queryset</cite>
-directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
-are cached for all subsequent requests.</p>
-<p>You may want to override this if you need to provide different
-querysets depending on the incoming request.</p>
-<p>(Eg. return a list of items that is specific to the user)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.clinics.ClinicListView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.clinics.ClinicListView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.clinics.ClinicSerializer" title="references.serializers.clinics.ClinicSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.clinics.ClinicSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.clinics.DepartmentDetailView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.clinics.</span></span><span class="sig-name descname"><span class="pre">DepartmentDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/clinics.html#DepartmentDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.clinics.DepartmentDetailView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
-<p>Department detail</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.clinics.DepartmentDetailView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.clinics.DepartmentDetailView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.clinics.DepartmentDetailView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.clinics.DepartmentDetailView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.clinics.DepartmentSerializer" title="references.serializers.clinics.DepartmentSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.clinics.DepartmentSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.clinics.DepartmentListView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.clinics.</span></span><span class="sig-name descname"><span class="pre">DepartmentListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/clinics.html#DepartmentListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.clinics.DepartmentListView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
-<p>Department list</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.clinics.DepartmentListView.filter_backends">
-<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'django_filters.rest_framework.backends.DjangoFilterBackend'&gt;]</span></em><a class="headerlink" href="#ipharm.views.clinics.DepartmentListView.filter_backends" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.clinics.DepartmentListView.filterset_fields">
-<span class="sig-name descname"><span class="pre">filterset_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['clinic']</span></em><a class="headerlink" href="#ipharm.views.clinics.DepartmentListView.filterset_fields" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.clinics.DepartmentListView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.clinics.DepartmentListView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.clinics.DepartmentListView.search_fields">
-<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['abbreviation',</span> <span class="pre">'description']</span></em><a class="headerlink" href="#ipharm.views.clinics.DepartmentListView.search_fields" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.clinics.DepartmentListView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.clinics.DepartmentListView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.clinics.DepartmentSerializer" title="references.serializers.clinics.DepartmentSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.clinics.DepartmentSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
 <section id="module-ipharm.views.common">
 <span id="ipharm-views-common-module"></span><h2>ipharm.views.common module<a class="headerlink" href="#module-ipharm.views.common" title="Permalink to this headline"></a></h2>
 <dl class="py class">
@@ -320,251 +230,6 @@ querysets depending on the incoming request.</p>
 <dt class="sig sig-object py" id="ipharm.views.common.HistoryView.queryset">
 <span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ipharm.views.common.HistoryView.queryset" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-ipharm.views.diagnoses">
-<span id="ipharm-views-diagnoses-module"></span><h2>ipharm.views.diagnoses module<a class="headerlink" href="#module-ipharm.views.diagnoses" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.diagnoses.DiagnosisDetailView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.diagnoses.</span></span><span class="sig-name descname"><span class="pre">DiagnosisDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/diagnoses.html#DiagnosisDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.diagnoses.DiagnosisDetailView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
-<p>Diagnosis detail</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.diagnoses.DiagnosisDetailView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.diagnoses.DiagnosisDetailView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.diagnoses.DiagnosisDetailView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.diagnoses.DiagnosisDetailView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.diagnoses.DiagnosisSerializer" title="references.serializers.diagnoses.DiagnosisSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.diagnoses.DiagnosisSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.diagnoses.DiagnosisListView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.diagnoses.</span></span><span class="sig-name descname"><span class="pre">DiagnosisListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/diagnoses.html#DiagnosisListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.diagnoses.DiagnosisListView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
-<p>Diagnosis list</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.diagnoses.DiagnosisListView.filter_backends">
-<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#ipharm.views.diagnoses.DiagnosisListView.filter_backends" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.diagnoses.DiagnosisListView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.diagnoses.DiagnosisListView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.diagnoses.DiagnosisListView.search_fields">
-<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['code',</span> <span class="pre">'name']</span></em><a class="headerlink" href="#ipharm.views.diagnoses.DiagnosisListView.search_fields" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.diagnoses.DiagnosisListView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.diagnoses.DiagnosisListView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.diagnoses.DiagnosisSerializer" title="references.serializers.diagnoses.DiagnosisSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.diagnoses.DiagnosisSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-ipharm.views.drugs">
-<span id="ipharm-views-drugs-module"></span><h2>ipharm.views.drugs module<a class="headerlink" href="#module-ipharm.views.drugs" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.drugs.DrugDetailView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.drugs.</span></span><span class="sig-name descname"><span class="pre">DrugDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/drugs.html#DrugDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.drugs.DrugDetailView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
-<p>Drug detail</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.drugs.DrugDetailView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.drugs.DrugDetailView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.drugs.DrugDetailView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.drugs.DrugDetailView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.drugs.DrugSerializer" title="references.serializers.drugs.DrugSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.drugs.DrugSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.drugs.DrugListView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.drugs.</span></span><span class="sig-name descname"><span class="pre">DrugListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/drugs.html#DrugListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.drugs.DrugListView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
-<p>Drug list</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.drugs.DrugListView.filter_backends">
-<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#ipharm.views.drugs.DrugListView.filter_backends" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.drugs.DrugListView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.drugs.DrugListView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.drugs.DrugListView.search_fields">
-<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['code_sukl',</span> <span class="pre">'name']</span></em><a class="headerlink" href="#ipharm.views.drugs.DrugListView.search_fields" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.drugs.DrugListView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.drugs.DrugListView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.drugs.DrugSerializer" title="references.serializers.drugs.DrugSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.drugs.DrugSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-ipharm.views.external_departments">
-<span id="ipharm-views-external-departments-module"></span><h2>ipharm.views.external_departments module<a class="headerlink" href="#module-ipharm.views.external_departments" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.external_departments.ExternalDepartmentDetailView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.external_departments.</span></span><span class="sig-name descname"><span class="pre">ExternalDepartmentDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/external_departments.html#ExternalDepartmentDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.external_departments.ExternalDepartmentDetailView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
-<p>ExternalDepartment detail</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.external_departments.ExternalDepartmentDetailView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.external_departments.ExternalDepartmentDetailView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.external_departments.ExternalDepartmentDetailView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.external_departments.ExternalDepartmentDetailView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.external_departments.ExternalDepartmentSerializer" title="references.serializers.external_departments.ExternalDepartmentSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.external_departments.ExternalDepartmentSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.external_departments.ExternalDepartmentListView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.external_departments.</span></span><span class="sig-name descname"><span class="pre">ExternalDepartmentListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/external_departments.html#ExternalDepartmentListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.external_departments.ExternalDepartmentListView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
-<p>ExternalDepartment list</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.external_departments.ExternalDepartmentListView.filter_backends">
-<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#ipharm.views.external_departments.ExternalDepartmentListView.filter_backends" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.external_departments.ExternalDepartmentListView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.external_departments.ExternalDepartmentListView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.external_departments.ExternalDepartmentListView.search_fields">
-<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['icp',</span> <span class="pre">'organization',</span> <span class="pre">'department']</span></em><a class="headerlink" href="#ipharm.views.external_departments.ExternalDepartmentListView.search_fields" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.external_departments.ExternalDepartmentListView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.external_departments.ExternalDepartmentListView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.external_departments.ExternalDepartmentSerializer" title="references.serializers.external_departments.ExternalDepartmentSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.external_departments.ExternalDepartmentSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-ipharm.views.facilities">
-<span id="ipharm-views-facilities-module"></span><h2>ipharm.views.facilities module<a class="headerlink" href="#module-ipharm.views.facilities" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.facilities.MedicalFacilityDetailView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.facilities.</span></span><span class="sig-name descname"><span class="pre">MedicalFacilityDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/facilities.html#MedicalFacilityDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.facilities.MedicalFacilityDetailView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
-<p>MedicalFacility detail</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.facilities.MedicalFacilityDetailView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.facilities.MedicalFacilityDetailView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.facilities.MedicalFacilityDetailView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.facilities.MedicalFacilityDetailView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.facilities.MedicalFacilitySerializer" title="references.serializers.facilities.MedicalFacilitySerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.facilities.MedicalFacilitySerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.facilities.MedicalFacilityListView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.facilities.</span></span><span class="sig-name descname"><span class="pre">MedicalFacilityListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/facilities.html#MedicalFacilityListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.facilities.MedicalFacilityListView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
-<p>MedicalFacility list</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.facilities.MedicalFacilityListView.filter_backends">
-<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#ipharm.views.facilities.MedicalFacilityListView.filter_backends" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.facilities.MedicalFacilityListView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.facilities.MedicalFacilityListView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.facilities.MedicalFacilityListView.search_fields">
-<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['facility_id',</span> <span class="pre">'code',</span> <span class="pre">'name']</span></em><a class="headerlink" href="#ipharm.views.facilities.MedicalFacilityListView.search_fields" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.facilities.MedicalFacilityListView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.facilities.MedicalFacilityListView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.facilities.MedicalFacilitySerializer" title="references.serializers.facilities.MedicalFacilitySerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.facilities.MedicalFacilitySerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-ipharm.views.insurances">
-<span id="ipharm-views-insurances-module"></span><h2>ipharm.views.insurances module<a class="headerlink" href="#module-ipharm.views.insurances" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.insurances.InsuranceCompanyDetailView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.insurances.</span></span><span class="sig-name descname"><span class="pre">InsuranceCompanyDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/insurances.html#InsuranceCompanyDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.insurances.InsuranceCompanyDetailView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
-<p>InsuranceCompany detail</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.insurances.InsuranceCompanyDetailView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.insurances.InsuranceCompanyDetailView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.insurances.InsuranceCompanyDetailView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.insurances.InsuranceCompanyDetailView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.insurances.InsuranceCompanySerializer" title="references.serializers.insurances.InsuranceCompanySerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.insurances.InsuranceCompanySerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.insurances.InsuranceCompanyListView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.insurances.</span></span><span class="sig-name descname"><span class="pre">InsuranceCompanyListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/insurances.html#InsuranceCompanyListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.insurances.InsuranceCompanyListView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
-<p>InsuranceCompany list</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.insurances.InsuranceCompanyListView.filter_backends">
-<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#ipharm.views.insurances.InsuranceCompanyListView.filter_backends" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.insurances.InsuranceCompanyListView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.insurances.InsuranceCompanyListView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.insurances.InsuranceCompanyListView.search_fields">
-<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['code',</span> <span class="pre">'name',</span> <span class="pre">'shortcut']</span></em><a class="headerlink" href="#ipharm.views.insurances.InsuranceCompanyListView.search_fields" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.insurances.InsuranceCompanyListView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.insurances.InsuranceCompanyListView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.insurances.InsuranceCompanySerializer" title="references.serializers.insurances.InsuranceCompanySerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.insurances.InsuranceCompanySerializer</span></code></a></p>
-</dd></dl>
 
 </dd></dl>
 
@@ -691,6 +356,11 @@ serializations depending on the incoming request.</p>
 <span class="sig-name descname"><span class="pre">filterset_class</span></span><a class="headerlink" href="#ipharm.views.patients.PatientListView.filterset_class" title="Permalink to this definition"></a></dt>
 <dd><p>alias of <a class="reference internal" href="ipharm.filters.html#ipharm.filters.patients.PatientFilter" title="ipharm.filters.patients.PatientFilter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.filters.patients.PatientFilter</span></code></a></p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipharm.views.patients.PatientListView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipharm.views.patients.PatientListView.get" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ipharm.views.patients.PatientListView.get_serializer_class">
@@ -1011,80 +681,6 @@ serializations depending on the incoming request.</p>
 </dd></dl>
 
 </section>
-<section id="module-ipharm.views.reports">
-<span id="ipharm-views-reports-module"></span><h2>ipharm.views.reports module<a class="headerlink" href="#module-ipharm.views.reports" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.reports.GenericReportTypeListView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.reports.</span></span><span class="sig-name descname"><span class="pre">GenericReportTypeListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/reports.html#GenericReportTypeListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.reports.GenericReportTypeListView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.reports.GenericReportTypeListView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.reports.GenericReportTypeListView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.reports.GenericReportTypeListView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.reports.GenericReportTypeListView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="reports.html#reports.serializers.GenericReportTypeSerializer" title="reports.serializers.GenericReportTypeSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.serializers.GenericReportTypeSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.reports.ReportGenerateView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.reports.</span></span><span class="sig-name descname"><span class="pre">ReportGenerateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/reports.html#ReportGenerateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.reports.ReportGenerateView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.views.APIView</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="ipharm.views.reports.ReportGenerateView.get">
-<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/reports.html#ReportGenerateView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.reports.ReportGenerateView.get" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.reports.ReportVariableDetailView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.reports.</span></span><span class="sig-name descname"><span class="pre">ReportVariableDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/reports.html#ReportVariableDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.reports.ReportVariableDetailView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveUpdateAPIView</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.reports.ReportVariableDetailView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.reports.ReportVariableDetailView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.reports.ReportVariableDetailView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.reports.ReportVariableDetailView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="reports.html#reports.serializers.ReportVariableSerializer" title="reports.serializers.ReportVariableSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.serializers.ReportVariableSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.reports.ReportVariableListView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.reports.</span></span><span class="sig-name descname"><span class="pre">ReportVariableListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/reports.html#ReportVariableListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.reports.ReportVariableListView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="ipharm.views.reports.ReportVariableListView.get_queryset">
-<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/reports.html#ReportVariableListView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.reports.ReportVariableListView.get_queryset" title="Permalink to this definition"></a></dt>
-<dd><p>Get the list of items for this view.
-This must be an iterable, and may be a queryset.
-Defaults to using <cite>self.queryset</cite>.</p>
-<p>This method should always be used rather than accessing <cite>self.queryset</cite>
-directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
-are cached for all subsequent requests.</p>
-<p>You may want to override this if you need to provide different
-querysets depending on the incoming request.</p>
-<p>(Eg. return a list of items that is specific to the user)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.reports.ReportVariableListView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.reports.ReportVariableListView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="reports.html#reports.serializers.ReportVariableSerializer" title="reports.serializers.ReportVariableSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">reports.serializers.ReportVariableSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
 <section id="module-ipharm.views.risk_drug_histories">
 <span id="ipharm-views-risk-drug-histories-module"></span><h2>ipharm.views.risk_drug_histories module<a class="headerlink" href="#module-ipharm.views.risk_drug_histories" title="Permalink to this headline"></a></h2>
 <dl class="py class">
@@ -1194,6 +790,16 @@ serializations depending on the incoming request.</p>
 <span class="sig-name descname"><span class="pre">filterset_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['care']</span></em><a class="headerlink" href="#ipharm.views.risk_drug_histories.RiskDrugHistoryListView.filterset_fields" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="ipharm.views.risk_drug_histories.RiskDrugHistoryListView.get_serializer_class">
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/risk_drug_histories.html#RiskDrugHistoryListView.get_serializer_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.risk_drug_histories.RiskDrugHistoryListView.get_serializer_class" title="Permalink to this definition"></a></dt>
+<dd><p>Return the class to use for the serializer.
+Defaults to using <cite>self.serializer_class</cite>.</p>
+<p>You may want to override this if you need to provide different
+serializations depending on the incoming request.</p>
+<p>(Eg. admins get full serialization, others get basic serialization)</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ipharm.views.risk_drug_histories.RiskDrugHistoryListView.queryset">
 <span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.risk_drug_histories.RiskDrugHistoryListView.queryset" title="Permalink to this definition"></a></dt>
@@ -1204,88 +810,6 @@ serializations depending on the incoming request.</p>
 <span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.risk_drug_histories.RiskDrugHistoryListView.serializer_class" title="Permalink to this definition"></a></dt>
 <dd><p>alias of <a class="reference internal" href="ipharm.serializers.html#ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer" title="ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ipharm.serializers.risk_drug_histories.RiskDrugHistorySerializer</span></code></a></p>
 </dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-ipharm.views.tags">
-<span id="ipharm-views-tags-module"></span><h2>ipharm.views.tags module<a class="headerlink" href="#module-ipharm.views.tags" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.tags.TagDetailView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.tags.</span></span><span class="sig-name descname"><span class="pre">TagDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/tags.html#TagDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.tags.TagDetailView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveAPIView</span></code></p>
-<p>Tag detail</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.tags.TagDetailView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.tags.TagDetailView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.tags.TagDetailView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.tags.TagDetailView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.tags.TagSerializer" title="references.serializers.tags.TagSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.tags.TagSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.tags.TagListView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.tags.</span></span><span class="sig-name descname"><span class="pre">TagListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/tags.html#TagListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.tags.TagListView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.ListAPIView</span></code></p>
-<p>Tag list</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.tags.TagListView.filter_backends">
-<span class="sig-name descname"><span class="pre">filter_backends</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.filters.SearchFilter'&gt;]</span></em><a class="headerlink" href="#ipharm.views.tags.TagListView.filter_backends" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.tags.TagListView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.tags.TagListView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.tags.TagListView.search_fields">
-<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['name']</span></em><a class="headerlink" href="#ipharm.views.tags.TagListView.search_fields" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.tags.TagListView.serializer_class">
-<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#ipharm.views.tags.TagListView.serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="references.serializers.html#references.serializers.tags.TagSerializer" title="references.serializers.tags.TagSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">references.serializers.tags.TagSerializer</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-ipharm.views.user">
-<span id="ipharm-views-user-module"></span><h2>ipharm.views.user module<a class="headerlink" href="#module-ipharm.views.user" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="ipharm.views.user.UserView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipharm.views.user.</span></span><span class="sig-name descname"><span class="pre">UserView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/user.html#UserView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.user.UserView" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.generics.RetrieveUpdateAPIView</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="ipharm.views.user.UserView.get_object">
-<span class="sig-name descname"><span class="pre">get_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/user.html#UserView.get_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.user.UserView.get_object" title="Permalink to this definition"></a></dt>
-<dd><p>Returns the object the view is displaying.</p>
-<p>You may want to override this if you need to provide non-standard
-queryset lookups.  Eg if objects are referenced using multiple
-keyword arguments in the url conf.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ipharm.views.user.UserView.get_serializer_class">
-<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ipharm/views/user.html#UserView.get_serializer_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ipharm.views.user.UserView.get_serializer_class" title="Permalink to this definition"></a></dt>
-<dd><p>Return the class to use for the serializer.
-Defaults to using <cite>self.serializer_class</cite>.</p>
-<p>You may want to override this if you need to provide different
-serializations depending on the incoming request.</p>
-<p>(Eg. admins get full serialization, others get basic serialization)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ipharm.views.user.UserView.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">QuerySet</span></em><a class="headerlink" href="#ipharm.views.user.UserView.queryset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
