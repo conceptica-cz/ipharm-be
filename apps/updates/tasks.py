@@ -4,6 +4,7 @@ from typing import Callable
 from celery import shared_task
 from updates.bulovka.loaders import ExternalReferenceError
 from updates.common.updaters import simple_model_updater
+from updates.utils import get_function_by_name
 
 from ipharm_web.settings import DEFAULT_RETRY_DELAY
 
@@ -39,7 +40,7 @@ def update(self, source_name: str, full_update=False, **kwargs):
     ignore_result=False,
     max_retries=1,
 )
-def task_model_updater(self, updater: Callable, data: dict, **kwargs):
+def task_model_updater(self, updater: str, data: dict, **kwargs):
     """Invoke model updater"""
     logger.debug(
         "Task task_model_updater has been started",
@@ -48,6 +49,7 @@ def task_model_updater(self, updater: Callable, data: dict, **kwargs):
             "data": data,
         },
     )
+    updater = get_function_by_name(updater)
     try:
         operations = updater(data, **kwargs)
     except Exception as e:
@@ -86,5 +88,32 @@ def task_finish_update(self, update_results: dict, update_id: int):
             "task_id": self.request.id,
             "update_results": update_results,
             "update_id": update_id,
+        },
+    )
+
+
+@shared_task(
+    bind=True,
+    ignore_result=False,
+    max_retries=1,
+)
+def task_post_operation(self, post_operation: str, transformed_data: dict, **kwargs):
+    """Invoke post_operation"""
+    logger.debug(
+        "Task task_post_operation has been started",
+        extra={
+            "task_id": self.request.id,
+        },
+    )
+    post_operation = get_function_by_name(post_operation)
+    try:
+        post_operation(transformed_data, **kwargs)
+    except Exception as e:
+        logger.exception(e)
+        return
+    logger.debug(
+        "Task task_post_operation has been finished",
+        extra={
+            "task_id": self.request.id,
         },
     )

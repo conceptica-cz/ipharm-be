@@ -22,8 +22,8 @@ services:
       - "8000:8000"
     command: scripts/start.sh
 
-  ipharm-worker:
-    container_name: ipharm_worker_dev
+  ipharm-worker-high-priority:
+    container_name: ipharm_worker_high_priority
     image: ipharm_dev
     volumes: *volumes-ipharm-app
     logging: *logging
@@ -32,7 +32,31 @@ services:
       - ipharm-redis
       - ipharm-app
     env_file: *envs-ipharm-app
-    command: scripts/start_worker.sh
+    command: scripts/start_worker.sh  -Q high_priority -n high_priority
+
+  ipharm-worker-medium-priority:
+    container_name: ipharm_worker_medium_priority
+    image: ipharm_dev
+    volumes: *volumes-ipharm-app
+    logging: *logging
+    depends_on:
+      - ipharm-postgres
+      - ipharm-redis
+      - ipharm-app
+    env_file: *envs-ipharm-app
+    command: scripts/start_worker.sh  -Q medium_priority -n medium_priority
+
+  ipharm-worker-low-priority:
+    container_name: ipharm_worker_low_priority
+    image: ipharm_dev
+    volumes: *volumes-ipharm-app
+    logging: *logging
+    depends_on:
+      - ipharm-postgres
+      - ipharm-redis
+      - ipharm-app
+    env_file: *envs-ipharm-app
+    command: scripts/start_worker.sh  -Q low_priority -n low_priority
 
   ipharm-beat:
     container_name: ipharm_beat_dev
