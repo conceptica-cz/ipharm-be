@@ -1,6 +1,6 @@
 from unittest.mock import Mock, patch
 
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from ipharm.models.cares import Care, Dekurz
 from ipharm.models.patients import Patient
 from references.models import Clinic, Department
@@ -11,6 +11,7 @@ from factories.references import ClinicFactory, DepartmentFactory
 
 
 @patch("updates.bulovka.loaders.requests.get")
+@override_settings(CELERY_TASK_ALWAYS_EAGER=True)
 class TestPatientUpdate(TestCase):
     def test_new_patient(self, mocked_get):
         response_data = {
@@ -90,6 +91,7 @@ class TestPatientUpdate(TestCase):
 
 
 @patch("updates.bulovka.loaders.requests.get")
+@override_settings(CELERY_TASK_ALWAYS_EAGER=True)
 class TestPatientCareUpdate(TestCase):
     def test_that_patient_without_unis_entity_finish_care(self, mocked_get):
         CareFactory(
@@ -162,6 +164,7 @@ class TestPatientCareUpdate(TestCase):
         self.assertEqual(new_care.is_active, True)
         self.assertEqual(new_care.finished_at, None)
 
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_that_new_care_created_on_external_id_change(self, mocked_get):
         """
         Test that new care is created when external id changes
@@ -214,6 +217,7 @@ class TestPatientCareUpdate(TestCase):
 
 @patch("updates.common.loaders.requests.get")
 class TestClinicUpdate(TestCase):
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_clinic(self, mocked_get):
         ClinicFactory(reference_id=20, external_id=10)
         ClinicFactory(reference_id=21, external_id=11)
@@ -260,6 +264,7 @@ class TestClinicUpdate(TestCase):
 
 
 @patch("updates.common.loaders.requests.get")
+@override_settings(CELERY_TASK_ALWAYS_EAGER=True)
 class TestDepartmentUpdate(TestCase):
     def test_department(self, mocked_get):
         clinic = ClinicFactory(reference_id=41, external_id=51)
