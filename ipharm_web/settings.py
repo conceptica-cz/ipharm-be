@@ -314,6 +314,7 @@ UPDATE_SOURCES = {
         ],
         "model_updater": "updates.bulovka.updaters.patient_updater",
         "by_clinic": True,
+        "queue": "high_priority",
     },
 }
 
@@ -638,7 +639,6 @@ GENERIC_REPORTS = {
 }
 
 # CELERY
-CELERY_TASK_SERIALIZER = "pickle"
 CELERY_TIMEZONE = TIME_ZONE
 REDIS_HOST = os.environ["REDIS_HOST"]
 REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
@@ -651,6 +651,12 @@ CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/2"
 CELERY_TASK_IGNORE_RESULT = True
 CELERY_TASK_ACKS_LATE = True
 CELERY_TASK_ALWAYS_EAGER = False
+
+CELERY_TASK_DEFAULT_QUEUE = "low_priority"
+CELERY_TASK_ROUTES = {
+    "updates.tasks.update": {"queue": "medium_priority"},
+    "requisitions.tasks.load_patient_task": {"queue": "high_priority"},
+}
 
 
 # LOGGING

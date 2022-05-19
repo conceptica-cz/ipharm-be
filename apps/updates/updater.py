@@ -2,10 +2,11 @@ import importlib
 import logging
 from typing import TYPE_CHECKING, Callable, Iterable, Optional
 
-from celery import chord
+from celery import chain, chord
 from django.conf import settings
 
-from .tasks import task_finish_update, task_model_updater
+from .tasks import task_finish_update, task_model_updater, task_post_operation
+from .utils import get_function_by_name
 
 if TYPE_CHECKING:
     from .models import Update
@@ -27,6 +28,7 @@ class Updater:
         model_updater_kwargs: dict,
         transformers: Optional[Iterable[Callable]] = None,
         post_operations: Optional[Iterable[Callable]] = None,
+        queue: str = None,
         **kwargs,
     ):
         kwargs["update_id"] = update_model.id
@@ -42,6 +44,9 @@ class Updater:
         self.model_updater_kwargs = model_updater_kwargs | kwargs
         self.kwargs = kwargs
         self.update_model = update_model
+        if queue is None:
+            queue = settings.CELERY_TASK_DEFAULT_QUEUE
+        self.queue = queue
 
     def update(self):
         data = self.data_loader(**self.data_loader_kwargs)
@@ -55,30 +60,41 @@ class Updater:
                 continue
             else:
                 transformed_data.append(entity)
-        chord(
+
+        update_chord = chord(
             (
                 task_model_updater.s(
-                    updater=self.model_updater, data=entity, **self.model_updater_kwargs
+                    updater=self.model_updater.__module__
+                    + "."
+                    + self.model_updater.__name__,
+                    data=entity,
+                    **self.model_updater_kwargs,
                 )
                 for entity in transformed_data
             ),
             task_finish_update.s(self.update_model.id),
-        ).apply_async()
+        )
 
-        for post_operation in self.post_operations:
-            post_operation(transformed_data, **self.kwargs)
+        post_operations_chain = chain(
+            *(
+                task_post_operation.si(
+                    post_operation=post_operation.__module__
+                    + "."
+                    + post_operation.__name__,
+                    transformed_data=transformed_data,
+                    **self.kwargs,
+                )
+                for post_operation in self.post_operations
+            )
+        )
+
+        chain(update_chord, post_operations_chain).apply_async(queue=self.queue)
 
 
 class UpdaterFactory:
     @staticmethod
-    def _get_func(dotted_path: str) -> Callable:
-        module_name, func_name = dotted_path.rsplit(".", 1)
-        module = importlib.import_module(module_name)
-        return getattr(module, func_name)
-
-    @staticmethod
     def create(source: str, update_model: "Update", **kwargs) -> Updater:
-        data_loader = UpdaterFactory._get_func(
+        data_loader = get_function_by_name(
             settings.UPDATE_SOURCES[source].get(
                 "data_loader", settings.DEFAULT_DATA_LOADER
             )
@@ -86,7 +102,7 @@ class UpdaterFactory:
         data_loader_kwargs = settings.UPDATE_SOURCES[source].get(
             "data_loader_kwargs", {}
         )
-        model_updater = UpdaterFactory._get_func(
+        model_updater = get_function_by_name(
             settings.UPDATE_SOURCES[source].get(
                 "model_updater", settings.DEFAULT_MODEL_UPDATER
             )
@@ -95,15 +111,18 @@ class UpdaterFactory:
             "model_updater_kwargs", {}
         )
         transformers = [
-            UpdaterFactory._get_func(transformer)
+            get_function_by_name(transformer)
             for transformer in settings.UPDATE_SOURCES[source].get("transformers", [])
         ]
         post_operations = [
-            UpdaterFactory._get_func(post_operation)
+            get_function_by_name(post_operation)
             for post_operation in settings.UPDATE_SOURCES[source].get(
                 "post_operations", []
             )
         ]
+        queue = settings.UPDATE_SOURCES[source].get(
+            "queue", settings.CELERY_TASK_DEFAULT_QUEUE
+        )
         return Updater(
             update_model=update_model,
             data_loader=data_loader,
@@ -112,5 +131,6 @@ class UpdaterFactory:
             model_updater_kwargs=model_updater_kwargs,
             transformers=transformers,
             post_operations=post_operations,
+            queue=queue,
             **kwargs,
         )

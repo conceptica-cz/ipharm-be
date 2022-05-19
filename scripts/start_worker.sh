@@ -18,4 +18,4 @@ do
     esac
 done
 
-celery -A ipharm_web.celery worker -E -Q $QUEUS --loglevel=info --concurrency=$WORKER_CONCURRENCY -n $NAME
+celery -A ipharm_web.celery worker -E -Q $QUEUS --loglevel=info --concurrency=$WORKER_CONCURRENCY  -n $NAME
