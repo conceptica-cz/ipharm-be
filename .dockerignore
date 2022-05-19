@@ -6,4 +6,4 @@
 docs
 dump.sql
 dockerfiles
-_postgres_data
+_postgres_data/tests/updates/test_integration.py

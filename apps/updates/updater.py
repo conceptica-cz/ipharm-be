@@ -1,8 +1,14 @@
 import importlib
 import logging
-from typing import Callable, Iterable, Optional
+from typing import TYPE_CHECKING, Callable, Iterable, Optional
 
+from celery import chord
 from django.conf import settings
+
+from .tasks import task_finish_update, task_model_updater
+
+if TYPE_CHECKING:
+    from .models import Update
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +20,7 @@ class UpdateError(Exception):
 class Updater:
     def __init__(
         self,
+        update_model: "Update",
         data_loader: Callable,
         data_loader_kwargs: dict,
         model_updater: Callable,
@@ -22,6 +29,7 @@ class Updater:
         post_operations: Optional[Iterable[Callable]] = None,
         **kwargs,
     ):
+        kwargs["update_id"] = update_model.id
         self.data_loader = data_loader
         self.data_loader_kwargs = data_loader_kwargs | kwargs
         if transformers is None:
@@ -33,27 +41,32 @@ class Updater:
         self.model_updater = model_updater
         self.model_updater_kwargs = model_updater_kwargs | kwargs
         self.kwargs = kwargs
+        self.update_model = update_model
 
     def update(self):
-        update_result = {}
         data = self.data_loader(**self.data_loader_kwargs)
         transformed_data = []
         for entity in data:
             try:
                 for transformer in self.transformers:
                     entity = transformer(entity)
-                result = self.model_updater(data=entity, **self.model_updater_kwargs)
             except Exception:
                 logger.exception(f"Error updating {entity}")
                 continue
             else:
                 transformed_data.append(entity)
-            for model, operation in result.items():
-                model_result = update_result.setdefault(model, {})
-                model_result[operation] = model_result.get(operation, 0) + 1
+        chord(
+            (
+                task_model_updater.s(
+                    updater=self.model_updater, data=entity, **self.model_updater_kwargs
+                )
+                for entity in transformed_data
+            ),
+            task_finish_update.s(self.update_model.id),
+        ).apply_async()
+
         for post_operation in self.post_operations:
             post_operation(transformed_data, **self.kwargs)
-        return update_result
 
 
 class UpdaterFactory:
@@ -64,7 +77,7 @@ class UpdaterFactory:
         return getattr(module, func_name)
 
     @staticmethod
-    def create(source: str, **kwargs) -> Updater:
+    def create(source: str, update_model: "Update", **kwargs) -> Updater:
         data_loader = UpdaterFactory._get_func(
             settings.UPDATE_SOURCES[source].get(
                 "data_loader", settings.DEFAULT_DATA_LOADER
@@ -92,6 +105,7 @@ class UpdaterFactory:
             )
         ]
         return Updater(
+            update_model=update_model,
             data_loader=data_loader,
             data_loader_kwargs=data_loader_kwargs,
             model_updater=model_updater,

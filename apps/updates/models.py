@@ -40,10 +40,9 @@ class Source(BaseHistoricalModel):
             url_parameters=kwargs.get("url_parameters"),
         )
         updater = UpdaterFactory.create(
-            self.name, update=update, latest_update=latest_update, **kwargs
+            self.name, update_model=update, latest_update=latest_update, **kwargs
         )
-        update_result = updater.update()
-        update.finish_update(update_result)
+        updater.update()
 
 
 class Update(BaseHistoricalModel):
@@ -64,7 +63,7 @@ class Update(BaseHistoricalModel):
         self.save()
         for model, model_result in update_result.items():
             ModelUpdate.objects.create(
-                update=self,
+                update_model=self,
                 name=model,
                 created=model_result.get("created", 0),
                 updated=model_result.get("updated", 0),

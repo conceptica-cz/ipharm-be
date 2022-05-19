@@ -4,6 +4,7 @@ import logging
 from ipharm.models.cares import Care, Dekurz
 from ipharm.models.patients import Patient
 from references.models import Clinic, Department, Person
+from updates.models import Update
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +13,11 @@ def patient_updater(data: dict, **kwargs) -> dict:
     logger.debug(f"Updating patient {data}")
     data = copy.deepcopy(data)
     operations = {}
-    update = kwargs["update"]
+    update_id = kwargs["update_id"]
+    try:
+        update = Update.objects.get(id=update_id)
+    except Update.DoesNotExist:
+        update = None
     clinic_id = kwargs["url_parameters"]["clinicId"]
 
     # patient handling

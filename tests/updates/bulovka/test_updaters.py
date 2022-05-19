@@ -17,6 +17,7 @@ from factories.ipharm import (
     RiskDrugHistoryFactory,
 )
 from factories.references import ClinicFactory, InsuranceCompanyFactory
+from factories.updates.updates import UpdateFactory
 
 
 class PatientUpdaterTest(TestCase):
@@ -46,7 +47,8 @@ class PatientUpdaterTest(TestCase):
                 "department": 120,
             },
         }
-        self.kwargs = {"url_parameters": {"clinicId": 1}, "update": None}
+        self.update = UpdateFactory()
+        self.kwargs = {"url_parameters": {"clinicId": 1}, "update_id": self.update.id}
 
     def test_new_patient(self):
         operations = patient_updater(data=self.data, **self.kwargs)
@@ -302,8 +304,14 @@ class PatientUpdaterTest(TestCase):
             },
         }
 
-        old_care_kwargs = {"url_parameters": {"clinicId": 1}, "update": None}
-        new_care_kwargs = {"url_parameters": {"clinicId": 2}, "update": None}
+        old_care_kwargs = {
+            "url_parameters": {"clinicId": 1},
+            "update_id": self.update.id,
+        }
+        new_care_kwargs = {
+            "url_parameters": {"clinicId": 2},
+            "update_id": self.update.id,
+        }
 
         # Old care first
         patient_updater(data=old_care_data, **old_care_kwargs)
@@ -380,7 +388,7 @@ class PatientUpdaterTest(TestCase):
             },
         }
 
-        kwargs = {"url_parameters": {"clinicId": 2}, "update": None}
+        kwargs = {"url_parameters": {"clinicId": 2}, "update_id": self.update.id}
 
         patient_updater(data=new_care_data, **kwargs)
 
@@ -458,7 +466,7 @@ class PatientUpdaterTest(TestCase):
             },
         }
 
-        kwargs = {"url_parameters": {"clinicId": 2}, "update": None}
+        kwargs = {"url_parameters": {"clinicId": 2}, "update_id": self.update.id}
 
         patient_updater(data=new_care_data, **kwargs)
 
