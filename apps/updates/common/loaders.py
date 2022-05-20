@@ -22,7 +22,7 @@ def references_loader(url, **kwargs) -> Generator[dict, None, None]:
     if latest_update_id:
         from updates.models import Update
 
-        latest_update = Update.ojbects.get(id=latest_update_id)
+        latest_update = Update.objects.get(id=latest_update_id)
         url = (
             url
             + "?updated_since="
