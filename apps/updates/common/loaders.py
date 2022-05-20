@@ -18,8 +18,11 @@ def references_loader(url, **kwargs) -> Generator[dict, None, None]:
     :param url: start url
     :return: generator yielding lists of results
     """
-    latest_update = kwargs.get("latest_update", None)
-    if latest_update:
+    latest_update_id = kwargs.get("latest_update_id", None)
+    if latest_update_id:
+        from updates.models import Update
+
+        latest_update = Update.ojbects.get(id=latest_update_id)
         url = (
             url
             + "?updated_since="

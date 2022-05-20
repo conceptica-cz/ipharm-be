@@ -39,8 +39,12 @@ class Source(BaseHistoricalModel):
             started_at=timezone.now(),
             url_parameters=kwargs.get("url_parameters"),
         )
+        if latest_update:
+            latest_update_id = latest_update.pk
+        else:
+            latest_update_id = None
         updater = UpdaterFactory.create(
-            self.name, update_model=update, latest_update=latest_update, **kwargs
+            self.name, update_model=update, latest_update_id=latest_update_id, **kwargs
         )
         updater.update()
 
