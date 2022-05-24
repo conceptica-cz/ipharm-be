@@ -1,7 +1,6 @@
 from unittest import TestCase
-from unittest.mock import Mock, call
+from unittest.mock import Mock
 
-from django.conf import settings
 from django.test import TestCase as DjangoTestCase
 from django.test import override_settings
 from references.models import Clinic
@@ -61,7 +60,7 @@ class UpdaterFactoryTest(TestCase):
         UPDATE_SOURCES={
             "Clinic": {
                 "data_loader": "updates.common.loaders.references_loader",
-                "data_loader_kwargs": {"url": "/clinics/"},
+                "data_loader_kwargs": {"url": "/clinics/", "token": "token"},
                 "transformers": [
                     "updates.common.transformers.delete_id",
                 ],
@@ -81,7 +80,13 @@ class UpdaterFactoryTest(TestCase):
         self.assertEqual(updater.data_loader, references_loader)
         self.assertEqual(
             updater.data_loader_kwargs,
-            {"url": "/clinics/", "k1": 1, "k2": 2, "update_id": update.id},
+            {
+                "url": "/clinics/",
+                "k1": 1,
+                "k2": 2,
+                "update_id": update.id,
+                "token": "token",
+            },
         )
         self.assertEqual(updater.model_updater, simple_model_updater)
         self.assertEqual(

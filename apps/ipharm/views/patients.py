@@ -1,3 +1,4 @@
+from common.views import HistoryView
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
@@ -11,7 +12,6 @@ from ..serializers.patients import (
     PatientNestedSerializer,
     PatientSerializer,
 )
-from .common import HistoryView
 
 
 @extend_schema_view(

@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "updates",
     "users",
     "reports",
+    "requisitions",
 ]
 
 MIDDLEWARE = [
@@ -200,6 +201,10 @@ BASE_ICISELNIKY_URL = os.environ.get(
     "BASE_ICISELNIKY_URL", "http://iciselniky-app:8000/api/v1"
 )
 ICISELNIKY_TOKEN = os.environ.get("ICISELNIKY_TOKEN", "")
+BASE_IZADANKY_URL = os.environ.get(
+    "BASE_IZADANKY_URL", "http://izadanky-app:8000/api/v1"
+)
+IZADANKY_TOKEN = os.environ.get("IZADANKY_TOKEN", "")
 BASE_UNIS_URL = os.environ.get("BASE_UNIS_URL", "")
 UNIS_TOKEN = os.environ.get("UNIS_TOKEN", "")
 DEFAULT_DATA_LOADER = "updates.common.loaders.references_loader"
@@ -224,6 +229,8 @@ UPDATE_SOURCES = {
             "identifiers": ["reference_id"],
         },
         "transformers": ["updates.common.transformers.id_to_reference_id"],
+        "interval_incremental": 30,
+        "interval_full": 120,
     },
     "Department": {
         "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/departments/"},
@@ -239,6 +246,8 @@ UPDATE_SOURCES = {
             },
         },
         "transformers": ["updates.common.transformers.delete_id"],
+        "interval_incremental": 30,
+        "interval_full": 120,
     },
     "Diagnosis": {
         "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/diagnoses/"},
@@ -246,7 +255,8 @@ UPDATE_SOURCES = {
             "model": "references.Diagnosis",
             "identifiers": ["code"],
         },
-        "interval": os.environ.get("DIAGNOSIS_UPDATE_INTERVAL", 60),
+        "interval_incremental": 60,
+        "interval_full": 240,
         "transformers": ["updates.common.transformers.delete_id"],
     },
     "Drug": {
@@ -257,6 +267,8 @@ UPDATE_SOURCES = {
         },
         "interval": os.environ.get("DRUG_UPDATE_INTERVAL", 60),
         "transformers": ["updates.common.transformers.delete_id"],
+        "interval_incremental": 60,
+        "interval_full": 240,
     },
     "ExternalDepartment": {
         "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/external-departments/"},
@@ -266,6 +278,8 @@ UPDATE_SOURCES = {
         },
         "interval": os.environ.get("EXTERNAL_DEPARTMENT_UPDATE_INTERVAL", 60),
         "transformers": ["updates.common.transformers.delete_id"],
+        "interval_incremental": 60,
+        "interval_full": 240,
     },
     "Identification": {
         "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/identifications/"},
@@ -274,6 +288,8 @@ UPDATE_SOURCES = {
             "identifiers": ["identifier"],
         },
         "transformers": ["updates.common.transformers.delete_id"],
+        "interval_incremental": 30,
+        "interval_full": 120,
     },
     "InsuranceCompany": {
         "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/insurances/"},
@@ -282,6 +298,8 @@ UPDATE_SOURCES = {
             "identifiers": ["code"],
         },
         "transformers": ["updates.common.transformers.delete_id"],
+        "interval_incremental": 30,
+        "interval_full": 120,
     },
     "MedicalFacility": {
         "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/facilities/"},
@@ -289,8 +307,9 @@ UPDATE_SOURCES = {
             "model": "references.MedicalFacility",
             "identifiers": ["facility_id"],
         },
-        "interval": os.environ.get("FACILITIES_UPDATE_INTERVAL", 60),
         "transformers": ["updates.common.transformers.delete_id"],
+        "interval_incremental": 60,
+        "interval_full": 240,
     },
     "Person": {
         "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/persons/"},
@@ -299,13 +318,15 @@ UPDATE_SOURCES = {
             "identifiers": ["person_number"],
         },
         "transformers": ["updates.common.transformers.delete_id"],
+        "interval_incremental": 30,
+        "interval_full": 120,
     },
     "Patient": {
         "data_loader": "updates.bulovka.loaders.patient_loader",
         "data_loader_kwargs": {
             "url": BASE_UNIS_URL
             + os.environ.get("PATIENT_URL_PATH", "/patient/hospitalized/"),
-            "use_token": True,
+            "token": UNIS_TOKEN,
         },
         "transformers": ["updates.bulovka.transformers.patient_transformer"],
         "post_operations": [
@@ -314,9 +335,24 @@ UPDATE_SOURCES = {
         ],
         "model_updater": "updates.bulovka.updaters.patient_updater",
         "by_clinic": True,
-        "queue": "high_priority",
+        "queue": "medium_priority",
+        "interval_incremental": 60,
+        "interval_full": 240,
+    },
+    "Requisition": {
+        "data_loader_kwargs": {
+            "url": BASE_IZADANKY_URL + "/requisitions/?is_synced=false&type=ipharm",
+            "token": IZADANKY_TOKEN,
+        },
+        "model_updater": "updates.requisitions.updaters.update_requisition",
+        "transformers": [],
+        "queue": "medium_priority",
+        "interval_full": 15,
     },
 }
+# REQUISITION
+
+UPDATE_REQUISITION_URL = BASE_IZADANKY_URL + "/requisitions/{id}/"
 
 # REPORTS
 

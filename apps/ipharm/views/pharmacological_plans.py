@@ -1,3 +1,4 @@
+from common.views import HistoryView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
@@ -10,7 +11,6 @@ from ..serializers.pharmacological_plans import (
     PharmacologicalPlanNestedSerializer,
     PharmacologicalPlanSerializer,
 )
-from .common import HistoryView
 
 
 class PharmacologicalPlanListView(generics.ListCreateAPIView):

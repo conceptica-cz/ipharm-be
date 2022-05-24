@@ -7,7 +7,6 @@ from updates.bulovka.loaders import patient_loader
 
 class PatientLoaderTest(TestCase):
     @patch("updates.bulovka.loaders.requests.get")
-    @override_settings(UNIS_TOKEN="token")
     def test__add_params_to_url(self, mocked_get: Mock):
         mocked_get.side_effect = [
             Mock(
@@ -17,7 +16,7 @@ class PatientLoaderTest(TestCase):
         ]
         list(
             patient_loader(
-                url="http://api-url", use_token=True, url_parameters={"clinicId": 2}
+                url="http://api-url", token="token", url_parameters={"clinicId": 2}
             )
         )
 
