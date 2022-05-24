@@ -1,3 +1,4 @@
+from common.views import HistoryView
 from django_filters.rest_framework import DjangoFilterBackend
 from ipharm.filters.patients import PatientFilter
 from ipharm.models.patients import Patient
@@ -8,8 +9,6 @@ from ipharm.serializers.patients import (
 )
 from rest_framework import filters, generics
 from rest_framework.permissions import SAFE_METHODS
-
-from .common import HistoryView
 
 
 class PatientListView(generics.ListCreateAPIView):

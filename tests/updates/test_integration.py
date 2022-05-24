@@ -1,13 +1,14 @@
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, call, patch
 
 from django.test import TestCase, override_settings
 from ipharm.models.cares import Care, Dekurz
 from ipharm.models.patients import Patient
 from references.models import Clinic, Department
+from requisitions.models import Requisition
 from updates.tasks import update
 
-from factories.ipharm import CareFactory
-from factories.references import ClinicFactory, DepartmentFactory
+from factories.ipharm import CareFactory, PatientFactory
+from factories.references import ClinicFactory, DepartmentFactory, PersonFactory
 
 
 @patch("updates.bulovka.loaders.requests.get")
@@ -338,3 +339,138 @@ class TestDepartmentUpdate(TestCase):
         self.assertEqual(department_3.specialization_code, "333")
         self.assertEqual(department_3.icp, "333333")
         self.assertEqual(department_3.clinic, clinic_3)
+
+
+@patch("updates.common.loaders.requests.get")
+@patch("updates.common.loaders.requests.patch")
+class TestRequisitionUpdate(TestCase):
+    maxDiff = True
+    UPDATE_SOURCES = {
+        "Requisition": {
+            "data_loader_kwargs": {
+                "url": "http://izadanky/api/v1"
+                + "/requisitions/?is_synced=false&type=ipharm",
+                "token": "test_token",
+            },
+            "model_updater": "updates.requisitions.updaters.update_requisition",
+            "transformers": [],
+            "queue": "medium_priority",
+        },
+    }
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    @override_settings(UPDATE_SOURCES=UPDATE_SOURCES)
+    @override_settings(
+        UPDATE_REQUISITION_URL="http://izadanky/api/v1/requisitions/{id}/"
+    )
+    @override_settings(IZADANKY_TOKEN="test_token")
+    def test_update(self, mocked_patch, mocked_get):
+        response_data = {
+            "results": [
+                {
+                    "id": 1,
+                    "patient": {
+                        "id": 1,
+                        "birth_number": "2910247869",
+                        "external_id": "16",
+                        "name": "Bartoš Arnošt",
+                        "first_name": "Arnošt",
+                        "last_name": "Bartoš",
+                    },
+                    "applicant": {
+                        "id": 7,
+                        "person_number": "7",
+                        "name": "Adam Kadlec",
+                        "f_title": "Mgr.",
+                        "l_title": "",
+                    },
+                    "solver": None,
+                    "type": "ipharm",
+                    "subtype": "ipharm_conciliation",
+                    "state": "created",
+                    "text": "zadanka 1",
+                    "file": None,
+                    "created_at": "2022-05-23T14:19:31.327449+02:00",
+                    "updated_at": None,
+                    "is_synced": False,
+                    "synced_at": None,
+                },
+                {
+                    "id": 3,
+                    "patient": {
+                        "id": 3,
+                        "birth_number": "0102066236",
+                        "external_id": "20",
+                        "name": "Bláha Jozef",
+                        "first_name": "Jozef",
+                        "last_name": "Bláha",
+                    },
+                    "applicant": {
+                        "id": 7,
+                        "person_number": "7",
+                        "name": "Adam Kadlec",
+                        "f_title": "Mgr.",
+                        "l_title": "",
+                    },
+                    "solver": None,
+                    "type": "ipharm",
+                    "subtype": "ipahrm_adverse_effect",
+                    "state": "created",
+                    "text": "zadankya 3",
+                    "file": None,
+                    "created_at": "2022-05-23T14:41:31.191086+02:00",
+                    "updated_at": None,
+                    "is_synced": False,
+                    "synced_at": None,
+                },
+            ],
+        }
+        patient_1 = PatientFactory(birth_number="2910247869")
+        patient_2 = PatientFactory(birth_number="0102066236")
+        patient_3 = PatientFactory()
+        person_1 = PersonFactory(person_number="7")
+        person_2 = PersonFactory()
+
+        mocked_get.return_value = Mock(
+            status_code=200, json=Mock(return_value=response_data)
+        )
+        mocked_patch.return_value = Mock(status_code=200)
+
+        update("Requisition")
+
+        self.assertEqual(Requisition.objects.count(), 2)
+
+        requisition_1 = Requisition.objects.get(external_id=1)
+        requisition_2 = Requisition.objects.get(external_id=3)
+        self.assertEqual(requisition_1.patient, patient_1)
+        self.assertEqual(requisition_1.applicant, person_1)
+        self.assertEqual(requisition_1.text, "zadanka 1")
+        self.assertEqual(requisition_2.patient, patient_2)
+        self.assertEqual(requisition_2.applicant, person_1)
+        self.assertEqual(requisition_2.text, "zadankya 3")
+
+        self.assertEqual(
+            mocked_get.mock_calls[0],
+            call(
+                "http://izadanky/api/v1/requisitions/?is_synced=false&type=ipharm",
+                headers={"Authorization": "Bearer test_token"},
+            ),
+        )
+
+        self.assertEqual(
+            mocked_patch.mock_calls,
+            [
+                call(
+                    "http://izadanky/api/v1/requisitions/1/",
+                    data={"is_synced": True, "state": "pending"},
+                    headers={"Authorization": "Bearer test_token"},
+                ),
+                call(
+                    "http://izadanky/api/v1/requisitions/3/",
+                    data={"is_synced": True, "state": "pending"},
+                    headers={"Authorization": "Bearer test_token"},
+                ),
+            ],
+        )
+        self.assertEqual(requisition_1.is_synced, True)
+        self.assertEqual(requisition_2.is_synced, True)

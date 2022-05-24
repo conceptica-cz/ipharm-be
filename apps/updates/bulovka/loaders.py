@@ -22,11 +22,11 @@ def patient_loader(url, **kwargs) -> Generator[dict, None, None]:
             url += "?"
         url += "&".join(f"{k}={v}" for k, v in parameters.items())
 
-    if use_token := kwargs.get("url_parameters"):
+    if token := kwargs.get("token"):
         if "?" in url:
-            url += f"&token={settings.UNIS_TOKEN}"
+            url += f"&token={token}"
         else:
-            url += f"?token={settings.UNIS_TOKEN}"
+            url += f"?token={token}"
 
     logger.debug(f"Getting url {url}")
     response = requests.get(url)

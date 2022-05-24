@@ -1,3 +1,4 @@
+from common.views import HistoryView
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import generics, status
 from rest_framework.permissions import SAFE_METHODS
@@ -11,7 +12,6 @@ from ..serializers.cares import (
     CareSerializer,
 )
 from ..services.cares import CareProcedures
-from .common import HistoryView
 
 
 class CareDetailView(generics.RetrieveUpdateDestroyAPIView):

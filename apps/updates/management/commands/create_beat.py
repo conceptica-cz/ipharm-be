@@ -33,36 +33,37 @@ class Command(BaseCommand):
 
     @staticmethod
     def _create_reference_beat(name):
-        interval_schedule, _ = IntervalSchedule.objects.get_or_create(
-            every=settings.UPDATE_SOURCES[name].get(
-                "interval", settings.DEFAULT_INCREMENTAL_UPDATE_INTERVAL
-            ),
-            period=IntervalSchedule.MINUTES,
-        )
-        task_name = f"{name} incremental"
-        PeriodicTask.objects.update_or_create(
-            name=task_name,
-            defaults={
-                "task": "updates.tasks.update",
-                "interval": interval_schedule,
-                "kwargs": json.dumps({"source_name": name}),
-            },
-        )
-        task_name = f"{name} full"
-        full_schedule, _ = IntervalSchedule.objects.get_or_create(
-            every=settings.UPDATE_SOURCES[name].get(
-                "interval", settings.DEFAULT_FULL_UPDATE_INTERVAL
-            ),
-            period=IntervalSchedule.MINUTES,
-        )
-        PeriodicTask.objects.update_or_create(
-            name=task_name,
-            defaults={
-                "task": "updates.tasks.update",
-                "interval": full_schedule,
-                "kwargs": json.dumps({"source_name": name, "full_update": True}),
-            },
-        )
+        interval_incremental = settings.UPDATE_SOURCES[name].get("interval_incremental")
+        if interval_incremental:
+            task_name = f"{name} incremental"
+            if not PeriodicTask.objects.filter(name=task_name).exists():
+                interval_schedule, _ = IntervalSchedule.objects.get_or_create(
+                    every=interval_incremental,
+                    period=IntervalSchedule.MINUTES,
+                )
+                PeriodicTask.objects.create(
+                    name=task_name,
+                    task="updates.tasks.update",
+                    kwargs=json.dumps({"source_name": name}),
+                    interval=interval_schedule,
+                    enabled=False,
+                )
+
+        interval_full = settings.UPDATE_SOURCES[name].get("interval_full")
+        if interval_full:
+            task_name = f"{name} full"
+            if not PeriodicTask.objects.filter(name=task_name).exists():
+                interval_schedule, _ = IntervalSchedule.objects.get_or_create(
+                    every=interval_full,
+                    period=IntervalSchedule.MINUTES,
+                )
+                PeriodicTask.objects.create(
+                    name=task_name,
+                    task="updates.tasks.update",
+                    kwargs=json.dumps({"source_name": name, "full_update": True}),
+                    interval=interval_schedule,
+                    enabled=False,
+                )
 
     @staticmethod
     def _create_external_beat(name):

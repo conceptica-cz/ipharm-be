@@ -30,7 +30,8 @@ def references_loader(url, **kwargs) -> Generator[dict, None, None]:
             .replace(tzinfo=None)
             .isoformat()
         )
-    headers = {"Authorization": f"Bearer {settings.ICISELNIKY_TOKEN}"}
+    token = kwargs["token"]
+    headers = {"Authorization": f"Bearer {token}"}
     logger.debug(f"Getting url {url}")
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
@@ -50,4 +51,4 @@ def references_loader(url, **kwargs) -> Generator[dict, None, None]:
     for result in results:
         yield result
     if (next_url := data.get("next")) is not None:
-        yield from references_loader(url=next_url)
+        yield from references_loader(url=next_url, **kwargs)

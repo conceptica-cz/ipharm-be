@@ -1,9 +1,8 @@
 import logging
-from typing import Callable
+from typing import Iterable, List, Tuple
 
 from celery import shared_task
 from updates.bulovka.loaders import ExternalReferenceError
-from updates.common.updaters import simple_model_updater
 from updates.utils import get_function_by_name
 
 from ipharm_web.settings import DEFAULT_RETRY_DELAY
@@ -70,7 +69,7 @@ def task_model_updater(self, updater: str, data: dict, **kwargs):
     ignore_result=False,
     max_retries=1,
 )
-def task_finish_update(self, update_results: dict, update_id: int):
+def task_finish_update(self, update_results: List[dict], update_id: int):
     logger.debug(
         "Task task_finish_update has been started",
         extra={
@@ -115,5 +114,39 @@ def task_post_operation(self, post_operation: str, transformed_data: dict, **kwa
         "Task task_post_operation has been finished",
         extra={
             "task_id": self.request.id,
+        },
+    )
+
+
+@shared_task(
+    bind=True,
+    ignore_result=False,
+    max_retries=1,
+)
+def task_update_remote_requisition(
+    self, requisition_id: int, fields_to_update=Iterable[str]
+):
+    """Invoke update_remote_requisition"""
+    logger.debug(
+        "Task task_update_remote_requisition has been started",
+        extra={
+            "task_id": self.request.id,
+            "requisition_id": requisition_id,
+            "fields_to_update": fields_to_update,
+        },
+    )
+    from requisitions.models import Requisition
+
+    from .requisitions.updaters import update_remote_requisition
+
+    requisition = Requisition.objects.get(id=requisition_id)
+
+    update_remote_requisition(requisition, fields_to_update)
+    logger.debug(
+        "Task task_update_remote_requisition has been finished",
+        extra={
+            "task_id": self.request.id,
+            "requisition_id": requisition_id,
+            "fields_to_update": fields_to_update,
         },
     )

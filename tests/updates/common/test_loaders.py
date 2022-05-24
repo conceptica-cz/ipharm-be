@@ -14,7 +14,7 @@ class GetDataTest(TestCase):
             )
         ]
 
-        results = list(references_loader("url"))
+        results = list(references_loader("url", token="token"))
 
         self.assertEqual(results, ["result1", "result2", "result3"])
 
@@ -57,7 +57,9 @@ class GetDataTest(TestCase):
             ),
         ]
 
-        results = list(references_loader(url="http://example.com/api/items/"))
+        results = list(
+            references_loader(url="http://example.com/api/items/", token="token")
+        )
 
         self.assertEqual(
             results, ["result1", "result2", "result3", "result4", "result5"]

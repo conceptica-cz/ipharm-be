@@ -1,8 +1,10 @@
+from typing import List
+
 from django.utils import timezone
 from updates.models import ModelUpdate, Update
 
 
-def finish_update(update_results: dict, update_id: int):
+def finish_update(update_results: List[dict], update_id: int):
     update = Update.objects.get(id=update_id)
     update.finished_at = timezone.now()
     update.save()

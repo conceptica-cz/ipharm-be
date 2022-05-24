@@ -102,6 +102,8 @@ class UpdaterFactory:
         data_loader_kwargs = settings.UPDATE_SOURCES[source].get(
             "data_loader_kwargs", {}
         )
+        if not "token" in data_loader_kwargs:
+            data_loader_kwargs["token"] = settings.ICISELNIKY_TOKEN
         model_updater = get_function_by_name(
             settings.UPDATE_SOURCES[source].get(
                 "model_updater", settings.DEFAULT_MODEL_UPDATER

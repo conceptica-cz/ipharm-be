@@ -2,13 +2,11 @@ from django.core.management.base import BaseCommand
 from rest_framework.authtoken.models import Token
 from users.models import User
 
-apps = ["izadanky"]
+apps = ["requisitions"]
 
 
 class Command(BaseCommand):
-    help = (
-        "Create 3-rd party application's users and tokens, consuming the API (izadanky)"
-    )
+    help = "Create 3-rd party application's users and tokens, consuming the API (requisitions)"
 
     def handle(self, *args, **options):
         for app in apps:
