@@ -82,7 +82,7 @@ def task_finish_update(self, update_results: List[dict], update_id: int):
         "Task task_finish_update has been started",
         extra={
             "task_id": self.request.id,
-            "update_results": update_results,
+            "update_result_count": len(update_results),
             "update_id": update_id,
         },
     )
