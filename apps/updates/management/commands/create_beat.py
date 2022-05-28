@@ -29,6 +29,7 @@ class Command(BaseCommand):
                     self._create_reference_beat(name)
         self._create_insurance_report_beat()
         self._create_delete_old_report_files_beat()
+        self._create_delete_old_empty_updates_beat()
         print("Done.")
 
     @staticmethod
@@ -145,6 +146,21 @@ class Command(BaseCommand):
             name=task_name,
             defaults={
                 "task": "reports.tasks.delete_old_report_files",
+                "interval": interval_schedule,
+            },
+        )
+
+    @staticmethod
+    def _create_delete_old_empty_updates_beat():
+        interval_schedule, _ = IntervalSchedule.objects.get_or_create(
+            every=1,
+            period=IntervalSchedule.DAYS,
+        )
+        task_name = f"Delete old empty Updates and ModelUpdates"
+        PeriodicTask.objects.update_or_create(
+            name=task_name,
+            defaults={
+                "task": "updates.tasks.task_delete_old_emtpy_updates",
                 "interval": interval_schedule,
             },
         )

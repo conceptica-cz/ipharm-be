@@ -3,7 +3,7 @@ import datetime
 import factory
 from django.conf import settings
 from factory import fuzzy
-from updates.models import Source, Update
+from updates.models import ModelUpdate, Source, Update
 
 
 class SourceFactory(factory.django.DjangoModelFactory):
@@ -24,3 +24,14 @@ class UpdateFactory(factory.django.DjangoModelFactory):
         datetime.datetime(2021, 11, 1, tzinfo=datetime.timezone.utc),
     )
     finished_at = None
+
+
+class ModelUpdateFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ModelUpdate
+
+    update = factory.SubFactory(UpdateFactory)
+    name = "model"
+    created = 0
+    updated = 0
+    not_changed = 0

@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING, Callable, Iterable, Optional
 from celery import chain, chord
 from django.conf import settings
 
-from .tasks import task_finish_update, task_model_updater, task_post_operation
 from .utils import get_function_by_name
 
 if TYPE_CHECKING:
@@ -60,6 +59,8 @@ class Updater:
                 continue
             else:
                 transformed_data.append(entity)
+
+        from .tasks import task_finish_update, task_model_updater, task_post_operation
 
         update_chord = chord(
             (

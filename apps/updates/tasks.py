@@ -2,7 +2,11 @@ import logging
 from typing import Iterable, List, Tuple
 
 from celery import shared_task
+from requisitions.models import Requisition
 from updates.bulovka.loaders import ExternalReferenceError
+from updates.models import ModelUpdate, Source, Update
+from updates.requisitions.updaters import update_remote_requisition
+from updates.services import finish_update
 from updates.utils import get_function_by_name
 
 from ipharm_web.settings import DEFAULT_RETRY_DELAY
@@ -27,11 +31,15 @@ def update(self, source_name: str, full_update=False, **kwargs):
     :param kwargs: kwargs
     :return:
     """
-    logger.info("Task update has been started. task_id: %s", self.request.id)
-    from updates.models import Source
+    logger.info("Task update has been started.", extra={"task_id": self.request.id})
 
     source = Source.objects.get_or_create_from_settings(name=source_name)
     source.update(full_update=full_update, **kwargs)
+
+    logger.info(
+        "Task update has been finished.",
+        extra={"task_id": self.request.id, "source_name": source_name},
+    )
 
 
 @shared_task(
@@ -70,7 +78,7 @@ def task_model_updater(self, updater: str, data: dict, **kwargs):
     max_retries=1,
 )
 def task_finish_update(self, update_results: List[dict], update_id: int):
-    logger.debug(
+    logger.info(
         "Task task_finish_update has been started",
         extra={
             "task_id": self.request.id,
@@ -78,14 +86,26 @@ def task_finish_update(self, update_results: List[dict], update_id: int):
             "update_id": update_id,
         },
     )
-    from .services import finish_update
 
-    finish_update(update_results, update_id)
-    logger.debug(
+    model_updates = finish_update(update_results, update_id)
+
+    for model_update in model_updates:
+        logger.info(
+            "Task task_finish_update has been finished",
+            extra={
+                "task_id": self.request.id,
+                "model": model_update.name,
+                "instance_created": model_update.created,
+                "instance_updated": model_update.updated,
+                "instance_not_changed": model_update.not_changed,
+            },
+        )
+
+    logger.info(
         "Task task_finish_update has been finished",
         extra={
             "task_id": self.request.id,
-            "update_results": update_results,
+            "update_result_count": len(update_results),
             "update_id": update_id,
         },
     )
@@ -135,9 +155,6 @@ def task_update_remote_requisition(
             "fields_to_update": fields_to_update,
         },
     )
-    from requisitions.models import Requisition
-
-    from .requisitions.updaters import update_remote_requisition
 
     requisition = Requisition.objects.get(id=requisition_id)
 
@@ -148,5 +165,31 @@ def task_update_remote_requisition(
             "task_id": self.request.id,
             "requisition_id": requisition_id,
             "fields_to_update": fields_to_update,
+        },
+    )
+
+
+@shared_task(
+    bind=True,
+)
+def task_delete_old_emtpy_updates(self):
+    logger.info(
+        "Task task_delete_old_emtpy_updates has been started",
+        extra={"task_id": self.request.id},
+    )
+    old_empty_model_updates = ModelUpdate.objects.get_old_empty_updates()
+    model_update_count = old_empty_model_updates.count()
+    old_empty_model_updates.delete()
+
+    old_empty_updates = Update.objects.get_old_empty_updates()
+    update_count = old_empty_updates.count()
+    old_empty_updates.delete()
+
+    logger.info(
+        "Task task_delete_old_emtpy_updates has been finished",
+        extra={
+            "task_id": self.request.id,
+            "model_update_count": model_update_count,
+            "update_count": update_count,
         },
     )

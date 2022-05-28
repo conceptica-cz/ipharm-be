@@ -127,3 +127,13 @@ class SourceManager(Manager):
     def get_or_create_from_settings(self, name):
         source, _ = self.get_or_create(name=name)
         return source
+
+
+class UpdateManager(BaseTemporaryCreatableManager):
+    def delete_old_empty_updates(self):
+        self.get_old_empty_updates().delete()
+
+
+class ModelUpdateManager(BaseTemporaryCreatableManager):
+    def delete_old_empty_updates(self):
+        self.get_old_empty_updates().delete()
