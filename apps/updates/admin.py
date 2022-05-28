@@ -46,6 +46,7 @@ class ModelUpdateAdmin(admin.ModelAdmin):
         "created",
         "updated",
         "not_changed",
+        "created_at",
     ]
     search_fields = ["update"]
     autocomplete_fields = ["update"]

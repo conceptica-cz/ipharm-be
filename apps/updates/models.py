@@ -8,7 +8,13 @@ from django.utils import timezone
 from simple_history.models import HistoricalRecords
 from users.models import User
 
-from .managers import BaseUpdatableManager, SourceManager
+from .managers import (
+    BaseUpdatableManager,
+    ModelUpdateManager,
+    SourceManager,
+    UpdateManager,
+)
+from .querysets import ModelUpdateQuerySet, UpdateQuerySet
 from .updater import UpdaterFactory
 
 
@@ -62,6 +68,8 @@ class Update(BaseHistoricalModel):
     finished_at = models.DateTimeField(null=True, blank=True)
     url_parameters = models.JSONField(null=True, blank=True)
 
+    objects = UpdateManager.from_queryset(UpdateQuerySet)()
+
     def finish_update(self, update_result):
         self.finished_at = timezone.now()
         self.save()
@@ -82,6 +90,9 @@ class ModelUpdate(BaseHistoricalModel):
     created = models.IntegerField(default=0)
     updated = models.IntegerField(default=0)
     not_changed = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = ModelUpdateManager.from_queryset(ModelUpdateQuerySet)()
 
     def __str__(self):
         return self.name

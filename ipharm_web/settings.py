@@ -221,6 +221,9 @@ DEFAULT_RETRY_DELAY = os.environ.get("DEFAULT_RETRY_DELAY", 3600)
 # (in hours), all care's related models will be migrated to the new care
 MIGRATE_RELATED_TIME_GAP = os.environ.get("MIGRATE_RELATED_TIME_GAP", 36)
 
+# all "empty" Updates and ModeUpdates older than this value will be deleted
+EMPTY_UPDATES_DELETING_TIME_GAP = os.environ.get("UPDATE_AGING_TIME_GAP", 48)
+
 UPDATE_SOURCES = {
     "Clinic": {
         "data_loader_kwargs": {"url": BASE_ICISELNIKY_URL + "/clinics/"},
