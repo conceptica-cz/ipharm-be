@@ -6,7 +6,7 @@ class RequisitionFilter(django_filters.FilterSet):
     class Meta:
         model = Requisition
         fields = {
-            "id": [
+            "patient": [
                 "exact",
             ],
         }
