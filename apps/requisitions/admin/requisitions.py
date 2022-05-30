@@ -8,6 +8,7 @@ from ..models.requisitions import Requisition
 class RequisitionAdmin(BaseHistoryAdmin):
     list_display = [
         "id",
+        "external_id",
         "type",
         "subtype",
         "state",

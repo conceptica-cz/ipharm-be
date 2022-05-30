@@ -15,6 +15,7 @@ urlpatterns = [
     path("api/v1/", include("ipharm.urls")),
     path("api/v1/", include("references.urls")),
     path("api/v1/", include("reports.urls")),
+    path("api/v1/", include("requisitions.urls")),
     path("api/v1/", include("users.urls")),
     path("admin/", admin.site.urls),
     path("", lambda request: HttpResponse("Nothing to see here."), name="index"),

@@ -9,6 +9,7 @@ class RequisitionFactory(factory.django.DjangoModelFactory):
     external_id = factory.Sequence(lambda n: n)
     type = Requisition.TYPE_IPHARM
     subtype = Requisition.SUBTYPE_IPHARM_CONCILATION
+    state = Requisition.STATE_CREATED
     patient = factory.SubFactory("factories.ipharm.patients.PatientFactory")
     text = factory.Faker("text")
     file = None

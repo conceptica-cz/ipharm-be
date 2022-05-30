@@ -1,7 +1,7 @@
-from django.utils import timezone
+from common.views import HistoryView
 from django_filters.rest_framework import DjangoFilterBackend
-from ipharm.views.common import HistoryView
 from rest_framework import filters, generics
+from updates.tasks import task_update_remote_requisition
 
 from ..filters import RequisitionFilter
 from ..models.requisitions import Requisition
@@ -11,7 +11,7 @@ from ..serializers.requisitions import (
 )
 
 
-class RequisitionListView(generics.ListCreateAPIView):
+class RequisitionListView(generics.ListAPIView):
     queryset = (
         Requisition.objects.select_related("patient")
         .select_related("applicant")
@@ -37,10 +37,14 @@ class RequisitionDetailView(generics.RetrieveUpdateAPIView):
         return RequisitionSerializer
 
     def perform_update(self, serializer):
-        if self.request.user.is_app:
-            serializer.save(is_synced=True, synced_at=timezone.now())
-        else:
-            serializer.save(is_synced=False)
+        requisition = serializer.save(is_synced=False)
+        task_update_remote_requisition.apply_async(
+            kwargs={
+                "requisition_id": requisition.pk,
+                "fields_to_update": ["state", "solver"],
+            },
+            queue="high_priority",
+        )
 
 
 class RequisitionHistoryView(HistoryView):
