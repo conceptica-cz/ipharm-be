@@ -7,7 +7,7 @@
 
 : ${WORKER_CONCURRENCY:=4}
 
-QUEUS=high_priority,low_priority
+QUEUS=high_priority,medium_priority,low_priority
 NAME=worker
 
 while getopts 'Q:n:' c
