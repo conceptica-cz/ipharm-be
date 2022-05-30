@@ -3,7 +3,7 @@ from references.serializers import TagSerializer
 from rest_framework import filters, generics
 
 
-class TagListView(generics.ListAPIView):
+class TagListView(generics.ListCreateAPIView):
     """Tag list"""
 
     queryset = Tag.objects.all()
@@ -12,7 +12,7 @@ class TagListView(generics.ListAPIView):
     search_fields = ["name"]
 
 
-class TagDetailView(generics.RetrieveAPIView):
+class TagDetailView(generics.RetrieveUpdateAPIView):
     """Tag detail"""
 
     queryset = Tag.objects.all()
