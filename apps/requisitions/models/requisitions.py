@@ -48,7 +48,18 @@ class Requisition(BaseUpdatableModel):
         max_length=255, choices=STATE_CHOICES, default=STATE_CREATED
     )
     patient = models.ForeignKey(
-        "ipharm.Patient", on_delete=models.CASCADE, null=True, blank=True
+        "ipharm.Patient",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="requisitions",
+    )
+    care = models.ForeignKey(
+        "ipharm.Care",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="requisitions",
     )
     text = models.TextField(blank=True, null=True)
     file = models.FileField(upload_to="requisitions", blank=True, null=True)

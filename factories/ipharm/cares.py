@@ -49,7 +49,7 @@ class CareFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def last_dekurz(self, create, extracted, **kwargs):
-        if create:
+        if kwargs.get("add", False):
             for _ in range(random.randint(1, 5)):
                 self.set_last_dekurz(
                     DekurzFactory(care=self, department=self.department)

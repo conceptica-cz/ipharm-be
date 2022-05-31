@@ -47,7 +47,7 @@ class Command(BaseCommand):
             TagFactory()
             AdverseEffectFactory()
         for i in range(101):
-            care = CareFactory()
+            care = CareFactory(last_dekurz__add=True)
             print(f"Patient {care.patient} created")
             if random.randint(0, 1):
                 CheckInFactory(

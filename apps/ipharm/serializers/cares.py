@@ -24,6 +24,8 @@ class DekurzNestedSerializer(serializers.ModelSerializer):
 
 
 class CareSerializer(serializers.ModelSerializer):
+    requisitions = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+
     def __init__(self, instance=None, *args, **kwargs):
         super().__init__(instance, *args, **kwargs)
         if self.context.get("drop_patient", False):
