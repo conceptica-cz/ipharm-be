@@ -12,7 +12,7 @@ class TagListView(generics.ListCreateAPIView):
     search_fields = ["name"]
 
 
-class TagDetailView(generics.RetrieveUpdateAPIView):
+class TagDetailView(generics.RetrieveUpdateDestroyAPIView):
     """Tag detail"""
 
     queryset = Tag.objects.all()
