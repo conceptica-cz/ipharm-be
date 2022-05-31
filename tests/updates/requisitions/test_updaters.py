@@ -10,7 +10,7 @@ from updates.requisitions.updaters import (
     update_requisition,
 )
 
-from factories.ipharm import PatientFactory
+from factories.ipharm import CareFactory, PatientFactory
 from factories.references import PersonFactory
 from factories.requisitions import RequisitionFactory
 
@@ -48,6 +48,7 @@ class UpdateLocalRequisitionTest(TestCase):
 
     def test__existing_patient_and_applicant(self):
         patient = PatientFactory(birth_number="2910247869")
+        care = CareFactory(patient=patient)
         person = PersonFactory(person_number="7")
 
         requisition, _ = update_local_requisition(self.data)
@@ -59,6 +60,7 @@ class UpdateLocalRequisitionTest(TestCase):
         self.assertEqual(requisition, Requisition.objects.first())
 
         self.assertEqual(requisition.patient, patient)
+        self.assertEqual(requisition.care, care)
         self.assertEqual(requisition.applicant, person)
         self.assertEqual(requisition.external_id, 42)
         self.assertEqual(requisition.text, "zadanka 1")

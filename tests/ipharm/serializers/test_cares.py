@@ -14,7 +14,7 @@ from factories.references.diagnoses import DiagnosisFactory
 
 class CareNestedSerializerTest(TestCase):
     def setUp(self) -> None:
-        self.care = CareFactory()
+        self.care = CareFactory(last_dekurz__add=True)
 
     def test_clinic_is_nested(self):
         serializer = CareLiteNestedSerializer(instance=self.care)

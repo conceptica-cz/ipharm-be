@@ -426,8 +426,11 @@ class TestRequisitionUpdate(TestCase):
             ],
         }
         patient_1 = PatientFactory(birth_number="2910247869")
+        care_1 = CareFactory(patient=patient_1)
         patient_2 = PatientFactory(birth_number="0102066236")
+        care_2 = CareFactory(patient=patient_2)
         patient_3 = PatientFactory()
+        care_3 = CareFactory(patient=patient_3)
         person_1 = PersonFactory(person_number="7")
         person_2 = PersonFactory()
 
@@ -443,10 +446,12 @@ class TestRequisitionUpdate(TestCase):
         requisition_1 = Requisition.objects.get(external_id=1)
         requisition_2 = Requisition.objects.get(external_id=3)
         self.assertEqual(requisition_1.patient, patient_1)
+        self.assertEqual(requisition_1.care, care_1)
         self.assertEqual(requisition_1.applicant, person_1)
         self.assertEqual(requisition_1.text, "zadanka 1")
         self.assertEqual(requisition_2.patient, patient_2)
         self.assertEqual(requisition_2.applicant, person_1)
+        self.assertEqual(requisition_2.care, care_2)
         self.assertEqual(requisition_2.text, "zadankya 3")
 
         self.assertEqual(
