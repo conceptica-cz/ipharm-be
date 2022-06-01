@@ -439,7 +439,7 @@ class TestRequisitionUpdate(TestCase):
         )
         mocked_patch.return_value = Mock(status_code=200)
 
-        update("Requisition")
+        update("Requisition", full_update=True)
 
         self.assertEqual(Requisition.objects.count(), 2)
 

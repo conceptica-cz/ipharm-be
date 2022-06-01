@@ -12,7 +12,7 @@ class RequisitionFactory(factory.django.DjangoModelFactory):
     state = Requisition.STATE_CREATED
     patient = factory.SubFactory("factories.ipharm.patients.PatientFactory")
     text = factory.Faker("text")
-    file = None
+    file_link = None
     applicant = factory.SubFactory("factories.references.persons.PersonFactory")
     solver = factory.SubFactory("factories.references.persons.PersonFactory")
     is_synced = False

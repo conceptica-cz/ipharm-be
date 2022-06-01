@@ -15,7 +15,7 @@ class RequisitionSerializer(serializers.ModelSerializer):
             "subtype",
             "patient",
             "text",
-            "file",
+            "file_link",
             "applicant",
             "created_at",
             "updated_at",

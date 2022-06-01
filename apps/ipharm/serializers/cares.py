@@ -24,8 +24,6 @@ class DekurzNestedSerializer(serializers.ModelSerializer):
 
 
 class CareSerializer(serializers.ModelSerializer):
-    requisitions = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
-
     def __init__(self, instance=None, *args, **kwargs):
         super().__init__(instance, *args, **kwargs)
         if self.context.get("drop_patient", False):
@@ -77,6 +75,7 @@ class CareLiteNestedSerializer(serializers.ModelSerializer):
     last_dekurz = DekurzNestedSerializer(read_only=True)
     checkin = CheckInLiteSerializer(read_only=True)
     pharmacologicalplan = PharmacologicalPlanLiteSerializer(read_only=True)
+    requisitions = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
 
     class Meta:
         exclude = ["is_deleted"]
@@ -96,6 +95,7 @@ class CareNestedSerializer(serializers.ModelSerializer):
         read_only=True, many=True
     )
     patient_informations = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    requisitions = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
 
     class Meta:
         exclude = ["is_deleted"]

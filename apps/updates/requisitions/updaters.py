@@ -24,6 +24,13 @@ def update_local_requisition(data: dict, **kwargs) -> Tuple[Requisition, dict]:
     """
 
     data["external_id"] = data.pop("id")
+    data["file_link"] = data.pop("file", None)
+
+    data.pop("solver")
+    data.pop("created_at")
+    data.pop("updated_at")
+    data.pop("is_synced")
+    data.pop("synced_at")
 
     patient_data = data.pop("patient")
     patient_data.pop("id")
