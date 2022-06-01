@@ -1,4 +1,5 @@
 from django.test import TestCase
+from ipharm.models.cares import Care
 from ipharm.serializers.cares import (
     CareLiteNestedSerializer,
     CareSerializer,
@@ -14,7 +15,7 @@ from factories.references.diagnoses import DiagnosisFactory
 
 class CareNestedSerializerTest(TestCase):
     def setUp(self) -> None:
-        self.care = CareFactory(last_dekurz__add=True)
+        self.care = CareFactory(last_dekurz__add=True, care_type=Care.HOSPITALIZATION)
 
     def test_clinic_is_nested(self):
         serializer = CareLiteNestedSerializer(instance=self.care)

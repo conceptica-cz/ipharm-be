@@ -99,12 +99,12 @@ def get_document_data(
     heading["EROD"] = str(obj.care.patient.insurance_number)
     heading["EZDG"] = str(obj.care.main_diagnosis.code)
     heading["EKO"] = ""
-    heading["EICZ"] = obj.care.department.icp
+    heading["EICZ"] = obj.care.actual_department.icp
     heading["ECDZ"] = ""
     heading["EDAT"] = obj.care.started_at.strftime("%d%m%Y")
     heading["ECCEL"] = ""
     heading["ECBOD"] = str(round(medical_procedure.scores))
-    heading["EODZ"] = obj.care.department.specialization_code
+    heading["EODZ"] = obj.care.actual_department.specialization_code
     heading["EVARZ"] = ""
     heading["DTYP"] = ""
 
