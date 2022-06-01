@@ -62,7 +62,7 @@ class Requisition(BaseUpdatableModel):
         related_name="requisitions",
     )
     text = models.TextField(blank=True, null=True)
-    file = models.FileField(upload_to="requisitions", blank=True, null=True)
+    file_link = models.CharField(max_length=255, blank=True, null=True)
     applicant = models.ForeignKey(
         "references.Person",
         on_delete=models.CASCADE,
