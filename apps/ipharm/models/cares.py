@@ -67,6 +67,12 @@ class Care(BaseUpdatableModel):
         self.finished_at = timezone.now()
         self.save()
 
+    @property
+    def actual_department(self):
+        if self.department:
+            return self.department
+        return self.external_department
+
 
 class Dekurz(BaseUpdatableModel):
     care = models.ForeignKey("Care", on_delete=models.CASCADE)

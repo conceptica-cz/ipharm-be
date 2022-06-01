@@ -8,26 +8,50 @@ from ipharm.models.cares import Care, Dekurz
 from factories.ipharm.patients import PatientFactory
 from factories.references.clinics import ClinicFactory, DepartmentFactory
 from factories.references.diagnoses import DiagnosisFactory
+from factories.references.external_departments import ExternalDepartmentFactory
 from factories.references.persons import PersonFactory
 
 
 class CareFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Care
-        django_get_or_create = ("external_id",)
 
     class Params:
         finished_at_decider = factory.LazyFunction(lambda: bool(random.randint(0, 8)))
+        external_decider = factory.LazyAttribute(lambda o: o.care_type == Care.EXTERNAL)
 
     patient = factory.SubFactory(PatientFactory)
-    care_type = factory.Iterator([Care.HOSPITALIZATION, Care.AMBULATION])
+    care_type = factory.Iterator([Care.HOSPITALIZATION, Care.AMBULATION, Care.EXTERNAL])
     main_diagnosis = factory.SubFactory(DiagnosisFactory)
-    external_id = factory.Sequence(lambda n: n)
+
+    external_id = factory.Maybe(
+        "external_decider",
+        yes_declaration=None,
+        no_declaration=factory.Sequence(lambda n: n),
+    )
 
     clinic = factory.SubFactory(ClinicFactory)
-    department = factory.SubFactory(
-        DepartmentFactory, clinic=factory.SelfAttribute("..clinic")
+
+    department = factory.Maybe(
+        "external_decider",
+        yes_declaration=None,
+        no_declaration=factory.SubFactory(
+            DepartmentFactory, clinic=factory.SelfAttribute("..clinic")
+        ),
     )
+
+    external_department = factory.Maybe(
+        "external_decider",
+        yes_declaration=factory.SubFactory(ExternalDepartmentFactory),
+        no_declaration=None,
+    )
+
+    doctor = factory.Maybe(
+        "external_decider",
+        yes_declaration=factory.Faker("name", locale="cs"),
+        no_declaration=None,
+    )
+
     started_at = fuzzy.FuzzyDateTime(
         datetime.datetime(2021, 9, 1, tzinfo=datetime.timezone.utc),
         datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc),
@@ -49,7 +73,7 @@ class CareFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def last_dekurz(self, create, extracted, **kwargs):
-        if kwargs.get("add", False):
+        if kwargs.get("add", False) and not self.care_type == Care.EXTERNAL:
             for _ in range(random.randint(1, 5)):
                 self.set_last_dekurz(
                     DekurzFactory(care=self, department=self.department)

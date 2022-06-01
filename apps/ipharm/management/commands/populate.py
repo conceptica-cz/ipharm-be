@@ -2,11 +2,13 @@ import random
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from ipharm.models.patients import Patient
 from references.models import Department
 
 from factories.ipharm import (
     CareFactory,
     CheckInFactory,
+    PatientFactory,
     PatientInformationFactory,
     PharmacologicalEvaluationFactory,
     PharmacologicalPlanCommentFactory,
@@ -25,7 +27,18 @@ from factories.users import UserFactory
 class Command(BaseCommand):
     help = "Populate database with fake data"
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--delete",
+            action="store_true",
+            default=False,
+            help="Delete existing models.",
+        )
+
     def handle(self, *args, **options):
+        if options["delete"]:
+            self._delete_models()
+
         if settings.ENVIRONMENT not in ["test", "development", "local"]:
             self.stdout.write(
                 self.style.ERROR(
@@ -47,8 +60,9 @@ class Command(BaseCommand):
             TagFactory()
             AdverseEffectFactory()
         for i in range(101):
-            care = CareFactory(last_dekurz__add=True)
-            print(f"Patient {care.patient} created")
+            patient = PatientFactory()
+            care = CareFactory(last_dekurz__add=True, patient=patient)
+            print(f"Patient {patient} created")
             if random.randint(0, 1):
                 CheckInFactory(
                     care=care,
@@ -99,3 +113,7 @@ class Command(BaseCommand):
         department.save()
         IdentificationFactory(for_insurance=True)
         print("Database was populated.")
+
+    def _delete_models(self):
+        Patient.objects.all().delete()
+        print("Models were deleted.")
