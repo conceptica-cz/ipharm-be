@@ -43,7 +43,7 @@ def patient_transformer(data: dict) -> dict:
     if data.get("dekurzTime"):
         transformed["dekurz"] = {
             "made_at": make_aware(data["dekurzTime"]),
-            "doctor": data["dekurzWho"] if data["dekurzWho"] else None,
+            "doctor": data["dekurzWho"] if data.get("dekurzWho", 0) != 0 else None,
             "department": data["dekurzDepartment"],
         }
     return transformed
