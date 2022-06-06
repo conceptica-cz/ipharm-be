@@ -667,7 +667,7 @@ def evaluation_patients_xlsx_data_transformer(data: dict) -> dict:
             data["counts"]["discontinuation_other_reason_count"],
         ],
         [
-            "Změna dávky",
+            ("Změna dávky", bold),
             data["counts"]["dose_change_count"],
         ],
         [
@@ -1416,7 +1416,7 @@ def evaluation_drugs_xlsx_data_transformer(data: dict) -> dict:
         ]
         + _evaluation_drugs_counters(data, "discontinuation_other_reason_count"),
         [
-            "Změna dávky",
+            ("Změna dávky", bold),
         ]
         + _evaluation_drugs_counters(data, "dose_change_count"),
         [
@@ -2084,7 +2084,7 @@ def evaluation_groups_xlsx_data_transformer(data: dict) -> dict:
         ]
         + _evaluation_groups_counters(data, "discontinuation_other_reason_count"),
         [
-            "Změna dávky",
+            ("Změna dávky", bold),
         ]
         + _evaluation_groups_counters(data, "dose_change_count"),
         [
