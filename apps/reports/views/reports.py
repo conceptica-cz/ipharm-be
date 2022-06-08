@@ -124,23 +124,30 @@ class ReportGenerateView(APIView):
             "date_from",
             "date_to",
         )
+        LIST_FILTERS = ["care_type"]
         filters = {
             k: v
-            for k, v in self.request.query_params.items()
+            for k, v in self.request.query_params.lists()
             if k not in NO_FILTER_PARAMS
         }
+        for fil in filters:
+            if fil not in LIST_FILTERS:
+                filters[fil] = filters[fil][0]
+
         if "care_type" in filters:
-            if filters["care_type"] not in [
-                Care.HOSPITALIZATION,
-                Care.AMBULATION,
-                Care.EXTERNAL,
-            ]:
-                return Response(
-                    {
-                        "error": "Invalid care_type. Must be one of 'hospitalization', 'ambulation', 'external'"
-                    },
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+            filters["care_type"] = tuple(filters["care_type"])
+            for care_type in filters["care_type"]:
+                if care_type not in [
+                    Care.HOSPITALIZATION,
+                    Care.AMBULATION,
+                    Care.EXTERNAL,
+                ]:
+                    return Response(
+                        {
+                            "error": "Invalid care_type. Must be one of 'hospitalization', 'ambulation', 'external'"
+                        },
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
 
         if year is not None:
             try:

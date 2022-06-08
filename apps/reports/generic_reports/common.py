@@ -16,9 +16,11 @@ FILTER_MODELS = {
 }
 
 FILTER_VALUES = {
-    "hospitalization": "hospitalizované",
-    "ambulation": "ambulantní",
-    "external": "externí",
+    ("hospitalization",): "hospitalizované",
+    ("ambulation",): "ambulantní",
+    ("ambulation", "external"): "ambulantní",
+    ("external", "ambulation"): "ambulantní",
+    ("external",): "externí",
 }
 
 
