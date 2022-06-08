@@ -20,7 +20,7 @@ def risk_level_loader(**kwargs) -> dict:
     field_lookup = {
         "clinic": "care__clinic_id",
         "department": "care__department_id",
-        "care_type": "care__care_type",
+        "care_type": "care__care_type__in",
     }
 
     entity_filter = get_entity_filter(
@@ -316,7 +316,7 @@ def evaluation_patients_loader(**kwargs) -> dict:
     field_lookup = {
         "clinic": "care__clinic_id",
         "department": "care__department_id",
-        "care_type": "care__care_type",
+        "care_type": "care__care_type__in",
     }
 
     entity_filter = get_entity_filter(

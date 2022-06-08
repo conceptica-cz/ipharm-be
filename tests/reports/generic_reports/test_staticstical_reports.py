@@ -159,7 +159,7 @@ class RiskLevelsLoadersTest(TestCase):
 
     def test_loader__patient_type_hospitalization(self):
         data = statistical_reports.risk_level_loader(
-            time_range="custom", filters={"care_type": "hospitalization"}
+            time_range="custom", filters={"care_type": ("hospitalization",)}
         )
 
         self.assertEqual(data["hospital_risk_level_1"], 6)
