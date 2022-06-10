@@ -189,5 +189,4 @@ class CheckInDiagnosis(BaseUpdatableModel):
     )
 
     class Meta:
-        unique_together = ("check_in", "diagnosis")
         verbose_name_plural = "CheckInDiagnoses"
