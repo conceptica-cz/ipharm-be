@@ -71,7 +71,7 @@ class RiskDrugHistoryDiagnosisListView(generics.ListCreateAPIView):
     filterset_fields = ["risk_drug_history"]
 
 
-class RiskDrugHistoryDiagnosisDetailView(generics.RetrieveUpdateAPIView):
+class RiskDrugHistoryDiagnosisDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = RiskDrugHistoryDiagnosis.objects.all()
     serializer_class = RiskDrugHistoryDiagnosisSerializer
 
