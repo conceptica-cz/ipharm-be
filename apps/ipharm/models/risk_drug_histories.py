@@ -53,7 +53,6 @@ class RiskDrugHistoryDiagnosis(BaseUpdatableModel):
     )
 
     class Meta:
-        unique_together = ("risk_drug_history", "diagnosis")
         verbose_name_plural = "RiskDrugHistoryDiagnoses"
 
 
