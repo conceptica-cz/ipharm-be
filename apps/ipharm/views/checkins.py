@@ -57,7 +57,7 @@ class CheckInDiagnosisListView(generics.ListCreateAPIView):
     filterset_fields = ["check_in"]
 
 
-class CheckInDiagnosisDetailView(generics.RetrieveUpdateAPIView):
+class CheckInDiagnosisDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CheckInDiagnosis.objects.all()
     serializer_class = CheckInDiagnosisSerializer
 
