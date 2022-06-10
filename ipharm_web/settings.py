@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import json
 import os
 import sys
 from pathlib import Path
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     "drf_spectacular_sidecar",
     "corsheaders",
     "django_celery_beat",
+    "django_python3_ldap",
     "common",
     "ipharm",
     "references",
@@ -106,6 +108,40 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = "users.User"
+
+AUTHENTICATION_BACKENDS = [
+    "django_python3_ldap.auth.LDAPBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+# LDAP
+
+LDAP_AUTH_URL = json.loads(os.environ.get("LDAP_AUTH_URL", '["ldap://localhost:389"]'))
+LDAP_AUTH_SEARCH_BASE = os.environ.get(
+    "LDAP_AUTH_SEARCH_BASE", "ou=people,dc=example,dc=com"
+)
+LDAP_AUTH_USE_TLS = os.environ.get("LDAP_AUTH_USE_TLS", "False") == "True"
+LDAP_AUTH_FORMAT_USERNAME = os.environ.get(
+    "LDAP_AUTH_FORMAT_USERNAME",
+    "django_python3_ldap.utils.format_username_openldap",
+)
+LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN = os.environ.get(
+    "LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN", ""
+)
+
+LDAP_AUTH_CONNECTION_USERNAME = os.environ.get("LDAP_AUTH_CONNECTION_USERNAME", "")
+LDAP_AUTH_CONNECTION_PASSWORD = os.environ.get("LDAP_AUTH_CONNECTION_PASSWORD", "")
+
+LDAP_AUTH_USER_FIELDS = json.loads(
+    os.environ.get(
+        "LDAP_AUTH_USER_FIELDS",
+        '{"username": "sAMAccountName", "first_name": "givenName", "last_name": "sn", "email": "mail"}',
+    )
+)
+
+LDAP_AUTH_OBJECT_CLASS = os.environ.get("LDAP_AUTH_OBJECT_CLASS", "user")
+
+# DRF
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -761,6 +797,10 @@ LOGGING = {
         "users": {
             "handlers": ["console"],
             "level": LOG_LEVEL,
+        },
+        "django_python3_ldap": {
+            "handlers": ["console"],
+            "level": "DEBUG",
         },
     },
 }
