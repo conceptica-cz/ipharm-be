@@ -10,7 +10,8 @@ from factories.references.drugs import DrugFactory
 class CheckInFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "ipharm.CheckIn"
-        django_get_or_create = ["care"]
+
+    #        django_get_or_create = ["care"]
 
     care = factory.SubFactory("factories.ipharm.CareFactory")
     polypharmacy = factory.Faker("boolean", chance_of_getting_true=20)

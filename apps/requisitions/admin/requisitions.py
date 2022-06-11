@@ -12,7 +12,6 @@ class RequisitionAdmin(BaseHistoryAdmin):
         "type",
         "subtype",
         "state",
-        "patient",
         "applicant",
         "solver",
         "created_at",

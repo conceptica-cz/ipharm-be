@@ -72,22 +72,21 @@ class GetAllPatientsTest(APITestCase):
     def test_get_all_patients(self):
         self.client.force_login(user=self.user)
         response = self.client.get(reverse("ipharm:patient_list"))
-        patients = Patient.objects.all()
+        patients = Patient.objects.filter_prefetched()
         serializer = PatientLiteNestedSerializer(patients, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["results"], serializer.data)
 
-    def test_filtered_by_hospital(self):
+    def test_filtered_by_clinic(self):
         self.client.force_login(user=self.user)
         response = self.client.get(
-            reverse("ipharm:patient_list"), data={"hospital": self.clinic_1.pk}
+            reverse("ipharm:patient_list"),
+            data={"clinic": self.clinic_1.pk, "care_type": Care.HOSPITALIZATION},
         )
-        patients = PatientFilter({"hospital": self.clinic_1.pk}).qs
-        serializer = PatientLiteNestedSerializer(patients, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["results"], serializer.data)
+        self.assertEqual(len(response.data["results"]), 2)
 
 
 class CreatePatientTest(APITestCase):

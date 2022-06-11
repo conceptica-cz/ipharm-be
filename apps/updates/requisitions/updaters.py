@@ -35,7 +35,6 @@ def update_local_requisition(data: dict, **kwargs) -> Tuple[Requisition, dict]:
     patient_data = data.pop("patient")
     patient_data.pop("id")
     patient = Patient.objects.get(birth_number=patient_data["birth_number"])
-    data["patient"] = patient
     if patient.current_care:
         data["care"] = patient.current_care
 

@@ -445,11 +445,9 @@ class TestRequisitionUpdate(TestCase):
 
         requisition_1 = Requisition.objects.get(external_id=1)
         requisition_2 = Requisition.objects.get(external_id=3)
-        self.assertEqual(requisition_1.patient, patient_1)
         self.assertEqual(requisition_1.care, care_1)
         self.assertEqual(requisition_1.applicant, person_1)
         self.assertEqual(requisition_1.text, "zadanka 1")
-        self.assertEqual(requisition_2.patient, patient_2)
         self.assertEqual(requisition_2.applicant, person_1)
         self.assertEqual(requisition_2.care, care_2)
         self.assertEqual(requisition_2.text, "zadankya 3")

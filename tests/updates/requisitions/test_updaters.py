@@ -59,7 +59,6 @@ class UpdateLocalRequisitionTest(TestCase):
 
         self.assertEqual(requisition, Requisition.objects.first())
 
-        self.assertEqual(requisition.patient, patient)
         self.assertEqual(requisition.care, care)
         self.assertEqual(requisition.applicant, person)
         self.assertEqual(requisition.external_id, 42)
@@ -67,6 +66,7 @@ class UpdateLocalRequisitionTest(TestCase):
 
     def test__existing_patient_and_non_existing_applicant(self):
         patient = PatientFactory(birth_number="2910247869")
+        care = CareFactory(patient=patient)
 
         requisition, _ = update_local_requisition(self.data)
 
@@ -76,7 +76,7 @@ class UpdateLocalRequisitionTest(TestCase):
 
         self.assertEqual(requisition, Requisition.objects.first())
 
-        self.assertEqual(requisition.patient, patient)
+        self.assertEqual(requisition.care, care)
         self.assertEqual(requisition.applicant.person_number, "7")
         self.assertEqual(requisition.applicant.name, "Adam Kadlec")
         self.assertEqual(requisition.external_id, 42)
@@ -84,9 +84,11 @@ class UpdateLocalRequisitionTest(TestCase):
 
     def test__existing_requisitions(self):
         patient = PatientFactory(birth_number="2910247869")
+        care = CareFactory(patient=patient)
+
         person = PersonFactory(person_number="7")
         existing_requisition = RequisitionFactory(
-            external_id=42, patient=patient, applicant=person, solver=None
+            external_id=42, care=care, applicant=person, solver=None
         )
 
         requisition, _ = update_local_requisition(self.data)
@@ -99,7 +101,7 @@ class UpdateLocalRequisitionTest(TestCase):
 
         self.assertEqual(requisition, Requisition.objects.first())
 
-        self.assertEqual(requisition.patient, patient)
+        self.assertEqual(requisition.care, care)
         self.assertEqual(requisition.applicant, person)
         self.assertEqual(requisition.external_id, 42)
         self.assertEqual(requisition.text, "zadanka 1")
@@ -176,6 +178,7 @@ class UpdateRequisitionTest(TestCase):
     def test__existing_patient_and_applicant(self, mock_patch):
         mock_patch.return_value.status_code = 200
         patient = PatientFactory(birth_number="2910247869")
+        care = CareFactory(patient=patient)
         person = PersonFactory(person_number="7")
 
         update_requisition(data=self.data)
@@ -186,7 +189,7 @@ class UpdateRequisitionTest(TestCase):
 
         requisition = Requisition.objects.first()
 
-        self.assertEqual(requisition.patient, patient)
+        self.assertEqual(requisition.care, care)
         self.assertEqual(requisition.applicant, person)
         self.assertEqual(requisition.external_id, 42)
         self.assertEqual(requisition.text, "zadanka 1")

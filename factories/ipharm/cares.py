@@ -17,7 +17,9 @@ class CareFactory(factory.django.DjangoModelFactory):
         model = Care
 
     class Params:
-        finished_at_decider = factory.LazyFunction(lambda: bool(random.randint(0, 8)))
+        finished_at_decider = factory.LazyFunction(
+            lambda: not bool(random.randint(0, 8))
+        )
         external_decider = factory.LazyAttribute(lambda o: o.care_type == Care.EXTERNAL)
 
     patient = factory.SubFactory(PatientFactory)
@@ -58,11 +60,11 @@ class CareFactory(factory.django.DjangoModelFactory):
     )
     finished_at = factory.Maybe(
         "finished_at_decider",
-        yes_declaration=None,
-        no_declaration=factory.fuzzy.FuzzyDateTime(
+        yes_declaration=factory.fuzzy.FuzzyDateTime(
             datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc),
             datetime.datetime(2021, 11, 1, tzinfo=datetime.timezone.utc),
         ),
+        no_declaration=None,
     )
     is_active = factory.LazyAttribute(lambda o: o.finished_at is None)
 

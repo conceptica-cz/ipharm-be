@@ -302,11 +302,14 @@ class CheckInDocumentTest(TestCase):
         diagnosis = DiagnosisFactory(code="K00")
 
         care = CareFactory(
+            care_type="hospitalization",
             patient=patient,
             main_diagnosis=diagnosis,
             department__icp="142",
             department__specialization_code="242",
             started_at=timezone.datetime(2019, 1, 10, 0, 0, 0, tzinfo=timezone.utc),
+            finished_at=None,
+            is_active=True,
         )
 
         now_2019_03 = timezone.datetime(2019, 3, 1, tzinfo=timezone.utc)

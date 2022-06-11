@@ -47,13 +47,6 @@ class Requisition(BaseUpdatableModel):
     state = models.CharField(
         max_length=255, choices=STATE_CHOICES, default=STATE_CREATED
     )
-    patient = models.ForeignKey(
-        "ipharm.Patient",
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name="requisitions",
-    )
     care = models.ForeignKey(
         "ipharm.Care",
         on_delete=models.CASCADE,
