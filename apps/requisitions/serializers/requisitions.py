@@ -13,7 +13,6 @@ class RequisitionSerializer(serializers.ModelSerializer):
             "external_id",
             "type",
             "subtype",
-            "patient",
             "text",
             "file_link",
             "applicant",

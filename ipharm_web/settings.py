@@ -195,6 +195,11 @@ APP_VERSION = (BASE_DIR / Path("version.txt")).read_text()
 
 CHANGE_HISTORY_MAX_INTERVAL = int(os.environ.get("CHANGE_HISTORY_MAX_INTERVAL", 500))
 
+# CARE
+
+# Finished care will be locked after this number of days
+CARE_LOCK_TIME_GAP = int(os.environ.get("CARE_LOCK_TIME_GAP", 14))
+
 # REFERENCES AND UPDATES
 
 BASE_ICISELNIKY_URL = os.environ.get(

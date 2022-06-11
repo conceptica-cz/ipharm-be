@@ -13,7 +13,7 @@ from ..serializers.requisitions import (
 
 class RequisitionListView(generics.ListAPIView):
     queryset = (
-        Requisition.objects.select_related("patient")
+        Requisition.objects.select_related("care")
         .select_related("applicant")
         .select_related("solver")
         .all()

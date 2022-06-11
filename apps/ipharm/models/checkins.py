@@ -16,16 +16,6 @@ class CheckIn_high_interaction_potential_drugs(BaseUpdatableModel):
     drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
 
 
-# class CheckIn_diagnoses(BaseUpdatableModel):
-#     checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
-#     diagnosis = models.ForeignKey("references.Diagnosis", on_delete=models.CASCADE)
-#
-#
-# class CheckIn_diagnoses_drugs(BaseUpdatableModel):
-#     checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
-#     drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
-
-
 class CheckIn_narrow_therapeutic_window_drugs(BaseUpdatableModel):
     checkin = models.ForeignKey("ipharm.CheckIn", on_delete=models.CASCADE)
     drug = models.ForeignKey(Drug, on_delete=models.CASCADE)

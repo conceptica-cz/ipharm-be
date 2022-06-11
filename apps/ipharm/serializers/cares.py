@@ -76,6 +76,7 @@ class CareLiteNestedSerializer(serializers.ModelSerializer):
     checkin = CheckInLiteSerializer(read_only=True)
     pharmacologicalplan = PharmacologicalPlanLiteSerializer(read_only=True)
     requisitions = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+    is_locked = serializers.BooleanField(read_only=True)
 
     class Meta:
         exclude = ["is_deleted"]
@@ -96,6 +97,7 @@ class CareNestedSerializer(serializers.ModelSerializer):
     )
     patient_informations = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     requisitions = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+    is_locked = serializers.BooleanField(read_only=True)
 
     class Meta:
         exclude = ["is_deleted"]

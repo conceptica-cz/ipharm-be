@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from ipharm.managers.patients import PatientManager
+from ipharm.querysets.patients import PatientQuerySet
 from ipharm.services import cares
 from updates.models import BaseUpdatableModel
 
@@ -36,7 +37,7 @@ class Patient(BaseUpdatableModel):
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     note = models.TextField(blank=True)
 
-    objects = PatientManager()
+    objects = PatientManager.from_queryset(PatientQuerySet)()
 
     class Meta:
         ordering = ["last_name", "first_name"]

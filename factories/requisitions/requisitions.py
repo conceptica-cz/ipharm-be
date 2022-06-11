@@ -10,7 +10,7 @@ class RequisitionFactory(factory.django.DjangoModelFactory):
     type = Requisition.TYPE_IPHARM
     subtype = Requisition.SUBTYPE_IPHARM_CONCILATION
     state = Requisition.STATE_CREATED
-    patient = factory.SubFactory("factories.ipharm.patients.PatientFactory")
+    care = factory.SubFactory("factories.ipharm.cares.CareFactory")
     text = factory.Faker("text")
     file_link = None
     applicant = factory.SubFactory("factories.references.persons.PersonFactory")

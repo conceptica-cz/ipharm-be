@@ -30,6 +30,7 @@ class PaddingError(Exception):
 
 
 def add_padding(padding_table: dict, key: str, value: str) -> None:
+    value = str(value)
     if len(value) > padding_table[key]["length"]:
         raise PaddingError(f"{key} is too long: {value}")
     if padding_table[key]["padding"] == "left":

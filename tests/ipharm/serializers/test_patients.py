@@ -15,7 +15,24 @@ from factories.references import ClinicFactory, InsuranceCompanyFactory
 class PatientNestedSerializerTest(TestCase):
     def setUp(self) -> None:
         self.patient = PatientFactory()
-        self.care = CareFactory(patient=self.patient, care_type=Care.HOSPITALIZATION)
+        self.care_1 = CareFactory(
+            patient=self.patient,
+            started_at=datetime.datetime(2021, 7, 1, tzinfo=datetime.timezone.utc),
+        )
+        self.care_2 = CareFactory(
+            patient=self.patient,
+            started_at=datetime.datetime(2021, 8, 1, tzinfo=datetime.timezone.utc),
+        )
+        self.care_3 = CareFactory(
+            patient=self.patient,
+            started_at=datetime.datetime(2021, 9, 1, tzinfo=datetime.timezone.utc),
+            care_type=Care.HOSPITALIZATION,
+        )
+        other_patient = PatientFactory()
+        self.care_4 = CareFactory(
+            patient=other_patient,
+            started_at=datetime.datetime(2021, 10, 1, tzinfo=datetime.timezone.utc),
+        )
 
     def test_insurance_company_is_nested(self):
         serializer = PatientLiteNestedSerializer(instance=self.patient)
@@ -28,8 +45,13 @@ class PatientNestedSerializerTest(TestCase):
 
     def test_current_care_is_nested(self):
         serializer = PatientLiteNestedSerializer(instance=self.patient)
-        serializer_care = CareLiteNestedSerializer(instance=self.care)
+        serializer_care = CareLiteNestedSerializer(instance=self.care_3)
         self.assertEqual(serializer.data["current_care"], serializer_care.data)
+        self.assertEqual(len(serializer.data["cares"]), 3)
+        serializer_cares = CareLiteNestedSerializer(
+            many=True, instance=self.patient.cares.all()
+        )
+        self.assertEqual(serializer.data["cares"], serializer_cares.data)
 
 
 class PatientSerializerTest(TestCase):

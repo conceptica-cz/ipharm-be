@@ -21,7 +21,7 @@ class PharmacologicalPlanFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def tags(self, create, extracted, **kwargs):
-        if create:
+        if kwargs.get("add", False):
             for _ in range(random.randint(1, 4)):
                 self.tags.add(TagFactory())
 

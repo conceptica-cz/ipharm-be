@@ -1,6 +1,11 @@
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from updates.models import BaseUpdatableModel
+
+
+class CareIsLocked(Exception):
+    pass
 
 
 class Care(BaseUpdatableModel):
@@ -13,7 +18,9 @@ class Care(BaseUpdatableModel):
         (AMBULATION, "Ambulation"),
         (EXTERNAL, "External"),
     )
-    patient = models.ForeignKey("Patient", on_delete=models.CASCADE)
+    patient = models.ForeignKey(
+        "Patient", on_delete=models.CASCADE, related_name="cares"
+    )
     care_type = models.CharField(
         max_length=20, choices=CARE_TYPE_CHOICES, default=AMBULATION
     )
@@ -63,15 +70,28 @@ class Care(BaseUpdatableModel):
         self.save()
 
     def finish(self):
-        self.is_active = False
-        self.finished_at = timezone.now()
-        self.save()
+        if self.finished_at is None:
+            self.finished_at = timezone.now()
+            self.save()
+        if self.is_active is True:
+            self.is_active = False
+            self.save()
 
     @property
     def actual_department(self):
         if self.department:
             return self.department
         return self.external_department
+
+    @property
+    def is_locked(self):
+        if self.finished_at is None:
+            return False
+        if timezone.now() - self.finished_at > timezone.timedelta(
+            days=settings.CARE_LOCK_TIME_GAP
+        ):
+            return True
+        return False
 
 
 class Dekurz(BaseUpdatableModel):

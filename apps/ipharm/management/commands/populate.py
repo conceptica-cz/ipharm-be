@@ -3,6 +3,7 @@ import random
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from ipharm.models.patients import Patient
+from ipharm.models.pharmacological_plans import PharmacologicalPlan
 from references.models import Department
 
 from factories.ipharm import (
@@ -34,10 +35,19 @@ class Command(BaseCommand):
             default=False,
             help="Delete existing models.",
         )
+        parser.add_argument(
+            "--count",
+            type=int,
+            default=50,
+            help="Number of Patient models to create.",
+        )
 
     def handle(self, *args, **options):
         if options["delete"]:
             self._delete_models()
+
+        patient_count = options["count"]
+        print(f"Creating {patient_count} patients.")
 
         if settings.ENVIRONMENT not in ["test", "development", "local"]:
             self.stdout.write(
@@ -56,56 +66,62 @@ class Command(BaseCommand):
             UserFactory(),
         ]
 
-        for i in range(50):
+        for _ in range(50):
             TagFactory()
             AdverseEffectFactory()
-        for i in range(101):
+        for n in range(patient_count):
             patient = PatientFactory()
-            care = CareFactory(last_dekurz__add=True, patient=patient)
-            print(f"Patient {patient} created")
-            if random.randint(0, 1):
-                CheckInFactory(
-                    care=care,
-                    drugs__add=True,
-                    diagnoses__add=True,
-                    high_interaction_potential_drugs__add=True,
-                    narrow_therapeutic_window_drugs__add=True,
-                )
-                if random.randint(0, 1):
-                    pharmacological_plan = PharmacologicalPlanFactory(
+            for _ in range(random.randint(1, 3)):
+                care = CareFactory(last_dekurz__add=True, patient=patient)
+                if not hasattr(care, "checkin") and random.randint(0, 1):
+                    CheckInFactory(
                         care=care,
-                        tags__add=True,
-                    )
-                    [
-                        PharmacologicalPlanCommentFactory(
-                            pharmacological_plan=pharmacological_plan,
-                            comment_type="verification",
-                        )
-                        for _ in range(random.randint(0, 2))
-                    ]
-                    [
-                        PharmacologicalPlanCommentFactory(
-                            pharmacological_plan=pharmacological_plan,
-                            comment_type="comment",
-                        )
-                        for _ in range(random.randint(0, 5))
-                    ]
-                    RiskDrugHistoryFactory(
-                        care=care,
-                        tags__add=True,
+                        drugs__add=True,
                         diagnoses__add=True,
+                        high_interaction_potential_drugs__add=True,
+                        narrow_therapeutic_window_drugs__add=True,
                     )
-                    for _ in range(random.randint(1, 4)):
-                        patient_information = PatientInformationFactory(care=care)
-                        for i in range(random.randint(1, 4)):
-                            patient_information.text = i
-                            patient_information.save()
-                            patient_information.set_history_user(random.choice(users))
+                    if not hasattr(care, "pharmacologicalplan") and random.randint(
+                        0, 1
+                    ):
+                        pharmacological_plan = PharmacologicalPlanFactory(
+                            care=care,
+                            tags__add=True,
+                        )
+                        [
+                            PharmacologicalPlanCommentFactory(
+                                pharmacological_plan=pharmacological_plan,
+                                comment_type="verification",
+                            )
+                            for _ in range(random.randint(0, 2))
+                        ]
+                        [
+                            PharmacologicalPlanCommentFactory(
+                                pharmacological_plan=pharmacological_plan,
+                                comment_type="comment",
+                            )
+                            for _ in range(random.randint(0, 5))
+                        ]
+                        RiskDrugHistoryFactory(
+                            care=care,
+                            tags__add=True,
+                            diagnoses__add=True,
+                        )
+                        for _ in range(random.randint(1, 4)):
+                            patient_information = PatientInformationFactory(care=care)
+                            for i in range(random.randint(1, 4)):
+                                patient_information.text = i
+                                patient_information.save()
+                                patient_information.set_history_user(
+                                    random.choice(users)
+                                )
 
-                    [
-                        PharmacologicalEvaluationFactory(care=care, tags__add=True)
-                        for _ in range(random.randint(1, 5))
-                    ]
+                        [
+                            PharmacologicalEvaluationFactory(care=care, tags__add=True)
+                            for _ in range(random.randint(1, 5))
+                        ]
+
+            print(f"Patient {n} {patient} created")
 
         for i in range(30):
             ExternalDepartmentFactory()
@@ -116,5 +132,5 @@ class Command(BaseCommand):
         print("Database was populated.")
 
     def _delete_models(self):
-        Patient.objects.all().delete()
+        Patient.all_objects.all().delete()
         print("Models were deleted.")

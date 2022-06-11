@@ -8,6 +8,7 @@ from .cares import CareLiteNestedSerializer, CareNestedSerializer, CareSerialize
 class PatientLiteNestedSerializer(serializers.ModelSerializer):
     insurance_company = InsuranceCompanySerializer(read_only=True)
     current_care = CareLiteNestedSerializer(read_only=True)
+    cares = CareLiteNestedSerializer(many=True, read_only=True)
 
     class Meta:
         model = Patient
@@ -18,6 +19,7 @@ class PatientLiteNestedSerializer(serializers.ModelSerializer):
 class PatientNestedSerializer(serializers.ModelSerializer):
     insurance_company = InsuranceCompanySerializer(read_only=True)
     current_care = CareNestedSerializer(read_only=True)
+    cares = CareNestedSerializer(many=True, read_only=True)
 
     class Meta:
         model = Patient

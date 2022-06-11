@@ -6,7 +6,7 @@ from requisitions.serializers.requisitions import RequisitionNestedSerializer
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from factories.ipharm import PatientFactory
+from factories.ipharm import CareFactory, PatientFactory
 from factories.references import PersonFactory
 from factories.requisitions.requisitions import RequisitionFactory
 from factories.users import UserFactory
@@ -15,17 +15,22 @@ from factories.users import UserFactory
 class RequisitionListTest(APITestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
-        self.patient_1 = PatientFactory()
-        self.patient_2 = PatientFactory()
+        self.care_1 = CareFactory()
+        self.care_2 = CareFactory()
 
-        self.requisition_1 = RequisitionFactory(patient=self.patient_1)
-        self.requisition_2 = RequisitionFactory(patient=self.patient_1)
-        self.requisition_3 = RequisitionFactory(patient=self.patient_2)
+        self.requisition_1 = RequisitionFactory(care=self.care_1)
+        self.requisition_2 = RequisitionFactory(care=self.care_1)
+        self.requisition_3 = RequisitionFactory(care=self.care_2)
 
     def test_get_all_requisitions(self):
         self.client.force_login(user=self.user)
         response = self.client.get(reverse("requisitions:requisition_list"))
-        requisitions = Requisition.objects.all()
+        requisitions = (
+            Requisition.objects.select_related("care")
+            .select_related("applicant")
+            .select_related("solver")
+            .all()
+        )
         serializer = RequisitionNestedSerializer(requisitions, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -35,9 +40,9 @@ class RequisitionListTest(APITestCase):
         self.client.force_login(user=self.user)
         response = self.client.get(
             reverse("requisitions:requisition_list"),
-            data={"patient": self.patient_1.pk},
+            data={"care": self.care_1.pk},
         )
-        requisitions = Requisition.objects.filter(patient=self.patient_1)
+        requisitions = Requisition.objects.filter(care=self.care_1)
         serializer = RequisitionNestedSerializer(requisitions, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
