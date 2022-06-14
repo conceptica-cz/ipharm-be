@@ -63,3 +63,6 @@ class RiskDrugHistoryComment(BaseUpdatableModel):
     text = models.TextField(help_text="Komentář")
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    author = models.ForeignKey(
+        "users.User", null=True, blank=True, on_delete=models.SET_NULL
+    )

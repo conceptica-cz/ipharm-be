@@ -230,7 +230,7 @@ class GetPharmacologicalEvaluationCommentListTest(APITestCase):
                 PharmacologicalEvaluationCommentSerializer(instance=comment).data
                 for comment in PharmacologicalEvaluationComment.objects.filter(
                     pharmacological_evaluation=self.pharmacological_evaluation_2
-                )
+                ).select_related("author")
             ],
         )
 

@@ -37,10 +37,13 @@ class PharmacologicalEvaluationHistoryView(HistoryView):
 
 
 class PharmacologicalEvaluationCommentListView(generics.ListCreateAPIView):
-    queryset = PharmacologicalEvaluationComment.objects.all()
+    queryset = PharmacologicalEvaluationComment.objects.select_related("author")
     serializer_class = PharmacologicalEvaluationCommentSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["pharmacological_evaluation"]
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
 class PharmacologicalEvaluationCommentDetailView(generics.RetrieveUpdateDestroyAPIView):
