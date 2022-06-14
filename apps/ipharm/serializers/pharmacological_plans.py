@@ -4,13 +4,16 @@ from ipharm.models.pharmacological_plans import (
 )
 from references.serializers import TagSerializer
 from rest_framework import serializers, status
+from users.serializers import UserLightSerializer
 
 
 class PharmacologicalPlanCommentSerializer(serializers.ModelSerializer):
+    author = UserLightSerializer(read_only=True)
+
     class Meta:
         model = PharmacologicalPlanComment
         exclude = ["is_deleted"]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "author"]
 
     def validate(self, data):
         if self.instance:

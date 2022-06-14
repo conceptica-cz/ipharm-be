@@ -5,6 +5,7 @@ from ipharm.models.risk_drug_histories import (
 )
 from references.serializers import DiagnosisSerializer, DrugSerializer, TagSerializer
 from rest_framework import serializers
+from users.serializers import UserLightSerializer
 
 
 class RiskDrugHistoryDiagnosisNestedSerializer(serializers.ModelSerializer):
@@ -30,10 +31,12 @@ class RiskDrugHistoryDiagnosisSerializer(serializers.ModelSerializer):
 
 
 class RiskDrugHistoryCommentSerializer(serializers.ModelSerializer):
+    author = UserLightSerializer(read_only=True)
+
     class Meta:
         model = RiskDrugHistoryComment
         exclude = ["is_deleted"]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "author"]
 
 
 class RiskDrugHistorySerializer(serializers.ModelSerializer):

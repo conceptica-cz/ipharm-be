@@ -57,10 +57,13 @@ class RiskDrugHistoryHistoryView(HistoryView):
 
 
 class RiskDrugHistoryCommentListView(generics.ListCreateAPIView):
-    queryset = RiskDrugHistoryComment.objects.all()
+    queryset = RiskDrugHistoryComment.objects.select_related("author")
     serializer_class = RiskDrugHistoryCommentSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["risk_drug_history"]
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
 class RiskDrugHistoryCommentDetailView(generics.RetrieveUpdateDestroyAPIView):

@@ -121,6 +121,10 @@ class CreateRiskDrugHistoryCommentTest(APITestCase):
             response.status_code, status.HTTP_201_CREATED, msg=response.data
         )
 
+        comment = RiskDrugHistoryComment.objects.get(pk=response.data["id"])
+
+        self.assertEqual(comment.author, self.user)
+
 
 class GetRiskDrugHistoryCommentListTest(APITestCase):
     def setUp(self) -> None:
@@ -158,12 +162,12 @@ class GetRiskDrugHistoryCommentListTest(APITestCase):
                 RiskDrugHistoryCommentSerializer(instance=comment).data
                 for comment in RiskDrugHistoryComment.objects.filter(
                     risk_drug_history=self.risk_drug_history_2
-                )
+                ).select_related("author")
             ],
         )
 
 
-class GetRiskDrugHistoryCommenTest(APITestCase):
+class GetRiskDrugHistoryCommentTest(APITestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
 
@@ -188,7 +192,7 @@ class GetRiskDrugHistoryCommenTest(APITestCase):
         )
 
 
-class UpdateRiskDrugHistoryCommenTest(APITestCase):
+class UpdateRiskDrugHistoryCommentTest(APITestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
 

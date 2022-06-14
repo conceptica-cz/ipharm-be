@@ -4,6 +4,7 @@ from ipharm.models.pharmacological_evaluations import (
 )
 from references.serializers import DrugSerializer, TagSerializer
 from rest_framework import serializers
+from users.serializers import UserLightSerializer
 
 
 class PharmacologicalEvaluationSerializer(serializers.ModelSerializer):
@@ -31,7 +32,9 @@ class PharmacologicalEvaluationNestedSerializer(serializers.ModelSerializer):
 
 
 class PharmacologicalEvaluationCommentSerializer(serializers.ModelSerializer):
+    author = UserLightSerializer(read_only=True)
+
     class Meta:
         model = PharmacologicalEvaluationComment
         exclude = ["is_deleted"]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "author"]
