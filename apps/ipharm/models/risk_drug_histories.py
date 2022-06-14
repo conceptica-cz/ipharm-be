@@ -29,7 +29,7 @@ class RiskDrugHistory(BaseUpdatableModel):
 
 
 class RiskDrugHistoryDiagnosisDrug(BaseUpdatableModel):
-    check_in_diagnosis = models.ForeignKey(
+    risk_drug_history_diagnosis = models.ForeignKey(
         "ipharm.RiskDrugHistoryDiagnosis", on_delete=models.CASCADE
     )
     drug = models.ForeignKey("references.Drug", on_delete=models.CASCADE)
