@@ -14,10 +14,16 @@ from ..serializers.pharmacological_plans import (
 
 
 class PharmacologicalPlanListView(generics.ListCreateAPIView):
-    queryset = PharmacologicalPlan.objects.all()
-    serializer_class = PharmacologicalPlanSerializer
+    queryset = PharmacologicalPlan.objects.prefetch_related("tags").prefetch_related(
+        "comments"
+    )
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["care"]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return PharmacologicalPlanNestedSerializer
+        return PharmacologicalPlanSerializer
 
 
 class PharmacologicalPlanDetailView(

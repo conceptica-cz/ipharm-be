@@ -1,4 +1,5 @@
 from common.views import HistoryView
+from django.db.models import Prefetch
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
@@ -18,7 +19,14 @@ from ..serializers.risk_drug_histories import (
 class RiskDrugHistoryListView(generics.ListCreateAPIView):
     queryset = (
         RiskDrugHistory.objects.prefetch_related("comments")
-        .select_related("risk_drug_history_diagnosis")
+        .prefetch_related(
+            Prefetch(
+                "diagnoses",
+                queryset=RiskDrugHistoryDiagnosis.objects.select_related(
+                    "diagnosis"
+                ).prefetch_related("drugs"),
+            )
+        )
         .prefetch_related("tags")
         .all()
     )
