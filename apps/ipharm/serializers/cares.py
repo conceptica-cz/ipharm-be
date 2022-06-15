@@ -2,14 +2,19 @@ from ipharm.models.cares import Care, Dekurz
 from ipharm.models.checkins import CheckIn
 from ipharm.models.pharmacological_plans import PharmacologicalPlan
 from ipharm.serializers.checkins import CheckInNestedSerializer
+from ipharm.serializers.patient_informations import PatientInformationSerializer
 from ipharm.serializers.pharmacological_evaluations import (
     PharmacologicalEvaluationNestedSerializer,
 )
-from ipharm.serializers.pharmacological_plans import PharmacologicalPlanSerializer
+from ipharm.serializers.pharmacological_plans import (
+    PharmacologicalPlanNestedSerializer,
+    PharmacologicalPlanSerializer,
+)
 from ipharm.serializers.risk_drug_histories import RiskDrugHistoryNestedSerializer
 from references.serializers.clinics import ClinicSerializer, DepartmentSerializer
 from references.serializers.diagnoses import DiagnosisSerializer
 from references.serializers.persons import PersonSerializer
+from requisitions.serializers.requisitions import RequisitionNestedSerializer
 from rest_framework import serializers
 
 
@@ -90,13 +95,13 @@ class CareNestedSerializer(serializers.ModelSerializer):
     main_diagnosis = DiagnosisSerializer(read_only=True)
     last_dekurz = DekurzNestedSerializer(read_only=True)
     checkin = CheckInNestedSerializer(read_only=True)
-    pharmacologicalplan = PharmacologicalPlanSerializer(read_only=True)
+    pharmacologicalplan = PharmacologicalPlanNestedSerializer(read_only=True)
     riskdrughistory = RiskDrugHistoryNestedSerializer(read_only=True)
     pharmacological_evaluations = PharmacologicalEvaluationNestedSerializer(
         read_only=True, many=True
     )
-    patient_informations = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    requisitions = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+    patient_informations = PatientInformationSerializer(many=True, read_only=True)
+    requisitions = RequisitionNestedSerializer(read_only=True, many=True)
     is_locked = serializers.BooleanField(read_only=True)
 
     class Meta:
