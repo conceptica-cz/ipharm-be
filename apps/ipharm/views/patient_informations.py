@@ -2,6 +2,7 @@ from common.views import HistoryView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
+from ..filters.patient_informations import PatientInformationFilter
 from ..models.patient_informations import PatientInformation
 from ..serializers.patient_informations import (
     PatientInformationNestedSerializer,
@@ -13,7 +14,7 @@ class PatientInformationListView(generics.ListCreateAPIView):
     queryset = PatientInformation.objects.all()
     serializer_class = PatientInformationSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["care"]
+    filterset_class = PatientInformationFilter
 
 
 class PatientInformationDetailView(
