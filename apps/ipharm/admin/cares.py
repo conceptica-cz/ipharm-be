@@ -10,6 +10,7 @@ class CareAdmin(BaseHistoryAdmin):
         "pk",
         "external_id",
         "care_type",
+        "clinic",
         "patient",
         "started_at",
         "finished_at",
