@@ -18,6 +18,7 @@ from factories.ipharm import (
 )
 from factories.references import (
     AdverseEffectFactory,
+    ClinicFactory,
     ExternalDepartmentFactory,
     IdentificationFactory,
     TagFactory,
@@ -66,13 +67,19 @@ class Command(BaseCommand):
             UserFactory(),
         ]
 
+        clinics = [ClinicFactory() for _ in range(10)]
+
         for _ in range(50):
             TagFactory()
             AdverseEffectFactory()
         for n in range(patient_count):
             patient = PatientFactory()
             for _ in range(random.randint(1, 3)):
-                care = CareFactory(last_dekurz__add=True, patient=patient)
+                care = CareFactory(
+                    last_dekurz__add=True,
+                    patient=patient,
+                    clinic=random.choice(clinics),
+                )
                 if not hasattr(care, "checkin") and random.randint(0, 1):
                     CheckInFactory(
                         care=care,
