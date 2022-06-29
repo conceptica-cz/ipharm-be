@@ -4,7 +4,7 @@ from users.serializers import UserLightSerializer
 
 class ValueField(serializers.Field):
     def to_representation(self, value):
-        return value
+        return str(value)
 
     def to_internal_value(self, data):
         return data
