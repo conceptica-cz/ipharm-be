@@ -6,6 +6,7 @@ from ipharm.models.cares import Care
 
 
 def filter_age(value):
+    value = int(value)
     now = timezone.now()
     birth_date_min = date(now.year - value, now.month, now.day)
     birth_date_max = date(now.year - value + 1, now.month, now.day)
@@ -13,12 +14,14 @@ def filter_age(value):
 
 
 def fitler_age_min(value):
+    value = int(value)
     now = timezone.now()
     birth_date_max = date(now.year - value + 1, now.month, now.day)
     return Q(birth_date__lte=birth_date_max)
 
 
 def filter_age_max(value):
+    value = int(value)
     now = timezone.now()
     birth_date_min = date(now.year - value, now.month, now.day)
     return Q(birth_date__gte=birth_date_min)

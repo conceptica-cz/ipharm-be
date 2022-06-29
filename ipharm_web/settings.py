@@ -110,7 +110,7 @@ DATABASES = {
 AUTH_USER_MODEL = "users.User"
 
 AUTHENTICATION_BACKENDS = [
-#    "django_python3_ldap.auth.LDAPBackend",
+    #    "django_python3_ldap.auth.LDAPBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
 
