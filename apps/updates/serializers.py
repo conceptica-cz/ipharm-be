@@ -1,10 +1,13 @@
+from django.db.models.fields.files import FieldFile
 from rest_framework import serializers
 from users.serializers import UserLightSerializer
 
 
 class ValueField(serializers.Field):
     def to_representation(self, value):
-        return str(value)
+        if isinstance(value, FieldFile):
+            return str(value)
+        return value
 
     def to_internal_value(self, data):
         return data
