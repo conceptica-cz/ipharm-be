@@ -8,11 +8,12 @@ __pycache__/
 *.log
 
 ipharm_static
+iciselniky_static
+frontend_ipharm
 _postgres_data*
 dump.sql
 hosts
 /media/
 /docs/build/.doctrees/
 static
-frontend_ipharm
 keytab

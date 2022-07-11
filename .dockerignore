@@ -4,11 +4,11 @@
 .github
 .git
 docs
-dump.sql
 dockerfiles
-_postgres_data/tests/updates/test_integration.py
+docker-compose*
+iciselniky_static
+frontend_ipharm
+_postgres_data*
+media
 static
 keytab
-frontend_ipharm
-media
-docker-compose.*
