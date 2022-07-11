@@ -155,3 +155,34 @@ services:
       - "5556:5555"
     depends_on:
       - iciselniky-redis
+
+  ipharm-frontend:
+    image: conceptica/ipharm_fe_app:local
+    container_name: ipharm-frontend-app
+    command: cp -r ./build /frontend
+    logging: *logging
+    volumes:
+      - ./frontend_ipharm:/frontend
+
+  kerberos:
+    image: conceptica/test_kerberos_server
+    ports:
+      - "88:88"
+      - "750:750"
+    volumes:
+      - ./keytab:/app/keytab
+    env_file:
+      - .envs/.development/.kerberos
+
+  apache:
+    image: conceptica/apache_kerberos:latest
+    volumes:
+        - ./apache-config/:/app/config/
+        - ./keytab:/app/keytab
+        - ./static:/app/static
+        - ./frontend_ipharm:/frontend_ipharm
+    ports:
+      - "80:80"
+    env_file: .envs/.development/.apache
+    depends_on:
+      - kerberos

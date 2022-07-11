@@ -73,6 +73,14 @@ MIDDLEWARE = [
     "simple_history.middleware.HistoryRequestMiddleware",
 ]
 
+ENABLE_KERBEROS = os.environ.get("ENABLE_KERBEROS") == "True"
+
+if ENABLE_KERBEROS:
+    MIDDLEWARE.insert(
+        MIDDLEWARE.index("django.contrib.auth.middleware.AuthenticationMiddleware") + 1,
+        "ipharm_web.middleware.KerberosUserMiddleware",
+    )
+
 ROOT_URLCONF = "ipharm_web.urls"
 
 TEMPLATES = [
@@ -110,9 +118,11 @@ DATABASES = {
 AUTH_USER_MODEL = "users.User"
 
 AUTHENTICATION_BACKENDS = [
-    #    "django_python3_ldap.auth.LDAPBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
+
+if ENABLE_KERBEROS:
+    AUTHENTICATION_BACKENDS.insert(0, "django.contrib.auth.backends.RemoteUserBackend")
 
 # LDAP
 
@@ -157,6 +167,12 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+if ENABLE_KERBEROS:
+    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"].insert(
+        0, "rest_framework.authentication.RemoteUserAuthentication"
+    )
+
 
 # cors headers
 
