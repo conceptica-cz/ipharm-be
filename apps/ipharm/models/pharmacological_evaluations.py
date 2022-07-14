@@ -150,11 +150,11 @@ class PharmacologicalEvaluation(BaseUpdatableModel):
         default=False, help_text="Doporučené vyšetření - Fyzikální"
     )
 
-    dosage_determination = models.TextField(
-        blank=True, null=True, help_text="Stanovení dávky (při zahájení terapie)"
+    dosage_determination = models.BooleanField(
+        default=False, help_text="Stanovení dávky (při zahájení terapie)"
     )
-    administration_method_optimization = models.TextField(
-        blank=True, null=True, help_text="Optimalizace způsobu poddání"
+    administration_method_optimization = models.BooleanField(
+        default=False, help_text="Optimalizace způsobu poddání"
     )
     tags = models.ManyToManyField(
         "references.Tag",
