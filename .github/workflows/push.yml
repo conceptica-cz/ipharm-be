@@ -5,9 +5,9 @@ on:
     branches-ignore:
       - master
     tags-ignore:
-      - local
-      - test
-      - demo
+      - local*
+      - test*
+      - demo*
 
 jobs:
   build:
