@@ -3,9 +3,10 @@ name: Release docker image
 on:
   push:
     tags:
-      - local
-      - test
-      - demo
+      - local-*
+      - test-*
+      - demo-*
+      - production-*
 
 jobs:
   build:
@@ -15,15 +16,23 @@ jobs:
       - name: Sets env vars for local
         run: |
           echo "DOCKER_IMAGE_NAME=conceptica/ipharm_app:local" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE_NAME_FULL=conceptica/ipharm_app:${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
         if: startsWith(github.ref, 'refs/tags/local')
-      - name: Sets env vars for staging
+      - name: Sets env vars for test
         run: |
           echo "DOCKER_IMAGE_NAME=conceptica/ipharm_app:test" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE_NAME_FULL=conceptica/ipharm_app:${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
         if: startsWith(github.ref, 'refs/tags/test')
-      - name: Sets env vars for release
+      - name: Sets env vars for demo
         run: |
           echo "DOCKER_IMAGE_NAME=conceptica/ipharm_app:demo" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE_NAME_FULL=conceptica/ipharm_app:${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
         if: startsWith(github.ref, 'refs/tags/demo')
+      - name: Sets env vars for production
+        run: |
+          echo "DOCKER_IMAGE_NAME=conceptica/ipharm_app:production" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE_NAME_FULL=conceptica/ipharm_app:${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        if: startsWith(github.ref, 'refs/tags/production')
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to DockerHub
@@ -37,7 +46,7 @@ jobs:
           context: .
           file: ./dockerfiles/production/Dockerfile
           push: true
-          tags: ${{env.DOCKER_IMAGE_NAME}}
+          tags: ${{env.DOCKER_IMAGE_NAME}},${{env.DOCKER_IMAGE_NAME_FULL}}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       - name: Move cache

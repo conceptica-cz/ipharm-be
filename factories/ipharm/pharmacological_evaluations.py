@@ -101,8 +101,10 @@ class PharmacologicalEvaluationFactory(factory.django.DjangoModelFactory):
         "boolean", chance_of_getting_true=30
     )
 
-    dosage_determination = factory.Faker("text", locale="la")
-    administration_method_optimization = factory.Faker("text", locale="la")
+    dosage_determination = factory.Faker("boolean", chance_of_getting_true=30)
+    administration_method_optimization = factory.Faker(
+        "boolean", chance_of_getting_true=30
+    )
 
     @factory.post_generation
     def tags(self, create, extracted, **kwargs):
