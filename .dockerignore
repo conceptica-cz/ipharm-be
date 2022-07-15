@@ -7,3 +7,8 @@ docs
 dump.sql
 dockerfiles
 _postgres_data/tests/updates/test_integration.py
+static
+keytab
+frontend_ipharm
+media
+docker-compose.*

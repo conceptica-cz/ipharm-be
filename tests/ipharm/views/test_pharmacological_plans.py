@@ -154,6 +154,30 @@ class CreatePharmacologicalPlanCommentTest(APITestCase):
             response.status_code, status.HTTP_400_BAD_REQUEST, msg=response.data
         )
 
+    def test_that_only_two_verification_comments_but_multiple_comments_can_be_created(
+        self,
+    ):
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=self.pharmacological_plan, comment_type="verification"
+        )
+        PharmacologicalPlanCommentFactory(
+            pharmacological_plan=self.pharmacological_plan, comment_type="verification"
+        )
+
+        self.client.force_login(user=self.user)
+        data = {
+            "pharmacological_plan": self.pharmacological_plan.pk,
+            "text": "Test comment",
+            "comment_type": "comment",
+        }
+        response = self.client.post(
+            reverse("ipharm:pharmacological_plan_comment_list"), data=data
+        )
+
+        self.assertEqual(
+            response.status_code, status.HTTP_201_CREATED, msg=response.data
+        )
+
 
 class GetPharmacologicalPlanCommentListTest(APITestCase):
     def setUp(self) -> None:
