@@ -94,6 +94,52 @@ Now you can login to the app's admin on localhost:8000/admin/
 $ docker-compose exec ipharm-app python manage.py populate
 ```
 
+## Continuous integration and versioning
+
+Continues integration and versioning is done with GitHub Actions workflows.
+
+On every branch push, the app is tested (with django tests) and linted (with black, flake8 and isort).
+See the ["Push"](./.github/workflows/push.yml) workflow for more information.
+
+On tag push, the docker image is built and pushed to the registry.
+See the ["Release docker image"](./.github/workflows/release.yml) workflow for more information.
+
+
+### Build docker image
+
+To build the docker image, push a new unique tag to the repository. Use format `<environment>-<version>` for a tag.
+The "environment" is one of `local`, `test`, `demo`, or `prod`.
+
+For example, to push tag `test-0.3.0`:
+
+1. update local branch: `git pull origin`
+2. add tag to local branch: `git tag -a -m "test-0.3.0" test-0.3.0`
+3. push tag to remote: `git push origin tag test-0.3.0`
+
+To check the status of building, check the "Release docker image" github workflow at https://github.com/conceptica-cz/ipharm-be/actions/workflows/release.yml 
+
+After the end of the building workflow, two images will be created: `conceptica/ipharm_app:test-0.3.0` and `conceptica/ipharm_app:test`. 
+You can check the created images at the Docker Hub: https://hub.docker.com/r/conceptica/ipharm_app/tags.
+
+**Note:** Never build a "demo" or "production" image without proper testing of the "test" image on test environment.
+
+### Deploy docker image
+
+At the end of the building process, you have to deploy the test image to the environment using 
+the "Deploy test ipharm" workflow at https://github.com/conceptica-cz/ipharm-production/actions/workflows/deploy_test_ipharm.yml 
+
+You can deploy "demo" and "production" images using the appropriate ansible playbook at https://github.com/conceptica-cz/ipharm-production
+
+### Creating image from a feature branch
+
+You can also create a docker image from any branch, not necessarily the master branch. 
+Use format `<environment>-<feature>` or `<environment>-<feature>-<version>` for a tag.
+
+You have to input appropriate tag during the the "Deploy test ipharm" workflow 
+at https://github.com/conceptica-cz/ipharm-production/actions/workflows/deploy_test_ipharm.yml
+
+
+
 ## Documentation
 
 The documentation is available in the source code in the `/docs/build` directory
