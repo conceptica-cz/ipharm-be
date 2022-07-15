@@ -13,3 +13,6 @@ dump.sql
 hosts
 /media/
 /docs/build/.doctrees/
+static
+frontend_ipharm
+keytab

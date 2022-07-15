@@ -18,8 +18,10 @@ class PharmacologicalPlanCommentSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if self.instance:
             pharmacological_plan = self.instance.pharmacological_plan
+            comment_type = self.instance.comment_type
         else:
             pharmacological_plan = data["pharmacological_plan"]
+            comment_type = data.get("comment_type", PharmacologicalPlanComment.COMMENT)
 
         if (
             PharmacologicalPlanComment.objects.filter(
@@ -27,6 +29,7 @@ class PharmacologicalPlanCommentSerializer(serializers.ModelSerializer):
                 comment_type=PharmacologicalPlanComment.VERIFICATION,
             ).count()
             >= 2
+            and comment_type == PharmacologicalPlanComment.VERIFICATION
         ):
             raise serializers.ValidationError(
                 "Verification comments are limited to 2 per plan.",
