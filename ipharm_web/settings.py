@@ -155,7 +155,6 @@ LDAP_AUTH_OBJECT_CLASS = os.environ.get("LDAP_AUTH_OBJECT_CLASS", "user")
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.BasicAuthentication",
         "common.authentication.BearerTokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ],
@@ -167,6 +166,12 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+ALLOW_BASIC_AUTH = os.environ.get("ALLOW_BASIC_AUTH", "True") == "True"
+if ALLOW_BASIC_AUTH:
+    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"].insert(
+        0, "rest_framework.authentication.BasicAuthentication"
+    )
 
 if ENABLE_KERBEROS:
     REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"].insert(
