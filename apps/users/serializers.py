@@ -50,3 +50,8 @@ class UserWriteSerializer(serializers.ModelSerializer):
             "hospitals": {"required": False, "allow_empty": True},
             "ambulances": {"required": False, "allow_empty": True},
         }
+
+
+class BasicLoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(style={"input_type": "password"})
