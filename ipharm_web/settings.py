@@ -78,7 +78,7 @@ ENABLE_KERBEROS = os.environ.get("ENABLE_KERBEROS") == "True"
 if ENABLE_KERBEROS:
     MIDDLEWARE.insert(
         MIDDLEWARE.index("django.contrib.auth.middleware.AuthenticationMiddleware") + 1,
-        "ipharm_web.middleware.KerberosUserMiddleware",
+        "users.middleware.KerberosUserMiddleware",
     )
 
 ROOT_URLCONF = "ipharm_web.urls"
@@ -171,11 +171,6 @@ ALLOW_BASIC_AUTH = os.environ.get("ALLOW_BASIC_AUTH", "True") == "True"
 if ALLOW_BASIC_AUTH:
     REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"].insert(
         0, "rest_framework.authentication.BasicAuthentication"
-    )
-
-if ENABLE_KERBEROS:
-    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"].insert(
-        0, "rest_framework.authentication.RemoteUserAuthentication"
     )
 
 
