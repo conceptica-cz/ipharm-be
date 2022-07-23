@@ -24,6 +24,7 @@ jobs:
           mkdir -p .envs/.development
           touch .envs/.development/.ipharm_app
           echo "SECRET_KEY=${{ secrets.SECRET_KEY_DEV }}" >>  .envs/.development/.ipharm_app
+          echo "ENABLE_KERBEROS=True" >>  .envs/.development/.ipharm_app
           touch .envs/.development/.ipharm_postgres
           echo POSTGRES_HOST=ipharm-postgres >>  .envs/.development/.ipharm_postgres
           echo POSTGRES_PORT=5432 >>  .envs/.development/.ipharm_postgres
