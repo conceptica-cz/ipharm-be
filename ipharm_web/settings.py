@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     "drf_spectacular_sidecar",
     "corsheaders",
     "django_celery_beat",
-    "django_python3_ldap",
     "common",
     "ipharm",
     "references",
@@ -126,30 +125,20 @@ if ENABLE_KERBEROS:
 
 # LDAP
 
-LDAP_AUTH_URL = json.loads(os.environ.get("LDAP_AUTH_URL", '["ldap://localhost:389"]'))
-LDAP_AUTH_SEARCH_BASE = os.environ.get(
-    "LDAP_AUTH_SEARCH_BASE", "ou=people,dc=example,dc=com"
-)
-LDAP_AUTH_USE_TLS = os.environ.get("LDAP_AUTH_USE_TLS", "False") == "True"
-LDAP_AUTH_FORMAT_USERNAME = os.environ.get(
-    "LDAP_AUTH_FORMAT_USERNAME",
-    "django_python3_ldap.utils.format_username_openldap",
-)
-LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN = os.environ.get(
-    "LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN", ""
-)
+LDAP_URL = os.environ.get("LDAP_URL", "")
 
-LDAP_AUTH_CONNECTION_USERNAME = os.environ.get("LDAP_AUTH_CONNECTION_USERNAME", "")
-LDAP_AUTH_CONNECTION_PASSWORD = os.environ.get("LDAP_AUTH_CONNECTION_PASSWORD", "")
+LDAP_CONNECTION_USERNAME = os.environ.get("LDAP_CONNECTION_USERNAME", "")
+LDAP_CONNECTION_PASSWORD = os.environ.get("LDAP_CONNECTION_PASSWORD", "Secret123")
+LDAP_SEARCH_BASE = os.environ.get("LDAP_SEARCH_BASE", "dc=demo1,dc=freeipa,dc=org")
 
-LDAP_AUTH_USER_FIELDS = json.loads(
-    os.environ.get(
-        "LDAP_AUTH_USER_FIELDS",
-        '{"username": "sAMAccountName", "first_name": "givenName", "last_name": "sn", "email": "mail"}',
-    )
-)
+LDAP_AUTH_USE_TLS = os.environ.get("LDAP_USE_TLS", "False") == "True"
 
-LDAP_AUTH_OBJECT_CLASS = os.environ.get("LDAP_AUTH_OBJECT_CLASS", "user")
+LDAP_USER_FIELDS = json.loads(os.environ.get("LDAP_USER_FIELDS", "{}"))
+
+LDAP_GROUPS_MAP = json.loads(os.environ.get("LDAP_GROUPS_MAP", "{}"))
+
+LDAP_SKIP_AUTH = os.environ.get("LDAP_SKIP_AUTH", "True") == "True"
+
 
 # DRF
 
